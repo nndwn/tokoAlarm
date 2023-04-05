@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SVQuickCount</string>
+    <string name="app_version">Versi 1.0.a</string>
+    <string name="app_copyright">Copyright &#169; 2022 SVT</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

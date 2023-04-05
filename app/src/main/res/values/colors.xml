@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#212957</color>
+    <color name="colorPrimaryDark">#212957</color>
+    <color name="colorAccent">#212957</color>
+    <color name="semitransparent">#20111111</color>
+    <color name="shimmer_color">#BFBDBD</color>
+
+
+    <color name="ucrop_color_toolbar">@color/colorPrimary</color>
+    <color name="ucrop_color_statusbar">@color/colorPrimary</color>
+    <color name="ucrop_color_widget_active">@color/colorPrimary</color>
+
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+</resources>

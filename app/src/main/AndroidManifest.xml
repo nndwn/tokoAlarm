@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.tester.svquickcount">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android:hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.bluetooth" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_PRIVILEGED"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logohitam"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logohitam"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name="com.tester.svquickcount.SuccessKonfirmasi" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.tester.svquickcount.KonfirmasiPembayaran" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.Pembayaran" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.Promo" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.Checkout" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.ImageViewer" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.Produk" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.UbahProfile" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.UbahPassword" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.SettingUrlApi" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.SuccessRegistrasi" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.Registrasi" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.Login" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.Cart" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.DetailPromo" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.DetailProduk" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.Home" android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tester.svquickcount.SplashScreen"
+            android:screenOrientation="portrait">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+    </application>
+
+</manifest>
