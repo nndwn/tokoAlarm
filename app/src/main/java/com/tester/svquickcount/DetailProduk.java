@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -86,6 +88,12 @@ public class DetailProduk extends AppCompatActivity implements SwipeRefreshLayou
     @BindView(R.id.tvKeranjang)
     TextView tvKeranjang;
 
+    @BindView(R.id.web)
+    WebView webView;
+
+    int num1, num2, num3, num4, num5;
+    String item1, item2, item3, item4, item5, title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,6 +141,23 @@ public class DetailProduk extends AppCompatActivity implements SwipeRefreshLayou
             }
         });
 
+
+
+        num1 = 34;
+        num2 = 50;
+        num3 = 25;
+        num4 = 45;
+        num5 = 55;
+        item1 = "DKI";
+        item2 = "Banten";
+        item3 = "Jawa Barat";
+        item4 = "Jawa Tengah";
+        item5 = "Jawa Timur";
+        title = "";
+
+        webView.loadUrl("file:///android_asset/area_chart.html");
+        webView.addJavascriptInterface(new WebAppInterface(), "Android");
+        webView.getSettings().setJavaScriptEnabled(true);
     }
 
     @OnClick(R.id.backButton) void backButton(){
@@ -288,6 +313,65 @@ public class DetailProduk extends AppCompatActivity implements SwipeRefreshLayou
             }else{
                 btnKeranjang.setEnabled(true);
             }
+        }
+    }
+
+
+    public class WebAppInterface {
+
+        @JavascriptInterface
+        public int getNum1() {
+            return num1;
+        }
+
+        @JavascriptInterface
+        public int getNum2() {
+            return num2;
+        }
+
+        @JavascriptInterface
+        public int getNum3() {
+            return num3;
+        }
+
+        @JavascriptInterface
+        public int getNum4() {
+            return num4;
+        }
+
+        @JavascriptInterface
+        public int getNum5() {
+            return num5;
+        }
+
+        @JavascriptInterface
+        public String getItem1() {
+            return item1;
+        }
+
+        @JavascriptInterface
+        public String getItem2() {
+            return item2;
+        }
+
+        @JavascriptInterface
+        public String getItem3() {
+            return item3;
+        }
+
+        @JavascriptInterface
+        public String getItem4() {
+            return item4;
+        }
+
+        @JavascriptInterface
+        public String getItem5() {
+            return item5;
+        }
+
+        @JavascriptInterface
+        public String getChartTitle() {
+            return title;
         }
     }
 }

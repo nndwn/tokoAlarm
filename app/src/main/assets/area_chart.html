@@ -1,0 +1,36 @@
+<html>
+<head>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript">
+      google.load("visualization", "current", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Items', 'Value'],
+          [Android.getItem1(), Android.getNum1()],
+        [Android.getItem2(), Android.getNum2()],
+        [Android.getItem3(), Android.getNum3()],
+        [Android.getItem4(), Android.getNum4()],
+        [Android.getItem5(), Android.getNum5()]
+        ]);
+
+        var options = {
+          chartArea: {width: '80%', height: '70%', left: '10%', top: '10%'},
+          legend: {position: 'none'},
+          backgroundColor: 'transparent',
+          margin: 0,
+          padding: 0,
+          title: Android.getChartTitle(),
+          hAxis: {title: 'Total Suara Pada Area Dapil',  titleTextStyle: {color: '#333'}},
+          vAxis: {minValue: 0}
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+</head>
+<body>
+<div id="chart_div" style="width: 100%; height: 100%;"></div>
+</body>
+</html>

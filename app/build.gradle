@@ -10,6 +10,7 @@ android {
         multiDexEnabled true
         applicationId "com.tester.svquickcount"
         minSdkVersion 19
+        //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
