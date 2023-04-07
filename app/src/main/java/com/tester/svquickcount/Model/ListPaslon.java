@@ -1,6 +1,6 @@
 package com.tester.svquickcount.Model;
 
-public class ListProduk {
+public class ListPaslon {
 
 
     String gambar;

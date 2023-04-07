@@ -90,6 +90,7 @@ public class Login extends AppCompatActivity {
                                     sessionLogin.setNohp_pelanggan(data.getString("nohp"),getApplicationContext());
                                     sessionLogin.setEmail_pelanggan(data.getString("email"),getApplicationContext());
                                     sessionLogin.setFoto_pelanggan(data.getString("foto"),getApplicationContext());
+                                    sessionLogin.setPenugasan(String.valueOf(person.getJSONObject("penugasan")),getApplicationContext());
                                     Intent intent = new Intent(Login.this,Home.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);

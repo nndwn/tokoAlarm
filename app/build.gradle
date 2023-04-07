@@ -74,4 +74,6 @@ dependencies {
 
     implementation 'com.github.dhaval2404:imagepicker-support:1.7.1'
 
+    //GSON
+    implementation 'com.google.code.gson:gson:2.8.7'
 }

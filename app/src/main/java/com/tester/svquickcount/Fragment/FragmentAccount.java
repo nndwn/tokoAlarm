@@ -62,6 +62,21 @@ public class FragmentAccount extends Fragment {
 
     File fileGambar;
     SessionSetting sessionSetting;
+
+    @BindView(R.id.tvKodeTps)
+    TextView tvKodeTps;
+    @BindView(R.id.tvNamaTps)
+    TextView tvNamaTps;
+    @BindView(R.id.tvProvinsi)
+    TextView tvProvinsi;
+    @BindView(R.id.tvKabupaten)
+    TextView tvKabupaten;
+    @BindView(R.id.tvKecamatan)
+    TextView tvKecamatan;
+    @BindView(R.id.tvKelurahan)
+    TextView tvKelurahan;
+    @BindView(R.id.tvAlamat)
+    TextView tvAlamat;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,6 +92,24 @@ public class FragmentAccount extends Fragment {
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .placeholder(R.drawable.user)
                 .into(ivFotoProfile);
+        try{
+            JSONObject penugasan = new JSONObject(sessionLogin.getPenugasan(getActivity()));
+            boolean status = penugasan.getBoolean("status");
+            if(status){
+                JSONObject data = penugasan.getJSONObject("data");
+                tvKodeTps.setText("#"+data.getString("id_tps"));
+                tvNamaTps.setText(data.getString("nama_tps"));
+                tvProvinsi.setText(data.getString("provinsi"));
+                tvKabupaten.setText(data.getString("kabupaten"));
+                tvKecamatan.setText(data.getString("kecamatan"));
+                tvKelurahan.setText(data.getString("kelurahan"));
+                tvAlamat.setText(data.getString("alamat"));
+            }else{
+
+            }
+        }catch (Exception e){
+
+        }
         return view;
     }
 

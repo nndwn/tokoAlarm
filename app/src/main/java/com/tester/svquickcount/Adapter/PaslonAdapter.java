@@ -1,5 +1,7 @@
 package com.tester.svquickcount.Adapter;
 
+import static com.tester.svquickcount.Config.Config.BASE_URL;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +16,7 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.tester.svquickcount.DetailPaslon;
-import com.tester.svquickcount.Model.ListPaslon;
+import com.tester.svquickcount.Model.ListPaslon2;
 import com.tester.svquickcount.R;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,14 +26,14 @@ import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ViewHolder> {
+public class PaslonAdapter extends RecyclerView.Adapter<PaslonAdapter.ViewHolder> {
     Context context;
     Activity activity;
 
-    List<ListPaslon> listRiwayats;
+    List<ListPaslon2> listRiwayats;
 
     int layout;
-    public ProdukAdapter(List<ListPaslon> getDataAdapter, Context context, Activity activity,int layout) {
+    public PaslonAdapter(List<ListPaslon2> getDataAdapter, Context context, Activity activity, int layout) {
 
         super();
 
@@ -56,19 +58,22 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        final ListPaslon getDataAdapter1 = listRiwayats.get(position);
+        final ListPaslon2 getDataAdapter1 = listRiwayats.get(position);
         activity.runOnUiThread((Runnable) (new Runnable() {
             public final void run() {
                 try {
-                    String str1 = getDataAdapter1.getNamaproduk();
-                    if (str1.length() > 50) {
-                        str1 = str1.substring(0, 50);
+                    String str1 = getDataAdapter1.getNamaPaslon();
+                    if (str1.length() > 20) {
+                        str1 = str1.substring(0, 20);
                         str1 += "...";
                     }
-                    holder.tvNamaProduk.setText(StringUtils.capitalize(str1.toLowerCase()));
-                    String harga = new DecimalFormat("##,##0").format(Long.parseLong(getDataAdapter1.getHarga()));
-                    holder.tvHarga.setText("Rp " + harga);
-                    Picasso.with(context).load(getDataAdapter1.getGambar())
+                    holder.tvNamaPaslon.setText(StringUtils.capitalize(str1.toLowerCase()));
+                    String suarasah = new DecimalFormat("##,##0").format(Long.parseLong(getDataAdapter1.getSuaraSah()));
+                    String tidaksah = new DecimalFormat("##,##0").format(Long.parseLong(getDataAdapter1.getSuaraTidaksah()));
+                    holder.tvSuaraSah.setText(suarasah);
+                    holder.tvSuaraTidakSah.setText(tidaksah);
+                    holder.tvJenisPaslon.setText("Calon "+getDataAdapter1.getJenisPaslon());
+                    Picasso.with(context).load(BASE_URL+"assets/paslon/"+getDataAdapter1.getImages())
                             .networkPolicy(NetworkPolicy.NO_CACHE)
                             .memoryPolicy(MemoryPolicy.NO_CACHE)
                             .into(holder.ivGambar);
@@ -80,18 +85,18 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ViewHolder
         }));
 
 
-        holder.lnProduk.setOnClickListener(new View.OnClickListener() {
+        holder.lnPaslon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity, DetailPaslon.class);
-                intent.putExtra("gambar",getDataAdapter1.getGambar());
-                intent.putExtra("harga",getDataAdapter1.getHarga());
-                intent.putExtra("namaproduk",getDataAdapter1.getNamaproduk());
-                intent.putExtra("stok",getDataAdapter1.getStok());
-                intent.putExtra("satuan",getDataAdapter1.getSatuan());
-                intent.putExtra("terjual",getDataAdapter1.getTerjual());
-                intent.putExtra("id_produk",getDataAdapter1.getIdproduk());
-                intent.putExtra("deskripsi",getDataAdapter1.getDeskripsi());
+                intent.putExtra("gambar",getDataAdapter1.getImages());
+                intent.putExtra("nama_paslon",getDataAdapter1.getNamaPaslon());
+                intent.putExtra("jenis_paslon",getDataAdapter1.getJenisPaslon());
+                intent.putExtra("suarasah",getDataAdapter1.getSuaraSah());
+                intent.putExtra("tidaksah",getDataAdapter1.getSuaraTidaksah());
+                intent.putExtra("visi",getDataAdapter1.getVisi());
+                intent.putExtra("misi",getDataAdapter1.getMisi());
+                intent.putExtra("id_paslon",getDataAdapter1.getId());
                 activity.startActivity(intent);
                 activity.overridePendingTransition(R.anim.slide_in_up,R.anim.slide_normal);
             }
@@ -109,16 +114,18 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ViewHolder
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvNamaProduk, tvHarga;
+        public TextView tvNamaPaslon, tvJenisPaslon,tvSuaraSah,tvSuaraTidakSah;
         public RoundedImageView ivGambar;
-        public LinearLayout lnProduk;
+        public LinearLayout lnPaslon;
         public ViewHolder(View itemView) {
 
             super(itemView);
-            tvNamaProduk = (TextView) itemView.findViewById(R.id.tvNamaProduk);
-            tvHarga = (TextView) itemView.findViewById(R.id.tvHarga);
+            tvNamaPaslon = (TextView) itemView.findViewById(R.id.tvNamaPaslon);
+            tvJenisPaslon = (TextView) itemView.findViewById(R.id.tvJenisPaslon);
+            tvSuaraSah = (TextView) itemView.findViewById(R.id.tvSuaraSah);
+            tvSuaraTidakSah=(TextView)itemView.findViewById(R.id.tvSuaraTidakSah);
             ivGambar = (RoundedImageView) itemView.findViewById(R.id.ivGambar);
-            lnProduk = (LinearLayout) itemView.findViewById(R.id.lnProduk);
+            lnPaslon = (LinearLayout) itemView.findViewById(R.id.lnPaslon);
         }
     }
 

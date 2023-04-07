@@ -10,7 +10,22 @@ public class SessionLogin {
     String email_pelanggan;
     String nohp_pelanggan;
     String foto_pelanggan;
+    String penugasan;
 
+
+    public String getPenugasan(Context context) {
+        SharedPreferences sharedPreferences2=context.getSharedPreferences("penugasan", Context.MODE_PRIVATE);
+        penugasan=sharedPreferences2.getString("penugasan","");
+        return penugasan;
+    }
+
+    public void setPenugasan(String penugasan,Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("penugasan", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("penugasan", penugasan);
+        editor.commit();
+        this.penugasan = penugasan;
+    }
 
     public String getFoto_pelanggan(Context context) {
         SharedPreferences sharedPreferences2=context.getSharedPreferences("foto_pelanggan", Context.MODE_PRIVATE);

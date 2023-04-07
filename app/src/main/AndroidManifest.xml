@@ -39,7 +39,7 @@
         <activity android:name="com.tester.svquickcount.Promo" android:screenOrientation="portrait"/>
         <activity android:name="com.tester.svquickcount.Checkout" android:screenOrientation="portrait"/>
         <activity android:name="com.tester.svquickcount.ImageViewer" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.Produk" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.Paslon" android:screenOrientation="portrait"/>
         <activity android:name="com.tester.svquickcount.UbahProfile" android:screenOrientation="portrait"/>
         <activity android:name="com.tester.svquickcount.UbahPassword" android:screenOrientation="portrait"/>
         <activity android:name="com.tester.svquickcount.SettingUrlApi" android:screenOrientation="portrait"/>
@@ -48,7 +48,7 @@
         <activity android:name="com.tester.svquickcount.Login" android:screenOrientation="portrait"/>
         <activity android:name="com.tester.svquickcount.Cart" android:screenOrientation="portrait"/>
         <activity android:name="com.tester.svquickcount.DetailPromo" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.DetailProduk" android:screenOrientation="portrait"/>
+        <activity android:name="com.tester.svquickcount.DetailPaslon" android:screenOrientation="portrait"/>
         <activity android:name="com.tester.svquickcount.Home" android:screenOrientation="portrait">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->

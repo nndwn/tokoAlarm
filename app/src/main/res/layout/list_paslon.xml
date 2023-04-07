@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/_140sdp"
+    android:layout_width="@dimen/_130sdp"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/lnProduk"
-        android:layout_width="@dimen/_140sdp"
+        android:id="@+id/lnPaslon"
+        android:layout_width="@dimen/_130sdp"
         android:layout_height="@dimen/_200sdp"
         android:layout_margin="@dimen/_10sdp"
         android:background="@drawable/white_rect"
@@ -18,8 +18,8 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/ivGambar"
-            android:layout_width="@dimen/_130sdp"
-            android:layout_height="@dimen/_110sdp"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_100sdp"
             android:contentDescription="@string/app_name"
             android:scaleType="centerCrop"
             app:riv_corner_radius_top_right="@dimen/_5sdp"
@@ -31,7 +31,7 @@
             android:layout_marginBottom="@dimen/_10sdp">
             <TextView
                 android:layout_marginTop="@dimen/_5sdp"
-                android:id="@+id/tvNamaProduk"
+                android:id="@+id/tvNamaPaslon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/robotomedium"
@@ -41,26 +41,15 @@
                 android:paddingRight="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"/>
             <TextView
+                android:id="@+id/tvJenisPaslon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/_10sdp"
                 android:paddingRight="@dimen/_10sdp"
-                android:text="Calon DPR RI"
+                android:text="..."
                 android:fontFamily="@font/robotolight"
                 android:textColor="#000"
                 android:textSize="@dimen/_9sdp"/>
-            <TextView
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:id="@+id/tvHarga"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/robotobold"
-                android:textColor="#FF5722"
-                android:textSize="@dimen/_12sdp"
-                android:paddingLeft="@dimen/_10sdp"
-                android:paddingRight="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_1sdp"
@@ -82,6 +71,7 @@
                     android:paddingLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"/>
                 <TextView
+                    android:id="@+id/tvSuaraSah"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -89,7 +79,7 @@
                     android:fontFamily="@font/robotobold"
                     android:textColor="#4CAF50"
                     android:textSize="@dimen/_10sdp"
-                    android:text="23.000"
+                    android:text=""
                     android:gravity="right"
                     android:paddingRight="@dimen/_12sdp"
                     android:layout_marginRight="@dimen/_10sdp"/>
@@ -110,6 +100,7 @@
                     android:paddingLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"/>
                 <TextView
+                    android:id="@+id/tvSuaraTidakSah"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -117,7 +108,7 @@
                     android:fontFamily="@font/robotobold"
                     android:textColor="#F44336"
                     android:textSize="@dimen/_10sdp"
-                    android:text="1.000"
+                    android:text=""
                     android:gravity="right"
                     android:paddingRight="@dimen/_12sdp"
                     android:layout_marginRight="@dimen/_10sdp"/>

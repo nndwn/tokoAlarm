@@ -1,6 +1,8 @@
 package com.tester.svquickcount.Fragment;
 
 
+import static android.view.View.GONE;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,14 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager.widget.ViewPager;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.CipherSuite;
-import okhttp3.ConnectionSpec;
-import okhttp3.OkHttpClient;
-import okhttp3.TlsVersion;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,14 +32,13 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.android.material.tabs.TabLayout;
-import com.tester.svquickcount.Adapter.ProdukAdapter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.tester.svquickcount.Adapter.PaslonAdapter;
 import com.tester.svquickcount.Adapter.PromoAdapter;
-import com.tester.svquickcount.Adapter.SliderAdapter;
-import com.tester.svquickcount.Cart;
-import com.tester.svquickcount.Model.ListProduk;
+import com.tester.svquickcount.Model.ListPaslon2;
 import com.tester.svquickcount.Model.ListPromo;
-import com.tester.svquickcount.Produk;
+import com.tester.svquickcount.Paslon;
 import com.tester.svquickcount.Promo;
 import com.tester.svquickcount.R;
 import com.tester.svquickcount.Session.SessionLogin;
@@ -51,24 +48,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import static android.view.View.GONE;
 import static com.google.android.gms.internal.zzahg.runOnUiThread;
 import static com.tester.svquickcount.Config.Config.BASE_URL;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 
 /**
@@ -85,9 +70,9 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
 
     List<String> colorName;
 
-    private ArrayList<ListProduk> listProduk;
-    private ProdukAdapter adapter;
-    @BindView(R.id.list_produk)
+    private ArrayList<ListPaslon2> listPaslon;
+    private PaslonAdapter adapter;
+    @BindView(R.id.list_paslon)
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     RecyclerView.Adapter recyclerViewadapter;
@@ -112,7 +97,11 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
     LinearLayout lnHome;
 
     SessionSetting sessionSetting;
-
+    SessionLogin sessionLogin;
+    @BindView(R.id.tvKodeTps)
+    TextView tvKodeTps;
+    @BindView(R.id.tvNamaTps)
+    TextView tvNamaTps;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -120,7 +109,7 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this,view);
-
+        sessionLogin = new SessionLogin();
         sessionSetting = new SessionSetting();
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.post(new Runnable() {
@@ -144,7 +133,7 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
             }
         });
 
-        listProduk = new ArrayList<>();
+        listPaslon = new ArrayList<>();
         recyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -195,7 +184,19 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
 
         recyclerViewPromo.setLayoutManager(linearLayoutManagerPromo);
 
+        try{
+            JSONObject penugasan = new JSONObject(sessionLogin.getPenugasan(getActivity()));
+            boolean status = penugasan.getBoolean("status");
+            if(status){
+                JSONObject data = penugasan.getJSONObject("data");
+                tvKodeTps.setText("#"+data.getString("id_tps"));
+                tvNamaTps.setText(data.getString("nama_tps"));
+            }else{
 
+            }
+        }catch (Exception e){
+
+        }
         return  view;
     }
 
@@ -220,14 +221,14 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     @OnClick(R.id.btnPaslon) void btnPaslon(){
-        Intent intent = new Intent(getActivity(), Produk.class);
+        Intent intent = new Intent(getActivity(), Paslon.class);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.slide_in_up,R.anim.slide_normal);
     }
 
     private void getData(){
         SessionLogin sessionLogin = new SessionLogin();
-        AndroidNetworking.post(BASE_URL+"webservice/home")
+        AndroidNetworking.post(BASE_URL+"webservice/paslon")
                 .addBodyParameter("id_pelanggan",sessionLogin.getId_pelanggan(getContext()))
                 .setPriority(Priority.HIGH)
                 .build()
@@ -243,11 +244,10 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
 
                                     boolean status = person.getBoolean("status");
                                     if(status){
-                                        shimmerHome.setVisibility(View.GONE);
+                                        shimmerHome.setVisibility(GONE);
                                         lnHome.setVisibility(View.VISIBLE);
-                                        ShowSlider(person.getJSONArray("slider"));
-                                        ShowProduk(person.getJSONArray("produk"));
-                                        ShowPromo(person.getJSONArray("promo"));
+                                        ShowPaslon(person.getJSONArray("paslon"));
+//                                        ShowPromo(person.getJSONArray("promo"));
                                     }else{
 
                                     }
@@ -271,48 +271,43 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
 
 
 
-    private void ShowSlider(JSONArray jsonArray){
-        colorName = new ArrayList<>();
 
-        for (int j = 0; j < jsonArray.length(); j++) {
+    private void ShowPaslon(JSONArray jsonArray){
 
-            try {
-                JSONObject dataObject = jsonArray.getJSONObject(j);
-                colorName.add(BASE_URL+dataObject.getString("slider"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        listPaslon.clear();
+        try {
+            Type listType = new TypeToken<ArrayList<ListPaslon2>>(){}.getType();
+            listPaslon = new Gson().fromJson(String.valueOf(jsonArray), listType);
+            Log.d("TESTINGHITAPI",String.valueOf(jsonArray));
+            recyclerViewadapter = new PaslonAdapter(listPaslon, getActivity(), getActivity(),R.layout.list_paslon);
+            recyclerView.setAdapter(recyclerViewadapter);
+            recyclerViewadapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
-
-
-    private void ShowProduk(JSONArray jsonArray){
-
-        listProduk.clear();
-
-        for (int j = 0; j < jsonArray.length(); j++) {
-
-            try {
-                JSONObject dataObject = jsonArray.getJSONObject(j);
-                ListProduk memberData = new ListProduk();
-                memberData.setIdproduk(dataObject.getString("id"));
-//                memberData.setGambar(BASE_URL+dataObject.getString("gambar"));
-                memberData.setGambar("https://pbs.twimg.com/media/EtYNdtIVoAMrhxm.jpg");
-                memberData.setHarga(dataObject.getString("harga_jual"));
-//                memberData.setNamaproduk(dataObject.getString("nama_produk"));
-                memberData.setNamaproduk("H. Ismet Roni, SH");
-                memberData.setSatuan(dataObject.getString("satuan"));
-                memberData.setStok(dataObject.getString("stok"));
-                memberData.setDeskripsi(dataObject.getString("deskripsi"));
-                memberData.setTerjual(dataObject.getString("terjual"));
-
-                listProduk.add(memberData);
-                recyclerViewadapter = new ProdukAdapter(listProduk, getActivity(), getActivity(),R.layout.list_produk);
-                recyclerView.setAdapter(recyclerViewadapter);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+//        for (int j = 0; j < jsonArray.length(); j++) {
+//
+//            try {
+//                JSONObject dataObject = jsonArray.getJSONObject(j);
+//                ListPaslon memberData = new ListPaslon();
+//                memberData.setIdproduk(dataObject.getString("id"));
+////                memberData.setGambar(BASE_URL+dataObject.getString("gambar"));
+//                memberData.setGambar("https://pbs.twimg.com/media/EtYNdtIVoAMrhxm.jpg");
+//                memberData.setHarga(dataObject.getString("harga_jual"));
+////                memberData.setNamaproduk(dataObject.getString("nama_produk"));
+//                memberData.setNamaproduk("H. Ismet Roni, SH");
+//                memberData.setSatuan(dataObject.getString("satuan"));
+//                memberData.setStok(dataObject.getString("stok"));
+//                memberData.setDeskripsi(dataObject.getString("deskripsi"));
+//                memberData.setTerjual(dataObject.getString("terjual"));
+//
+//                listPaslon.add(memberData);
+//                recyclerViewadapter = new ProdukAdapter(listPaslon, getActivity(), getActivity(),R.layout.list_produk);
+//                recyclerView.setAdapter(recyclerViewadapter);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
 
     }

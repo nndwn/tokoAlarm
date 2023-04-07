@@ -23,7 +23,6 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                     <com.facebook.shimmer.ShimmerFrameLayout
-                        android:visibility="gone"
                         android:id="@+id/shimmerHome"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
@@ -31,6 +30,7 @@
 
                     </com.facebook.shimmer.ShimmerFrameLayout>
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/lnHome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -108,10 +108,11 @@
                                         android:textColor="@color/black"
                                         android:fontFamily="@font/robotolight"/>
                                     <TextView
+                                        android:id="@+id/tvKodeTps"
                                         android:layout_width="0dp"
                                         android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="#360139243"
+                                        android:text="..."
                                         android:gravity="right"
                                         android:textSize="@dimen/_9sdp"
                                         android:textColor="@color/black"
@@ -136,10 +137,11 @@
                                         android:textColor="@color/black"
                                         android:fontFamily="@font/robotolight"/>
                                     <TextView
+                                        android:id="@+id/tvNamaTps"
                                         android:layout_width="0dp"
                                         android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="TPS Lebak Bulus"
+                                        android:text="..."
                                         android:gravity="right"
                                         android:textSize="@dimen/_9sdp"
                                         android:textColor="@color/black"
@@ -192,7 +194,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
                             <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/list_produk"
+                                android:id="@+id/list_paslon"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"

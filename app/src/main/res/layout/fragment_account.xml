@@ -199,13 +199,14 @@
                             android:fontFamily="@font/robotomedium"
                             android:textSize="@dimen/_11sdp"/>
                         <TextView
+                            android:id="@+id/tvKodeTps"
                             android:gravity="right"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_marginRight="@dimen/_15sdp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_10sdp"
-                            android:text="#360139243"
+                            android:text="..."
                             android:textColor="#000"
                             android:fontFamily="@font/robotolight"
                             android:textSize="@dimen/_11sdp"/>
@@ -239,7 +240,8 @@
                             android:layout_marginRight="@dimen/_15sdp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_10sdp"
-                            android:text="TPS Lebak Bulus"
+                            android:text="..."
+                            android:id="@+id/tvNamaTps"
                             android:textColor="#000"
                             android:fontFamily="@font/robotolight"
                             android:textSize="@dimen/_11sdp"/>
@@ -273,7 +275,8 @@
                             android:layout_marginRight="@dimen/_15sdp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_10sdp"
-                            android:text="DKI JAKARTA"
+                            android:text="..."
+                            android:id="@+id/tvProvinsi"
                             android:textColor="#000"
                             android:fontFamily="@font/robotolight"
                             android:textSize="@dimen/_11sdp"/>
@@ -307,7 +310,8 @@
                             android:layout_marginRight="@dimen/_15sdp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_10sdp"
-                            android:text="Jakarta Utara"
+                            android:text="..."
+                            android:id="@+id/tvKabupaten"
                             android:textColor="#000"
                             android:fontFamily="@font/robotolight"
                             android:textSize="@dimen/_11sdp"/>
@@ -341,12 +345,82 @@
                             android:layout_marginRight="@dimen/_15sdp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_10sdp"
-                            android:text="Lebak Bulus"
+                            android:text="..."
+                            android:id="@+id/tvKecamatan"
                             android:textColor="#000"
                             android:fontFamily="@font/robotolight"
                             android:textSize="@dimen/_11sdp"/>
                     </LinearLayout>
-
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="#f2f2f2"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_15sdp"/>
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_15sdp"
+                            android:text="Kelurahan"
+                            android:textColor="#000"
+                            android:fontFamily="@font/robotomedium"
+                            android:textSize="@dimen/_11sdp"/>
+                        <TextView
+                            android:gravity="right"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginRight="@dimen/_15sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:text="..."
+                            android:id="@+id/tvKelurahan"
+                            android:textColor="#000"
+                            android:fontFamily="@font/robotolight"
+                            android:textSize="@dimen/_11sdp"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="#f2f2f2"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_15sdp"/>
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_15sdp"
+                            android:text="Alamat"
+                            android:textColor="#000"
+                            android:fontFamily="@font/robotomedium"
+                            android:textSize="@dimen/_11sdp"/>
+                        <TextView
+                            android:gravity="right"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginRight="@dimen/_15sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:text="..."
+                            android:id="@+id/tvAlamat"
+                            android:textColor="#000"
+                            android:fontFamily="@font/robotolight"
+                            android:textSize="@dimen/_11sdp"/>
+                    </LinearLayout>
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_marginTop="@dimen/_10sdp"
