@@ -85,8 +85,8 @@ public class UbahPassword extends AppCompatActivity {
             SessionLogin sessionLogin = new SessionLogin();
             AndroidNetworking.post(BASE_URL+"webservice/auth/ubahpassword")
                     .addBodyParameter("id",sessionLogin.getId_pelanggan(getApplicationContext()))
-                    .addBodyParameter("passwordlama", edPasswordLama.getText().toString())
-                    .addBodyParameter("passwordbaru", edPasswordBaru.getText().toString())
+                    .addBodyParameter("password_lama", edPasswordLama.getText().toString())
+                    .addBodyParameter("password_baru", edPasswordBaru.getText().toString())
                     .setPriority(Priority.HIGH)
                     .build()
                     .getAsJSONObject(new JSONObjectRequestListener() {

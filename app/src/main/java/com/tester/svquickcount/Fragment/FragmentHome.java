@@ -13,6 +13,10 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.CipherSuite;
+import okhttp3.ConnectionSpec;
+import okhttp3.OkHttpClient;
+import okhttp3.TlsVersion;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,12 +51,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static android.view.View.GONE;
 import static com.google.android.gms.internal.zzahg.runOnUiThread;
 import static com.tester.svquickcount.Config.Config.BASE_URL;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 
 /**
@@ -104,6 +120,7 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this,view);
+
         sessionSetting = new SessionSetting();
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.post(new Runnable() {
@@ -333,4 +350,6 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
         super.onResume();
         onRefresh();
     }
+
+
 }

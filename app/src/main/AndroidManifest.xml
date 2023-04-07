@@ -50,20 +50,20 @@
         <activity android:name="com.tester.svquickcount.DetailPromo" android:screenOrientation="portrait"/>
         <activity android:name="com.tester.svquickcount.DetailProduk" android:screenOrientation="portrait"/>
         <activity android:name="com.tester.svquickcount.Home" android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.tester.svquickcount.SplashScreen"
-            android:screenOrientation="portrait">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name="com.tester.svquickcount.SplashScreen"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

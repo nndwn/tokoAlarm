@@ -88,8 +88,12 @@ public class DetailProduk extends AppCompatActivity implements SwipeRefreshLayou
     @BindView(R.id.tvKeranjang)
     TextView tvKeranjang;
 
-    @BindView(R.id.web)
-    WebView webView;
+    @BindView(R.id.areachart)
+    WebView areaChart;
+    @BindView(R.id.piechart)
+    WebView pieChart;
+    @BindView(R.id.columnchart)
+    WebView columnChart;
 
     int num1, num2, num3, num4, num5;
     String item1, item2, item3, item4, item5, title;
@@ -155,9 +159,17 @@ public class DetailProduk extends AppCompatActivity implements SwipeRefreshLayou
         item5 = "Jawa Timur";
         title = "";
 
-        webView.loadUrl("file:///android_asset/area_chart.html");
-        webView.addJavascriptInterface(new WebAppInterface(), "Android");
-        webView.getSettings().setJavaScriptEnabled(true);
+        areaChart.loadUrl("file:///android_asset/area_chart.html");
+        areaChart.addJavascriptInterface(new WebAppInterface(), "Android");
+        areaChart.getSettings().setJavaScriptEnabled(true);
+
+        pieChart.loadUrl("file:///android_asset/pie_chart.html");
+        pieChart.addJavascriptInterface(new WebAppInterface(), "Android");
+        pieChart.getSettings().setJavaScriptEnabled(true);
+
+        columnChart.loadUrl("file:///android_asset/column_chart.html");
+        columnChart.addJavascriptInterface(new WebAppInterface(), "Android");
+        columnChart.getSettings().setJavaScriptEnabled(true);
     }
 
     @OnClick(R.id.backButton) void backButton(){
