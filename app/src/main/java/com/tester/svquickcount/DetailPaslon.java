@@ -256,7 +256,6 @@ public class DetailPaslon extends AppCompatActivity implements SwipeRefreshLayou
                     @Override
                     public void onError(ANError error) {
                         swipeRefreshLayout.setRefreshing(false);
-                        Toast.makeText(getApplicationContext(),"Terjadi Kesalahan "+error.getMessage(),Toast.LENGTH_LONG).show();
                     }
                 });
     }

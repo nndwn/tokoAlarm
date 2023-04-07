@@ -26,7 +26,8 @@ import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tester.svquickcount.Adapter.PaslonAdapter;
-import com.tester.svquickcount.Model.ListPaslon2;
+import com.tester.svquickcount.Model.ListPaslon;
+import com.tester.svquickcount.Session.SessionLogin;
 import com.tester.svquickcount.Session.SessionSetting;
 
 import org.json.JSONArray;
@@ -42,7 +43,7 @@ import static com.tester.svquickcount.Config.Config.BASE_URL;
 public class Paslon extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
 
-    private ArrayList<ListPaslon2> listPaslon;
+    private ArrayList<ListPaslon> listPaslon;
     private PaslonAdapter adapter;
     @BindView(R.id.list_produk)
     RecyclerView recyclerView;
@@ -168,8 +169,31 @@ public class Paslon extends AppCompatActivity implements SwipeRefreshLayout.OnRe
 
 
     private void getData(){
+        SessionLogin sessionLogin = new SessionLogin();
+        String provinsi="";
+        String kabupaten="";
+        String kecamatan="";
+        String kelurahan="";
+        try{JSONObject penugasan = new JSONObject(sessionLogin.getPenugasan(getApplicationContext()));
+            boolean status = penugasan.getBoolean("status");
+            if(status){
+                JSONObject data = penugasan.getJSONObject("data");
+                provinsi = data.getString("kode_provinsi");
+                kabupaten = data.getString("kode_kabupaten");
+                kecamatan = data.getString("kode_kecamatan");
+                kelurahan = data.getString("kode_kelurahan");
+            }else{
+
+            }
+        }catch (Exception e){
+            Log.d("JSONERRORPASLON",e.getMessage());
+        }
         AndroidNetworking.post(BASE_URL+"webservice/paslon")
                 .addBodyParameter("search",edSearch.getQuery().toString())
+                .addBodyParameter("provinsi",provinsi)
+                .addBodyParameter("kabupaten",kabupaten)
+                .addBodyParameter("kecamatan",kecamatan)
+                .addBodyParameter("kelurahan",kelurahan)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -214,7 +238,7 @@ public class Paslon extends AppCompatActivity implements SwipeRefreshLayout.OnRe
         listPaslon.clear();
 
         try {
-            Type listType = new TypeToken<ArrayList<ListPaslon2>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<ListPaslon>>(){}.getType();
             listPaslon = new Gson().fromJson(String.valueOf(jsonArray), listType);
             Log.d("TESTINGHITAPI",String.valueOf(jsonArray));
             recyclerViewadapter = new PaslonAdapter(listPaslon, Paslon.this, Paslon.this,R.layout.list_paslon_large);

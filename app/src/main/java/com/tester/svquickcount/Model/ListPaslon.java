@@ -1,79 +1,182 @@
 package com.tester.svquickcount.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ListPaslon {
 
+	@SerializedName("jenis_paslon")
+	private String jenisPaslon;
 
-    String gambar;
-    String namaproduk;
-    String stok;
-    String harga;
-    String satuan;
-    String deskripsi;
-    String idproduk;
-    String terjual;
+	@SerializedName("provinsi")
+	private String provinsi;
 
+	@SerializedName("misi")
+	private String misi;
 
-    public String getTerjual() {
-        return terjual;
-    }
+	@SerializedName("multi_dapil")
+	private String multiDapil;
 
-    public void setTerjual(String terjual) {
-        this.terjual = terjual;
-    }
+	@SerializedName("images")
+	private String images;
 
-    public String getIdproduk() {
-        return idproduk;
-    }
+	@SerializedName("tingkatan")
+	private String tingkatan;
 
-    public void setIdproduk(String idproduk) {
-        this.idproduk = idproduk;
-    }
+	@SerializedName("nama_paslon")
+	private String namaPaslon;
 
-    public String getGambar() {
-        return gambar;
-    }
+	@SerializedName("kabupaten")
+	private String kabupaten;
 
-    public void setGambar(String gambar) {
-        this.gambar = gambar;
-    }
+	@SerializedName("kelurahan")
+	private String kelurahan;
 
-    public String getNamaproduk() {
-        return namaproduk;
-    }
+	@SerializedName("kecamatan")
+	private String kecamatan;
 
-    public void setNamaproduk(String namaproduk) {
-        this.namaproduk = namaproduk;
-    }
+	@SerializedName("jumlah_kursi")
+	private String jumlahKursi;
 
-    public String getStok() {
-        return stok;
-    }
+	@SerializedName("suara_sah")
+	private String suaraSah;
 
-    public void setStok(String stok) {
-        this.stok = stok;
-    }
+	@SerializedName("nama_dapil")
+	private String namaDapil;
 
-    public String getHarga() {
-        return harga;
-    }
+	@SerializedName("suara_tidaksah")
+	private String suaraTidaksah;
 
-    public void setHarga(String harga) {
-        this.harga = harga;
-    }
+	@SerializedName("id")
+	private String id;
 
-    public String getSatuan() {
-        return satuan;
-    }
+	@SerializedName("visi")
+	private String visi;
 
-    public void setSatuan(String satuan) {
-        this.satuan = satuan;
-    }
+	public void setJenisPaslon(String jenisPaslon){
+		this.jenisPaslon = jenisPaslon;
+	}
 
-    public String getDeskripsi() {
-        return deskripsi;
-    }
+	public String getJenisPaslon(){
+		return jenisPaslon;
+	}
 
-    public void setDeskripsi(String deskripsi) {
-        this.deskripsi = deskripsi;
-    }
+	public void setProvinsi(String provinsi){
+		this.provinsi = provinsi;
+	}
+
+	public String getProvinsi(){
+		return provinsi;
+	}
+
+	public void setMisi(String misi){
+		this.misi = misi;
+	}
+
+	public String getMisi(){
+		return misi;
+	}
+
+	public void setMultiDapil(String multiDapil){
+		this.multiDapil = multiDapil;
+	}
+
+	public String getMultiDapil(){
+		return multiDapil;
+	}
+
+	public void setImages(String images){
+		this.images = images;
+	}
+
+	public String getImages(){
+		return images;
+	}
+
+	public void setTingkatan(String tingkatan){
+		this.tingkatan = tingkatan;
+	}
+
+	public String getTingkatan(){
+		return tingkatan;
+	}
+
+	public void setNamaPaslon(String namaPaslon){
+		this.namaPaslon = namaPaslon;
+	}
+
+	public String getNamaPaslon(){
+		return namaPaslon;
+	}
+
+	public void setKabupaten(String kabupaten){
+		this.kabupaten = kabupaten;
+	}
+
+	public String getKabupaten(){
+		return kabupaten;
+	}
+
+	public void setKelurahan(String kelurahan){
+		this.kelurahan = kelurahan;
+	}
+
+	public String getKelurahan(){
+		return kelurahan;
+	}
+
+	public void setKecamatan(String kecamatan){
+		this.kecamatan = kecamatan;
+	}
+
+	public String getKecamatan(){
+		return kecamatan;
+	}
+
+	public void setJumlahKursi(String jumlahKursi){
+		this.jumlahKursi = jumlahKursi;
+	}
+
+	public String getJumlahKursi(){
+		return jumlahKursi;
+	}
+
+	public void setSuaraSah(String suaraSah){
+		this.suaraSah = suaraSah;
+	}
+
+	public String getSuaraSah(){
+		return suaraSah;
+	}
+
+	public void setNamaDapil(String namaDapil){
+		this.namaDapil = namaDapil;
+	}
+
+	public String getNamaDapil(){
+		return namaDapil;
+	}
+
+	public void setSuaraTidaksah(String suaraTidaksah){
+		this.suaraTidaksah = suaraTidaksah;
+	}
+
+	public String getSuaraTidaksah(){
+		return suaraTidaksah;
+	}
+
+	public void setId(String id){
+		this.id = id;
+	}
+
+	public String getId(){
+		return id;
+	}
+
+	public void setVisi(String visi){
+		this.visi = visi;
+	}
+
+	public String getVisi(){
+		return visi;
+	}
 }

@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/lnPaslon"
         android:layout_width="@dimen/_140sdp"
-        android:layout_height="@dimen/_200sdp"
+        android:layout_height="@dimen/_220sdp"
         android:layout_margin="@dimen/_10sdp"
         android:background="@drawable/white_rect"
         android:orientation="vertical"

@@ -16,7 +16,7 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.tester.svquickcount.DetailPaslon;
-import com.tester.svquickcount.Model.ListPaslon2;
+import com.tester.svquickcount.Model.ListPaslon;
 import com.tester.svquickcount.R;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,10 +30,10 @@ public class PaslonAdapter extends RecyclerView.Adapter<PaslonAdapter.ViewHolder
     Context context;
     Activity activity;
 
-    List<ListPaslon2> listRiwayats;
+    List<ListPaslon> listRiwayats;
 
     int layout;
-    public PaslonAdapter(List<ListPaslon2> getDataAdapter, Context context, Activity activity, int layout) {
+    public PaslonAdapter(List<ListPaslon> getDataAdapter, Context context, Activity activity, int layout) {
 
         super();
 
@@ -58,7 +58,7 @@ public class PaslonAdapter extends RecyclerView.Adapter<PaslonAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        final ListPaslon2 getDataAdapter1 = listRiwayats.get(position);
+        final ListPaslon getDataAdapter1 = listRiwayats.get(position);
         activity.runOnUiThread((Runnable) (new Runnable() {
             public final void run() {
                 try {
