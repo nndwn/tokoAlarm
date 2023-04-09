@@ -24,8 +24,12 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tester.svquickcount.Adapter.HistoryAdapter;
+import com.tester.svquickcount.Adapter.HistoryInputAdapter;
 import com.tester.svquickcount.Model.ListHistory;
+import com.tester.svquickcount.Model.ListHistoryInput;
 import com.tester.svquickcount.R;
 import com.tester.svquickcount.Session.SessionLogin;
 import com.tester.svquickcount.Session.SessionSetting;
@@ -34,6 +38,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import static android.view.View.GONE;
@@ -50,8 +55,8 @@ public class SubFragmentBelum extends Fragment implements SwipeRefreshLayout.OnR
     }
 
 
-    private ArrayList<ListHistory> listHistory;
-    private HistoryAdapter adapter;
+    private ArrayList<ListHistoryInput> listHistory;
+    private HistoryInputAdapter adapter;
     @BindView(R.id.list_history)
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
@@ -59,9 +64,6 @@ public class SubFragmentBelum extends Fragment implements SwipeRefreshLayout.OnR
 
     @BindView(R.id.containerSwipe)
     SwipeRefreshLayout swipeRefreshLayout;
-
-    @BindView(R.id.scrollView)
-    ScrollView scrollView;
 
     SessionLogin sessionLogin;
 
@@ -95,14 +97,6 @@ public class SubFragmentBelum extends Fragment implements SwipeRefreshLayout.OnR
             }
         });
 
-
-        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                swipeRefreshLayout.setEnabled(scrollView.getScrollY() == 0);
-            }
-        });
-
         listHistory = new ArrayList<>();
         recyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
@@ -129,8 +123,22 @@ public class SubFragmentBelum extends Fragment implements SwipeRefreshLayout.OnR
 
     private void getData(){
         SessionSetting sessionSetting = new SessionSetting();
-        AndroidNetworking.post(BASE_URL+"webservice/transaksi/gettransaksikirim")
-                .addBodyParameter("id_pelanggan",sessionLogin.getId_pelanggan(getContext()))
+        SessionLogin sessionLogin = new SessionLogin();
+        String kode_tps="";
+        try{
+            JSONObject penugasan = new JSONObject(sessionLogin.getPenugasan(getContext()));
+            boolean status = penugasan.getBoolean("status");
+            if(status){
+                JSONObject data = penugasan.getJSONObject("data");
+                kode_tps = data.getString("id_tps");
+            }else{
+
+            }
+        }catch (Exception e){
+
+        }
+        AndroidNetworking.post(BASE_URL+"webservice/paslon/historybeluminput")
+                .addBodyParameter("kode_tps",kode_tps)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -139,7 +147,7 @@ public class SubFragmentBelum extends Fragment implements SwipeRefreshLayout.OnR
                         swipeRefreshLayout.setRefreshing(false);
                         try {
                             shimmerHistory.setVisibility(View.GONE);
-                            ShowHistory(person.getJSONArray("data"),person);
+                            ShowHistory(person.getJSONArray("paslon"),person);
                         }catch (JSONException e){
                             Log.d("SUBFRAGMENTBAYARLOG",e.getMessage());
                         }
@@ -162,38 +170,12 @@ public class SubFragmentBelum extends Fragment implements SwipeRefreshLayout.OnR
             lnData.setVisibility(View.VISIBLE);
             lnNoData.setVisibility(GONE);
             try {
-                for (int j = 0; j < jsonArray.length(); j++) {
-                    ListHistory memberData = new ListHistory();
-                    JSONObject dataObject = jsonArray.getJSONObject(j);
-                    memberData.setId_transaksi(dataObject.getString("noindex"));
-                    memberData.setInvoice(dataObject.getString("invoice"));
-                    memberData.setTotal_bayar(dataObject.getString("total_bayar"));
-                    memberData.setTotal_item(dataObject.getString("total_item"));
-                    memberData.setBiaya_kirim(dataObject.getString("biaya_kirim"));
-                    memberData.setAlamat_kirim(dataObject.getString("alamat_kirim"));
-                    memberData.setPengirim(dataObject.getString("pengirim"));
-                    memberData.setStatus_bayar(dataObject.getString("status_bayar"));
-                    memberData.setTanggal(dataObject.getString("tanggal"));
-                    memberData.setId_payment(dataObject.getString("id_payment"));
-                    memberData.setNama_payment(dataObject.getString("nama_payment"));
-                    memberData.setNorek(dataObject.getString("norek"));
-                    memberData.setIscod(dataObject.getString("is_cod"));
-                    memberData.setKode_promo(dataObject.getString("kodepromo"));
-                    memberData.setPotongan(dataObject.getString("potongan"));
-                    memberData.setStatus_kirim(dataObject.getString("status_kirim"));
-                    memberData.setStatus_transaksi(dataObject.getString("status_transaksi"));
-                    memberData.setGrandtotal(dataObject.getString("grandtotal"));
-                    memberData.setGambar_payment(dataObject.getString("gambar_payment"));
-                    memberData.setPemilik_rekening(dataObject.getString("pemilik_rekening"));
-                    if(person.has("item")){
-                        if(person.getJSONObject("item").has(dataObject.getString("noindex"))){
-                            memberData.setDataitem(person.getJSONObject("item").getJSONArray(dataObject.getString("noindex")));
-                        }
-                    }
-                    listHistory.add(memberData);
-                    recyclerViewadapter = new HistoryAdapter(listHistory, getActivity(), getActivity(),"dikirim");
-                    recyclerView.setAdapter(recyclerViewadapter);
-                }
+                Type listType = new TypeToken<ArrayList<ListHistoryInput>>(){}.getType();
+                listHistory = new Gson().fromJson(String.valueOf(jsonArray), listType);
+                Log.d("TESTINGHITAPI",String.valueOf(jsonArray));
+                recyclerViewadapter = new HistoryInputAdapter(listHistory, getActivity(), getActivity());
+                recyclerView.setAdapter(recyclerViewadapter);
+                recyclerViewadapter.notifyDataSetChanged();
             }catch (Exception e){
                 Log.d("SUBFRAGMENTBAYARLOG",e.getMessage());
             }

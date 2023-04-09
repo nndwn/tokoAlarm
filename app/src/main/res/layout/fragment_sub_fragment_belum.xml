@@ -11,78 +11,73 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/containerSwipe">
-        <ScrollView
-            android:id="@+id/scrollView"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/_80sdp"
+                android:orientation="vertical">
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerHistory"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/_80sdp"
-                    android:orientation="vertical">
-                    <com.facebook.shimmer.ShimmerFrameLayout
-                        android:id="@+id/shimmerHistory"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-                            <include layout="@layout/shimmer_produk_horizontal" />
-                            <include layout="@layout/shimmer_produk_horizontal" />
-                            <include layout="@layout/shimmer_produk_horizontal" />
-                            <include layout="@layout/shimmer_produk_horizontal" />
-                            <include layout="@layout/shimmer_produk_horizontal" />
-                        </LinearLayout>
-                    </com.facebook.shimmer.ShimmerFrameLayout>
+                    android:layout_height="match_parent">
                     <LinearLayout
-                        android:id="@+id/lnData"
-                        android:visibility="gone"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/list_history"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                        <include layout="@layout/shimmer_produk_horizontal" />
+                        <include layout="@layout/shimmer_produk_horizontal" />
+                        <include layout="@layout/shimmer_produk_horizontal" />
+                        <include layout="@layout/shimmer_produk_horizontal" />
+                        <include layout="@layout/shimmer_produk_horizontal" />
                     </LinearLayout>
-                </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
                 <LinearLayout
+                    android:id="@+id/lnData"
                     android:visibility="gone"
-                    android:id="@+id/lnNoData"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                    <ImageView
-                        android:layout_marginTop="@dimen/_100sdp"
-                        android:layout_gravity="center"
+                    android:orientation="vertical">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/list_history"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_100sdp"
-                        android:src="@drawable/ilus_data_empty"/>
-                    <TextView
-                        android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Tidak Tersedia"
-                        android:textColor="#000"
-                        android:textSize="@dimen/_16sdp"
-                        android:fontFamily="@font/robotobold"
-                        android:layout_marginTop="@dimen/_10sdp"/>
-                    <TextView
-                        android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Histori transaksi belum tersedia."
-                        android:textSize="@dimen/_12sdp"
-                        android:fontFamily="@font/robotolight"
-                        android:layout_marginTop="@dimen/_2sdp"/>
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
-            </RelativeLayout>
-        </ScrollView>
+            </LinearLayout>
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/lnNoData"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    android:layout_marginTop="@dimen/_100sdp"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100sdp"
+                    android:src="@drawable/ilus_data_empty"/>
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tidak Tersedia"
+                    android:textColor="#000"
+                    android:textSize="@dimen/_16sdp"
+                    android:fontFamily="@font/robotobold"
+                    android:layout_marginTop="@dimen/_10sdp"/>
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Histori transaksi belum tersedia."
+                    android:textSize="@dimen/_12sdp"
+                    android:fontFamily="@font/robotolight"
+                    android:layout_marginTop="@dimen/_2sdp"/>
+            </LinearLayout>
+        </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
