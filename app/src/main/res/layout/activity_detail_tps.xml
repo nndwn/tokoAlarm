@@ -267,18 +267,6 @@
 
                 </RelativeLayout>
             </ScrollView>
-
-
-            <FrameLayout
-                android:id="@+id/menu_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                app:behavior_hideable="true"
-                android:padding="@dimen/_10sdp"
-                android:background="#FFF"
-                tools:ignore="MissingPrefix">
-            </FrameLayout>
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>

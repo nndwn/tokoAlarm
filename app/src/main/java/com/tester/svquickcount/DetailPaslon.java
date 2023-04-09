@@ -8,14 +8,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -27,6 +34,8 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.MemoryPolicy;
@@ -34,11 +43,13 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.tester.svquickcount.Adapter.MonitoringAdapter;
 import com.tester.svquickcount.Adapter.PaslonAdapter;
+import com.tester.svquickcount.Adapter.PaymentAdapter;
 import com.tester.svquickcount.Dialog.AlertError;
 import com.tester.svquickcount.Dialog.AlertSuccess;
 import com.tester.svquickcount.Dialog.LoadingDialog;
 import com.tester.svquickcount.Model.ListMonitoring;
 import com.tester.svquickcount.Model.ListPaslon;
+import com.tester.svquickcount.Model.ListPayment;
 import com.tester.svquickcount.Session.SessionLogin;
 import com.tester.svquickcount.Session.SessionSetting;
 
@@ -119,12 +130,17 @@ public class DetailPaslon extends AppCompatActivity implements SwipeRefreshLayou
     LinearLayoutManager linearLayoutManager;
     RecyclerView.Adapter recyclerViewadapter;
 
+    BottomSheetBehavior sheetBehavior;
+    BottomSheetDialog sheetDialog;
+    @BindView(R.id.bottom_sheet)
+    View bottom_sheet;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_paslon);
         ButterKnife.bind(this);
-
+        sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
         sessionLogin = new SessionLogin();
         sessionSetting = new SessionSetting();
         alertError = new AlertError(DetailPaslon.this);
@@ -178,7 +194,49 @@ public class DetailPaslon extends AppCompatActivity implements SwipeRefreshLayou
         overridePendingTransition(R.anim.slide_normal,R.anim.slide_out_down);
     }
 
+    @OnClick(R.id.lnInputSuara) void lnInputSuara(){
+        showBottomSheetDialog();
+    }
 
+
+    @SuppressLint("WrongConstant")
+    private void showBottomSheetDialog() {
+        View view = getLayoutInflater().inflate(R.layout.sheet_inputsuara, null);
+
+        if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
+        EditText edSuaraSah,edSuaraTidakSah;
+        Button btnSimpan;
+        edSuaraSah = (EditText) view.findViewById(R.id.edSuaraSah);
+        edSuaraTidakSah=(EditText)view.findViewById(R.id.edSuaraTidakSah);
+        btnSimpan=(Button)view.findViewById(R.id.btnSimpan);
+        btnSimpan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prosesInputSuara(edSuaraSah.getText().toString(),edSuaraTidakSah.getText().toString());
+            }
+        });
+
+        sheetDialog = new BottomSheetDialog(this);
+        sheetDialog.setContentView(view);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            sheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
+        sheetDialog.show();
+        sheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                sheetDialog = null;
+            }
+        });
+    }
+
+
+    public void dismissBottomSheetDialog(){
+        sheetDialog.dismiss();
+    }
 
     @Override
     public void onRefresh() {
@@ -284,6 +342,73 @@ public class DetailPaslon extends AppCompatActivity implements SwipeRefreshLayou
                     public void onError(ANError error) {
                         swipeRefreshLayout.setRefreshing(false);
                         Log.d("DETAILPASLONLOG",error.toString());
+                    }
+                });
+    }
+
+
+    public void prosesInputSuara(String suarasah,String suaratidaksah){
+        loadingDialog.startLoadingDialog();
+        SessionSetting sessionSetting = new SessionSetting();
+        SessionLogin sessionLogin = new SessionLogin();
+        String id_tps = "",nama_tps="",provinsi="",kabupaten="",kecamatan="",kelurahan="";
+        try{
+            JSONObject penugasan = new JSONObject(sessionLogin.getPenugasan(getApplicationContext()));
+            boolean status = penugasan.getBoolean("status");
+            if(status){
+                JSONObject data = penugasan.getJSONObject("data");
+                id_tps = data.getString("id_tps");
+                nama_tps = data.getString("nama_tps");
+                provinsi = data.getString("kode_provinsi");
+                kabupaten=data.getString("kode_kabupaten");
+                kecamatan = data.getString("kode_kecamatan");
+                kelurahan = data.getString("kode_kelurahan");
+            }else{
+
+            }
+        }catch (Exception e){
+
+        }
+        AndroidNetworking.post(BASE_URL+"webservice/paslon/inputsuara")
+                .addBodyParameter("paslon",tvNamaPaslon.getText().toString())
+                .addBodyParameter("kode_tps",id_tps)
+                .addBodyParameter("nama_tps",nama_tps)
+                .addBodyParameter("provinsi",provinsi)
+                .addBodyParameter("kabupaten",kabupaten)
+                .addBodyParameter("kecamatan",kecamatan)
+                .addBodyParameter("kelurahan",kelurahan)
+                .addBodyParameter("suara_sah", suarasah)
+                .addBodyParameter("suara_tidaksah", suaratidaksah)
+                .addBodyParameter("userinput",sessionLogin.getEmail_pelanggan(getApplicationContext()))
+                .addBodyParameter("useredit",sessionLogin.getEmail_pelanggan(getApplicationContext()))
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject person) {
+                        loadingDialog.dismissDialog();
+                        try {
+                            boolean isSuccess = person.getBoolean("status");
+                            if (isSuccess) {
+                                alertSuccess.startDialog("Berhasil","Input Suara Berhasil");
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        onBackPressed();
+                                    }
+                                },1500);
+                            } else {
+                                alertError.startDialog("Input Suara Gagal", person.getString("message"));
+                            }
+                        } catch (JSONException e) {
+                            alertError.startDialog("Input Suara Gagal", e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+                        loadingDialog.dismissDialog();
+                        alertError.startDialog("Input Suara Gagal", anError.getMessage());
                     }
                 });
     }

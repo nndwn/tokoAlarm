@@ -36,6 +36,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tester.svquickcount.Adapter.PaslonAdapter;
 import com.tester.svquickcount.Adapter.PromoAdapter;
+import com.tester.svquickcount.DetailTps;
 import com.tester.svquickcount.Model.ListPaslon;
 import com.tester.svquickcount.Model.ListPromo;
 import com.tester.svquickcount.Paslon;
@@ -222,6 +223,12 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @OnClick(R.id.btnPaslon) void btnPaslon(){
         Intent intent = new Intent(getActivity(), Paslon.class);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.slide_in_up,R.anim.slide_normal);
+    }
+
+    @OnClick(R.id.btnDetail) void btnDetail(){
+        Intent intent = new Intent(getActivity(), DetailTps.class);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.slide_in_up,R.anim.slide_normal);
     }
