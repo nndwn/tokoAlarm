@@ -33,31 +33,74 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.tester.svquickcount.SuccessKonfirmasi" android:screenOrientation="portrait"></activity>
-        <activity android:name="com.tester.svquickcount.KonfirmasiPembayaran" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.Pembayaran" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.Promo" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.Checkout" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.ImageViewer" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.Paslon" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.UbahProfile" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.UbahPassword" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.SettingUrlApi" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.SuccessRegistrasi" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.Registrasi" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.Login" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.Cart" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.DetailPromo" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.DetailPaslon" android:screenOrientation="portrait"/>
-        <activity android:name="com.tester.svquickcount.Home" android:screenOrientation="portrait">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+        <activity
+            android:name=".DetailTps"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
         <activity
-            android:name="com.tester.svquickcount.SplashScreen"
+            android:name=".SuccessKonfirmasi"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".KonfirmasiPembayaran"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Pembayaran"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Promo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Checkout"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ImageViewer"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Paslon"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UbahProfile"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UbahPassword"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingUrlApi"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SuccessRegistrasi"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Registrasi"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Login"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Cart"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DetailPromo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DetailPaslon"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Home"
+            android:screenOrientation="portrait">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".SplashScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

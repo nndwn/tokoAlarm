@@ -97,6 +97,9 @@ public class PaslonAdapter extends RecyclerView.Adapter<PaslonAdapter.ViewHolder
                 intent.putExtra("visi",getDataAdapter1.getVisi());
                 intent.putExtra("misi",getDataAdapter1.getMisi());
                 intent.putExtra("id_paslon",getDataAdapter1.getId());
+                intent.putExtra("nama_dapil",getDataAdapter1.getNamaDapil());
+                intent.putExtra("multi_dapil",getDataAdapter1.getMultiDapil());
+                intent.putExtra("tingkatan",getDataAdapter1.getTingkatan());
                 activity.startActivity(intent);
                 activity.overridePendingTransition(R.anim.slide_in_up,R.anim.slide_normal);
             }

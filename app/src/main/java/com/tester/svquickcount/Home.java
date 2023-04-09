@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.widget.RadioButton;
 
 import com.tester.svquickcount.Fragment.FragmentAccount;
+import com.tester.svquickcount.Fragment.FragmentHistory;
 import com.tester.svquickcount.Fragment.FragmentHome;
-import com.tester.svquickcount.Fragment.FragmentPesanan;
 
 public class Home extends AppCompatActivity {
 
@@ -44,7 +44,7 @@ public class Home extends AppCompatActivity {
             case R.id.rbPesanan:
                 if (checked) {
                     // 2 clicked
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new FragmentPesanan()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new FragmentHistory()).commit();
                 }
                 break;
         }

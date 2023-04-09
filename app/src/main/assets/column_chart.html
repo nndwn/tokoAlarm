@@ -6,18 +6,18 @@
       google.load("visualization", "current", {packages:["corechart"]});
       google.setOnLoadCallback(drawChart);
       function drawChart() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['Items', 'Sah','Tidak Sah'],
-          [Android.getItem1(), Android.getNum1(),10],
-          [Android.getItem2(), Android.getNum2(),10],
-          [Android.getItem3(), Android.getNum3(),25],
-          [Android.getItem4(), Android.getNum4(),15],
-          [Android.getItem5(), Android.getNum5(),10]
-        ]);
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'ITEM');
+        data.addColumn('number', 'Sah');
+        data.addColumn('number', 'Tidak Sah');
+        console.log(Android.getJSOnArray());
+        var jsonarray = JSON.parse(Android.getJSOnArray());
+        jsonarray.forEach(function(obj) {
+          var row = [obj.wilayah, obj.suarasah, obj.tidaksah];
+          data.addRow(row);
+        });
 
         var options = {
-          title: Android.getChartTitle(),
           chartArea: {width: '80%', height: '70%', left: '10%', top: '10%'},
           colors: ['#0c4b6e', '#F44336']
         };

@@ -16,9 +16,8 @@ import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 import com.tester.svquickcount.R;
-import com.tester.svquickcount.SubFragment.SubFragmentBayar;
-import com.tester.svquickcount.SubFragment.SubFragmentKirim;
-import com.tester.svquickcount.SubFragment.SubFragmentSelesai;
+import com.tester.svquickcount.SubFragment.SubFragmentBelum;
+import com.tester.svquickcount.SubFragment.SubFragmentInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +25,10 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentPesanan extends Fragment {
+public class FragmentHistory extends Fragment {
 
 
-    public FragmentPesanan() {
+    public FragmentHistory() {
         // Required empty public constructor
     }
 
@@ -41,7 +40,7 @@ public class FragmentPesanan extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_pesanan, container, false);
+        View view =  inflater.inflate(R.layout.fragment_history, container, false);
         ButterKnife.bind(this,view);
         setupViewPager(viewPager);
         tabs.setupWithViewPager(viewPager);
@@ -54,9 +53,8 @@ public class FragmentPesanan extends Fragment {
 
 
         Adapter adapter = new Adapter(getChildFragmentManager());
-        adapter.addFragment(new SubFragmentBayar(), "Aktif");
-        adapter.addFragment(new SubFragmentKirim(), "Dikirim");
-        adapter.addFragment(new SubFragmentSelesai(), "Selesai");
+        adapter.addFragment(new SubFragmentInput(), "Diinput");
+        adapter.addFragment(new SubFragmentBelum(), "Belum Diinput");
         viewPager.setAdapter(adapter);
 
 

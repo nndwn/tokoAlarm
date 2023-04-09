@@ -4,7 +4,7 @@
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
-    
+
       // Load the Visualization API and the piechart package.
       google.load('visualization', 'current', {'packages':['corechart']});
       
@@ -21,19 +21,17 @@
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'ITEM');
       data.addColumn('number', 'VALUE');
-      data.addRows([
-        [Android.getItem1(), Android.getNum1()],
-        [Android.getItem2(), Android.getNum2()],
-        [Android.getItem3(), Android.getNum3()],
-        [Android.getItem4(), Android.getNum4()],
-        [Android.getItem5(), Android.getNum5()]
-      ]);
+      console.log(Android.getJSOnArray());
+      var jsonarray = JSON.parse(Android.getJSOnArray());
+      jsonarray.forEach(function(obj) {
+        var row = [obj.wilayah, obj.suarasah];
+        data.addRow(row);
+      });
 
       // Set chart options
       var options = {
-        'title':Android.getChartTitle(),
          chartArea: {width: '80%', height: '70%', left: '10%', top: '10%'}
-        };
+       };
 
       // Instantiate and draw our chart, passing in some options.
       var chart = new google.visualization.PieChart(document.getElementById('chart_div'));

@@ -42,13 +42,12 @@ import static com.tester.svquickcount.Config.Config.BASE_URL;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SubFragmentSelesai extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class SubFragmentInput extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
 
-    public SubFragmentSelesai() {
+    public SubFragmentInput() {
         // Required empty public constructor
     }
-
 
     private ArrayList<ListHistory> listHistory;
     private HistoryAdapter adapter;
@@ -78,7 +77,7 @@ public class SubFragmentSelesai extends Fragment implements SwipeRefreshLayout.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_sub_fragment_selesai, container, false);
+        View view =  inflater.inflate(R.layout.fragment_sub_fragment_input, container, false);
         ButterKnife.bind(this,view);
 
         sessionLogin = new SessionLogin();
@@ -129,7 +128,7 @@ public class SubFragmentSelesai extends Fragment implements SwipeRefreshLayout.O
 
     private void getData(){
         SessionSetting sessionSetting = new SessionSetting();
-        AndroidNetworking.post(BASE_URL+"webservice/transaksi/gettransaksiselesai")
+        AndroidNetworking.post(BASE_URL+"webservice/transaksi/gettransaksiaktif")
                 .addBodyParameter("id_pelanggan",sessionLogin.getId_pelanggan(getContext()))
                 .setPriority(Priority.HIGH)
                 .build()
@@ -190,8 +189,9 @@ public class SubFragmentSelesai extends Fragment implements SwipeRefreshLayout.O
                             memberData.setDataitem(person.getJSONObject("item").getJSONArray(dataObject.getString("noindex")));
                         }
                     }
+
                     listHistory.add(memberData);
-                    recyclerViewadapter = new HistoryAdapter(listHistory, getActivity(), getActivity(),"selesai");
+                    recyclerViewadapter = new HistoryAdapter(listHistory, getActivity(), getActivity(),"aktif");
                     recyclerView.setAdapter(recyclerViewadapter);
                 }
             }catch (Exception e){
@@ -211,5 +211,4 @@ public class SubFragmentSelesai extends Fragment implements SwipeRefreshLayout.O
         super.onResume();
         onRefresh();
     }
-
 }
