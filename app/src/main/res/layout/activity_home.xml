@@ -34,9 +34,30 @@
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checkedButton="@id/rbHome"
+                android:checkedButton="@id/rbPesanan"
                 android:orientation="horizontal">
 
+
+
+                <RadioButton
+                    android:id="@+id/rbPesanan"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/radio_selector_primary"
+                    android:button="@drawable/null_radio_button"
+                    android:drawableLeft="@drawable/ic_phone"
+                    android:drawableTint="@drawable/radio_text_selector_primary"
+                    android:fontFamily="@font/robotomedium"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:scaleX="0.75"
+                    android:scaleY="0.75"
+                    android:text="Monitoring"
+                    android:textColor="@drawable/radio_text_selector_primary"
+                    android:textSize="@dimen/_12sdp" />
                 <RadioButton
                     android:id="@+id/rbHome"
                     android:layout_width="0dp"
@@ -58,26 +79,7 @@
                     android:scaleY="0.75"
                     android:gravity="center">
                 </RadioButton>
-                <RadioButton
-                    android:id="@+id/rbPesanan"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_margin="@dimen/_1sdp"
-                    android:layout_height="@dimen/_35sdp"
-                    android:background="@drawable/radio_selector_primary"
-                    android:button="@drawable/null_radio_button"
-                    android:textColor="@drawable/radio_text_selector_primary"
-                    android:text="History"
-                    android:drawableLeft="@drawable/ic_ticket"
-                    android:paddingLeft="@dimen/_10sdp"
-                    android:paddingRight="@dimen/_10sdp"
-                    android:drawableTint="@drawable/radio_text_selector_primary"
-                    android:textSize="@dimen/_12sdp"
-                    android:scaleY="0.75"
-                    android:scaleX="0.75"
-                    android:fontFamily="@font/robotomedium"
-                    android:layout_gravity="center"
-                    android:gravity="center"/>
+
                 <RadioButton
                     android:id="@+id/rbAccount"
                     android:layout_width="0dp"

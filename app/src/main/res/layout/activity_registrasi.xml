@@ -113,36 +113,6 @@
                         android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
                         android:tint="@color/colorPrimary"
-                        android:src="@drawable/ic_email"/>
-                    <EditText
-                        android:id="@+id/edEmail"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="Email"
-                        android:singleLine="true"
-                        android:textSize="@dimen/_12sdp"
-                        android:background="@null"
-                        android:fontFamily="@font/robotolight"/>
-                </LinearLayout>
-                <View
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#CECECE"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_40sdp"
-                    android:background="@drawable/outline_grey_stright"
-                    android:padding="@dimen/_5sdp"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_width="@dimen/_12sdp"
-                        android:layout_height="@dimen/_12sdp"
-                        android:tint="@color/colorPrimary"
                         android:src="@drawable/ic_phone"/>
                     <EditText
                         android:id="@+id/edHp"

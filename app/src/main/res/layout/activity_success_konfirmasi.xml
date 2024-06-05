@@ -227,7 +227,7 @@
                 android:fontFamily="@font/robotomedium"
                 android:textAllCaps="false"
                 android:background="@drawable/primary_rect"
-                android:textColor="#FFF"/>
+                android:textColor="#000"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

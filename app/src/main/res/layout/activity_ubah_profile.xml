@@ -19,7 +19,7 @@
                 android:layout_gravity="left"
                 android:layout_width="@dimen/_37sdp"
                 android:layout_height="@dimen/_37sdp"
-                android:tint="@color/white"
+                android:tint="#FFFFFF"
                 android:padding="@dimen/_10sdp"
                 android:elevation="@dimen/_2sdp"
                 android:layout_marginLeft="@dimen/_12sdp"
@@ -167,7 +167,7 @@
                     android:fontFamily="@font/robotomedium"
                     android:textAllCaps="false"
                     android:background="@drawable/primary_rect"
-                    android:textColor="#FFF"/>
+                    android:textColor="#FFFFFF"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

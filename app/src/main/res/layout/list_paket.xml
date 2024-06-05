@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/_10sdp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/lnCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/white_rect"
+            android:padding="@dimen/_10sdp">
+            <TextView
+                android:id="@+id/tvNamaPaket"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotobold"
+                android:textColor="#000"
+                android:text=""
+                android:textSize="@dimen/_13sdp" />
+
+            <View
+                android:id="@+id/dashLineAtas"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_5sdp"
+                android:background="@drawable/dashed_line"
+                android:backgroundTint="@color/black"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tvTitleDurasi"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotomedium"
+                    android:text="Durasi"
+                    android:textSize="@dimen/_11sdp" />
+
+                <TextView
+                    android:id="@+id/tvDurasi"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotobold"
+                    android:gravity="right"
+                    android:text=""
+                    android:textColor="#000"
+                    android:textSize="@dimen/_11sdp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tvTitleHarga"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotomedium"
+                    android:text="Harga"
+                    android:textSize="@dimen/_11sdp" />
+
+                <TextView
+                    android:id="@+id/tvHarga"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/robotobold"
+                    android:gravity="right"
+                    android:text=""
+                    android:textColor="#000"
+                    android:textSize="@dimen/_11sdp" />
+            </LinearLayout>
+            <View
+                android:id="@+id/dashLineBawah"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_5sdp"
+                android:background="@drawable/dashed_line"
+                android:backgroundTint="@color/black"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

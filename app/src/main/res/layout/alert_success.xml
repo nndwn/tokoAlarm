@@ -43,6 +43,7 @@
             android:textColor="#000000"
             android:textSize="@dimen/_11sdp"/>
         <Button
+            android:visibility="gone"
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/btnTutup"
             android:layout_gravity="right"

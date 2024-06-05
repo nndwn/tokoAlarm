@@ -96,29 +96,7 @@
                     android:textSize="@dimen/_12sdp"
                     android:fontFamily="@font/robotomedium"/>
             </LinearLayout>
-            <LinearLayout
-                android:layout_marginTop="@dimen/_2sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Email"
-                    android:textSize="@dimen/_12sdp"
-                    android:fontFamily="@font/robotolight"/>
-                <TextView
-                    android:id="@+id/tvEmail"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="-"
-                    android:textColor="#000"
-                    android:gravity="right"
-                    android:textSize="@dimen/_12sdp"
-                    android:fontFamily="@font/robotomedium"/>
-            </LinearLayout>
+
             <LinearLayout
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_width="match_parent"

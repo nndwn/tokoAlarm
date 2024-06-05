@@ -23,6 +23,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                     <com.facebook.shimmer.ShimmerFrameLayout
+                        android:visibility="gone"
                         android:id="@+id/shimmerHome"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
@@ -30,7 +31,6 @@
 
                     </com.facebook.shimmer.ShimmerFrameLayout>
                     <LinearLayout
-                        android:visibility="gone"
                         android:id="@+id/lnHome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -39,185 +39,320 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@drawable/splash2"/>
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginBottom="@dimen/_10sdp"
-                                android:background="@drawable/splash3"/>
                             <LinearLayout
                                 android:id="@+id/toolbarMain"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/_220sdp"
+                                android:layout_height="@dimen/_120sdp"
                                 android:layout_marginBottom="@dimen/_20sdp"
-                                android:orientation="vertical"
-                                android:background="@drawable/splash1"
+                                android:orientation="horizontal"
+                                android:paddingTop="@dimen/_20sdp"
+                                android:paddingLeft="@dimen/_10sdp"
                                 tools:ignore="MissingConstraints">
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Selamat Datang"
-                                    android:textSize="@dimen/_12sdp"
-                                    android:textColor="@color/white"
-                                    android:fontFamily="@font/robotolight"
-                                    android:layout_marginLeft="@dimen/_15sdp"
-                                    android:layout_marginTop="@dimen/_15sdp"/>
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="REZA DARMAWAN"
-                                    android:textSize="@dimen/_15sdp"
-                                    android:textColor="@color/white"
-                                    android:fontFamily="@font/oswaldbold"
-                                    android:layout_marginLeft="@dimen/_15sdp"
-                                    android:layout_marginTop="@dimen/_2sdp"/>
                             </LinearLayout>
                             <LinearLayout
-                                android:background="@drawable/white_rect"
-                                android:layout_marginTop="@dimen/_70sdp"
+                                android:background="@drawable/primary_rect"
+                                android:layout_marginTop="@dimen/_40sdp"
                                 android:layout_marginLeft="@dimen/_15sdp"
                                 android:layout_marginRight="@dimen/_15sdp"
                                 android:layout_marginBottom="@dimen/_5sdp"
                                 android:layout_height="wrap_content"
-                                android:elevation="@dimen/_2sdp"
                                 android:id="@+id/lnSlider"
+                                android:elevation="@dimen/_1sdp"
                                 android:padding="@dimen/_10sdp"
                                 android:orientation="vertical"
                                 android:layout_width="match_parent">
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Anda bertugas di :"
-                                    android:textSize="@dimen/_12sdp"
-                                    android:textColor="@color/black"
-                                    android:fontFamily="@font/robotolight"/>
                                 <LinearLayout
-                                    android:layout_marginTop="@dimen/_10sdp"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal">
-                                    <TextView
+                                    <ImageView
+                                        android:layout_width="@dimen/_50sdp"
+                                        android:layout_height="@dimen/_50sdp"
+                                        android:src="@drawable/logo_icon"/>
+                                    <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="Kode TPS"
-                                        android:textSize="@dimen/_9sdp"
-                                        android:textColor="@color/black"
-                                        android:fontFamily="@font/robotolight"/>
-                                    <TextView
-                                        android:id="@+id/tvKodeTps"
-                                        android:layout_width="0dp"
-                                        android:layout_weight="1"
-                                        android:layout_height="wrap_content"
-                                        android:text="..."
-                                        android:gravity="right"
-                                        android:textSize="@dimen/_9sdp"
-                                        android:textColor="@color/black"
-                                        android:fontFamily="@font/robotobold"/>
+                                        android:orientation="vertical">
+                                        <TextView
+                                            android:gravity="right"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/robotolight"
+                                            android:text="Saldo Saya"
+                                            android:textColor="@color/white"
+                                            android:textSize="@dimen/_11sdp" />
+                                        <TextView
+                                            android:id="@+id/tvSaldo"
+                                            android:gravity="right"
+                                            android:layout_marginTop="@dimen/_10sdp"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/robotomedium"
+                                            android:text="-"
+                                            android:textColor="@color/white"
+                                            android:textSize="@dimen/_15sdp" />
+                                    </LinearLayout>
                                 </LinearLayout>
+
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_1sdp"
-                                    android:background="#f2f2f2"
-                                    android:layout_margin="@dimen/_5sdp"/>
+                                    android:layout_height="@dimen/_5sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:layout_marginBottom="@dimen/_5sdp"/>
                                 <LinearLayout
-                                    android:layout_marginTop="@dimen/_2sdp"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-                                    <TextView
-                                        android:layout_width="0dp"
-                                        android:layout_weight="1"
-                                        android:layout_height="wrap_content"
-                                        android:text="Nama TPS"
-                                        android:textSize="@dimen/_9sdp"
-                                        android:textColor="@color/black"
-                                        android:fontFamily="@font/robotolight"/>
-                                    <TextView
-                                        android:id="@+id/tvNamaTps"
-                                        android:layout_width="0dp"
-                                        android:layout_weight="1"
-                                        android:layout_height="wrap_content"
-                                        android:text="..."
-                                        android:gravity="right"
-                                        android:textSize="@dimen/_9sdp"
-                                        android:textColor="@color/black"
-                                        android:fontFamily="@font/robotobold"/>
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_marginTop="@dimen/_15sdp"
+                                    android:gravity="right"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal">
                                     <Button
-                                        android:id="@+id/btnDetail"
-                                        android:layout_marginHorizontal="@dimen/_5sdp"
+                                        android:layout_marginTop="@dimen/_10sdp"
+                                        android:id="@+id/btnTopup"
                                         style="?android:attr/borderlessButtonStyle"
-                                        android:layout_width="0dp"
-                                        android:layout_weight="1"
+                                        android:layout_width="@dimen/_80sdp"
                                         android:layout_height="@dimen/_35sdp"
-                                        android:text="Detail"
+                                        android:layout_marginRight="@dimen/_5sdp"
+                                        android:background="@drawable/white_rect"
                                         android:fontFamily="@font/robotomedium"
+                                        android:text="+ Top Up"
+                                        android:textSize="@dimen/_10sdp"
                                         android:textAllCaps="false"
-                                        android:background="@drawable/primary_rect"
-                                        android:textColor="#FFF"/>
+                                        android:textColor="@color/colorPrimary" />
                                     <Button
-                                        android:id="@+id/btnPaslon"
-                                        android:layout_marginHorizontal="@dimen/_5sdp"
+                                        android:layout_marginTop="@dimen/_10sdp"
+                                        android:id="@+id/btnHistory"
                                         style="?android:attr/borderlessButtonStyle"
-                                        android:layout_width="0dp"
-                                        android:layout_weight="1"
+                                        android:layout_width="@dimen/_80sdp"
                                         android:layout_height="@dimen/_35sdp"
-                                        android:text="Lihat Calon"
-                                        android:fontFamily="@font/robotomedium"
-                                        android:textAllCaps="false"
                                         android:background="@drawable/orange_rect"
-                                        android:textColor="#FFF"/>
+                                        android:fontFamily="@font/robotomedium"
+                                        android:text="History"
+                                        android:textSize="@dimen/_10sdp"
+                                        android:textAllCaps="false"
+                                        android:textColor="@color/white" />
                                 </LinearLayout>
+
                             </LinearLayout>
 
                         </RelativeLayout>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Paslon &amp; Caleg"
-                            android:textColor="#000"
-                            android:textSize="@dimen/_13sdp"
-                            android:fontFamily="@font/robotobold"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginLeft="@dimen/_15sdp"/>
+
+
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/list_paslon"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:scrollbars="horizontal"
-                                android:layout_marginHorizontal="@dimen/_10sdp"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-                        </LinearLayout>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Berita"
-                            android:textColor="#000"
-                            android:textSize="@dimen/_13sdp"
-                            android:fontFamily="@font/robotobold"
                             android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginLeft="@dimen/_15sdp"/>
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <LinearLayout
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:id="@+id/lnCaraPenggunaan"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    tools:ignore="MissingConstraints">
+
+                                    <!-- Image View -->
+                                    <ImageView
+                                        android:background="@drawable/outline_grey"
+                                        android:layout_width="@dimen/_50sdp"
+                                        android:layout_height="@dimen/_50sdp"
+                                        android:padding="@dimen/_10sdp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@drawable/tutorial"/>
+                                    <TextView
+                                        android:layout_marginTop="@dimen/_50sdp"
+                                        android:gravity="center"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Tutorial"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/_9sdp"
+                                        android:fontFamily="@font/robotomedium"
+                                        android:layout_gravity="center_horizontal"/>
+
+                                </FrameLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lnSetting"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    tools:ignore="MissingConstraints">
+
+                                    <!-- Image View -->
+                                    <ImageView
+                                        android:background="@drawable/outline_grey"
+                                        android:layout_width="@dimen/_50sdp"
+                                        android:layout_height="@dimen/_50sdp"
+                                        android:padding="@dimen/_10sdp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@drawable/setting"/>
+                                    <TextView
+                                        android:layout_marginTop="@dimen/_50sdp"
+                                        android:gravity="center"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Ubah Suara"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/_9sdp"
+                                        android:fontFamily="@font/robotomedium"
+                                        android:layout_gravity="center_horizontal"/>
+
+                                </FrameLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lnPusatBantuan"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    tools:ignore="MissingConstraints">
+
+                                    <!-- Image View -->
+                                    <ImageView
+                                        android:background="@drawable/outline_grey"
+                                        android:layout_width="@dimen/_50sdp"
+                                        android:layout_height="@dimen/_50sdp"
+                                        android:padding="@dimen/_10sdp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@drawable/cs"/>
+                                    <TextView
+                                        android:layout_marginTop="@dimen/_50sdp"
+                                        android:gravity="center"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Pusat Bantuan"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/_9sdp"
+                                        android:fontFamily="@font/robotomedium"
+                                        android:layout_gravity="center_horizontal"/>
+
+                                </FrameLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_marginRight="@dimen/_10sdp"
+                                android:id="@+id/lnBeliPaket"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    tools:ignore="MissingConstraints">
+
+                                    <!-- Image View -->
+                                    <ImageView
+                                        android:background="@drawable/outline_grey"
+                                        android:layout_width="@dimen/_50sdp"
+                                        android:layout_height="@dimen/_50sdp"
+                                        android:padding="@dimen/_10sdp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@drawable/paket"/>
+                                    <TextView
+                                        android:layout_marginTop="@dimen/_50sdp"
+                                        android:gravity="center"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Beli Paket"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/_9sdp"
+                                        android:fontFamily="@font/robotomedium"
+                                        android:layout_gravity="center_horizontal"/>
+
+                                </FrameLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <LinearLayout
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:id="@+id/lnPesanAlarm"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    tools:ignore="MissingConstraints">
+
+                                    <!-- Image View -->
+                                    <ImageView
+                                        android:background="@drawable/outline_grey"
+                                        android:layout_width="@dimen/_50sdp"
+                                        android:layout_height="@dimen/_50sdp"
+                                        android:padding="@dimen/_10sdp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@drawable/order"/>
+                                    <TextView
+                                        android:layout_marginTop="@dimen/_50sdp"
+                                        android:gravity="center"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Pesan Alarm"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/_9sdp"
+                                        android:fontFamily="@font/robotomedium"
+                                        android:layout_gravity="center_horizontal"/>
+
+                                </FrameLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_marginRight="@dimen/_10sdp"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+
                         <LinearLayout
                             android:background="@drawable/white_rect"
-                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
                             android:layout_marginLeft="@dimen/_15sdp"
                             android:layout_marginRight="@dimen/_15sdp"
                             android:layout_marginBottom="@dimen/_130sdp"
-                            android:layout_height="@dimen/_160sdp"
+                            android:layout_height="@dimen/_180sdp"
                             android:padding="@dimen/_10sdp"
                             android:orientation="vertical"
                             android:layout_width="match_parent">
@@ -233,11 +368,12 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Ada Berita Apa ?"
+                                        android:text="Berita &amp; Promo"
                                         android:textColor="#000"
                                         android:textSize="@dimen/_14sdp"
                                         android:fontFamily="@font/robotomedium"/>
                                     <TextView
+                                        android:visibility="gone"
                                         android:layout_marginTop="@dimen/_2sdp"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -247,6 +383,7 @@
                                         android:fontFamily="@font/robotolight"/>
                                 </LinearLayout>
                                 <Button
+                                    android:visibility="gone"
                                     android:id="@+id/btnPromo"
                                     android:layout_width="0dp"
                                     android:layout_weight="0.5"
@@ -274,6 +411,12 @@
                     </LinearLayout>
                 </LinearLayout>
             </ScrollView>
+            <FrameLayout
+                android:background="@drawable/white_rect_sheet"
+                android:id="@+id/bottom_sheet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

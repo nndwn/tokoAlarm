@@ -45,38 +45,37 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/lnNoData"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_marginTop="@dimen/_50sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_100sdp"
+                        android:src="@drawable/ilus_data_empty"/>
+                    <TextView
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tidak Tersedia"
+                        android:textColor="#000"
+                        android:textSize="@dimen/_16sdp"
+                        android:fontFamily="@font/robotobold"
+                        android:layout_marginTop="@dimen/_10sdp"/>
+                    <TextView
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Histori transaksi belum tersedia."
+                        android:textSize="@dimen/_12sdp"
+                        android:fontFamily="@font/robotolight"
+                        android:layout_marginTop="@dimen/_2sdp"/>
+                </LinearLayout>
             </LinearLayout>
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/lnNoData"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center">
-                <ImageView
-                    android:layout_marginTop="@dimen/_100sdp"
-                    android:layout_gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp"
-                    android:src="@drawable/ilus_data_empty"/>
-                <TextView
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Tidak Tersedia"
-                    android:textColor="#000"
-                    android:textSize="@dimen/_16sdp"
-                    android:fontFamily="@font/robotobold"
-                    android:layout_marginTop="@dimen/_10sdp"/>
-                <TextView
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Histori transaksi belum tersedia."
-                    android:textSize="@dimen/_12sdp"
-                    android:fontFamily="@font/robotolight"
-                    android:layout_marginTop="@dimen/_2sdp"/>
-            </LinearLayout>
+
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

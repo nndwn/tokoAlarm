@@ -19,3 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep class androidx.multidex.** { *; }
+-dontwarn androidx.**
+-keep class android.support.multidex.** { *; }
+-dontwarn android.support.**

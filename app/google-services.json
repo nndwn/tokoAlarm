@@ -1,0 +1,267 @@
+{
+  "project_info": {
+    "project_number": "272694434525",
+    "firebase_url": "https://fir-37d9d.firebaseio.com",
+    "project_id": "fir-37d9d",
+    "storage_bucket": "fir-37d9d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272694434525:android:565a01bc3138fed36a9934",
+        "android_client_info": {
+          "package_name": "com.arikachmad.ocrektp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "272694434525-vgkpbiasfsq8c9cl25da5k38htiiou8r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arikachmad.ocrektp",
+            "certificate_hash": "d8784e0c2627c727531809d4e8c2b9fa34b64b92"
+          }
+        },
+        {
+          "client_id": "272694434525-q846ra22qa8o0in9c5ie3bbn2qt3htba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxMiAubDmQp5BZIe1_uw82hZjenOkp7vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "272694434525-q846ra22qa8o0in9c5ie3bbn2qt3htba.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "272694434525-opmvkc1iraotsfcc0888pfbiqm8s2c6m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tesreza"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272694434525:android:f160b706a2f0c0566a9934",
+        "android_client_info": {
+          "package_name": "com.example.brimobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "272694434525-4q912huso6m5s168iagegh874h05da60.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.brimobile",
+            "certificate_hash": "d8784e0c2627c727531809d4e8c2b9fa34b64b92"
+          }
+        },
+        {
+          "client_id": "272694434525-q846ra22qa8o0in9c5ie3bbn2qt3htba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxMiAubDmQp5BZIe1_uw82hZjenOkp7vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "272694434525-q846ra22qa8o0in9c5ie3bbn2qt3htba.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "272694434525-opmvkc1iraotsfcc0888pfbiqm8s2c6m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tesreza"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272694434525:android:6cd8b37dd8915e6b6a9934",
+        "android_client_info": {
+          "package_name": "com.example.projekkampus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "272694434525-d7ft9sehegb2sgd16ciov283tpssva7h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.projekkampus",
+            "certificate_hash": "d8784e0c2627c727531809d4e8c2b9fa34b64b92"
+          }
+        },
+        {
+          "client_id": "272694434525-q846ra22qa8o0in9c5ie3bbn2qt3htba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxMiAubDmQp5BZIe1_uw82hZjenOkp7vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "272694434525-q846ra22qa8o0in9c5ie3bbn2qt3htba.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "272694434525-opmvkc1iraotsfcc0888pfbiqm8s2c6m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tesreza"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272694434525:android:c565c8c63324f1226a9934",
+        "android_client_info": {
+          "package_name": "com.pattra.pakektp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "272694434525-oae46mvp4ohoi7d61ceigmog20k956tj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pattra.pakektp",
+            "certificate_hash": "d8784e0c2627c727531809d4e8c2b9fa34b64b92"
+          }
+        },
+        {
+          "client_id": "272694434525-q846ra22qa8o0in9c5ie3bbn2qt3htba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxMiAubDmQp5BZIe1_uw82hZjenOkp7vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "272694434525-q846ra22qa8o0in9c5ie3bbn2qt3htba.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "272694434525-opmvkc1iraotsfcc0888pfbiqm8s2c6m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tesreza"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272694434525:android:4af1a9b6d8e2bd81",
+        "android_client_info": {
+          "package_name": "com.rezadarmawan.firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "272694434525-q1j5ns2riuu2ikueb2jnubdd69s7vgpb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rezadarmawan.firebase",
+            "certificate_hash": "020e6c180f741c7308b722e46f8f26dda7d01737"
+          }
+        },
+        {
+          "client_id": "272694434525-q846ra22qa8o0in9c5ie3bbn2qt3htba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxMiAubDmQp5BZIe1_uw82hZjenOkp7vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "272694434525-q846ra22qa8o0in9c5ie3bbn2qt3htba.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "272694434525-opmvkc1iraotsfcc0888pfbiqm8s2c6m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tesreza"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272694434525:android:f11c8406b8703cd16a9934",
+        "android_client_info": {
+          "package_name": "com.tester.iotss"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "272694434525-q846ra22qa8o0in9c5ie3bbn2qt3htba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxMiAubDmQp5BZIe1_uw82hZjenOkp7vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "272694434525-q846ra22qa8o0in9c5ie3bbn2qt3htba.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "272694434525-opmvkc1iraotsfcc0888pfbiqm8s2c6m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tesreza"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

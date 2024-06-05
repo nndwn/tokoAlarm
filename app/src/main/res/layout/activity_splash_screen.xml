@@ -43,8 +43,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:fontFamily="@font/robotomedium"
-                android:textColor="#FFF"
-                android:text="Aplikasi Hitung Cepat Pemilu"/>
+                android:textColor="#FFFFFF"
+                android:text="Application System Security"/>
         </LinearLayout>
 
     </RelativeLayout>
