@@ -1,6 +1,6 @@
 package com.tester.iotss;
 
-import static com.tester.iotss.Config.Config.BASE_URL;
+import static com.tester.iotss.Configs.Config.BASE_URL;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -36,13 +36,13 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.tester.iotss.Dialog.AlertError;
 import com.tester.iotss.Dialog.AlertSuccess;
 import com.tester.iotss.Dialog.LoadingDialog;
+import com.tester.iotss.Helpers.MqttHelper;
 import com.tester.iotss.Session.SessionLogin;
 
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONException;

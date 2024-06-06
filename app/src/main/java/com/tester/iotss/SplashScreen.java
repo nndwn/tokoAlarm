@@ -18,18 +18,15 @@ public class SplashScreen extends AppCompatActivity {
 
         SessionSetting sessionSetting = new SessionSetting();
         //sessionSetting.setEndpoint("http://192.168.10.122/tokobangunan/",getApplicationContext());
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(!sessionLogin.getId(getApplicationContext()).equals("")){
-                    Intent intent = new Intent(SplashScreen.this, Home.class);
-                    startActivity(intent);
-                    finish();
-                }else {
-                    Intent intent = new Intent(SplashScreen.this, Login.class);
-                    startActivity(intent);
-                    finish();
-                }
+        new Handler().postDelayed(() -> {
+            if(!sessionLogin.getId(getApplicationContext()).equals("")){
+                Intent intent = new Intent(SplashScreen.this, Home.class);
+                startActivity(intent);
+                finish();
+            }else {
+                Intent intent = new Intent(SplashScreen.this, Login.class);
+                startActivity(intent);
+                finish();
             }
         },3000);
     }

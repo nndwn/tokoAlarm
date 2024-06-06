@@ -1,4 +1,4 @@
-package com.tester.iotss.adapter;
+package com.tester.iotss.Adapters;
 
 import android.app.Activity;
 import android.content.Context;

@@ -1,6 +1,6 @@
 package com.tester.iotss;
 
-import static com.tester.iotss.Config.Config.BASE_URL;
+import static com.tester.iotss.Configs.Config.BASE_URL;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,7 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tester.iotss.Model.HistoryList;
 import com.tester.iotss.Session.SessionLogin;
-import com.tester.iotss.adapter.HistoryAdapter;
+import com.tester.iotss.Adapters.HistoryAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;

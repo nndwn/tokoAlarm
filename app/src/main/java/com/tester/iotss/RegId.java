@@ -1,6 +1,6 @@
 package com.tester.iotss;
 
-import static com.tester.iotss.Config.Config.BASE_URL;
+import static com.tester.iotss.Configs.Config.BASE_URL;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +16,6 @@ import com.tester.iotss.Dialog.AlertError;
 import com.tester.iotss.Dialog.AlertSuccess;
 import com.tester.iotss.Dialog.LoadingDialog;
 import com.tester.iotss.Session.SessionLogin;
-import com.tester.iotss.Session.SessionSetting;
 
 import org.json.JSONException;
 import org.json.JSONObject;

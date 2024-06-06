@@ -1,6 +1,6 @@
 package com.tester.iotss;
 
-import static com.tester.iotss.Config.Config.BASE_URL;
+import static com.tester.iotss.Configs.Config.BASE_URL;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -36,13 +35,13 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.tester.iotss.Dialog.AlertError;
 import com.tester.iotss.Dialog.AlertSuccess;
 import com.tester.iotss.Dialog.LoadingDialog;
+import com.tester.iotss.Helpers.MqttHelper;
 import com.tester.iotss.Session.SessionLogin;
 
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -132,7 +131,6 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     BottomSheetDialog sheetDialog;
     @BindView(R.id.bottom_sheet)
     View bottom_sheet;
-
 
     BottomSheetBehavior sheetBehaviorDelay;
     BottomSheetDialog sheetDialogDelay;
@@ -245,16 +243,11 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
 
     @Override
     public void onRefresh() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                getData();
-            }
+        runOnUiThread(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            getData();
         });
     }
-
-
 
     private void getData(){
         SessionLogin sessionLogin = new SessionLogin();
@@ -268,140 +261,136 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                     @Override
                     public void onResponse(final JSONObject person) {
                         swipeRefreshLayout.setRefreshing(false);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Log.d("LOGJSONMONITORING",person.toString());
-                                try {
+                        runOnUiThread(() -> {
+                            Log.d("LOGJSONMONITORING",person.toString());
+                            try {
 
-                                    boolean status = person.getBoolean("status");
-                                    if(status){
-                                        JSONObject data = person.getJSONObject("data");
-                                        tvIdAlat.setText(data.getString("id_alat"));
-                                        tvStatus.setText(data.getString("status"));
-                                        if(data.getString("status").equals("Aktif")){
-                                            tvStatus.setEnabled(true);
-                                        }else if(data.getString("status").equals("Non Aktif")){
-                                            tvStatus.setEnabled(false);
-                                            tvStatus.setHovered(false);
-                                        }else if(data.getString("status").equals("Pending")){
-                                            tvStatus.setEnabled(false);
-                                            tvStatus.setHovered(true);
-                                        }
-                                        tvPeriode.setText(data.getString("periode"));
-                                        tvTanggalMulai.setText(data.getString("tanggal_mulai"));
-                                        tvTanggalExpired.setText(data.getString("tanggal_selesai"));
-                                        if(person.getJSONObject("last_alat").getBoolean("status")){
-                                            checkeddaridata = true;
-                                            JSONObject data_last = person.getJSONObject("last_alat").getJSONObject("data");
-
-                                            if(data_last.getString("stsin1").equals("1")){
-                                                tvSensor1.setText("Mendeteksi");
-                                                ivSensor1.setImageResource(R.drawable.circle_danger);
-                                            }else{
-                                                tvSensor1.setText("Normal");
-                                                ivSensor1.setImageResource(R.drawable.circle_success);
-                                            }
-
-                                            if(data_last.getString("stsin2").equals("1")){
-                                                tvSensor2.setText("Mendeteksi");
-                                                ivSensor2.setImageResource(R.drawable.circle_danger);
-                                            }else{
-                                                tvSensor2.setText("Normal");
-                                                ivSensor2.setImageResource(R.drawable.circle_success);
-                                            }
-
-                                            if(data_last.getString("stsin3").equals("1")){
-                                                tvSensor3.setText("Mendeteksi");
-                                                ivSensor3.setImageResource(R.drawable.circle_danger);
-                                            }else{
-                                                tvSensor3.setText("Normal");
-                                                ivSensor3.setImageResource(R.drawable.circle_success);
-                                            }
-
-                                            if(data_last.getString("stsstatin1").equals("1")){
-                                                swIn1.setChecked(true);
-                                                swIn1.setText("Enable");
-                                            }else{
-                                                swIn1.setChecked(false);
-                                                swIn1.setText("Disable");
-                                            }
-
-                                            if(data_last.getString("stsstatin2").equals("1")){
-                                                swIn2.setChecked(true);
-                                                swIn2.setText("Enable");
-                                            }else{
-                                                swIn2.setChecked(false);
-                                                swIn2.setText("Disable");
-                                            }
-
-                                            if(data_last.getString("stsstatin3").equals("1")){
-                                                swIn3.setChecked(true);
-                                                swIn3.setText("Enable");
-                                            }else{
-                                                swIn3.setChecked(false);
-                                                swIn3.setText("Disable");
-                                            }
-
-                                            if(data_last.getString("mode").equals("otomatis")){
-                                                swMode.setChecked(true);
-                                                swMode.setText("Otomatis");
-                                                btnAlarm.setVisibility(View.GONE);
-                                            }else{
-                                                swMode.setChecked(false);
-                                                swMode.setText("Manual");
-                                                btnAlarm.setVisibility(View.VISIBLE);
-                                            }
-
-                                            if(data_last.getString("is_aktif").equals("1")){
-                                                tvStatusAlat.setText("Aktif");
-                                                tvStatusAlat.setEnabled(true);
-                                            }else{
-                                                tvStatusAlat.setText("Non Aktif");
-                                                tvStatusAlat.setEnabled(false);
-                                                tvStatusAlat.setHovered(false);
-                                            }
-
-
-                                            checkeddaridata = false;
-                                            tvDelay.setText(data_last.getString("delay"));
-                                            tvLogValIn1.setText(data_last.getString("in1"));
-                                            tvLogValIn2.setText(data_last.getString("in2"));
-                                            tvLogValIn3.setText(data_last.getString("in3"));
-                                        }
-
-                                        if(person.getJSONObject("renamed").getBoolean("status")){
-                                            JSONArray renamedArray = person.getJSONObject("renamed").getJSONArray("data");
-                                            for (int j = 0; j < renamedArray.length(); j++) {
-                                                try {
-                                                    JSONObject renamedObject = renamedArray.getJSONObject(j);
-                                                    if(renamedObject.getString("before_rename").equals("in1")){
-                                                        tvIn1.setText(renamedObject.getString("after_rename"));
-                                                        tvLogIn1.setText(renamedObject.getString("after_rename"));
-                                                    }else if(renamedObject.getString("before_rename").equals("in2")){
-                                                        tvIn2.setText(renamedObject.getString("after_rename"));
-                                                        tvLogIn2.setText(renamedObject.getString("after_rename"));
-                                                    }else if(renamedObject.getString("before_rename").equals("in3")){
-                                                        tvIn3.setText(renamedObject.getString("after_rename"));
-                                                        tvLogIn3.setText(renamedObject.getString("after_rename"));
-                                                    }
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        }
-                                    }else{
-                                        Toast.makeText(Monitoring.this.getApplicationContext(),person.getString("message"),Toast.LENGTH_LONG).show();
+                                boolean status = person.getBoolean("status");
+                                if(status){
+                                    JSONObject data = person.getJSONObject("data");
+                                    tvIdAlat.setText(data.getString("id_alat"));
+                                    tvStatus.setText(data.getString("status"));
+                                    if(data.getString("status").equals("Aktif")){
+                                        tvStatus.setEnabled(true);
+                                    }else if(data.getString("status").equals("Non Aktif")){
+                                        tvStatus.setEnabled(false);
+                                        tvStatus.setHovered(false);
+                                    }else if(data.getString("status").equals("Pending")){
+                                        tvStatus.setEnabled(false);
+                                        tvStatus.setHovered(true);
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                    Log.d("FRAGMENTHOMELOG",e.getMessage());
-                                    Toast.makeText(Monitoring.this,"Terjadi Kesalahan "+e.getMessage(),Toast.LENGTH_LONG).show();
-                                }
+                                    tvPeriode.setText(data.getString("periode"));
+                                    tvTanggalMulai.setText(data.getString("tanggal_mulai"));
+                                    tvTanggalExpired.setText(data.getString("tanggal_selesai"));
+                                    if(person.getJSONObject("last_alat").getBoolean("status")){
+                                        checkeddaridata = true;
+                                        JSONObject data_last = person.getJSONObject("last_alat").getJSONObject("data");
 
-                                konekMQTT();
+                                        if(data_last.getString("stsin1").equals("1")){
+                                            tvSensor1.setText("Mendeteksi");
+                                            ivSensor1.setImageResource(R.drawable.circle_danger);
+                                        }else{
+                                            tvSensor1.setText("Normal");
+                                            ivSensor1.setImageResource(R.drawable.circle_success);
+                                        }
+
+                                        if(data_last.getString("stsin2").equals("1")){
+                                            tvSensor2.setText("Mendeteksi");
+                                            ivSensor2.setImageResource(R.drawable.circle_danger);
+                                        }else{
+                                            tvSensor2.setText("Normal");
+                                            ivSensor2.setImageResource(R.drawable.circle_success);
+                                        }
+
+                                        if(data_last.getString("stsin3").equals("1")){
+                                            tvSensor3.setText("Mendeteksi");
+                                            ivSensor3.setImageResource(R.drawable.circle_danger);
+                                        }else{
+                                            tvSensor3.setText("Normal");
+                                            ivSensor3.setImageResource(R.drawable.circle_success);
+                                        }
+
+                                        if(data_last.getString("stsstatin1").equals("1")){
+                                            swIn1.setChecked(true);
+                                            swIn1.setText("Enable");
+                                        }else{
+                                            swIn1.setChecked(false);
+                                            swIn1.setText("Disable");
+                                        }
+
+                                        if(data_last.getString("stsstatin2").equals("1")){
+                                            swIn2.setChecked(true);
+                                            swIn2.setText("Enable");
+                                        }else{
+                                            swIn2.setChecked(false);
+                                            swIn2.setText("Disable");
+                                        }
+
+                                        if(data_last.getString("stsstatin3").equals("1")){
+                                            swIn3.setChecked(true);
+                                            swIn3.setText("Enable");
+                                        }else{
+                                            swIn3.setChecked(false);
+                                            swIn3.setText("Disable");
+                                        }
+
+                                        if(data_last.getString("mode").equals("otomatis")){
+                                            swMode.setChecked(true);
+                                            swMode.setText("Otomatis");
+                                            btnAlarm.setVisibility(View.GONE);
+                                        }else{
+                                            swMode.setChecked(false);
+                                            swMode.setText("Manual");
+                                            btnAlarm.setVisibility(View.VISIBLE);
+                                        }
+
+                                        if(data_last.getString("is_aktif").equals("1")){
+                                            tvStatusAlat.setText("Aktif");
+                                            tvStatusAlat.setEnabled(true);
+                                        }else{
+                                            tvStatusAlat.setText("Non Aktif");
+                                            tvStatusAlat.setEnabled(false);
+                                            tvStatusAlat.setHovered(false);
+                                        }
+
+
+                                        checkeddaridata = false;
+                                        tvDelay.setText(data_last.getString("delay"));
+                                        tvLogValIn1.setText(data_last.getString("in1"));
+                                        tvLogValIn2.setText(data_last.getString("in2"));
+                                        tvLogValIn3.setText(data_last.getString("in3"));
+                                    }
+
+                                    if(person.getJSONObject("renamed").getBoolean("status")){
+                                        JSONArray renamedArray = person.getJSONObject("renamed").getJSONArray("data");
+                                        for (int j = 0; j < renamedArray.length(); j++) {
+                                            try {
+                                                JSONObject renamedObject = renamedArray.getJSONObject(j);
+                                                if(renamedObject.getString("before_rename").equals("in1")){
+                                                    tvIn1.setText(renamedObject.getString("after_rename"));
+                                                    tvLogIn1.setText(renamedObject.getString("after_rename"));
+                                                }else if(renamedObject.getString("before_rename").equals("in2")){
+                                                    tvIn2.setText(renamedObject.getString("after_rename"));
+                                                    tvLogIn2.setText(renamedObject.getString("after_rename"));
+                                                }else if(renamedObject.getString("before_rename").equals("in3")){
+                                                    tvIn3.setText(renamedObject.getString("after_rename"));
+                                                    tvLogIn3.setText(renamedObject.getString("after_rename"));
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    Toast.makeText(Monitoring.this.getApplicationContext(),person.getString("message"),Toast.LENGTH_LONG).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.d("FRAGMENTHOMELOG",e.getMessage());
+                                Toast.makeText(Monitoring.this,"Terjadi Kesalahan "+e.getMessage(),Toast.LENGTH_LONG).show();
                             }
 
+                            konekMQTT();
                         });
 
                     }
@@ -432,17 +421,11 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
         showBottomSheetDialogDelay(tvDelay.getText().toString());
     }
 
-
-
-
-
     @Override
     public void onResume() {
         super.onResume();
         onRefresh();
     }
-
-
 
     private void konekMQTT(){
         diskonekMQTT();
@@ -586,7 +569,6 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
             }
         }
     }
-
 
     private boolean sendToServer(String topic,String datanya) {
         try {

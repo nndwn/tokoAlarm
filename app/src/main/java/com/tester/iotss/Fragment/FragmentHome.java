@@ -1,8 +1,6 @@
 package com.tester.iotss.Fragment;
 
 
-import static android.view.View.GONE;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,12 +20,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +28,6 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
@@ -43,26 +35,18 @@ import com.google.gson.reflect.TypeToken;
 import com.tester.iotss.BeliPaket;
 import com.tester.iotss.History;
 import com.tester.iotss.Model.ListPromo;
-import com.tester.iotss.MqttHelper;
-import com.tester.iotss.PesanAlarm;
 import com.tester.iotss.PusatBantuan;
 import com.tester.iotss.R;
 import com.tester.iotss.Session.SessionLogin;
 import com.tester.iotss.Setting;
 import com.tester.iotss.Topup;
 import com.tester.iotss.Tutorial;
-import com.tester.iotss.adapter.PromoAdapter;
+import com.tester.iotss.Adapters.PromoAdapter;
 
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
-import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.tester.iotss.Config.Config.BASE_URL;
+import static com.tester.iotss.Configs.Config.BASE_URL;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

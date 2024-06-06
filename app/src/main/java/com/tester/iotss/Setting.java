@@ -16,7 +16,7 @@ import android.util.Log;
 
 import com.tester.iotss.Model.RingtoneList;
 import com.tester.iotss.Session.SessionLogin;
-import com.tester.iotss.adapter.RingtoneAdapter;
+import com.tester.iotss.Adapters.RingtoneAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;

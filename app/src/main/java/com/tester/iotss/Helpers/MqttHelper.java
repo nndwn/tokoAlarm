@@ -1,4 +1,4 @@
-package com.tester.iotss;
+package com.tester.iotss.Helpers;
 
 import static android.content.ContentValues.TAG;
 

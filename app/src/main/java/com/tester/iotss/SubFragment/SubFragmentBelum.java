@@ -11,33 +11,19 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.tester.iotss.Model.ListHistoryInput;
 import com.tester.iotss.R;
 import com.tester.iotss.Session.SessionLogin;
-import com.tester.iotss.Session.SessionSetting;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import static android.view.View.GONE;
-import static com.tester.iotss.Config.Config.BASE_URL;
 
 /**
  * A simple {@link Fragment} subclass.

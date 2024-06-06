@@ -1,6 +1,6 @@
 package com.tester.iotss;
 
-import static com.tester.iotss.Config.Config.BASE_URL;
+import static com.tester.iotss.Configs.Config.BASE_URL;
 
 import androidx.appcompat.app.AppCompatActivity;
 

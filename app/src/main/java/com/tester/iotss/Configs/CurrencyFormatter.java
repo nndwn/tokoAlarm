@@ -1,4 +1,4 @@
-package com.tester.iotss.Config;
+package com.tester.iotss.Configs;
 
 import android.text.Editable;
 import android.text.TextWatcher;

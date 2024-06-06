@@ -3,7 +3,7 @@ package com.tester.iotss.Fragment;
 
 import static android.view.View.GONE;
 
-import static com.tester.iotss.Config.Config.BASE_URL;
+import static com.tester.iotss.Configs.Config.BASE_URL;
 
 import android.content.DialogInterface;
 import android.os.Build;
@@ -11,12 +11,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager.widget.ViewPager;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -39,7 +37,6 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tester.iotss.Dialog.AlertError;
@@ -48,9 +45,7 @@ import com.tester.iotss.Dialog.LoadingDialog;
 import com.tester.iotss.Model.AlatList;
 import com.tester.iotss.R;
 import com.tester.iotss.Session.SessionLogin;
-import com.tester.iotss.SubFragment.SubFragmentBelum;
-import com.tester.iotss.SubFragment.SubFragmentInput;
-import com.tester.iotss.adapter.AlatAdapter;
+import com.tester.iotss.Adapters.AlatAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;

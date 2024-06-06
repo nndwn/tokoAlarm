@@ -1,6 +1,6 @@
 package com.tester.iotss;
 
-import static com.tester.iotss.Config.Config.BASE_URL;
+import static com.tester.iotss.Configs.Config.BASE_URL;
 
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
@@ -22,8 +22,6 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -31,16 +29,11 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.tester.iotss.Dialog.AlertError;
 import com.tester.iotss.Dialog.LoadingDialog;
-import com.tester.iotss.Model.PaketList;
 import com.tester.iotss.Session.SessionLogin;
-import com.tester.iotss.Session.SessionSetting;
-import com.tester.iotss.adapter.PaketAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Login extends AppCompatActivity {
