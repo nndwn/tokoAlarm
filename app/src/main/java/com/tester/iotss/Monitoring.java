@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -86,7 +87,8 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     TextView tvIn3;
     @BindView(R.id.tvAlarm)
     TextView tvAlarm;
-
+    @BindView(R.id.txtSwIn1)
+    TextView txtSwIn1;
     @BindView(R.id.tvSensor1)
     TextView tvSensor1;
     @BindView(R.id.tvSensor2)
@@ -116,7 +118,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     @BindView(R.id.tvDelay)
     TextView tvDelay;
     @BindView(R.id.btnAlarm)
-    Button btnAlarm;
+    LinearLayout btnAlarm;
 
     @BindView(R.id.btnCekAlat)
     Button btnCekAlat;
@@ -154,6 +156,16 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     TextView tvLogValIn2;
     @BindView(R.id.tvLogValIn3)
     TextView tvLogValIn3;
+
+    @BindView(R.id.ivButtonHidupkanAlarm)
+    ImageView ivButtonHidupkanAlarm;
+
+    @BindView(R.id.tvButtonTextHidupkanAlarm)
+    TextView tvButtonTextHidupkanAlarm;
+
+    @BindView(R.id.tvDelayAlarm)
+    TextView tvDelayAlarm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -208,11 +220,58 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     }
 
     private void setupSwitchListeners() {
-        setupSwitchListener(swMode, "/mode", "otomatis", "manual");
-        setupSwitchListener(swIn1, "/statin1", "1", "0");
+        setupAlarmSwitchListener(swMode, "/mode", "otomatis", "manual");
+        setupSensorSwitchListener(swIn1, "/statin1", "1", "0");
         setupSwitchListener(swIn2, "/statin2", "1", "0");
         setupSwitchListener(swIn3, "/statin3", "1", "0");
     }
+
+    private void setupSensorSwitchListener(CompoundButton switchButton, String urlSuffix, String enabledValue, String disabledValue) {
+        switchButton.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            if (!checkeddaridata) {
+                if (tvIdAlat.getText().toString().length() > 1) {
+                    String url = tvIdAlat.getText().toString() + urlSuffix;
+                    String value = isChecked ? enabledValue : disabledValue;
+                    if (sendToServer(url, value)) {
+                        txtSwIn1.setText(isChecked ? "Enable" : "Disable");
+                        if (urlSuffix.equals("/mode")) {
+                            btnAlarm.setVisibility(isChecked ? View.GONE : View.VISIBLE);
+                        }
+                    } else {
+                        switchButton.setChecked(!isChecked);
+                        txtSwIn1.setText(isChecked ? "Disable" : "Enable");
+                    }
+                } else {
+                    switchButton.setChecked(!isChecked);
+                    txtSwIn1.setText(isChecked ? "Disable" : "Enable");
+                }
+            }
+        });
+    }
+
+    private void setupAlarmSwitchListener(CompoundButton switchButton, String urlSuffix, String enabledValue, String disabledValue) {
+        switchButton.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            if (!checkeddaridata) {
+                if (tvIdAlat.getText().toString().length() > 1) {
+                    String url = tvIdAlat.getText().toString() + urlSuffix;
+                    String value = isChecked ? enabledValue : disabledValue;
+                    if (sendToServer(url, value)) {
+                        switchButton.setText(isChecked ? "Mode: Otomatis" : "Mode: Manual");
+                        if (urlSuffix.equals("/mode")) {
+                            btnAlarm.setVisibility(isChecked ? View.GONE : View.VISIBLE);
+                        }
+                    } else {
+                        switchButton.setChecked(!isChecked);
+                        switchButton.setText(isChecked ? "Mode: Manual" : "Mode: Otomatis");
+                    }
+                } else {
+                    switchButton.setChecked(!isChecked);
+                    switchButton.setText(isChecked ? "Mode: Manual" : "Mode: Otomatis");
+                }
+            }
+        });
+    }
+
 
     private void setupSwitchListener(CompoundButton switchButton, String urlSuffix, String enabledValue, String disabledValue) {
         switchButton.setOnCheckedChangeListener((compoundButton, isChecked) -> {
@@ -311,10 +370,10 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
 
                                         if(data_last.getString("stsstatin1").equals("1")){
                                             swIn1.setChecked(true);
-                                            swIn1.setText("Enable");
+                                            txtSwIn1.setText("Enable");
                                         }else{
                                             swIn1.setChecked(false);
-                                            swIn1.setText("Disable");
+                                            txtSwIn1.setText("Disable");
                                         }
 
                                         if(data_last.getString("stsstatin2").equals("1")){
@@ -335,11 +394,11 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
 
                                         if(data_last.getString("mode").equals("otomatis")){
                                             swMode.setChecked(true);
-                                            swMode.setText("Otomatis");
+                                            swMode.setText("Mode: Otomatis");
                                             btnAlarm.setVisibility(View.GONE);
                                         }else{
                                             swMode.setChecked(false);
-                                            swMode.setText("Manual");
+                                            swMode.setText("Mode: Manual");
                                             btnAlarm.setVisibility(View.VISIBLE);
                                         }
 
@@ -355,6 +414,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
 
                                         checkeddaridata = false;
                                         tvDelay.setText(data_last.getString("delay"));
+                                        tvDelayAlarm.setText(data_last.getString("delay") + " Detik");
                                         tvLogValIn1.setText(data_last.getString("in1"));
                                         tvLogValIn2.setText(data_last.getString("in2"));
                                         tvLogValIn3.setText(data_last.getString("in3"));
@@ -492,10 +552,10 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                 }else if(topic.equals(tvIdAlat.getText().toString()+"/statin1")){
                     if(mqttMessage.toString().equals("1")) {
                         swIn1.setChecked(true);
-                        swIn1.setText("Enable");
+                        txtSwIn1.setText("Enable");
                     }else{
                         swIn1.setChecked(false);
-                        swIn1.setText("Disable");
+                        txtSwIn1.setText("Disable");
                     }
 
                 }else if(topic.equals(tvIdAlat.getText().toString()+"/statin2")){
@@ -519,9 +579,11 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                 }else if(topic.equals(tvIdAlat.getText().toString()+"/alarm")){
                     if(mqttMessage.toString().equals("0")) {
                         btnAlarm.setEnabled(true);
+                        ivButtonHidupkanAlarm.setImageResource(R.drawable.alarm_aktif);
                     }
                 }else if(topic.equals(tvIdAlat.getText().toString()+"/delay")){
                     tvDelay.setText(mqttMessage.toString());
+                    tvDelayAlarm.setText(mqttMessage.toString() + " Detik");
 
                 }else if(topic.equals(tvIdAlat.getText().toString()+"/active")){
                     if(mqttMessage.toString().equals("1")) {
@@ -702,6 +764,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                 sheetDialog.dismiss();
                 sendToServer(tvIdAlat.getText().toString() + "/delay", edDelay.getText().toString());
                 tvDelay.setText(edDelay.getText().toString());
+                tvDelayAlarm.setText(edDelay.getText().toString() + " Detik");
             }
         });
 
@@ -768,6 +831,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
 
     @OnClick(R.id.btnAlarm) void btnAlarm(){
         btnAlarm.setEnabled(false);
+        ivButtonHidupkanAlarm.setImageResource(R.drawable.alarm_nonaktif);
         sendToServer(tvIdAlat.getText().toString() + "/alarm", "1");
     }
 
