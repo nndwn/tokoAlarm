@@ -64,9 +64,7 @@ public class Login extends AppCompatActivity {
                         android.Manifest.permission.READ_EXTERNAL_STORAGE,
                         android.Manifest.permission.ACCESS_WIFI_STATE,
                         android.Manifest.permission.ACCESS_NETWORK_STATE,
-                        android.Manifest.permission.READ_PHONE_STATE,
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_FINE_LOCATION
+                        android.Manifest.permission.READ_PHONE_STATE
                 ).withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
@@ -78,14 +76,11 @@ public class Login extends AppCompatActivity {
                     }
                 }).check();
 
-        checkSyaratKetentuan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    tvSyaratKetentuan.setVisibility(View.VISIBLE);
-                }else{
-                    tvSyaratKetentuan.setVisibility(View.GONE);
-                }
+        checkSyaratKetentuan.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(b){
+                tvSyaratKetentuan.setVisibility(View.VISIBLE);
+            }else{
+                tvSyaratKetentuan.setVisibility(View.GONE);
             }
         });
     }

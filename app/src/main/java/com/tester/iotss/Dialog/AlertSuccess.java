@@ -8,9 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.tester.iotss.R;
-
 
 public class AlertSuccess {
 
@@ -32,12 +30,9 @@ public class AlertSuccess {
             tvTitle = (TextView) mView.findViewById(R.id.tvTitle);
             tvMessage = (TextView) mView.findViewById(R.id.tvMessage);
             btnTutup = (Button) mView.findViewById(R.id.btnTutup);
-            btnTutup.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    isShowing = false;
-                    dialog.dismiss();
-                }
+            btnTutup.setOnClickListener(v -> {
+                isShowing = false;
+                dialog.dismiss();
             });
 
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {

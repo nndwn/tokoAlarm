@@ -123,7 +123,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     boolean isCekAlatButton =false;
     private MqttHelper mqttHelper;
 
-    private static String BrokerUri="tcp://149.28.133.74:1884";
+    private static String BrokerUri="tcp://server.tokoalarm.com:8885";
 
     boolean checkeddaridata = false;
 
@@ -264,7 +264,6 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                         runOnUiThread(() -> {
                             Log.d("LOGJSONMONITORING",person.toString());
                             try {
-
                                 boolean status = person.getBoolean("status");
                                 if(status){
                                     JSONObject data = person.getJSONObject("data");
@@ -453,6 +452,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                 subscribeToTopic(tvIdAlat.getText().toString()+"/alarm");
                 subscribeToTopic(tvIdAlat.getText().toString()+"/delay");
                 subscribeToTopic(tvIdAlat.getText().toString()+"/active");
+                Log.d("abah","SERVER MQTT KONEK");
             }
 
             @Override
@@ -616,8 +616,6 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
             }
         }
     }
-
-
 
     @SuppressLint("WrongConstant")
     private void showBottomSheetDialog(String before_rename,String label) {

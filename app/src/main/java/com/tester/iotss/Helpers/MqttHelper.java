@@ -1,10 +1,8 @@
 package com.tester.iotss.Helpers;
 
 import static android.content.ContentValues.TAG;
-
 import android.content.Context;
 import android.util.Log;
-
 import info.mqtt.android.service.Ack;
 import info.mqtt.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
@@ -13,7 +11,6 @@ import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
-
 import java.util.UUID;
 
 
@@ -41,13 +38,13 @@ public class MqttHelper {
         mqttAndroidClient.connect(mqttConnectOptions, null, new IMqttActionListener() {
             @Override
             public void onSuccess(IMqttToken asyncActionToken) {
-
                 DisconnectedBufferOptions disconnectedBufferOptions = new DisconnectedBufferOptions();
                 disconnectedBufferOptions.setBufferEnabled(true);
                 disconnectedBufferOptions.setBufferSize(4096);
                 disconnectedBufferOptions.setPersistBuffer(false);
                 disconnectedBufferOptions.setDeleteOldestMessages(true);
                 mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
+                Log.d("MQTTSERVER", "MQTT BERHASIL KONEK");
             }
 
             @Override

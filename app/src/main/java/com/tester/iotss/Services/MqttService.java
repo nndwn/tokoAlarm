@@ -3,12 +3,9 @@ package com.tester.iotss.Services;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-
 import androidx.annotation.Nullable;
-
 import com.tester.iotss.Helpers.MqttHelper;
 import com.tester.iotss.Session.SessionLogin;
-
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -24,7 +21,7 @@ public class MqttService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Initialize and connect your MQTT client here
-        mqttHelper = new MqttHelper(this, "tcp://149.28.133.74:1884");
+        mqttHelper = new MqttHelper(this, "tcp://server.tokoalarm.com:8885");
         SessionLogin sessionLogin = new SessionLogin();
         mqttHelper.connect(sessionLogin.getNohp(getApplicationContext()), sessionLogin.getPassword(getApplicationContext()));
 

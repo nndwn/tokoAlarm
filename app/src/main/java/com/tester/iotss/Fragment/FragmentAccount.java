@@ -3,14 +3,11 @@ package com.tester.iotss.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +16,6 @@ import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -32,10 +28,8 @@ import com.tester.iotss.R;
 import com.tester.iotss.Session.SessionLogin;
 import com.tester.iotss.Session.SessionSetting;
 import com.tester.iotss.UbahPassword;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 
 import static com.tester.iotss.Configs.Config.BASE_URL;

@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class AlatList{
 
+	@SerializedName("nama_paket")
+	private String namaPaket;
+
 	@SerializedName("nomor_paket")
 	private String nomorPaket;
 
@@ -167,5 +170,14 @@ public class AlatList{
 
 	public String getDayConvertion(){
 		return dayConvertion;
+	}
+
+
+	public String getNamaPaket() {
+		return namaPaket;
+	}
+
+	public void setNamaPaket(String namaPaket) {
+		this.namaPaket = namaPaket;
 	}
 }

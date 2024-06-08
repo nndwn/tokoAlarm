@@ -124,7 +124,7 @@ public class MonitoringBackup extends AppCompatActivity implements SwipeRefreshL
     boolean isCekAlatButton =false;
     private MqttHelper mqttHelper;
 
-    private static String BrokerUri="tcp://149.28.133.74:1884";
+    private static String BrokerUri="tcp://server.tokoalarm.com:8885";
 
     boolean checkeddaridata = false;
 

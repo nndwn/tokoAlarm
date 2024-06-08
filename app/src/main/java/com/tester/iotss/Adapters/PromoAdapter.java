@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -16,7 +14,6 @@ import com.squareup.picasso.Picasso;
 import com.tester.iotss.Model.ListPromo;
 import com.tester.iotss.PromoDetail;
 import com.tester.iotss.R;
-
 import java.util.List;
 
 public class PromoAdapter extends RecyclerView.Adapter<PromoAdapter.ViewHolder> {

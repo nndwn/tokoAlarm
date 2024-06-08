@@ -13,8 +13,9 @@ import android.provider.Settings;
 import android.widget.RadioButton;
 
 import com.tester.iotss.Fragment.FragmentAccount;
-import com.tester.iotss.Fragment.FragmentHistory;
+import com.tester.iotss.Fragment.FragmentListSubscriber;
 import com.tester.iotss.Fragment.FragmentHome;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -22,9 +23,6 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 public class Home extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
@@ -44,7 +42,7 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, new FragmentHistory()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, new FragmentListSubscriber()).commit();
 
         sharedPreferences = getSharedPreferences("NotificationPermission", MODE_PRIVATE);
         checkNotificationPermission();
@@ -70,7 +68,7 @@ public class Home extends AppCompatActivity {
             case R.id.rbPesanan:
                 if (checked) {
                     // 2 clicked
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new FragmentHistory()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new FragmentListSubscriber()).commit();
                 }
                 break;
         }
@@ -116,4 +114,6 @@ public class Home extends AppCompatActivity {
         intent.setData(uri);
         startActivity(intent);
     }
+
+
 }

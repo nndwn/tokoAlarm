@@ -2,9 +2,9 @@ package com.tester.iotss.Fragment;
 
 
 import static android.view.View.GONE;
-
 import static com.tester.iotss.Configs.Config.BASE_URL;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ import com.google.gson.reflect.TypeToken;
 import com.tester.iotss.Dialog.AlertError;
 import com.tester.iotss.Dialog.AlertSuccess;
 import com.tester.iotss.Dialog.LoadingDialog;
+import com.tester.iotss.Helpers.ErrorHandlerHelper;
 import com.tester.iotss.Model.AlatList;
 import com.tester.iotss.R;
 import com.tester.iotss.Session.SessionLogin;
@@ -58,8 +60,8 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentHistory extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AlatAdapter.PerpanjangClickListener {
-    public FragmentHistory() {
+public class FragmentListSubscriber extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AlatAdapter.PerpanjangClickListener, AlatAdapter.RenamePaketClickListener {
+    public FragmentListSubscriber() {
         // Required empty public constructor
     }
 
@@ -91,22 +93,23 @@ public class FragmentHistory extends Fragment implements SwipeRefreshLayout.OnRe
     LoadingDialog loadingDialog;
     AlertSuccess alertSuccess;
     AlertError alertError;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_history, container, false);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.fragment_history, container, false);
+        ButterKnife.bind(this, view);
         loadingDialog = new LoadingDialog(getActivity());
         alertSuccess = new AlertSuccess(getActivity());
         alertError = new AlertError(getActivity());
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
         swipeRefreshLayout.setOnRefreshListener(this);
         alatLists = new ArrayList<>();
-        recyclerViewadapter = new AlatAdapter(getActivity(),alatLists, getActivity(),this);
+        recyclerViewadapter = new AlatAdapter(getActivity(), alatLists, getActivity(), FragmentListSubscriber.this, FragmentListSubscriber.this);
         recyclerView.setAdapter(recyclerViewadapter);
         recyclerView.setHasFixedSize(false);
-        linearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         swipeRefreshLayout.post(() -> {
             swipeRefreshLayout.setRefreshing(true);
@@ -121,7 +124,7 @@ public class FragmentHistory extends Fragment implements SwipeRefreshLayout.OnRe
                 swipeRefreshLayout.setEnabled(scrollView.getScrollY() == 0);
             }
         });
-        return  view;
+        return view;
     }
 
 
@@ -136,45 +139,46 @@ public class FragmentHistory extends Fragment implements SwipeRefreshLayout.OnRe
     }
 
 
-    private void getData(){
-        AndroidNetworking.post(BASE_URL+"users/getalat")
+    private void getData() {
+        ErrorHandlerHelper.resetErrorHandledFlag();
+        AndroidNetworking.post(BASE_URL + "users/getalat")
                 .setPriority(Priority.HIGH)
                 .addBodyParameter("nohp", sessionLogin.getNohp(getContext()))
-                .addBodyParameter("status","Aktif")
+                .addBodyParameter("status", "Aktif")
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
+                    @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onResponse(final JSONObject person) {
                         swipeRefreshLayout.setRefreshing(false);
-                        Log.d("FRAGMENTHISTORYLOG",person.toString());
+                        Log.d("FRAGMENTHISTORYLOG", person.toString());
                         try {
-
                             boolean status = person.getBoolean("status");
-                            if(status) {
+                            if (status) {
                                 shimmerLog.setVisibility(GONE);
                                 lnData.setVisibility(View.VISIBLE);
                                 JSONArray jsonArray = person.getJSONArray("data");
-                                Type listType = new TypeToken<ArrayList<AlatList>>(){}.getType();
+                                Type listType = new TypeToken<ArrayList<AlatList>>() {
+                                }.getType();
                                 alatLists = new Gson().fromJson(String.valueOf(jsonArray), listType);
-                                Log.d("TESTINGHITAPI",String.valueOf(jsonArray));
-                                recyclerViewadapter = new AlatAdapter(getActivity(),alatLists, getActivity(),FragmentHistory.this::onPerpanjangClick);
+                                Log.d("TESTINGHITAPI", String.valueOf(jsonArray));
+                                recyclerViewadapter = new AlatAdapter(getActivity(), alatLists, getActivity(), FragmentListSubscriber.this, FragmentListSubscriber.this);
                                 recyclerView.setAdapter(recyclerViewadapter);
                                 recyclerViewadapter.notifyDataSetChanged();
-                            }else{
-                                Toast.makeText(getActivity().getApplicationContext(),person.getString("message"),Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getActivity().getApplicationContext(), person.getString("message"), Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.d("FRAGMENTHISTORYLOG",e.getMessage());
-                            Toast.makeText(getActivity().getApplicationContext(),"Terjadi Kesalahan "+e.getMessage(),Toast.LENGTH_LONG).show();
+                            Log.d("FRAGMENTHISTORYLOG", e.getMessage());
+                            Toast.makeText(getActivity().getApplicationContext(), "Tidak ada koneksi " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
-
                     }
+
                     @Override
                     public void onError(ANError error) {
                         swipeRefreshLayout.setRefreshing(false);
-                        Log.d("FRAGMENTHISTORYLOG",error.getMessage());
-                        Toast.makeText(getActivity().getApplicationContext(),"Terjadi Kesalahan "+error.getMessage(),Toast.LENGTH_LONG).show();
+                        ErrorHandlerHelper.handleANError(getContext(), error);
                     }
                 });
     }
@@ -206,7 +210,7 @@ public class FragmentHistory extends Fragment implements SwipeRefreshLayout.OnRe
             }
         });
 
-        TextView tvNamaPaket,tvDurasi,tvHarga;
+        TextView tvNamaPaket, tvDurasi, tvHarga;
         Button btnSimpan;
         LinearLayout lnIdAlat;
 
@@ -216,7 +220,7 @@ public class FragmentHistory extends Fragment implements SwipeRefreshLayout.OnRe
         tvHarga = (TextView) view.findViewById(R.id.tvHarga);
         btnSimpan = (Button) view.findViewById(R.id.btnSimpan);
         tvNamaPaket.setText(alatLists.get(position).getPeriode());
-        tvDurasi.setText(alatLists.get(position).getDayConvertion()+" Hari");
+        tvDurasi.setText(alatLists.get(position).getDayConvertion() + " Hari");
         tvHarga.setText(alatLists.get(position).getBiayaRupiah());
         lnIdAlat.setVisibility(GONE);
 
@@ -243,23 +247,23 @@ public class FragmentHistory extends Fragment implements SwipeRefreshLayout.OnRe
     }
 
 
-    private void perpanjangPaket(int position){
+    private void perpanjangPaket(int position) {
         loadingDialog.startLoadingDialog();
         SessionLogin sessionLogin = new SessionLogin();
-        AndroidNetworking.post(BASE_URL+"users/perpanjang")
+        AndroidNetworking.post(BASE_URL + "users/perpanjang")
                 .addBodyParameter("nomor_paket", alatLists.get(position).getNomorPaket())
-                .addBodyParameter("id_users",sessionLogin.getId(getActivity()))
+                .addBodyParameter("id_users", sessionLogin.getId(getActivity()))
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject person) {
                         loadingDialog.dismissDialog();
-                        Log.d("BELIPAKETLOG",person.toString());
+                        Log.d("BELIPAKETLOG", person.toString());
                         try {
                             boolean isSuccess = person.getBoolean("status");
                             if (isSuccess) {
-                                alertSuccess.startDialog("Berhasil",person.getString("message"));
+                                alertSuccess.startDialog("Berhasil", person.getString("message"));
                                 sheetDialog.dismiss();
                                 onRefresh();
                             } else {
@@ -277,5 +281,81 @@ public class FragmentHistory extends Fragment implements SwipeRefreshLayout.OnRe
                     }
                 });
     }
+
+
+    public void onRenamePaketClick(int position) {
+        showBottomSheetDialogRenamePaket(position);
+    }
+
+    private void showBottomSheetDialogRenamePaket(int position) {
+        View view = getLayoutInflater().inflate(R.layout.sheet_rename, null);
+        sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                // Handle state changes
+                if (newState == BottomSheetBehavior.STATE_DRAGGING) {
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                // Handle sliding
+            }
+        });
+
+        EditText edRename = view.findViewById(R.id.edRename);
+        Button btnSimpan = view.findViewById(R.id.btnSimpan);
+
+        edRename.setText(alatLists.get(position).getNamaPaket().toString());
+
+        btnSimpan.setOnClickListener(view1 -> renamePaket(position));
+
+        sheetDialog = new BottomSheetDialog(getActivity());
+        sheetDialog.setContentView(view);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            sheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
+        sheetDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        sheetDialog.show();
+        sheetDialog.setOnDismissListener(dialog -> sheetDialog = null);
+    }
+
+    private void renamePaket(int position) {
+        loadingDialog.startLoadingDialog();
+        SessionLogin sessionLogin = new SessionLogin();
+        AndroidNetworking.post(BASE_URL + "users/alat")
+                .addBodyParameter("nomor_paket", alatLists.get(position).getNomorPaket())
+                .addBodyParameter("id_users", sessionLogin.getId(getActivity()))
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject person) {
+                        loadingDialog.dismissDialog();
+                        Log.d("BELIPAKETLOG", person.toString());
+                        try {
+                            boolean isSuccess = person.getBoolean("status");
+                            if (isSuccess) {
+                                alertSuccess.startDialog("Berhasil", person.getString("message"));
+                                sheetDialog.dismiss();
+                                onRefresh();
+                            } else {
+                                alertError.startDialog("Gagal", person.getString("message"));
+                            }
+                        } catch (JSONException e) {
+                            alertError.startDialog("Gagal", e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+                        loadingDialog.dismissDialog();
+                        alertError.startDialog("Gagal", anError.getMessage());
+                    }
+                });
+    }
+
 }
 

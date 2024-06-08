@@ -3,26 +3,21 @@ package com.tester.iotss.SubFragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.tester.iotss.Model.ListHistoryInput;
 import com.tester.iotss.R;
 import com.tester.iotss.Session.SessionLogin;
-
 import java.util.ArrayList;
-
 import static android.view.View.GONE;
 
 /**
@@ -66,15 +61,12 @@ public class SubFragmentBelum extends Fragment implements SwipeRefreshLayout.OnR
         sessionLogin = new SessionLogin();
 
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                shimmerHistory.setVisibility(View.VISIBLE);
-                lnData.setVisibility(GONE);
-                lnNoData.setVisibility(GONE);
+        swipeRefreshLayout.post(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            shimmerHistory.setVisibility(View.VISIBLE);
+            lnData.setVisibility(GONE);
+            lnNoData.setVisibility(GONE);
 //                getData();
-            }
         });
 
         listHistory = new ArrayList<>();
@@ -87,15 +79,12 @@ public class SubFragmentBelum extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                shimmerHistory.setVisibility(View.VISIBLE);
-                lnData.setVisibility(GONE);
-                lnNoData.setVisibility(GONE);
+        getActivity().runOnUiThread(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            shimmerHistory.setVisibility(View.VISIBLE);
+            lnData.setVisibility(GONE);
+            lnNoData.setVisibility(GONE);
 //                getData();
-            }
         });
     }
 

@@ -4,17 +4,14 @@ package com.tester.iotss.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -42,12 +38,9 @@ import com.tester.iotss.Setting;
 import com.tester.iotss.Topup;
 import com.tester.iotss.Tutorial;
 import com.tester.iotss.Adapters.PromoAdapter;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import static com.tester.iotss.Configs.Config.BASE_URL;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -91,12 +84,9 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
         sessionLogin = new SessionLogin();
 
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                getData();
-            }
+        swipeRefreshLayout.post(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            getData();
         });
 
         listPromos = new ArrayList<>();
