@@ -101,10 +101,18 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
 
     @BindView(R.id.swIn1)
     Switch swIn1;
+
     @BindView(R.id.swIn2)
     Switch swIn2;
+
+    @BindView(R.id.txtSwIn2)
+    TextView txtSwIn2;
+
     @BindView(R.id.swIn3)
     Switch swIn3;
+    @BindView(R.id.txtSwIn3)
+    TextView txtSwIn3;
+
     @BindView(R.id.swMode)
     Switch swMode;
 
@@ -165,6 +173,9 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
 
     @BindView(R.id.tvDelayAlarm)
     TextView tvDelayAlarm;
+
+    @BindView(R.id.lnListOfSensor)
+    LinearLayout lnListOfSensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -330,9 +341,11 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                                     tvStatus.setText(data.getString("status"));
                                     if(data.getString("status").equals("Aktif")){
                                         tvStatus.setEnabled(true);
+                                        lnListOfSensor.setVisibility(View.VISIBLE);
                                     }else if(data.getString("status").equals("Non Aktif")){
                                         tvStatus.setEnabled(false);
                                         tvStatus.setHovered(false);
+                                        lnListOfSensor.setVisibility(View.GONE);
                                     }else if(data.getString("status").equals("Pending")){
                                         tvStatus.setEnabled(false);
                                         tvStatus.setHovered(true);
@@ -378,18 +391,18 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
 
                                         if(data_last.getString("stsstatin2").equals("1")){
                                             swIn2.setChecked(true);
-                                            swIn2.setText("Enable");
+                                            txtSwIn2.setText("Enable");
                                         }else{
                                             swIn2.setChecked(false);
-                                            swIn2.setText("Disable");
+                                            txtSwIn2.setText("Disable");
                                         }
 
                                         if(data_last.getString("stsstatin3").equals("1")){
                                             swIn3.setChecked(true);
-                                            swIn3.setText("Enable");
+                                            txtSwIn3.setText("Enable");
                                         }else{
                                             swIn3.setChecked(false);
-                                            swIn3.setText("Disable");
+                                            txtSwIn3.setText("Disable");
                                         }
 
                                         if(data_last.getString("mode").equals("otomatis")){
@@ -405,10 +418,12 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                                         if(data_last.getString("is_aktif").equals("1")){
                                             tvStatusAlat.setText("Aktif");
                                             tvStatusAlat.setEnabled(true);
+                                            lnListOfSensor.setVisibility(View.VISIBLE);
                                         }else{
                                             tvStatusAlat.setText("Non Aktif");
                                             tvStatusAlat.setEnabled(false);
                                             tvStatusAlat.setHovered(false);
+                                            lnListOfSensor.setVisibility(View.GONE);
                                         }
 
 
@@ -524,6 +539,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
 
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+                Log.d("NETWORK MQTT", "Message size: " + mqttMessage.getPayload().length + " bytes");
                 Log.d("FragmentHomeLog",mqttMessage.toString());
                 if (topic.equals(tvIdAlat.getText().toString()+"/in1")){
                     if(mqttMessage.toString().equals("1")){
@@ -561,19 +577,19 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                 }else if(topic.equals(tvIdAlat.getText().toString()+"/statin2")){
                     if(mqttMessage.toString().equals("1")) {
                         swIn2.setChecked(true);
-                        swIn2.setText("Enable");
+                        txtSwIn2.setText("Enable");
                     }else{
                         swIn2.setChecked(false);
-                        swIn2.setText("Disable");
+                        txtSwIn2.setText("Disable");
                     }
 
                 }else if(topic.equals(tvIdAlat.getText().toString()+"/statin3")){
                     if(mqttMessage.toString().equals("1")) {
                         swIn3.setChecked(true);
-                        swIn3.setText("Enable");
+                        txtSwIn3.setText("Enable");
                     }else{
                         swIn3.setChecked(false);
-                        swIn3.setText("Disable");
+                        txtSwIn3.setText("Disable");
                     }
 
                 }else if(topic.equals(tvIdAlat.getText().toString()+"/alarm")){
@@ -592,10 +608,12 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                         if(isCekAlatButton){
                             alertSuccess.startDialog("Sukses","Alat dalam keadaan aktif");
                         }
+                        lnListOfSensor.setVisibility(View.VISIBLE);
                     }else{
                         tvStatusAlat.setText("Non Aktif");
                         tvStatusAlat.setEnabled(false);
                         tvStatusAlat.setHovered(false);
+                        lnListOfSensor.setVisibility(View.GONE);
                     }
 
 
@@ -642,6 +660,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                         message.setQos(0);
                         message.setRetained(false);
                         mqttHelper.mqttAndroidClient.publish(topic, message);
+                        Log.d("NETWORK MQTT", "Message size: " + message.getPayload().length + " bytes");
                         Log.d("FragmentHomeLog",  "send:"+datanya.toString());
                         return true;
                     }else{
@@ -664,17 +683,21 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     private void subscribeToTopic(final String topic) {
         if(mqttHelper!=null) {
             if (mqttHelper.mqttAndroidClient != null) {
-                mqttHelper.mqttAndroidClient.subscribe(topic, 0, null, new IMqttActionListener() {
-                    @Override
-                    public void onSuccess(IMqttToken asyncActionToken) {
-                        Log.d("FragmentHomeLog", topic + " Subscribed!");
-                    }
+                try {
+                    mqttHelper.mqttAndroidClient.subscribe(topic, 0, null, new IMqttActionListener() {
+                        @Override
+                        public void onSuccess(IMqttToken asyncActionToken) {
+                            Log.d("FragmentHomeLog", topic + " Subscribed!");
+                        }
 
-                    @Override
-                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                        Log.d("FragmentHomeLog", "Subscribed fail!");
-                    }
-                });
+                        @Override
+                        public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                            Log.d("FragmentHomeLog", "Subscribed fail!");
+                        }
+                    });
+                }catch (Exception e){
+                    Log.d("MQTT SUBSCRIBE", e.getMessage().toString());
+                }
             }
         }
     }

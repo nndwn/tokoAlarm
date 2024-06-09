@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -7,6 +7,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+        <item name="android:windowSplashScreenBackground" tools:ignore="NewApi">@color/colorPrimary</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:ignore="NewApi">@color/colorPrimary</item>
+        <item name="android:windowSplashScreenBrandingImage" tools:ignore="NewApi">@drawable/logoputih</item>
     </style>
 
     <style name="AppTheme.NoActionBarStatusBar">

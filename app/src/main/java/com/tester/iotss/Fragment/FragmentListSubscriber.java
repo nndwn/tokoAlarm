@@ -2,6 +2,7 @@ package com.tester.iotss.Fragment;
 
 
 import static android.view.View.GONE;
+import static com.tester.iotss.Configs.Config.API_SERVER_KEY;
 import static com.tester.iotss.Configs.Config.BASE_URL;
 
 import android.annotation.SuppressLint;
@@ -287,6 +288,7 @@ public class FragmentListSubscriber extends Fragment implements SwipeRefreshLayo
         showBottomSheetDialogRenamePaket(position);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void showBottomSheetDialogRenamePaket(int position) {
         View view = getLayoutInflater().inflate(R.layout.sheet_rename, null);
         sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -305,16 +307,26 @@ public class FragmentListSubscriber extends Fragment implements SwipeRefreshLayo
 
         EditText edRename = view.findViewById(R.id.edRename);
         Button btnSimpan = view.findViewById(R.id.btnSimpan);
+        TextView tvNamaAlat = view.findViewById(R.id.tvRename);
+
+        tvNamaAlat.setText("Ubah Nama Alat");
 
         edRename.setText(alatLists.get(position).getNamaPaket().toString());
 
-        btnSimpan.setOnClickListener(view1 -> renamePaket(position));
+        btnSimpan.setOnClickListener(view1 -> {
+            try {
+                renamePaket(alatLists.get(position).getIdAlat(),alatLists.get(position).getNohp(),edRename.getText().toString());
+                alatLists.get(position).setNamaPaket(edRename.getText().toString());
+                recyclerViewadapter.notifyDataSetChanged();
+                sheetDialog.dismiss();
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         sheetDialog = new BottomSheetDialog(getActivity());
         sheetDialog.setContentView(view);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            sheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
+        sheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         sheetDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
@@ -322,40 +334,50 @@ public class FragmentListSubscriber extends Fragment implements SwipeRefreshLayo
         sheetDialog.setOnDismissListener(dialog -> sheetDialog = null);
     }
 
-    private void renamePaket(int position) {
+    // PROSES RENAME NAMA PAKET ALAT
+    private void renamePaket(String id_alat,String no_hp, String new_name) throws JSONException {
         loadingDialog.startLoadingDialog();
-        SessionLogin sessionLogin = new SessionLogin();
-        AndroidNetworking.post(BASE_URL + "users/alat")
-                .addBodyParameter("nomor_paket", alatLists.get(position).getNomorPaket())
-                .addBodyParameter("id_users", sessionLogin.getId(getActivity()))
+        JSONObject jsonBody = new JSONObject();
+        jsonBody.put("id_alat", id_alat);
+        jsonBody.put("no_hp", no_hp);
+        jsonBody.put("new_name", new_name);
+
+        AndroidNetworking.post(BASE_URL + "alat/rename")
                 .setPriority(Priority.HIGH)
+                .addHeaders("x-api-key", API_SERVER_KEY)
+                .addJSONObjectBody(jsonBody)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
-                    public void onResponse(JSONObject person) {
+                    public void onResponse(final JSONObject response) {
                         loadingDialog.dismissDialog();
-                        Log.d("BELIPAKETLOG", person.toString());
                         try {
-                            boolean isSuccess = person.getBoolean("status");
-                            if (isSuccess) {
-                                alertSuccess.startDialog("Berhasil", person.getString("message"));
-                                sheetDialog.dismiss();
-                                onRefresh();
+                            // Parse the JSON response
+                            int status = response.getInt("status");
+                            String message = response.getString("message");
+
+                            // Check if the request was successful (status code 200)
+                            if (status == 200) {
+                                // Show success message in a Toast
+                                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                             } else {
-                                alertError.startDialog("Gagal", person.getString("message"));
+                                // Show error message in a Toast
+                                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
-                            alertError.startDialog("Gagal", e.getMessage());
+                            // JSON parsing error
+                            e.printStackTrace();
+                            Toast.makeText(getContext(), "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onError(ANError anError) {
+                    public void onError(ANError error) {
                         loadingDialog.dismissDialog();
-                        alertError.startDialog("Gagal", anError.getMessage());
+                        Log.d("FRAGMENTHOMELOG", error.getMessage());
+                        alertError.startDialog("Gagal", "Terjadi Kesalahan " + error.getMessage());
                     }
                 });
     }
-
 }
 

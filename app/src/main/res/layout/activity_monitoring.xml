@@ -325,403 +325,412 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/lnSensor1"
+                            android:id="@+id/lnListOfSensor"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_15sdp"
-                            android:layout_weight="1"
-                            android:background="@drawable/white_rect"
-                            android:orientation="vertical"
-                            android:padding="@dimen/_10sdp">
+                            android:visibility="gone"
+                            android:orientation="vertical">
 
                             <LinearLayout
+                                android:id="@+id/lnSensor1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:layout_marginLeft="@dimen/_15sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_15sdp"
+                                android:layout_weight="1"
+                                android:background="@drawable/white_rect"
+                                android:orientation="vertical"
+                                android:padding="@dimen/_10sdp">
 
                                 <LinearLayout
-                                    android:layout_width="0dp"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
+                                    android:orientation="horizontal">
 
                                     <LinearLayout
-                                        android:layout_width="match_parent"
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:orientation="horizontal">
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
 
-                                        <ImageView
-                                            android:id="@+id/ivEditSensor1"
-                                            android:layout_width="@dimen/_15sdp"
-                                            android:layout_height="@dimen/_15sdp"
-                                            android:layout_gravity="center"
-                                            android:src="@drawable/edit" />
-
-                                        <TextView
-                                            android:id="@+id/tvIn1"
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="8dp"
-                                            android:layout_weight="1"
-                                            android:fontFamily="@font/robotomedium"
-                                            android:text="Modul Switch"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/_14sdp" />
-
-                                        <Switch
-                                            android:id="@+id/swIn1"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            tools:ignore="UseSwitchCompatOrMaterialXml" />
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_10sdp"
-                                        android:gravity="center"
-                                        android:orientation="horizontal">
-
-                                        <ImageView
-                                            android:id="@+id/ivSensor1"
-                                            android:layout_width="@dimen/_15sdp"
-                                            android:layout_height="@dimen/_15sdp"
-                                            android:src="@drawable/circle_success" />
-
-                                        <TextView
-                                            android:id="@+id/tvSensor1"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="@dimen/_5sdp"
-                                            android:fontFamily="@font/robotolight"
-                                            android:text="Normal"
-                                            android:textColor="#000"
-                                            android:textSize="@dimen/_12sdp" />
-
-                                        <TextView
-                                            android:id="@+id/txtSwIn1"
+                                        <LinearLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginLeft="@dimen/_5sdp"
-                                            android:fontFamily="@font/robotolight"
-                                            android:text="Enable"
-                                            android:textAlignment="textEnd"
-                                            android:textColor="#000" />
-                                    </LinearLayout>
-                                </LinearLayout>
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lnSensor2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_15sdp"
-                            android:layout_weight="1"
-                            android:background="@drawable/white_rect"
-                            android:orientation="vertical"
-                            android:padding="@dimen/_10sdp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center_vertical"
-                                        android:orientation="horizontal">
-
-                                        <ImageView
-                                            android:id="@+id/ivEditSensor2"
-                                            android:layout_width="@dimen/_15sdp"
-                                            android:layout_height="@dimen/_15sdp"
-                                            android:layout_gravity="center"
-                                            android:src="@drawable/edit" />
-
-                                        <TextView
-                                            android:id="@+id/tvIn2"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginStart="8dp"
-                                            android:fontFamily="@font/robotomedium"
-                                            android:text="Modul Ohm"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/_14sdp" />
-
-                                        <Switch
-                                            android:id="@+id/swIn2"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            tools:ignore="UseSwitchCompatOrMaterialXml" />
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_10sdp"
-                                        android:orientation="horizontal">
-
-                                        <ImageView
-                                            android:id="@+id/ivSensor2"
-                                            android:layout_width="@dimen/_15sdp"
-                                            android:layout_height="@dimen/_15sdp"
-                                            android:src="@drawable/circle_success" />
-
-                                        <TextView
-                                            android:id="@+id/tvSensor2"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="@dimen/_5sdp"
-                                            android:fontFamily="@font/robotolight"
-                                            android:text="Normal"
-                                            android:textColor="#000"
-                                            android:textSize="@dimen/_12sdp" />
-
-                                        <TextView
-                                            android:id="@+id/txtSwIn2"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="@dimen/_5sdp"
-                                            android:fontFamily="@font/robotolight"
-                                            android:text="Enable"
-                                            android:textAlignment="textEnd"
-                                            android:textColor="#000" />
-                                    </LinearLayout>
-                                </LinearLayout>
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lnSensor3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_15sdp"
-                            android:layout_weight="1"
-                            android:background="@drawable/white_rect"
-                            android:orientation="vertical"
-                            android:padding="@dimen/_10sdp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:orientation="horizontal">
-
-                                        <ImageView
-                                            android:id="@+id/ivEditSensor3"
-                                            android:layout_width="@dimen/_15sdp"
-                                            android:layout_height="@dimen/_15sdp"
-                                            android:layout_gravity="center"
-                                            android:src="@drawable/edit" />
-
-                                        <TextView
-                                            android:id="@+id/tvIn3"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="8dp"
-                                            android:fontFamily="@font/robotomedium"
-                                            android:text="Modul RF"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/_14sdp" />
-
-                                        <Switch
-                                            android:id="@+id/swIn3"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            tools:ignore="UseSwitchCompatOrMaterialXml" />
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_10sdp"
-                                        android:orientation="horizontal">
-
-                                        <ImageView
-                                            android:id="@+id/ivSensor3"
-                                            android:layout_width="@dimen/_15sdp"
-                                            android:layout_height="@dimen/_15sdp"
-                                            android:src="@drawable/circle_success" />
-
-                                        <TextView
-                                            android:id="@+id/tvSensor3"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="@dimen/_5sdp"
-                                            android:fontFamily="@font/robotolight"
-                                            android:text="Normal"
-                                            android:textColor="#000"
-                                            android:textSize="@dimen/_12sdp" />
-
-                                        <TextView
-                                            android:id="@+id/txtSwIn3"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="@dimen/_5sdp"
-                                            android:fontFamily="@font/robotolight"
-                                            android:text="Enable"
-                                            android:textAlignment="textEnd"
-                                            android:textColor="#000" />
-                                    </LinearLayout>
-                                </LinearLayout>
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/lnAlarm"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_15sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_15sdp"
-                            android:layout_weight="1"
-                            android:background="@drawable/white_rect"
-                            android:orientation="vertical"
-                            android:padding="@dimen/_10sdp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <androidx.constraintlayout.widget.ConstraintLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:orientation="horizontal">
-
-                                        <ImageView
-                                            android:id="@+id/ivEditAlarm"
-                                            android:layout_width="@dimen/_15sdp"
-                                            android:layout_height="@dimen/_15sdp"
-                                            android:layout_gravity="center"
-                                            android:src="@drawable/edit"
-                                            app:layout_constraintBottom_toBottomOf="parent"
-                                            app:layout_constraintLeft_toLeftOf="parent"
-                                            app:layout_constraintTop_toTopOf="parent" />
-
-                                        <TextView
-                                            android:id="@+id/tvAlarm"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="8dp"
-                                            android:layout_weight="1"
-                                            android:fontFamily="@font/robotomedium"
-                                            android:text="Alarm"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/_14sdp"
-                                            app:layout_constraintBottom_toBottomOf="parent"
-                                            app:layout_constraintLeft_toRightOf="@id/ivEditAlarm"
-                                            app:layout_constraintTop_toTopOf="parent" />
-
-                                        <ImageView
-                                            android:id="@+id/ivDelayAlarm"
-                                            android:layout_width="@dimen/_15sdp"
-                                            android:layout_height="@dimen/_15sdp"
-                                            android:layout_gravity="center"
-                                            android:src="@drawable/baseline_alarm_24"
-                                            app:layout_constraintBottom_toBottomOf="parent"
-                                            app:layout_constraintRight_toLeftOf="@id/tvDelayAlarm"
-                                            app:layout_constraintTop_toTopOf="parent" />
-
-                                        <TextView
-                                            android:id="@+id/tvDelayAlarm"
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_weight="1"
-                                            android:fontFamily="@font/robotomedium"
-                                            android:text="20 Detik"
-                                            android:textAlignment="textEnd"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/_10sdp"
-                                            app:layout_constraintBottom_toBottomOf="parent"
-                                            app:layout_constraintRight_toRightOf="parent"
-                                            app:layout_constraintTop_toTopOf="parent" />
-                                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                                    <Switch
-                                        android:id="@+id/swMode"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_10sdp"
-                                        android:checked="true"
-                                        android:text="Otomatis" />
-
-                                    <TextView
-                                        android:id="@+id/tvDelay"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/_5sdp"
-                                        android:fontFamily="@font/robotolight"
-                                        android:text="1500"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/_9sdp"
-                                        android:visibility="gone" />
-
-                                    <LinearLayout
-                                        android:id="@+id/btnAlarm"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/_30sdp"
-                                        android:layout_marginTop="@dimen/_10sdp"
-                                        android:layout_marginBottom="@dimen/_10sdp"
-                                        android:background="@drawable/btn_hover_primary"
-                                        android:clickable="true"
-                                        android:gravity="center"
-                                        android:orientation="horizontal">
-
-                                        <ImageView
-                                            android:id="@+id/ivButtonHidupkanAlarm"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginRight="8dp"
-                                            android:adjustViewBounds="true"
-                                            android:scaleType="fitCenter"
-                                            android:src="@drawable/alarm_aktif" />
-
-                                        <TextView
-                                            android:id="@+id/tvButtonTextHidupkanAlarm"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/robotomedium"
                                             android:gravity="center"
-                                            android:text="Hidupkan Alarm"
-                                            android:textColor="#FFFFFF"
-                                            android:textSize="@dimen/_12sdp" />
+                                            android:orientation="horizontal">
+
+                                            <ImageView
+                                                android:id="@+id/ivEditSensor1"
+                                                android:layout_width="@dimen/_15sdp"
+                                                android:layout_height="@dimen/_15sdp"
+                                                android:layout_gravity="center"
+                                                android:src="@drawable/edit" />
+
+                                            <TextView
+                                                android:id="@+id/tvIn1"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="8dp"
+                                                android:layout_weight="1"
+                                                android:fontFamily="@font/robotomedium"
+                                                android:text="Modul Switch"
+                                                android:textColor="@color/black"
+                                                android:textSize="@dimen/_14sdp" />
+
+                                            <Switch
+                                                android:id="@+id/swIn1"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                tools:ignore="UseSwitchCompatOrMaterialXml" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/_10sdp"
+                                            android:gravity="center"
+                                            android:orientation="horizontal">
+
+                                            <ImageView
+                                                android:id="@+id/ivSensor1"
+                                                android:layout_width="@dimen/_15sdp"
+                                                android:layout_height="@dimen/_15sdp"
+                                                android:src="@drawable/circle_success" />
+
+                                            <TextView
+                                                android:id="@+id/tvSensor1"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="@dimen/_5sdp"
+                                                android:fontFamily="@font/robotolight"
+                                                android:text="Normal"
+                                                android:textColor="#000"
+                                                android:textSize="@dimen/_12sdp" />
+
+                                            <TextView
+                                                android:id="@+id/txtSwIn1"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="@dimen/_5sdp"
+                                                android:fontFamily="@font/robotolight"
+                                                android:text="Enable"
+                                                android:textAlignment="textEnd"
+                                                android:textColor="#000" />
+                                        </LinearLayout>
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lnSensor2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_15sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_15sdp"
+                                android:layout_weight="1"
+                                android:background="@drawable/white_rect"
+                                android:orientation="vertical"
+                                android:padding="@dimen/_10sdp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center_vertical"
+                                            android:orientation="horizontal">
+
+                                            <ImageView
+                                                android:id="@+id/ivEditSensor2"
+                                                android:layout_width="@dimen/_15sdp"
+                                                android:layout_height="@dimen/_15sdp"
+                                                android:layout_gravity="center"
+                                                android:src="@drawable/edit" />
+
+                                            <TextView
+                                                android:id="@+id/tvIn2"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginStart="8dp"
+                                                android:fontFamily="@font/robotomedium"
+                                                android:text="Modul Ohm"
+                                                android:textColor="@color/black"
+                                                android:textSize="@dimen/_14sdp" />
+
+                                            <Switch
+                                                android:id="@+id/swIn2"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                tools:ignore="UseSwitchCompatOrMaterialXml" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/_10sdp"
+                                            android:orientation="horizontal">
+
+                                            <ImageView
+                                                android:id="@+id/ivSensor2"
+                                                android:layout_width="@dimen/_15sdp"
+                                                android:layout_height="@dimen/_15sdp"
+                                                android:src="@drawable/circle_success" />
+
+                                            <TextView
+                                                android:id="@+id/tvSensor2"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="@dimen/_5sdp"
+                                                android:fontFamily="@font/robotolight"
+                                                android:text="Normal"
+                                                android:textColor="#000"
+                                                android:textSize="@dimen/_12sdp" />
+
+                                            <TextView
+                                                android:id="@+id/txtSwIn2"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="@dimen/_5sdp"
+                                                android:fontFamily="@font/robotolight"
+                                                android:text="Enable"
+                                                android:textAlignment="textEnd"
+                                                android:textColor="#000" />
+                                        </LinearLayout>
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lnSensor3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_15sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_15sdp"
+                                android:layout_weight="1"
+                                android:background="@drawable/white_rect"
+                                android:orientation="vertical"
+                                android:padding="@dimen/_10sdp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:orientation="horizontal">
+
+                                            <ImageView
+                                                android:id="@+id/ivEditSensor3"
+                                                android:layout_width="@dimen/_15sdp"
+                                                android:layout_height="@dimen/_15sdp"
+                                                android:layout_gravity="center"
+                                                android:src="@drawable/edit" />
+
+                                            <TextView
+                                                android:id="@+id/tvIn3"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="8dp"
+                                                android:fontFamily="@font/robotomedium"
+                                                android:text="Modul RF"
+                                                android:textColor="@color/black"
+                                                android:textSize="@dimen/_14sdp" />
+
+                                            <Switch
+                                                android:id="@+id/swIn3"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                tools:ignore="UseSwitchCompatOrMaterialXml" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/_10sdp"
+                                            android:orientation="horizontal">
+
+                                            <ImageView
+                                                android:id="@+id/ivSensor3"
+                                                android:layout_width="@dimen/_15sdp"
+                                                android:layout_height="@dimen/_15sdp"
+                                                android:src="@drawable/circle_success" />
+
+                                            <TextView
+                                                android:id="@+id/tvSensor3"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="@dimen/_5sdp"
+                                                android:fontFamily="@font/robotolight"
+                                                android:text="Normal"
+                                                android:textColor="#000"
+                                                android:textSize="@dimen/_12sdp" />
+
+                                            <TextView
+                                                android:id="@+id/txtSwIn3"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="@dimen/_5sdp"
+                                                android:fontFamily="@font/robotolight"
+                                                android:text="Enable"
+                                                android:textAlignment="textEnd"
+                                                android:textColor="#000" />
+                                        </LinearLayout>
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lnAlarm"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_15sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:layout_marginRight="@dimen/_15sdp"
+                                android:layout_weight="1"
+                                android:background="@drawable/white_rect"
+                                android:orientation="vertical"
+                                android:padding="@dimen/_10sdp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
+                                        <androidx.constraintlayout.widget.ConstraintLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
+                                            <ImageView
+                                                android:id="@+id/ivEditAlarm"
+                                                android:layout_width="@dimen/_15sdp"
+                                                android:layout_height="@dimen/_15sdp"
+                                                android:layout_gravity="center"
+                                                android:src="@drawable/edit"
+                                                app:layout_constraintBottom_toBottomOf="parent"
+                                                app:layout_constraintLeft_toLeftOf="parent"
+                                                app:layout_constraintTop_toTopOf="parent" />
+
+                                            <TextView
+                                                android:id="@+id/tvAlarm"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="8dp"
+                                                android:layout_weight="1"
+                                                android:fontFamily="@font/robotomedium"
+                                                android:text="Alarm"
+                                                android:textColor="@color/black"
+                                                android:textSize="@dimen/_14sdp"
+                                                app:layout_constraintBottom_toBottomOf="parent"
+                                                app:layout_constraintLeft_toRightOf="@id/ivEditAlarm"
+                                                app:layout_constraintTop_toTopOf="parent" />
+
+                                            <ImageView
+                                                android:id="@+id/ivDelayAlarm"
+                                                android:layout_width="@dimen/_15sdp"
+                                                android:layout_height="@dimen/_15sdp"
+                                                android:layout_gravity="center"
+                                                android:src="@drawable/baseline_alarm_24"
+                                                app:layout_constraintBottom_toBottomOf="parent"
+                                                app:layout_constraintRight_toLeftOf="@id/tvDelayAlarm"
+                                                app:layout_constraintTop_toTopOf="parent" />
+
+                                            <TextView
+                                                android:id="@+id/tvDelayAlarm"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:fontFamily="@font/robotomedium"
+                                                android:text="20 Detik"
+                                                android:textAlignment="textEnd"
+                                                android:textColor="@color/black"
+                                                android:textSize="@dimen/_10sdp"
+                                                app:layout_constraintBottom_toBottomOf="parent"
+                                                app:layout_constraintRight_toRightOf="parent"
+                                                app:layout_constraintTop_toTopOf="parent" />
+                                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                        <Switch
+                                            android:id="@+id/swMode"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/_10sdp"
+                                            android:checked="true"
+                                            android:text="Otomatis" />
+
+                                        <TextView
+                                            android:id="@+id/tvDelay"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/_5sdp"
+                                            android:fontFamily="@font/robotolight"
+                                            android:text="1500"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/_9sdp"
+                                            android:visibility="gone" />
+
+                                        <LinearLayout
+                                            android:id="@+id/btnAlarm"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/_30sdp"
+                                            android:layout_marginTop="@dimen/_10sdp"
+                                            android:layout_marginBottom="@dimen/_10sdp"
+                                            android:background="@drawable/btn_hover_primary"
+                                            android:clickable="true"
+                                            android:gravity="center"
+                                            android:orientation="horizontal">
+
+                                            <ImageView
+                                                android:id="@+id/ivButtonHidupkanAlarm"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginRight="8dp"
+                                                android:adjustViewBounds="true"
+                                                android:scaleType="fitCenter"
+                                                android:src="@drawable/alarm_aktif" />
+
+                                            <TextView
+                                                android:id="@+id/tvButtonTextHidupkanAlarm"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/robotomedium"
+                                                android:gravity="center"
+                                                android:text="Hidupkan Alarm"
+                                                android:textColor="#FFFFFF"
+                                                android:textSize="@dimen/_12sdp" />
+                                        </LinearLayout>
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
+
 
 
                         <LinearLayout
