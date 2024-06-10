@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/icon_home_light"
+        android:title="@string/home_text" />
+    <item
+        android:id="@+id/menu_monitoring"
+        android:icon="@drawable/icon_mobile_light"
+        android:title="@string/monitoring_text" />
+    <item
+        android:id="@+id/menu_schedule"
+        android:icon="@drawable/icon_schedule_light"
+        android:title="@string/schedule_text" />
+    <item
+        android:id="@+id/menu_account"
+        android:icon="@drawable/icon_user_light"
+        android:title="@string/account_text" />
+</menu>

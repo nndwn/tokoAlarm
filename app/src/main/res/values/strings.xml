@@ -5,4 +5,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home_text">Home</string>
+    <string name="monitoring_text">Monitoring</string>
+    <string name="schedule_text">Schedule</string>
+    <string name="account_text">Account</string>
 </resources>
