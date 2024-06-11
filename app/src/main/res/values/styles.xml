@@ -7,9 +7,20 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
-        <item name="android:windowSplashScreenBackground" tools:ignore="NewApi">@color/colorPrimary</item>
-        <item name="android:windowSplashScreenAnimatedIcon" tools:ignore="NewApi">@color/colorPrimary</item>
-        <item name="android:windowSplashScreenBrandingImage" tools:ignore="NewApi">@drawable/logoputih</item>
+    </style>
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="android:windowSplashScreenBackground" tools:ignore="NewApi">
+            @color/colorPrimary
+        </item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:ignore="NewApi">
+            @color/colorPrimary
+        </item>
+        <item name="android:windowSplashScreenBrandingImage" tools:ignore="NewApi">
+            @drawable/logoputih
+        </item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
 
     <style name="AppTheme.NoActionBarStatusBar">
@@ -20,7 +31,7 @@
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
-    <style name="AppSearchView" parent="Widget.AppCompat.SearchView" >
+    <style name="AppSearchView" parent="Widget.AppCompat.SearchView">
         <item name="android:textSize">@dimen/_12sdp</item>
         <item name="android:fontFamily">@font/robotomedium</item>
     </style>
@@ -36,13 +47,11 @@
         <item name="android:fontFamily">@font/robotomedium</item>
     </style>
 
-    <style name="AppBottomSheetDialogTheme"
-        parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
 
-    <style name="AppModalStyle"
-        parent="Widget.Design.BottomSheet.Modal">
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/white_rect_sheet</item>
     </style>
 

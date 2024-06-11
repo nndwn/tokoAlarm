@@ -1,0 +1,130 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "3f88431a1cba73dd2a440b77dd60525f",
+    "entities": [
+      {
+        "tableName": "alat",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id_reference` TEXT, `namaPaket` TEXT, `nomorPaket` TEXT, `createdAt` TEXT, `biayaRupiah` TEXT, `cutoffDay` TEXT, `periode` TEXT, `tanggalSelesai` TEXT, `updatedAt` TEXT, `biaya` TEXT, `tanggalMulai` TEXT, `idAlat` TEXT, `nohp` TEXT, `sisaHari` TEXT, `status` TEXT, `dayConvertion` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id_reference",
+            "columnName": "id_reference",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "namaPaket",
+            "columnName": "namaPaket",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nomorPaket",
+            "columnName": "nomorPaket",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "biayaRupiah",
+            "columnName": "biayaRupiah",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cutoffDay",
+            "columnName": "cutoffDay",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "periode",
+            "columnName": "periode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tanggalSelesai",
+            "columnName": "tanggalSelesai",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "biaya",
+            "columnName": "biaya",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tanggalMulai",
+            "columnName": "tanggalMulai",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idAlat",
+            "columnName": "idAlat",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nohp",
+            "columnName": "nohp",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sisaHari",
+            "columnName": "sisaHari",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dayConvertion",
+            "columnName": "dayConvertion",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3f88431a1cba73dd2a440b77dd60525f')"
+    ]
+  }
+}

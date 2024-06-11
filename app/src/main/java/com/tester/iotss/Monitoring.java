@@ -133,7 +133,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     boolean isCekAlatButton =false;
     private MqttHelper mqttHelper;
 
-    private static String BrokerUri="tcp://server.tokoalarm.com:8885";
+    private static String BrokerUri="tcp://server.tokoalarm.com:1884";
 
     boolean checkeddaridata = false;
 

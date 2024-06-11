@@ -2,17 +2,22 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 34
+    compileSdk 34
     defaultConfig {
         multiDexEnabled true
         applicationId "com.tester.iotss"
         minSdkVersion 21
         targetSdkVersion 34
-        versionCode 5
-        versionName "1.5"
+        versionCode 7
+        versionName "1.6.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas"]
+            }
+        }
+        testFunctionalTest true
     }
 
     compileOptions {
@@ -22,8 +27,13 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
         }
     }
 
@@ -37,8 +47,12 @@ android {
         abortOnError false
         checkReleaseBuilds false
     }
-
-
+    dependenciesInfo {
+        includeInApk true
+        includeInBundle true
+    }
+    buildToolsVersion='34.0.0'
+    ndkVersion '27.0.11902837 rc2'
 }
 
 dependencies {
@@ -49,7 +63,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "androidx.core:core-splashscreen:1.0.1"
-
+    implementation "androidx.startup:startup-runtime:1.1.1"
     // Material Design
     implementation 'com.google.android.material:material:1.12.0'
 
@@ -59,8 +73,25 @@ dependencies {
 
     //ButterKnife
     implementation 'com.jakewharton:butterknife:10.2.3'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    implementation("androidx.lifecycle:lifecycle-livedata")
+    constraints {
+        def platformTypeArgument = Attribute.of("org.jetbrains.kotlin.platform.type",  String)
+        implementation("androidx.lifecycle:lifecycle-viewmodel:2.8.1") {
+            because "The wrong dependency is picked"
+            attributes {
+                attribute(platformTypeArgument, "androidJvm")
+            }
+        }
+        implementation("androidx.lifecycle:lifecycle-runtime:2.8.1") {
+            because "The wrong dependency is picked"
+            attributes {
+                attribute(platformTypeArgument, "androidJvm")
+            }
+        }
+        implementation("androidx.lifecycle:lifecycle-viewmodel")
+        implementation("androidx.lifecycle:lifecycle-runtime")
+    }
+
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 
     implementation 'com.otaliastudios:cameraview:2.7.2'
@@ -104,6 +135,8 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.2.0'
 
     implementation 'com.intuit.sdp:sdp-android:1.1.1'
+
+    implementation 'org.conscrypt:conscrypt-android:2.5.2'
 
     // ROOM DATABASE
     def room_version = "2.6.1"

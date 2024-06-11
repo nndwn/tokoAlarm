@@ -21,7 +21,7 @@ public class MqttService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Initialize and connect your MQTT client here
-        mqttHelper = new MqttHelper(this, "tcp://server.tokoalarm.com:8885");
+        mqttHelper = new MqttHelper(this, "tcp://server.tokoalarm.com:1884");
         SessionLogin sessionLogin = new SessionLogin();
         mqttHelper.connect(sessionLogin.getNohp(getApplicationContext()), sessionLogin.getPassword(getApplicationContext()));
 

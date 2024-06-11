@@ -52,7 +52,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Silahkan isi data anda dengan benar !."
-                        android:textSize="@dimen/_12sdp"
+                        android:textSize="14sp"
                         android:fontFamily="@font/robotolight"
                         android:layout_marginTop="@dimen/_2sdp"/>
                 </LinearLayout>

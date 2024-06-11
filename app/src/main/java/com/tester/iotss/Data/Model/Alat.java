@@ -1,6 +1,7 @@
 package com.tester.iotss.Data.Model;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
@@ -61,6 +62,8 @@ public class Alat{
 
     public Alat(){}
 
+
+    @Ignore
     public Alat(int id, String id_reference, String namaPaket, String nomorPaket, String createdAt, String biayaRupiah, String cutoffDay, String periode, String tanggalSelesai, String updatedAt, String biaya, String tanggalMulai, String idAlat, String nohp, String sisaHari, String status, String dayConvertion) {
         this.id = id;
         this.id_reference = id_reference;
