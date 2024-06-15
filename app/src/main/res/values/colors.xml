@@ -1,10 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="primary_color">#3c8dbc</color>
+    <color name="primary_variant_700">#3071a9</color>
+    <color name="primary_light_300">#6aa0d8</color>
+    <color name="secondary_500">#8e8e93</color>
+    <color name="error">#f44336</color>
+    <color name="surface">#ffffff</color>
+    <color name="background">#f2f2f2</color>
+    <color name="text_on_primary">#ffffff</color>
+    <color name="text_on_secondary">#000000</color>
+
+
     <color name="colorPrimary">#3c8dbc</color>
-    <color name="colorPrimaryDark">#3c8dbc</color>
+    <color name="colorPrimaryVariant">#3273a8</color>
+    <color name="colorPrimaryDark">#29628a</color>
+    <color name="colorSecondary">#ffcc80</color>
+    <color name="colorSecondaryVariant">#fbae61</color>
+    <color name="colorOnSecondary">#000000</color>
+    <color name="colorBackground">#ffffff</color>
+    <color name="colorOnBackground">#000000</color>
+    <color name="colorSurface">#ffffff</color>
+    <color name="colorOnSurface">#000000</color>
+    <color name="colorError">#b00020</color>
+    <color name="colorInfo">#2196f3</color>
+    <color name="colorSuccess">#4caf50</color>
+    <color name="colorWarning">#ffc107</color>
     <color name="colorAccent">#3c8dbc</color>
     <color name="semitransparent">#20111111</color>
     <color name="shimmer_color">#BFBDBD</color>
+
+    <color name="gray">@android:color/darker_gray</color>
 
 
     <color name="ucrop_color_toolbar">@color/colorPrimary</color>
@@ -14,4 +39,7 @@
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+
+    <!-- Base Color -->
+    <color name="primary_500">#3c8dbc</color>
 </resources>

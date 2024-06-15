@@ -133,7 +133,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     boolean isCekAlatButton =false;
     private MqttHelper mqttHelper;
 
-    private static String BrokerUri="tcp://server.tokoalarm.com:1884";
+    private static String BrokerUri="tcp://server.tokoalarm.com:8886";
 
     boolean checkeddaridata = false;
 
@@ -660,8 +660,6 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                         message.setQos(0);
                         message.setRetained(false);
                         mqttHelper.mqttAndroidClient.publish(topic, message);
-                        Log.d("NETWORK MQTT", "Message size: " + message.getPayload().length + " bytes");
-                        Log.d("FragmentHomeLog",  "send:"+datanya.toString());
                         return true;
                     }else{
                         return false;

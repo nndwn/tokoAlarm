@@ -7,110 +7,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Home">
 
-
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/menu_layout"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
 
-    <FrameLayout
-        android:id="@+id/menu_layout"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        app:backgroundTint="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@android:color/transparent"
-        android:padding="@dimen/_10sdp"
-        app:behavior_hideable="true"
+        android:layout_height="72dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingPrefix">
-
-        <LinearLayout
-            android:id="@+id/bottomNav"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/primary_rect"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:checkedButton="@id/rbPesanan"
-                android:orientation="horizontal">
-
-
-                <RadioButton
-                    android:id="@+id/rbPesanan"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_35sdp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@drawable/radio_selector_primary"
-                    android:button="@drawable/null_radio_button"
-                    android:drawableLeft="@drawable/ic_phone"
-                    android:drawableTint="@drawable/radio_text_selector_primary"
-                    android:fontFamily="@font/robotomedium"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/_5sdp"
-                    android:paddingRight="@dimen/_5sdp"
-                    android:scaleX="0.75"
-                    android:scaleY="0.75"
-                    android:text="Monitoring"
-                    android:textColor="@drawable/radio_text_selector_primary"
-                    android:textSize="@dimen/_12sdp" />
-
-                <RadioButton
-                    android:id="@+id/rbHome"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_35sdp"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/_1sdp"
-                    android:layout_weight="1"
-                    android:background="@drawable/radio_selector_primary"
-                    android:button="@drawable/null_radio_button"
-                    android:drawableLeft="@drawable/ic_home"
-                    android:drawableTint="@drawable/radio_text_selector_primary"
-                    android:fontFamily="@font/robotomedium"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/_10sdp"
-                    android:paddingRight="@dimen/_10sdp"
-                    android:scaleX="0.75"
-                    android:scaleY="0.75"
-                    android:text="Home"
-                    android:textColor="@drawable/radio_text_selector_primary"
-                    android:textSize="@dimen/_12sdp"></RadioButton>
-
-                <RadioButton
-                    android:id="@+id/rbAccount"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_35sdp"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/_1sdp"
-                    android:layout_weight="1"
-                    android:background="@drawable/radio_selector_primary"
-                    android:button="@drawable/null_radio_button"
-                    android:drawableLeft="@drawable/ic_account"
-                    android:drawableTint="@drawable/radio_text_selector_primary"
-                    android:fontFamily="@font/robotomedium"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/_10sdp"
-                    android:paddingRight="@dimen/_10sdp"
-                    android:scaleX="0.75"
-                    android:scaleY="0.75"
-                    android:text="Account"
-                    android:textColor="@drawable/radio_text_selector_primary"
-                    android:textSize="@dimen/_12sdp" />
-            </RadioGroup>
-        </LinearLayout>
-
-    </FrameLayout>
+        app:itemIconSize="24dp"
+        app:itemTextColor="@color/bottom_nav_icon_selector"
+        app:itemIconTint="@color/bottom_nav_icon_selector"
+        app:labelVisibilityMode="labeled"
+        style="?bottomNavigationStyle"
+        app:itemTextAppearanceActive="@color/colorPrimary"
+        app:itemTextAppearanceInactive="@color/shimmer_color"
+        app:itemTextAppearanceActiveBoldEnabled="false"
+        app:menu="@menu/bottom_nav_menu" />
 </androidx.constraintlayout.widget.ConstraintLayout>

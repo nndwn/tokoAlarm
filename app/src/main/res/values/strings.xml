@@ -11,4 +11,15 @@
     <string name="account_text">Account</string>
     <string name="password">Password</string>
     <string name="nomor_handphone">Nomor Handphone</string>
+    <string name="tambah_schedule">Tambah Schedule</string>
+    <string name="aktivitas">Aktivitas</string>
+    <string name="otomatisasi">Otomatisasi</string>
+
+    <string-array name="feelings">
+        <item>Sad</item>
+        <item>Dissatisfied</item>
+        <item>Satisfied</item>
+        <item>Happy</item>
+        <item>Excited</item>
+    </string-array>
 </resources>

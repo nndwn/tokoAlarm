@@ -1,20 +1,30 @@
 package com.tester.iotss;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.RadioButton;
 
+import com.google.android.material.navigation.NavigationBarView;
 import com.tester.iotss.Fragment.FragmentAccount;
 import com.tester.iotss.Fragment.FragmentListSubscriber;
 import com.tester.iotss.Fragment.FragmentHome;
+import com.tester.iotss.UI.Fragment.AktivitasFragment;
+import com.tester.iotss.UI.Fragment.ScheduleFragment;
+import com.tester.iotss.databinding.ActivityHomeBinding;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -24,15 +34,19 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
+
 public class Home extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
+    private ActivityHomeBinding activityHomeBinding;
     private final ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (!isGranted) {
-                    if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-                        showPermissionRationaleDialog();
-                    } else {
-                        openAppSettings();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                            showPermissionRationaleDialog();
+                        } else {
+                            openAppSettings();
+                        }
                     }
                 }
             });
@@ -40,38 +54,42 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        ButterKnife.bind(this);
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, new FragmentListSubscriber()).commit();
-
         sharedPreferences = getSharedPreferences("NotificationPermission", MODE_PRIVATE);
         checkNotificationPermission();
-    }
 
-    @OnClick({R.id.rbHome, R.id.rbAccount,R.id.rbPesanan})
-    public void onRadioButtonClicked(RadioButton radioButton) {
-        boolean checked = radioButton.isChecked(); // Is the button now checked?
-        // Check which radio button was clicked
-        switch (radioButton.getId()) {
-            case R.id.rbHome:
-                if (checked) {
-                    // 1 clicked
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new FragmentHome()).commit();
+        activityHomeBinding = ActivityHomeBinding.inflate(getLayoutInflater());
+
+        setContentView(activityHomeBinding.getRoot());
+        ButterKnife.bind(this);
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.frame_layout, new FragmentHome())
+                .commit();
+
+        activityHomeBinding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.menu_home:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new FragmentHome()).commit();
+                        return true;
+                    case R.id.menu_monitoring:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new FragmentListSubscriber()).commit();
+                        return true;
+                    case R.id.menu_schedule:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new ScheduleFragment()).commit();
+                        return true;
+                    case R.id.menu_account:
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new FragmentAccount()).commit();
+                        return true;
                 }
-                break;
-            case R.id.rbAccount:
-                if (checked) {
-                    // 2 clicked
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new FragmentAccount()).commit();
-                }
-                break;
-            case R.id.rbPesanan:
-                if (checked) {
-                    // 2 clicked
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new FragmentListSubscriber()).commit();
-                }
-                break;
-        }
+                return false;
+            }
+        });
+
+        ColorStateList iconColorStateList = ContextCompat.getColorStateList(this, R.color.bottom_nav_icon_selector);
+        activityHomeBinding.bottomNavigation.setItemIconTintList(iconColorStateList);
     }
 
     private void checkNotificationPermission() {

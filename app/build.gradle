@@ -53,6 +53,10 @@ android {
     }
     buildToolsVersion='34.0.0'
     ndkVersion '27.0.11902837 rc2'
+
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -74,6 +78,9 @@ dependencies {
     //ButterKnife
     implementation 'com.jakewharton:butterknife:10.2.3'
     implementation("androidx.lifecycle:lifecycle-livedata")
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.8.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.1'
+    implementation 'androidx.activity:activity:1.8.0'
     constraints {
         def platformTypeArgument = Attribute.of("org.jetbrains.kotlin.platform.type",  String)
         implementation("androidx.lifecycle:lifecycle-viewmodel:2.8.1") {

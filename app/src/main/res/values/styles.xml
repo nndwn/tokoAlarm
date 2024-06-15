@@ -1,12 +1,46 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorSecondary">@color/secondary_500</item>
+
+        <item name="colorAccent">@color/colorSecondary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/colorOnBackground</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="android:statusBarColor">@color/colorPrimaryVariant</item>
+        <item name="colorError">@color/error</item>
+        <item name="colorSurface">@color/surface</item>
+
+        <!-- Control colors -->
+        <item name="colorControlNormal">@color/primary_color</item>
+
+        <!-- Ripple effect -->
+        <item name="android:colorControlHighlight">@color/primary_color</item>
+
+        <!-- Navigation bar color -->
+        <item name="android:navigationBarColor">@color/primary_color</item>
+
+        <!-- Snackbar -->
+        <item name="snackbarStyle">@style/Widget.Material3.Snackbar</item>
+
+        <!-- Switch track color -->
+        <item name="colorSwitchThumbNormal">@color/primary_color</item>
+
+        <!-- Progress bar -->
+        <item name="colorControlActivated">@color/primary_color</item>
+        <item name="colorControlHighlight">@color/primary_color</item>
+
+        <!-- Dialog -->
+        <item name="colorBackgroundFloating">@color/surface</item>
+
+
+        <item name="toolbarStyle">@style/Widget.Material3.Toolbar</item>
+        <item name="titleTextAppearance">@style/ToolbarTitle</item>
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
@@ -27,7 +61,6 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <!--<item name="android:windowTranslucentNavigation">true</item>-->
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
@@ -53,6 +86,16 @@
 
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/white_rect_sheet</item>
+    </style>
+
+    <style name="ShapeAppearance.CircleButton" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ToolbarTitle" parent="Widget.Material3.Toolbar">
+        <item name="android:textSize">20sp</item> <!-- Adjust the text size as needed -->
+        <item name="android:textColor">@color/primary_color</item> <!-- Optional: adjust text color -->
     </style>
 
 </resources>
