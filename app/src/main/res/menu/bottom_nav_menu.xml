@@ -14,7 +14,12 @@
         android:id="@+id/menu_schedule"
         android:enabled="true"
         android:icon="@drawable/icon_schedule_light"
-        android:title="@string/otomatisasi" />
+        android:title="Jadwal" />
+    <item
+        android:id="@+id/menu_aktivitas"
+        android:enabled="true"
+        android:icon="@drawable/icon_schedule_light"
+        android:title="Aktivitas" />
     <item
         android:id="@+id/menu_account"
         android:enabled="true"

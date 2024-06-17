@@ -30,6 +30,7 @@
     <color name="shimmer_color">#BFBDBD</color>
 
     <color name="gray">@android:color/darker_gray</color>
+    <color name="background_container">#E0E0E0</color>
 
 
     <color name="ucrop_color_toolbar">@color/colorPrimary</color>

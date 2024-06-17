@@ -1,6 +1,5 @@
-package com.tester.iotss.UI.Fragment;
+package com.tester.iotss.ui.fragment;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -11,15 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.tester.iotss.FormJadwalActivity;
 import com.tester.iotss.R;
-import com.tester.iotss.UI.ViewModel.ScheduleViewModel;
+import com.tester.iotss.ui.viewmodel.ScheduleViewModel;
 import com.tester.iotss.databinding.FragmentScheduleBinding;
 
 public class ScheduleFragment extends Fragment {
@@ -48,6 +45,7 @@ public class ScheduleFragment extends Fragment {
             }
             return false;
         });
+
         return view;
     }
 

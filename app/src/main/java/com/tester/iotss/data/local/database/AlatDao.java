@@ -1,11 +1,11 @@
-package com.tester.iotss.Data.Database;
+package com.tester.iotss.data.local.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.tester.iotss.Data.Model.Alat;
+import com.tester.iotss.data.model.Alat;
 
 import java.util.List;
 @Dao

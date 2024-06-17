@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -15,15 +14,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.RadioButton;
 
 import com.google.android.material.navigation.NavigationBarView;
 import com.tester.iotss.Fragment.FragmentAccount;
 import com.tester.iotss.Fragment.FragmentListSubscriber;
 import com.tester.iotss.Fragment.FragmentHome;
-import com.tester.iotss.UI.Fragment.AktivitasFragment;
-import com.tester.iotss.UI.Fragment.ScheduleFragment;
+import com.tester.iotss.ui.fragment.ScheduleFragment;
 import com.tester.iotss.databinding.ActivityHomeBinding;
 
 import android.Manifest;

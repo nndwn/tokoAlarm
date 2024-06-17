@@ -1,4 +1,4 @@
-package com.tester.iotss.UI.ViewModel;
+package com.tester.iotss.ui.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background_container"
     tools:context=".Home">
 
     <FrameLayout
@@ -20,9 +21,8 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
-        app:backgroundTint="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,9 +30,8 @@
         app:itemTextColor="@color/bottom_nav_icon_selector"
         app:itemIconTint="@color/bottom_nav_icon_selector"
         app:labelVisibilityMode="labeled"
-        style="?bottomNavigationStyle"
-        app:itemTextAppearanceActive="@color/colorPrimary"
-        app:itemTextAppearanceInactive="@color/shimmer_color"
+        style="?attr/bottomNavigationStyle"
         app:itemTextAppearanceActiveBoldEnabled="false"
-        app:menu="@menu/bottom_nav_menu" />
+        app:itemBackground="@color/white"
+        app:menu="@menu/bottom_nav_menu"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

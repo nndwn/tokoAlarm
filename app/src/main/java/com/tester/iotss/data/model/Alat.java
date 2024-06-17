@@ -1,11 +1,10 @@
-package com.tester.iotss.Data.Model;
+package com.tester.iotss.data.model;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
-import com.tester.iotss.Data.Database.AlatDao;
 
 @Entity(tableName = "alat")
 public class Alat{

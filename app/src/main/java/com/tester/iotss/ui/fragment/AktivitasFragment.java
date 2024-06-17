@@ -1,4 +1,4 @@
-package com.tester.iotss.UI.Fragment;
+package com.tester.iotss.ui.fragment;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tester.iotss.R;
-import com.tester.iotss.UI.ViewModel.AktivitasViewModel;
+import com.tester.iotss.ui.viewmodel.AktivitasViewModel;
 
 public class AktivitasFragment extends Fragment {
 
