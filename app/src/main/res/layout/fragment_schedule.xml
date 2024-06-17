@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,6 +9,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
+        android:backgroundTint="@color/white"
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -17,192 +17,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
-            app:title="Jadwal"
             app:menu="@menu/top_app_bar"
             app:navigationIconTint="@color/primary_color"
-            app:titleTextAppearance="@style/ToolbarTitle"/>
+            app:title="Jadwal"
+            android:backgroundTint="@color/white"
+            app:titleTextAppearance="@style/ToolbarTitle" />
 
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/containerSwipe"
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_schedule"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ScrollView
-                android:id="@+id/scrollView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        style="?attr/materialCardViewOutlinedStyle"
-                        android:checkable="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            android:orientation="vertical">
-
-                            <com.google.android.material.materialswitch.MaterialSwitch
-                                android:id="@+id/materialSwitch"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?attr/textAppearanceTitleMedium"
-                                android:text="Malam"
-                                android:layout_marginHorizontal="@dimen/_10sdp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <com.google.android.material.divider.MaterialDivider
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="@dimen/_10sdp"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:gravity="center"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?attr/textAppearanceBody2"
-                                    android:text="Waktu"
-                                    android:layout_weight="1"
-                                    android:textSize="@dimen/_12sdp" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?attr/textAppearanceBody2"
-                                    android:text="17:00 s/d 05:00"
-                                    android:layout_weight="1"
-                                    android:textAlignment="textEnd" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="@dimen/_10sdp"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:weightSum="3">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?attr/textAppearanceBody2"
-                                    android:text="Hari"
-                                    android:layout_weight="2" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?attr/textAppearanceBody2"
-                                    android:text="Senin, Selasa, Rabu, Kamis, Jumat, Sabtu, Minggu"
-                                    android:layout_weight="1"
-                                    android:textAlignment="textEnd" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="@dimen/_10sdp"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:layout_marginBottom="@dimen/_10sdp"
-                                android:gravity="center"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?attr/textAppearanceBody2"
-                                    android:text="Perangkat"
-                                    android:textColor="#000"
-                                    android:layout_weight="1"
-                                    android:textSize="@dimen/_12sdp" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?attr/textAppearanceBody2"
-                                    android:text="Alat 1"
-                                    android:layout_weight="1"
-                                    android:textAlignment="textEnd"
-                                    android:textColor="#000" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.facebook.shimmer.ShimmerFrameLayout
-                        android:id="@+id/shimmerLog"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:visibility="gone">
-
-                        <include
-                            layout="@layout/shimmer_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </com.facebook.shimmer.ShimmerFrameLayout>
-
-                    <LinearLayout
-                        android:id="@+id/lnData"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/_5sdp"
-                        android:orientation="vertical"
-                        android:padding="@dimen/_10sdp">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/alat_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="@dimen/_10sdp" />
-                    </LinearLayout>
-                </LinearLayout>
-            </ScrollView>
-
-            <FrameLayout
-                android:id="@+id/bottom_sheet"
-                style="@style/AppBottomSheetDialogTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/white_rect_sheet"
-                app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"></FrameLayout>
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            android:layout_height="match_parent" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <FrameLayout
+        android:id="@+id/bottom_sheet"
+        style="@style/AppBottomSheetDialogTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_rect_sheet"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,28 +1,56 @@
 package com.tester.iotss.ui.fragment;
 
+import static android.view.View.GONE;
+
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.tester.iotss.FormJadwalActivity;
-import com.tester.iotss.R;
-import com.tester.iotss.ui.viewmodel.ScheduleViewModel;
+import com.tester.iotss.data.model.Schedule;
+import com.tester.iotss.data.remote.api.ApiService;
+import com.tester.iotss.data.remote.network.RetrofitClient;
+import com.tester.iotss.data.remote.request.GetUserScheduleRequest;
+import com.tester.iotss.data.remote.response.ScheduleResponse;
 import com.tester.iotss.databinding.FragmentScheduleBinding;
+import com.tester.iotss.ui.activity.FormJadwalActivity;
+import com.tester.iotss.R;
+import com.tester.iotss.ui.adapter.ScheduleAdapter;
+import com.tester.iotss.ui.viewmodel.ScheduleViewModel;
+import com.tester.iotss.utils.Common;
 
-public class ScheduleFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
+public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private ScheduleViewModel mViewModel;
     private FragmentScheduleBinding fragmentScheduleBinding;
+
+    private RecyclerView recyclerView;
+    private ScheduleAdapter adapter;
+    private List<Schedule> scheduleList = new ArrayList<>();
+    private ApiService apiService;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public static ScheduleFragment newInstance() {
         return new ScheduleFragment();
@@ -46,6 +74,19 @@ public class ScheduleFragment extends Fragment {
             return false;
         });
 
+        recyclerView = fragmentScheduleBinding.rvSchedule;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new ScheduleAdapter(scheduleList);
+        recyclerView.setAdapter(adapter);
+
+        // Initialize SwipeRefreshLayout and set listener
+        swipeRefreshLayout = fragmentScheduleBinding.swipeRefreshLayout;
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        apiService = RetrofitClient.getClient().create(ApiService.class);
+
+        getData();
+
         return view;
     }
 
@@ -54,4 +95,41 @@ public class ScheduleFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onRefresh() {
+        getData();
+    }
+
+    private void getData() {
+        // Call API to fetch schedules
+        GetUserScheduleRequest requestBody = new GetUserScheduleRequest(Common.sessionLogin.getNohp(getContext()));
+        Call<ScheduleResponse> call = apiService.getUserSchedules(requestBody);
+        call.enqueue(new Callback<ScheduleResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<ScheduleResponse> call, @NonNull Response<ScheduleResponse> response) {
+                swipeRefreshLayout.setRefreshing(false); // Hide refresh indicator
+                if (response.isSuccessful()) {
+                    ScheduleResponse scheduleResponse = response.body();
+                    if (scheduleResponse != null) {
+                        scheduleList.clear(); // Clear old data
+                        scheduleList.addAll(scheduleResponse.getData());
+                        adapter.notifyDataSetChanged(); // Notify adapter of data change
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Failed to get schedules", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ScheduleResponse> call, @NonNull Throwable t) {
+                swipeRefreshLayout.setRefreshing(false); // Hide refresh indicator
+                Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

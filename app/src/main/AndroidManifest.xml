@@ -49,7 +49,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".FormJadwalActivity"
+            android:name=".ui.activity.FormJadwalActivity"
             android:exported="false" />
 
         <provider

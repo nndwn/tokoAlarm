@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".FormJadwalActivity">
+    android:background="@color/white"
+    tools:context=".ui.activity.FormJadwalActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -18,15 +17,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
-            app:title="Tambah Jadwal"
-            app:titleTextColor="@color/colorPrimary"
-            app:navigationIconTint="@color/colorPrimary"
             app:navigationIcon="@drawable/baseline_arrow_back_24"
-            app:titleTextAppearance="@style/ToolbarTitle" />
+            app:navigationIconTint="@color/colorPrimary"
+            app:title="Tambah Jadwal"
+            app:titleTextAppearance="@style/ToolbarTitle"
+            app:titleTextColor="@color/colorPrimary" />
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -42,258 +41,289 @@
             android:orientation="vertical"
             android:padding="@dimen/_12sdp">
 
-            <com.google.android.material.textview.MaterialTextView
+            <com.google.android.material.card.MaterialCardView
+                style="?attr/materialCardViewOutlinedStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="?attr/textAppearanceBody2"
-                android:textColor="@color/primary_variant_700"
-                android:text="Nama"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilNamaJadwal"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:boxBackgroundColor="@color/white"
-                app:startIconDrawable="@drawable/icon_schedule_light">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etNamaJadwal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_marginTop="@dimen/_12sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="?attr/textAppearanceBody2"
-                android:textColor="@color/primary_variant_700"
-                android:text="Hari"/>
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroupDays"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:chipSpacingVertical="0dp">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipMonday"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Senin" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipTuesday"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Selasa" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipWednesday"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rabu" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipThursday"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Kamis" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipFriday"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Jumat" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSaturday"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sabtu" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSunday"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Minggu" />
-
-            </com.google.android.material.chip.ChipGroup>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:orientation="horizontal"
-                android:weightSum="2">
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="?attr/textAppearanceBody2"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:textColor="@color/primary_variant_700"
-                    android:text="Waktu Mulai"/>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    style="?attr/textAppearanceBody2"
-                    android:textColor="@color/primary_variant_700"
-                    android:layout_weight="1"
-                    android:text="Waktu Selesai"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <!-- Start Time Picker -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/startTimeInputLayout"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_weight="1"
-                    app:boxBackgroundColor="@color/white"
-                    app:startIconDrawable="@drawable/icon_time_progress_duotone_line"
-                    android:hint="">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/startTimeEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        android:focusable="false"
-                        android:clickable="true" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- End Time Picker -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/endTimeInputLayout"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    app:boxBackgroundColor="@color/white"
-                    app:startIconDrawable="@drawable/icon_time_progress_duotone_line"
-                    android:layout_weight="1"
-                    android:hint="">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/endTimeEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        android:focusable="false"
-                        android:clickable="true" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="?attr/textAppearanceBody2"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:textColor="@color/primary_variant_700"
-                android:text="Perangkat"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/filledExposedDropdown"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                app:boxBackgroundColor="@color/white"
-                app:startIconDrawable="@drawable/icon_mobile_light">
-
-                <AutoCompleteTextView
-                    android:id="@+id/filledExposedDropdownAutoComplete"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:inputType="none"
-                    tools:text="Happy" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_marginTop="@dimen/_12sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="?attr/textAppearanceBody2"
-                android:textColor="@color/primary_variant_700"
-                android:text="Modul / Sensor"/>
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroupStatusSensor"
-                android:layout_width="match_parent"
-                app:chipSpacingVertical="0dp"
                 android:layout_height="wrap_content">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSensor1"
-                    style="@style/Widget.Material3.Chip.Filter"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sensor 1"/>
+                    android:layout_margin="@dimen/_12sdp"
+                    android:orientation="vertical">
+                    <com.google.android.material.textview.MaterialTextView
+                        style="?attr/textAppearanceBody2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nama"
+                        android:textColor="@color/primary_variant_700" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSensor2"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Sensor 2"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilNamaJadwal"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:boxBackgroundColor="@color/white"
+                        app:startIconDrawable="@drawable/icon_schedule_light">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSensor3"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Sensor 3" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etNamaJadwal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.chip.ChipGroup>
+                    <com.google.android.material.textview.MaterialTextView
+                        style="?attr/textAppearanceBody2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:text="Hari"
+                        android:textColor="@color/primary_variant_700" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroupDays"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:chipSpacingVertical="0dp">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipMonday"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Senin" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipTuesday"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Selasa" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipWednesday"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rabu" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipThursday"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kamis" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipFriday"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Jumat" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipSaturday"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sabtu" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipSunday"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Minggu" />
+
+                    </com.google.android.material.chip.ChipGroup>
 
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
 
+                        <com.google.android.material.textview.MaterialTextView
+                            style="?attr/textAppearanceBody2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:text="Waktu Mulai"
+                            android:textColor="@color/primary_variant_700" />
 
+                        <com.google.android.material.textview.MaterialTextView
+                            style="?attr/textAppearanceBody2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:text="Waktu Selesai"
+                            android:textColor="@color/primary_variant_700" />
+                    </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:layout_marginTop="@dimen/_12sdp"
-                android:id="@+id/btnSimpan"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <!-- Start Time Picker -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/startTimeInputLayout"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:hint=""
+                            app:boxBackgroundColor="@color/white"
+                            app:startIconDrawable="@drawable/icon_time_progress_duotone_line">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/startTimeEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:focusable="false"
+                                android:inputType="none" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- End Time Picker -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/endTimeInputLayout"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:hint=""
+                            app:boxBackgroundColor="@color/white"
+                            app:startIconDrawable="@drawable/icon_time_progress_duotone_line">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/endTimeEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:focusable="false"
+                                android:inputType="none" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="?attr/materialCardViewOutlinedStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SIMPAN"
-                app:icon="@drawable/icon_save_duotone"
-                app:iconSize="18dp"
+                android:layout_marginTop="@dimen/_12sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_12sdp"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="?attr/textAppearanceBody2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Pilih Perangkat"
+                        android:textColor="@color/primary_variant_700" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/filledExposedDropdown"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        app:boxBackgroundColor="@color/white"
+                        app:startIconDrawable="@drawable/icon_mobile_light">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/filledExposedDropdownAutoComplete"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:inputType="none"
+                            tools:text="Happy" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lnModulSensor"
+                        style="?attr/materialCardViewOutlinedStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            style="?attr/textAppearanceBody2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Pilih Modul / Sensor"
+                            android:textColor="@color/primary_variant_700" />
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroupStatusSensor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:chipSpacingVertical="0dp">
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipSensor1"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Sensor 1" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipSensor2"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Sensor 2" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipSensor3"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Sensor 3" />
+
+                        </com.google.android.material.chip.ChipGroup>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSimpan"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
                 android:insetLeft="0dp"
                 android:insetTop="0dp"
                 android:insetRight="0dp"
                 android:insetBottom="0dp"
-                app:iconGravity="textStart"
-                style="@style/Widget.Material3.Button.TonalButton"
+                android:text="SIMPAN"
                 android:textAppearance="?attr/textAppearanceLabelLarge"
+                android:textColor="@color/white"
+                android:textSize="14sp"
                 app:backgroundTint="@color/primary_variant_700"
                 app:cornerRadius="12dp"
-                android:textSize="14sp"
-                android:textColor="@color/white"
-                app:iconTint="@color/white"
-                />
+                app:icon="@drawable/icon_save_duotone"
+                app:iconGravity="textStart"
+                app:iconSize="18dp"
+                app:iconTint="@color/white" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

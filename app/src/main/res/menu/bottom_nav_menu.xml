@@ -16,11 +16,6 @@
         android:icon="@drawable/icon_schedule_light"
         android:title="Jadwal" />
     <item
-        android:id="@+id/menu_aktivitas"
-        android:enabled="true"
-        android:icon="@drawable/icon_schedule_light"
-        android:title="Aktivitas" />
-    <item
         android:id="@+id/menu_account"
         android:enabled="true"
         android:icon="@drawable/icon_user_light"
