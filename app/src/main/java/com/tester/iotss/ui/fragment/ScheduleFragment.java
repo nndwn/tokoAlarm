@@ -1,10 +1,7 @@
 package com.tester.iotss.ui.fragment;
 
-import static android.view.View.GONE;
-
 import androidx.lifecycle.ViewModelProvider;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -21,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.tester.iotss.data.model.Schedule;
+import com.tester.iotss.domain.model.Schedule;
 import com.tester.iotss.data.remote.api.ApiService;
 import com.tester.iotss.data.remote.network.RetrofitClient;
 import com.tester.iotss.data.remote.request.GetUserScheduleRequest;
@@ -39,7 +36,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -109,7 +105,7 @@ public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnR
         // Call API to fetch schedules
         GetUserScheduleRequest requestBody = new GetUserScheduleRequest(Common.sessionLogin.getNohp(getContext()));
         Call<ScheduleResponse> call = apiService.getUserSchedules(requestBody);
-        call.enqueue(new Callback<ScheduleResponse>() {
+        call.enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<ScheduleResponse> call, @NonNull Response<ScheduleResponse> response) {
                 swipeRefreshLayout.setRefreshing(false); // Hide refresh indicator
@@ -121,7 +117,7 @@ public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnR
                         adapter.notifyDataSetChanged(); // Notify adapter of data change
                     }
                 } else {
-                    Toast.makeText(getContext(), "Failed to get schedules", Toast.LENGTH_SHORT).show();
+                    //   Toast.makeText(getContext(), "Tidak Ada Jadwal", Toast.LENGTH_SHORT).show();
                 }
             }
 

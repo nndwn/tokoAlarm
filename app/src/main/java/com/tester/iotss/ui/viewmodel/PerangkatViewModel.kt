@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.tester.iotss.data.local.database.AppDatabase
-import com.tester.iotss.data.model.Perangkat
+import com.tester.iotss.domain.model.Perangkat
 import com.tester.iotss.data.remote.api.ApiService
 import com.tester.iotss.data.remote.network.RetrofitClient
 import com.tester.iotss.data.repository.PerangkatRepository

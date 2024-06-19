@@ -12,8 +12,8 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
-import com.tester.iotss.data.model.Perangkat;
-import com.tester.iotss.data.model.Schedule;
+import com.tester.iotss.domain.model.Perangkat;
+import com.tester.iotss.domain.model.Schedule;
 import com.tester.iotss.data.remote.api.ApiService;
 import com.tester.iotss.data.remote.network.RetrofitClient;
 import com.tester.iotss.data.remote.request.PerangkatRequest;
@@ -68,12 +68,11 @@ public class FormJadwalActivity extends AppCompatActivity {
         fetchPerangkatData(Common.sessionLogin.getNohp(this));
     }
 
-    private void isUpdatedData(){
+    private void isUpdatedData() {
         // Retrieve Schedule object from intent extras
         schedule = (Schedule) getIntent().getSerializableExtra("schedule");
         if (schedule != null) {
             formJadwalBinding.topAppBar.setTitle("Jadwal");
-            formJadwalBinding.etNamaJadwal.setText(schedule.getName());
             formJadwalBinding.startTimeEditText.setText(schedule.getStart_time());
             formJadwalBinding.endTimeEditText.setText(schedule.getEnd_time());
         }
@@ -143,8 +142,6 @@ public class FormJadwalActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     perangkatList = response.body().getData();
                     setupDropdownAdapter(perangkatList);
-                } else {
-                    Toast.makeText(FormJadwalActivity.this, "Failed to fetch data", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -178,13 +175,15 @@ public class FormJadwalActivity extends AppCompatActivity {
             formJadwalBinding.chipSensor3.setText(perangkatList.get(position).getNama_sensor_3());
 
             formJadwalBinding.lnModulSensor.setVisibility(View.VISIBLE);
+            formJadwalBinding.cvInformasiJadwal.setVisibility(View.VISIBLE);
+            formJadwalBinding.btnSimpan.setVisibility(View.VISIBLE);
         });
     }
 
     private void AddNewJadwal() {
         startTime = formJadwalBinding.startTimeEditText.getText().toString();
         endTime = formJadwalBinding.endTimeEditText.getText().toString();
-        name = formJadwalBinding.etNamaJadwal.getText().toString();
+        name = formJadwalBinding.filledExposedDropdownAutoComplete.getText().toString();
 
         days = convertListToString(getSelectedDays());
 

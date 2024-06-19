@@ -2,6 +2,7 @@ package com.tester.iotss.data.remote.api;
 
 import com.tester.iotss.data.remote.request.GetUserScheduleRequest;
 import com.tester.iotss.data.remote.request.PerangkatRequest;
+import com.tester.iotss.data.remote.request.ScheduleEnableDisableRequest;
 import com.tester.iotss.data.remote.request.ScheduleRequest;
 import com.tester.iotss.data.remote.response.CommonApiResponse;
 import com.tester.iotss.data.remote.response.PerangkatResponse;
@@ -14,7 +15,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ApiService {
-    @POST("perangkat")
+    @POST("schedule/alat")
     Call<PerangkatResponse> fetchPerangkat(@Body PerangkatRequest request);
 
     @POST("schedule")
@@ -22,4 +23,7 @@ public interface ApiService {
 
     @POST("schedule/list")
     Call<ScheduleResponse> getUserSchedules(@Body GetUserScheduleRequest request);
+
+    @POST("schedule/setting")
+    Call<CommonApiResponse> setScheduleStatus(@Body ScheduleEnableDisableRequest request);
 }

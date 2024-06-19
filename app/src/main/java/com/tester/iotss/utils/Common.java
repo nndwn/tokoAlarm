@@ -1,8 +1,13 @@
 package com.tester.iotss.utils;
 
-import com.tester.iotss.Session.SessionLogin;
+import com.tester.iotss.data.remote.api.ApiService;
+import com.tester.iotss.data.remote.network.RetrofitClient;
+import com.tester.iotss.utils.sessions.SessionLogin;
 
 public class Common {
+
+    public static ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+
     public static SessionLogin sessionLogin = new SessionLogin();
 
     public static String convertToDayNames(String dayNumbers) {
@@ -15,16 +20,23 @@ public class Common {
         String[] dayNames = {"Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"};
 
         for (String number : numbersArray) {
-            int index = Integer.parseInt(number.trim()) - 1; // Convert to zero-based index
-            if (index >= 0 && index < dayNames.length) {
-                if (dayNamesBuilder.length() > 0) {
-                    dayNamesBuilder.append(", ");
+            try {
+                int index = Integer.parseInt(number.trim()) - 1; // Convert to zero-based index
+                if (index >= 0 && index < dayNames.length) {
+                    if (dayNamesBuilder.length() > 0) {
+                        dayNamesBuilder.append(", ");
+                    }
+                    dayNamesBuilder.append(dayNames[index]);
                 }
-                dayNamesBuilder.append(dayNames[index]);
+            } catch (NumberFormatException e) {
+                // Handle the case where number.trim() cannot be parsed to an integer
+                // For example, log the error or skip this number
+                System.err.println("Failed to parse: " + number.trim() + ". Skipping...");
             }
         }
 
         return dayNamesBuilder.toString();
     }
+
 
 }

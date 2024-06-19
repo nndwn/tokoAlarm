@@ -5,7 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.tester.iotss.data.model.Alat;
+import com.tester.iotss.domain.model.Alat;
 
 import java.util.List;
 @Dao

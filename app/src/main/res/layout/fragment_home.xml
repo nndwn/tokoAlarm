@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#f2f2f2"
-    tools:context=".Fragment.FragmentHome">
+    tools:context=".ui.fragment.FragmentHome">
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -105,10 +105,9 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal">
-                                    <Button
+                                    <androidx.appcompat.widget.AppCompatButton
                                         android:layout_marginTop="@dimen/_10sdp"
                                         android:id="@+id/btnTopup"
-                                        style="?android:attr/borderlessButtonStyle"
                                         android:layout_width="@dimen/_80sdp"
                                         android:layout_height="@dimen/_35sdp"
                                         android:layout_marginRight="@dimen/_5sdp"
@@ -118,7 +117,7 @@
                                         android:textSize="@dimen/_10sdp"
                                         android:textAllCaps="false"
                                         android:textColor="@color/colorPrimary" />
-                                    <Button
+                                    <androidx.appcompat.widget.AppCompatButton
                                         android:layout_marginTop="@dimen/_10sdp"
                                         android:id="@+id/btnHistory"
                                         style="?android:attr/borderlessButtonStyle"

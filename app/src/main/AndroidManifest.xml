@@ -49,6 +49,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".ui.activity.WebViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.FormJadwalActivity"
             android:exported="false" />
 
@@ -58,83 +61,83 @@
             tools:node="remove" />
 
         <activity
-            android:name=".Tutorial"
+            android:name=".ui.activity.Tutorial"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".History"
+            android:name=".ui.activity.History"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Setting"
+            android:name=".ui.activity.Setting"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".BeliPaket"
+            android:name=".ui.activity.BeliPaket"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".PesanAlarm"
+            android:name=".ui.activity.PesanAlarm"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Topup"
+            android:name=".ui.activity.Topup"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".PusatBantuan"
+            android:name=".ui.activity.PusatBantuan"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Monitoring"
+            android:name=".ui.activity.Monitoring"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".PromoDetail"
+            android:name=".ui.activity.PromoDetail"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".RegId"
+            android:name=".ui.activity.RegId"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".SuccessKonfirmasi" />
-        <activity android:name=".UbahProfile" />
-        <activity android:name=".UbahPassword" />
-        <activity android:name=".SettingUrlApi" />
-        <activity android:name=".SuccessRegistrasi" />
-        <activity android:name=".Registrasi" />
-        <activity android:name=".Login" />
-        <activity android:name=".Home">
+        <activity android:name=".ui.activity.SuccessKonfirmasi" />
+        <activity android:name=".ui.activity.UbahProfile" />
+        <activity android:name=".ui.activity.UbahPassword" />
+        <activity android:name=".ui.activity.SettingUrlApi" />
+        <activity android:name=".ui.activity.SuccessRegistrasi" />
+        <activity android:name=".ui.activity.Registrasi" />
+        <activity android:name=".ui.activity.Login" />
+        <activity android:name=".ui.activity.Home">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -144,7 +147,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".CustomSplashScreen"
+            android:name=".ui.activity.CustomSplashScreen"
             android:exported="true"
             android:theme="@style/Theme.App.Starting">
             <intent-filter>
@@ -155,7 +158,7 @@
         </activity> <!-- <service android:name="org.eclipse.paho.android.service.MqttService" /> -->
         <!-- Push Notification Service -->
         <service
-            android:name=".Services.MyFirebaseMessagingService"
+            android:name=".utils.services.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -167,7 +170,7 @@
             android:value="TOKOALARM220" />
 
         <receiver
-            android:name=".Services.BootReceiver"
+            android:name=".utils.services.BootReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

@@ -1,6 +1,6 @@
 package com.tester.iotss.data.remote.response;
 
-import com.tester.iotss.data.model.Schedule;
+import com.tester.iotss.domain.model.Schedule;
 
 import java.util.List;
 

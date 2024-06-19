@@ -1,6 +1,6 @@
 package com.tester.iotss.data.remote.response;
 
-import com.tester.iotss.data.model.Perangkat;
+import com.tester.iotss.domain.model.Perangkat;
 
 import java.util.List;
 

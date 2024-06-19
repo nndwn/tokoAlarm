@@ -77,12 +77,7 @@ dependencies {
 
     //ButterKnife
     implementation 'com.jakewharton:butterknife:10.2.3'
-    implementation("androidx.lifecycle:lifecycle-livedata")
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.8.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.1'
-    implementation 'androidx.activity:activity-ktx:1.9.0'
-    implementation 'androidx.core:core-ktx:1.13.1'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:2.0.0"
+    implementation 'androidx.activity:activity:1.8.0'
     constraints {
         def platformTypeArgument = Attribute.of("org.jetbrains.kotlin.platform.type",  String)
         implementation("androidx.lifecycle:lifecycle-viewmodel:2.8.1") {
@@ -159,7 +154,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:2.11.0"
 
     // Coroutines for asynchronous programming
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test:runner:1.5.2'

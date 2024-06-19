@@ -41,6 +41,7 @@
             android:orientation="vertical"
             android:padding="@dimen/_12sdp">
 
+
             <com.google.android.material.card.MaterialCardView
                 style="?attr/materialCardViewOutlinedStyle"
                 android:layout_width="match_parent"
@@ -51,28 +52,94 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_12sdp"
                     android:orientation="vertical">
+
                     <com.google.android.material.textview.MaterialTextView
                         style="?attr/textAppearanceBody2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Nama"
+                        android:text="Pilih Perangkat"
                         android:textColor="@color/primary_variant_700" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilNamaJadwal"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+                        android:id="@+id/filledExposedDropdown"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:focusable="false"
                         app:boxBackgroundColor="@color/white"
-                        app:startIconDrawable="@drawable/icon_schedule_light">
+                        app:startIconDrawable="@drawable/icon_mobile_light">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etNamaJadwal"
+                        <AutoCompleteTextView
+                            android:id="@+id/filledExposedDropdownAutoComplete"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="text" />
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:inputType="none"
+                            tools:text="Happy" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <LinearLayout
+                        android:id="@+id/lnModulSensor"
+                        style="?attr/materialCardViewOutlinedStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            style="?attr/textAppearanceBody2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Pilih Modul / Sensor"
+                            android:textColor="@color/primary_variant_700" />
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroupStatusSensor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:chipSpacingVertical="0dp">
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipSensor1"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Sensor 1" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipSensor2"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Sensor 2" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipSensor3"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Sensor 3" />
+
+                        </com.google.android.material.chip.ChipGroup>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_informasi_jadwal"
+                style="?attr/materialCardViewOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_12sdp"
+                    android:orientation="vertical">
                     <com.google.android.material.textview.MaterialTextView
                         style="?attr/textAppearanceBody2"
                         android:layout_width="match_parent"
@@ -218,94 +285,9 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.card.MaterialCardView
-                style="?attr/materialCardViewOutlinedStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12sdp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_12sdp"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.textview.MaterialTextView
-                        style="?attr/textAppearanceBody2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Pilih Perangkat"
-                        android:textColor="@color/primary_variant_700" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/filledExposedDropdown"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        app:boxBackgroundColor="@color/white"
-                        app:startIconDrawable="@drawable/icon_mobile_light">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/filledExposedDropdownAutoComplete"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:inputType="none"
-                            tools:text="Happy" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <LinearLayout
-                        android:id="@+id/lnModulSensor"
-                        style="?attr/materialCardViewOutlinedStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:visibility="gone">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            style="?attr/textAppearanceBody2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Pilih Modul / Sensor"
-                            android:textColor="@color/primary_variant_700" />
-
-                        <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/chipGroupStatusSensor"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:chipSpacingVertical="0dp">
-
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chipSensor1"
-                                style="@style/Widget.Material3.Chip.Filter"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Sensor 1" />
-
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chipSensor2"
-                                style="@style/Widget.Material3.Chip.Filter"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Sensor 2" />
-
-                            <com.google.android.material.chip.Chip
-                                android:id="@+id/chipSensor3"
-                                style="@style/Widget.Material3.Chip.Filter"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Sensor 3" />
-
-                        </com.google.android.material.chip.ChipGroup>
-
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSimpan"
+                android:visibility="gone"
                 style="@style/Widget.Material3.Button.TonalButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -3,7 +3,7 @@ package com.tester.iotss.utils
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.tester.iotss.data.model.Sensor
+import com.tester.iotss.domain.model.Sensor
 
 class SensorListConverter {
 

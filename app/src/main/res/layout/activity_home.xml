@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_container"
-    tools:context=".Home">
+    tools:context=".ui.activity.Home">
 
     <FrameLayout
         android:id="@+id/frame_layout"
