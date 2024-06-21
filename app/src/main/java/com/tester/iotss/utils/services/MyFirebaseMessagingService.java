@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioAttributes;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
@@ -67,30 +68,35 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
         SessionLogin sessionLogin = new SessionLogin();
-        Uri defaultSoundUri = sessionLogin.getUrialarm(getApplicationContext());
+        //Uri defaultSoundUri = sessionLogin.getUrialarm(getApplicationContext());
+
+        Uri defaultSoundUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sound_notification_1);
+
+//        Log.d("SUARA",defaultSoundUri.toString());
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
+        Log.d("WWO","WPW");
+
         String channelId = "TOKOALARM220";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AudioAttributes attributes = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-                    .build();
             NotificationChannel mChannel = new NotificationChannel(channelId,
                     getApplicationContext().getString(R.string.app_name),
                     NotificationManager.IMPORTANCE_HIGH);
 
             // Configure the notification channel.
-            mChannel.setDescription("Aplikasi Tokoalarm sukses menampilkan notifikasi");
+            mChannel.setDescription("Notifikasi Toko Alarm");
             mChannel.enableLights(true);
             mChannel.enableVibration(true);
-            mChannel.setSound(defaultSoundUri, attributes); // This is IMPORTANT
+            mChannel.setSound(defaultSoundUri, new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .build());
             mChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             mChannel.setShowBadge(true);
-            mChannel.setImportance(NotificationManager.IMPORTANCE_HIGH);
 
             notificationManager.createNotificationChannel(mChannel);
+
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.logohitam)
                     .setContentTitle(title)
@@ -98,26 +104,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setChannelId(channelId)
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
-                    .setStyle(new NotificationCompat.BigTextStyle()
-                            .bigText(message))
-                    .setFullScreenIntent(pendingIntent, true);
-            notificationBuilder.setPriority(Notification.PRIORITY_MAX);
-            notificationBuilder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
-            notificationBuilder.setLights(Color.RED, 3000, 3000);
-            notificationManager.createNotificationChannel(mChannel);
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                    .setLights(Color.RED, 3000, 3000);
+
             notificationManager.notify(1, notificationBuilder.build());
         } else {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.logohitam)
                     .setContentTitle(title)
+                    .setContentText(message)
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
                     .setContentIntent(pendingIntent)
                     .setChannelId(channelId)
-                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-            notificationBuilder.setPriority(Notification.PRIORITY_MAX);
-            notificationBuilder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
-            notificationBuilder.setLights(Color.RED, 3000, 3000);
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                    .setLights(Color.RED, 3000, 3000);
+
             notificationManager.notify(1, notificationBuilder.build());
         }
     }

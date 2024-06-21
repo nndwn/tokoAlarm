@@ -21,7 +21,8 @@
             app:navigationIconTint="@color/colorPrimary"
             app:title="Tambah Jadwal"
             app:titleTextAppearance="@style/ToolbarTitle"
-            app:titleTextColor="@color/colorPrimary" />
+            app:titleTextColor="@color/colorPrimary"
+            app:menu="@menu/top_form_jadwal"/>
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
@@ -70,7 +71,7 @@
                         app:startIconDrawable="@drawable/icon_mobile_light">
 
                         <AutoCompleteTextView
-                            android:id="@+id/filledExposedDropdownAutoComplete"
+                            android:id="@+id/dropdownPerangkat"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -91,7 +92,7 @@
                             style="?attr/textAppearanceBody2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Pilih Modul / Sensor"
+                            android:text="Modul / Sensor Aktif"
                             android:textColor="@color/primary_variant_700" />
 
                         <com.google.android.material.chip.ChipGroup
@@ -105,6 +106,7 @@
                                 style="@style/Widget.Material3.Chip.Filter"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:checked="true"
                                 android:text="Sensor 1" />
 
                             <com.google.android.material.chip.Chip
@@ -112,6 +114,7 @@
                                 style="@style/Widget.Material3.Chip.Filter"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:checked="true"
                                 android:text="Sensor 2" />
 
                             <com.google.android.material.chip.Chip
@@ -119,10 +122,18 @@
                                 style="@style/Widget.Material3.Chip.Filter"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:checked="true"
                                 android:text="Sensor 3" />
 
                         </com.google.android.material.chip.ChipGroup>
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_alert_selector"
+                            android:padding="8dp"
+                            android:text="Keterangan: Sensor terpilih akan aktif"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -283,6 +294,45 @@
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_aturan_jadwal"
+                style="?attr/materialCardViewOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_12sdp"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvRule"
+                        style="?attr/textAppearanceBody2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_alert_warning"
+                        android:padding="8dp"
+                        android:text="Aturan Jadwal"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/refreshButton"
+                        style="?attr/materialIconButtonFilledStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:icon="@drawable/refresh_2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.button.MaterialButton

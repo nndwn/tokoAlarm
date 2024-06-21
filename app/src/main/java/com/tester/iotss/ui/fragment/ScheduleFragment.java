@@ -83,6 +83,8 @@ public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         getData();
 
+        Common.scheduleFragment = this;
+
         return view;
     }
 
@@ -98,6 +100,10 @@ public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
+        getData();
+    }
+
+    public void refreshData() {
         getData();
     }
 
@@ -117,7 +123,8 @@ public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnR
                         adapter.notifyDataSetChanged(); // Notify adapter of data change
                     }
                 } else {
-                    //   Toast.makeText(getContext(), "Tidak Ada Jadwal", Toast.LENGTH_SHORT).show();
+                    scheduleList.clear();
+                    adapter.notifyDataSetChanged();
                 }
             }
 

@@ -13,6 +13,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 
 public interface ApiService {
     @POST("schedule/alat")
@@ -21,9 +22,15 @@ public interface ApiService {
     @POST("schedule")
     Call<CommonApiResponse> sendSchedule(@Body ScheduleRequest request);
 
+    @POST("schedule/update")
+    Call<CommonApiResponse> updateSchedule(@Body ScheduleRequest request);
+
     @POST("schedule/list")
     Call<ScheduleResponse> getUserSchedules(@Body GetUserScheduleRequest request);
 
     @POST("schedule/setting")
     Call<CommonApiResponse> setScheduleStatus(@Body ScheduleEnableDisableRequest request);
+
+    @POST("schedule/delete")
+    Call<CommonApiResponse> deleteSchedule(@Body ScheduleRequest request);
 }
