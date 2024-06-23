@@ -16,6 +16,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.tester.iotss.ui.activity.Home;
@@ -29,6 +30,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     SessionLogin sessionLogin = new SessionLogin();
 
     public MyFirebaseMessagingService() {
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        // Subscribe to a topic (if needed)
+        FirebaseMessaging.getInstance().subscribeToTopic(sessionLogin.getNohp(this))
+                .addOnCompleteListener(task -> {
+                    String msg = "Subscribed to topic";
+                    if (!task.isSuccessful()) {
+                        msg = "Subscription failed";
+                    }
+                    Log.d(TAG, msg);
+                });
     }
 
     @Override
@@ -77,7 +92,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Log.d("WWO","WPW");
+        Log.d("WWO", "WPW");
 
         String channelId = "TOKOALARM220";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

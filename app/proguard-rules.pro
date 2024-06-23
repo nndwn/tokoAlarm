@@ -25,5 +25,16 @@
 -dontwarn android.support.**
 -keep class androidx.startup.** { *; }
 
+# Keep MQTT library classes
+-keep class org.eclipse.paho.** { *; }
+-dontwarn org.eclipse.paho.**
+
+# Keep classes from the repository you're using
+-keep class com.github.hannesa2.paho.** { *; }
+-dontwarn com.github.hannesa2.paho.**
+
+# Keep your MqttHelper class and its methods
+-keep class com.tester.iotss.utils.helpers.MqttHelper { *; }
+
 -dontwarn com.android.org.conscrypt.SSLParametersImpl
 -dontwarn org.apache.harmony.xnet.provider.jsse.SSLParametersImpl

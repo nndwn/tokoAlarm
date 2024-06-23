@@ -58,12 +58,10 @@ public class Login extends AppCompatActivity {
         alertError = new AlertError(Login.this);
         Dexter.withActivity(this)
                 .withPermissions(
-                        android.Manifest.permission.CAMERA,
                         android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         android.Manifest.permission.READ_EXTERNAL_STORAGE,
                         android.Manifest.permission.ACCESS_WIFI_STATE,
-                        android.Manifest.permission.ACCESS_NETWORK_STATE,
-                        android.Manifest.permission.READ_PHONE_STATE
+                        android.Manifest.permission.ACCESS_NETWORK_STATE
                 ).withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
