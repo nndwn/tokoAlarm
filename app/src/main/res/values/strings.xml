@@ -14,6 +14,9 @@
     <string name="tambah_schedule">Tambah Schedule</string>
     <string name="aktivitas">Aktivitas</string>
     <string name="otomatisasi">Otomatisasi</string>
+    <string name="value">value</string>
+    <string name="metode_pembayaran">Pilih Metode Pembayaran</string>
+    <string name="kirim">kirim pembayaran sesuai angka yang diberikan</string>
 
     <string-array name="feelings">
         <item>Sad</item>
@@ -21,5 +24,14 @@
         <item>Satisfied</item>
         <item>Happy</item>
         <item>Excited</item>
+    </string-array>
+
+    <string-array name="payment_methods">
+        <item>Bank Mandiri</item>
+        <item>Bank Jago</item>
+        <item>Super Bank</item>
+        <item>Ovo</item>
+        <item>Dana</item>
+        <item>Gopay</item>
     </string-array>
 </resources>

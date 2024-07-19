@@ -11,6 +11,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+import android.view.View;
+import android.widget.LinearLayout;
+
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -26,63 +29,42 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class Topup extends AppCompatActivity {
-    private Context context;
-    String nomor_cs = "";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = this;
+
         setContentView(R.layout.activity_topup);
         ButterKnife.bind(this);
-        getData();
+
+
+        LinearLayout btnSepuluh = findViewById(R.id.Sepuluh);
+        LinearLayout btnTigaPuluh = findViewById(R.id.tigaPuluh);
+        LinearLayout btnLimaPuluh = findViewById(R.id.LimaPuluh);
+        LinearLayout btnSeratus = findViewById(R.id.Seratus);
+        LinearLayout btnSatuJuta = findViewById(R.id.SatuJuta);
+
+        btnSepuluh.setOnClickListener(v -> openDisplayValueActivity("Rp. 10"));
+
+        btnTigaPuluh.setOnClickListener(v -> openDisplayValueActivity("Rp. 30"));
+
+        btnLimaPuluh.setOnClickListener(v -> openDisplayValueActivity("Rp. 50"));
+
+        btnSeratus.setOnClickListener(v -> openDisplayValueActivity("Rp. 100"));
+
+        btnSatuJuta.setOnClickListener(v -> openDisplayValueActivity("Rp. 1000"));
+    }
+    private void openDisplayValueActivity(String value) {
+        Intent intent = new Intent(Topup.this, TopupValue.class);
+        intent.putExtra("value", value);
+        startActivity(intent);
     }
 
     @OnClick(R.id.backButton)
     void backButton() {
         onBackPressed();
-    }
-
-    private void getData() {
-        AndroidNetworking.get(BASE_URL + "users/pusatbantuan")
-                .setPriority(Priority.HIGH)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(final JSONObject person) {
-                        Log.d("PUSATBANTUANLOG", person.toString());
-                        try {
-
-                            boolean status = person.getBoolean("status");
-                            if (status) {
-                                JSONObject data = person.getJSONObject("data");
-                                nomor_cs = data.getString("nomor_cs");
-                            } else {
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.d("PUSATBANTUANLOG", e.getMessage());
-                            Toast.makeText(getApplicationContext(), "Terjadi Kesalahan " + e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-
-                    }
-
-                    @Override
-                    public void onError(ANError error) {
-                        Log.d("PUSATBANTUANLOG", error.getMessage());
-                        Toast.makeText(getApplicationContext(), "Terjadi Kesalahan " + error.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-    }
-
-
-    @SuppressLint("NonConstantResourceId")
-    @OnClick(R.id.lnChatCs)
-    void lnChatCs() {
-        String countryCode = "62";
-        String formattedNumber = nomor_cs.replaceFirst("^0", countryCode);
-        AppHelper.openWhatsApp(context, formattedNumber, "Saya ingin melakukan Topup Saldo Tokoalarm");
     }
 
 

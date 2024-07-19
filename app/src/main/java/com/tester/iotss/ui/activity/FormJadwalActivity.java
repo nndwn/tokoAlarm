@@ -76,6 +76,10 @@ public class FormJadwalActivity extends AppCompatActivity {
 
         setSupportActionBar(formJadwalBinding.topAppBar);
 
+        formJadwalBinding.topAppBar.setNavigationOnClickListener(v -> {
+            getOnBackPressedDispatcher().onBackPressed();
+        });
+
         formJadwalBinding.refreshButton.setOnClickListener(v -> {
             getTextRule();
         });
