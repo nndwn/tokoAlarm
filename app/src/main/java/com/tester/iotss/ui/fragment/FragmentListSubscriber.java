@@ -72,8 +72,8 @@ public class FragmentListSubscriber extends Fragment implements SwipeRefreshLayo
     @BindView(R.id.scrollView)
     ScrollView scrollView;
 
-    @BindView(R.id.shimmerLog)
-    ShimmerFrameLayout shimmerLog;
+ /*   @BindView(R.id.shimmerLog)
+    ShimmerFrameLayout shimmerLog;*/
     @BindView(R.id.lnData)
     LinearLayout lnData;
 
@@ -114,7 +114,7 @@ public class FragmentListSubscriber extends Fragment implements SwipeRefreshLayo
         recyclerView.setLayoutManager(linearLayoutManager);
         swipeRefreshLayout.post(() -> {
             swipeRefreshLayout.setRefreshing(true);
-            shimmerLog.setVisibility(View.VISIBLE);
+            //shimmerLog.setVisibility(View.VISIBLE);
             lnData.setVisibility(GONE);
             getData();
         });
@@ -133,7 +133,7 @@ public class FragmentListSubscriber extends Fragment implements SwipeRefreshLayo
     public void onRefresh() {
         getActivity().runOnUiThread(() -> {
             swipeRefreshLayout.setRefreshing(true);
-            shimmerLog.setVisibility(View.VISIBLE);
+            //shimmerLog.setVisibility(View.VISIBLE);
             lnData.setVisibility(GONE);
             getData();
         });
@@ -156,7 +156,7 @@ public class FragmentListSubscriber extends Fragment implements SwipeRefreshLayo
                         try {
                             boolean status = person.getBoolean("status");
                             if (status) {
-                                shimmerLog.setVisibility(GONE);
+                                //shimmerLog.setVisibility(GONE);
                                 lnData.setVisibility(View.VISIBLE);
                                 JSONArray jsonArray = person.getJSONArray("data");
                                 Type listType = new TypeToken<ArrayList<AlatList>>() {

@@ -28,44 +28,45 @@
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:id="@+id/lnData"
+            android:padding="@dimen/_10sdp">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/alat_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_10sdp"/>
+            <!--       <com.facebook.shimmer.ShimmerFrameLayout
+                       android:layout_marginTop="@dimen/_10sdp"
+                       android:visibility="gone"
+                       android:id="@+id/shimmerLog"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent">
+                       <include
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           layout="@layout/shimmer_layout" />
+                   </com.facebook.shimmer.ShimmerFrameLayout>-->
+
+        </LinearLayout>
+    </ScrollView>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/containerSwipe">
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <ScrollView
-                android:id="@+id/scrollView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:id="@+id/lnData"
-                    android:padding="@dimen/_10sdp">
-                    <com.facebook.shimmer.ShimmerFrameLayout
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:visibility="gone"
-                        android:id="@+id/shimmerLog"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <include
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            layout="@layout/shimmer_layout" />
-                    </com.facebook.shimmer.ShimmerFrameLayout>
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/alat_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/_10sdp"/>
-                </LinearLayout>
-            </ScrollView>
             <FrameLayout
                 android:background="@drawable/white_rect_sheet"
                 android:id="@+id/bottom_sheet"
