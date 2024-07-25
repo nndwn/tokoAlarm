@@ -25,6 +25,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tester.iotss.ui.activity.Login;
 import com.tester.iotss.R;
+import com.tester.iotss.ui.activity.PusatBantuan;
 import com.tester.iotss.utils.sessions.SessionLogin;
 import com.tester.iotss.utils.sessions.SessionSetting;
 import com.tester.iotss.ui.activity.UbahPassword;
@@ -90,7 +91,11 @@ public class FragmentAccount extends Fragment implements SwipeRefreshLayout.OnRe
         return view;
     }
 
-
+    @OnClick(R.id.lnPusatBantuan)
+    void pusatBantuan() {
+        Intent intent = new Intent(getActivity(), PusatBantuan.class);
+        startActivity(intent);
+    }
 
 
     @OnClick(R.id.btnLogout) void btnLogout(){

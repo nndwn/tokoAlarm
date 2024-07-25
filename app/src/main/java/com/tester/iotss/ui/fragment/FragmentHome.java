@@ -64,8 +64,8 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
     @BindView(R.id.containerSwipe)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    @BindView(R.id.scrollView)
-    ScrollView scrollView;
+ /*   @BindView(R.id.scrollView)
+    ScrollView scrollView;*/
 
     @BindView(R.id.tvSaldo)
     TextView tvSaldo;
@@ -203,11 +203,7 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
         onRefresh();
     }
 
-    @OnClick(R.id.lnPusatBantuan)
-    void pusatBantuan() {
-        Intent intent = new Intent(getActivity(), PusatBantuan.class);
-        startActivity(intent);
-    }
+
 
     @OnClick(R.id.btnTopup)
     void btnTopup() {
@@ -249,8 +245,12 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @OnClick(R.id.lnCaraPenggunaan)
     void lnCaraPenggunaan() {
-        Intent intent = new Intent(getActivity(), Tutorial.class);
+        String urlTutorial = "https://tokoalarm.com/cara-penggunaan/";
+        Intent intent = new Intent(getContext(), WebViewActivity.class);
+        intent.putExtra("URL", urlTutorial);
         startActivity(intent);
+        //Intent intent = new Intent(getActivity(), Tutorial.class);
+       // startActivity(intent);
     }
 }
 

@@ -16,8 +16,8 @@ import android.util.Log;
 
 import com.tester.iotss.R;
 import com.tester.iotss.domain.model.RingtoneList;
-import com.tester.iotss.utils.sessions.SessionLogin;
 import com.tester.iotss.ui.adapter.RingtoneAdapter;
+import com.tester.iotss.utils.sessions.SessionLogin;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,59 +64,60 @@ public class Setting extends AppCompatActivity implements RingtoneAdapter.OnItem
             memberData.setTitle(ringtoneTitle);
             memberData.setUri(ringtoneUri);
             listRiwayat.add(memberData);
-            recyclerViewadapter = new RingtoneAdapter(Setting.this,listRiwayat,Setting.this,this);
-            recyclerView.setAdapter(recyclerViewadapter);
         }
         cursor.close();
+
+        addLocalRingtones();
+        recyclerViewadapter = new RingtoneAdapter(Setting.this, listRiwayat, Setting.this, this);
+        recyclerView.setAdapter(recyclerViewadapter);
+    }
+
+    private void addLocalRingtones() {
+        addLocalRingtone("Suara Satu", R.raw.suara_satu);
+        addLocalRingtone("Suara Dua", R.raw.suara_dua);
+        addLocalRingtone("Suara Tiga", R.raw.suara_tiga);
+        addLocalRingtone("Suara Empat", R.raw.suara_empat);
+    }
+
+    private void addLocalRingtone(String title, int resId) {
+        RingtoneList localRingtone = new RingtoneList();
+        localRingtone.setTitle(title);
+        localRingtone.setUriFromResource(resId);
+        listRiwayat.add(localRingtone);
     }
 
     @SuppressLint("NewApi")
     @Override
     public void onItemClick(int position) {
-        SessionLogin sessionLogin = new SessionLogin();
-        sessionLogin.setUrialarm(listRiwayat.get(position).getUri(),getApplicationContext());
-        if(mediaPlayer!=null){
-            ringtoneUri2 = listRiwayat.get(position).getUri();
+
+        Uri ringtoneUri = listRiwayat.get(position).getUri();
+        if(mediaPlayer!=null) {
+
             mediaPlayer.stop();
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setAudioAttributes(new AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-                    .build());
-
-            try {
-                mediaPlayer.setDataSource(getApplicationContext(), ringtoneUri2);
-                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        mp.start();
-                    }
-                });
-                mediaPlayer.prepareAsync();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else{
-            ringtoneUri2 = listRiwayat.get(position).getUri();
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setAudioAttributes(new AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-                    .build());
-
-            try {
-                mediaPlayer.setDataSource(getApplicationContext(), ringtoneUri2);
-                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        mp.start();
-                    }
-                });
-                mediaPlayer.prepareAsync();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioAttributes(new AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                .build());
+
+        try {
+            mediaPlayer.setDataSource(getApplicationContext(), ringtoneUri);
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.start();
+                }
+            });
+            mediaPlayer.prepareAsync();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        SessionLogin sessionLogin = new SessionLogin();
+        sessionLogin.setUrialarm(listRiwayat.get(position).getUri(), getApplicationContext());
 
     }
 
@@ -125,8 +126,10 @@ public class Setting extends AppCompatActivity implements RingtoneAdapter.OnItem
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mediaPlayer!=null){
+        if (mediaPlayer != null) {
             mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
     }
 

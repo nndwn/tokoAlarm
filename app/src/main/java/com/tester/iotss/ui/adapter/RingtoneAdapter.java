@@ -37,10 +37,7 @@ public class RingtoneAdapter extends RecyclerView.Adapter<RingtoneAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final RingtoneList getDataAdapter1 = list.get(position);
-        try {
-            holder.tvTitle.setText(getDataAdapter1.getTitle());
-        }catch (Exception e){
-        }
+        holder.tvTitle.setText(getDataAdapter1.getTitle());
         if (selectedItem == position) {
             holder.lnRingtone.setBackgroundColor(Color.parseColor("#3c8dbc"));
             holder.tvTitle.setTextColor(Color.WHITE);
@@ -63,8 +60,8 @@ public class RingtoneAdapter extends RecyclerView.Adapter<RingtoneAdapter.ViewHo
         public ViewHolder(View itemView) {
 
             super(itemView);
-            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
-            lnRingtone = (LinearLayout) itemView.findViewById(R.id.lnRingtone);
+            tvTitle =  itemView.findViewById(R.id.tvTitle);
+            lnRingtone = itemView.findViewById(R.id.lnRingtone);
             itemView.setOnClickListener(this);
 
         }
