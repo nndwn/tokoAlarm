@@ -82,7 +82,7 @@ public class Setting extends AppCompatActivity implements RingtoneAdapter.OnItem
     private void addLocalRingtone(String title, int resId) {
         RingtoneList localRingtone = new RingtoneList();
         localRingtone.setTitle(title);
-        localRingtone.setUriFromResource(resId);
+        localRingtone.setUriFromResource(this,resId);
         listRiwayat.add(localRingtone);
     }
 

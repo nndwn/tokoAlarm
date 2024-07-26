@@ -70,9 +70,9 @@ public class RingtoneAdapter extends RecyclerView.Adapter<RingtoneAdapter.ViewHo
         public void onClick(View view) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                notifyItemChanged(selectedItem); // Me-reset warna latar belakang item sebelumnya
-                selectedItem = position; // Menyimpan posisi item yang dipilih
-                notifyItemChanged(selectedItem); // Mengubah warna latar belakang item yang dipilih
+                notifyItemChanged(selectedItem);
+                selectedItem = position;
+                notifyItemChanged(selectedItem);
                 listener.onItemClick(position);
             }
         }

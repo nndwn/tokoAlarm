@@ -54,7 +54,7 @@ public class Topup extends AppCompatActivity {
 
         btnSeratus.setOnClickListener(v -> openDisplayValueActivity("Rp. 100"));
 
-        btnSatuJuta.setOnClickListener(v -> openDisplayValueActivity("Rp. 1000"));
+        btnSatuJuta.setOnClickListener(v -> openDisplayValueActivity("Rp. 1.000"));
     }
     private void openDisplayValueActivity(String value) {
         Intent intent = new Intent(Topup.this, TopupValue.class);

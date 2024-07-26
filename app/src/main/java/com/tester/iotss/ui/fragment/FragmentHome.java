@@ -10,11 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -51,6 +53,7 @@ import static com.tester.iotss.data.config.Config.BASE_URL;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 /**
@@ -70,14 +73,18 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
     @BindView(R.id.tvSaldo)
     TextView tvSaldo;
 
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
+
     SessionLogin sessionLogin;
 
     private ArrayList<ListPromo> listPromos;
-    private PromoAdapter adapter;
-    @BindView(R.id.list_promo)
-    RecyclerView recyclerView;
-    LinearLayoutManager linearLayoutManager;
-    RecyclerView.Adapter recyclerViewadapter;
+    private PromoAdapter sliderAdapter;
+    private Runnable runnable;
+    private Handler handler;
+    private int currentPage = 0;
+
+   /* @BindView(R.id.list_promo)*/
     String URL_TUTORIAL = "";
     String URL_PESAN_ALARM = "";
 
@@ -87,10 +94,14 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
-        FirebaseApp.initializeApp(getActivity());
+        FirebaseApp.initializeApp(requireActivity());
         sessionLogin = new SessionLogin();
-        FirebaseMessaging.getInstance().subscribeToTopic(sessionLogin.getNohp(getContext()));
+        FirebaseMessaging.getInstance().subscribeToTopic(sessionLogin.getNohp(requireContext()));
         sessionLogin = new SessionLogin();
+
+
+        viewPager = view.findViewById(R.id.viewPager);
+        listPromos = new ArrayList<>();
 
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.post(() -> {
@@ -98,56 +109,40 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
             getData();
         });
 
-        listPromos = new ArrayList<>();
-        recyclerView.setHasFixedSize(true);
-        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                int action = e.getAction();
-                switch (action) {
-                    case MotionEvent.ACTION_DOWN:
-                        // Disallow ScrollView to intercept touch events.
-                        rv.getParent().requestDisallowInterceptTouchEvent(false);
-                        break;
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
-                    case MotionEvent.ACTION_UP:
-                        // Allow ScrollView to intercept touch events.
-                        rv.getParent().requestDisallowInterceptTouchEvent(false);
-                        break;
-                    case MotionEvent.ACTION_SCROLL:
-                        // Disallow ScrollView to intercept touch events.
-                        rv.getParent().requestDisallowInterceptTouchEvent(true);
-                        break;
-                }
-
-                return false;
+            @Override
+            public void onPageSelected(int position) {
+                currentPage = position;
             }
 
             @Override
-            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                // Handle RecyclerView touch events.
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-                // Do nothing.
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
 
+        handler = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (listPromos != null && !listPromos.isEmpty()) {
+                    currentPage = (currentPage + 1) % listPromos.size();
+                    viewPager.setCurrentItem(currentPage, true);
+                }
+                handler.postDelayed(this, 3000); // Change page every 3 seconds
+            }
+        };
         return view;
     }
 
+
     @Override
     public void onRefresh() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                getData();
-            }
+        requireActivity().runOnUiThread(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            getData();
         });
     }
 
@@ -155,7 +150,7 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
     private void getData() {
         SessionLogin sessionLogin = new SessionLogin();
         AndroidNetworking.post(BASE_URL + "users/datapelanggan")
-                .addBodyParameter("id_users", sessionLogin.getId(getActivity()))
+                .addBodyParameter("id_users", sessionLogin.getId(requireActivity()))
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -171,14 +166,13 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
                                 Type listType = new TypeToken<ArrayList<ListPromo>>() {
                                 }.getType();
                                 listPromos = new Gson().fromJson(String.valueOf(person.getJSONArray("data")), listType);
-                                Log.d("TESTINGHITAPI", String.valueOf(person.getJSONArray("data")));
-                                recyclerViewadapter = new PromoAdapter(listPromos, getActivity(), getActivity());
-                                recyclerView.setAdapter(recyclerViewadapter);
-                                recyclerViewadapter.notifyDataSetChanged();
+                                sliderAdapter = new PromoAdapter(listPromos, requireContext());
+                                viewPager.setAdapter(sliderAdapter);
+                                sliderAdapter.notifyDataSetChanged();
                                 URL_TUTORIAL = person.getJSONObject("config").getString("link_tutorial");
                                 URL_PESAN_ALARM = person.getJSONObject("config").getString("link_pesan_alarm");
                             } else {
-
+                                Toast.makeText(getActivity(), "Failed to get data", Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -200,7 +194,13 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onResume() {
         super.onResume();
+        handler.postDelayed(runnable, 3000); // Start the automatic page change
         onRefresh();
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable); // Stop the automatic page change
     }
 
 
@@ -217,12 +217,6 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
         Intent intent = new Intent(getContext(), WebViewActivity.class);
         intent.putExtra("URL", URL_PESAN_ALARM);
         startActivity(intent);
-
-  //      Intent intent = new Intent(Intent.ACTION_VIEW);
-  //      intent.setData(Uri.parse(URL_PESAN_ALARM));
-  //      startActivity(intent);
-//        Intent intent = new Intent(getActivity(), PesanAlarm.class);
-//        startActivity(intent);
     }
 
     @OnClick(R.id.lnSetting)
@@ -249,8 +243,6 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
         Intent intent = new Intent(getContext(), WebViewActivity.class);
         intent.putExtra("URL", urlTutorial);
         startActivity(intent);
-        //Intent intent = new Intent(getActivity(), Tutorial.class);
-       // startActivity(intent);
     }
 }
 

@@ -2,91 +2,60 @@ package com.tester.iotss.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.recyclerview.widget.RecyclerView;
-import com.makeramen.roundedimageview.RoundedImageView;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
+import android.widget.ImageView;
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
+
+import com.bumptech.glide.Glide;
 import com.tester.iotss.domain.model.ListPromo;
-import com.tester.iotss.ui.activity.PromoDetail;
 import com.tester.iotss.R;
 import java.util.List;
 
-public class PromoAdapter extends RecyclerView.Adapter<PromoAdapter.ViewHolder> {
+public class PromoAdapter extends PagerAdapter {
     Context context;
-    Activity activity;
+    private final LayoutInflater layoutInflater;
+    private final List<ListPromo> listPromos;
 
-    List<ListPromo> listPromos;
-    public PromoAdapter(List<ListPromo> getDataAdapter, Context context, Activity activity) {
-
-        super();
-        this.listPromos = getDataAdapter;
+    public PromoAdapter(List<ListPromo> listPromos, Context context) {
+        this.listPromos = listPromos;
         this.context = context;
-        this.activity = activity;
-    }
-
-
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_promo, parent, false);
-
-        ViewHolder viewHolder = new ViewHolder(view);
-
-        return viewHolder;
+        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
-
-        final ListPromo getDataAdapter1 = listPromos.get(position);
-        activity.runOnUiThread(() -> Picasso.get().load(getDataAdapter1.getBanner())
-                .networkPolicy(NetworkPolicy.NO_CACHE)
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .placeholder(R.drawable.bannerplaceholder)
-                .into(holder.ivGambar));
-
-
-        holder.ivGambar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(activity, PromoDetail.class);
-                intent.putExtra("title", getDataAdapter1.getTitle());
-                intent.putExtra("banner", getDataAdapter1.getBanner());
-                intent.putExtra("deskripsi", getDataAdapter1.getDeskripsi());
-                intent.putExtra("created_at", getDataAdapter1.getCreatedAt());
-                activity.startActivity(intent);
-                activity.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_normal);
-            }
-        });
-
-
-    }
-
-    @Override
-    public int getItemCount() {
+    public int getCount() {
 
         return listPromos.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-
-        public RoundedImageView ivGambar;
-        public ViewHolder(View itemView) {
-
-            super(itemView);
-            ivGambar = (RoundedImageView) itemView.findViewById(R.id.ivGambar);
-        }
+    @Override
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+        return view == object;
     }
 
+    @NonNull
+    @Override
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
+        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.list_promo,  container, false);
+        ImageView imageView = view.findViewById(R.id.imageView);
 
+        ListPromo listPromo = listPromos.get(position);
+        Glide.with(context)
+                .load(listPromo.getBanner())
+                .into(imageView);
 
+        container.addView(view);
+        return view;
+    }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        container.removeView((View) object);
+    }
 
 }
 

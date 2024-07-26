@@ -2,6 +2,8 @@ package com.tester.iotss.ui.activity;
 
 import static com.tester.iotss.data.config.Config.BASE_URL;
 
+
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -30,14 +32,13 @@ public class PusatBantuan extends AppCompatActivity {
 
     private Context context;
 
-    @BindView(R.id.tvFaq)
-    TextView tvFaq;
     @BindView(R.id.tvNomorCs)
     TextView tvNomorCs;
     @BindView(R.id.tvNomorTeknisi)
     TextView tvNomorTeknisi;
     String nomor_cs = "";
     String nomor_teknisi = "";
+    String faq_text ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class PusatBantuan extends AppCompatActivity {
                             boolean status = person.getBoolean("status");
                             if (status) {
                                 JSONObject data = person.getJSONObject("data");
-                                tvFaq.setText(data.getString("faq"));
+                                faq_text = data.getString("faq");
                                 tvNomorCs.setText(data.getString("nomor_cs"));
                                 tvNomorTeknisi.setText(data.getString("nomor_teknisi"));
                                 nomor_cs = data.getString("nomor_cs");
@@ -104,5 +105,13 @@ public class PusatBantuan extends AppCompatActivity {
         String countryCode = "62";
         String formattedNumber = nomor_teknisi.replaceFirst("^0", countryCode);
         AppHelper.openWhatsApp(context, formattedNumber, "Saya mengalami kendala terkait TokoAlarm");
+    }
+
+    @OnClick(R.id.lnfaq)
+    void lnFaq() {
+
+        Intent intent = new Intent(this, WebViewActivity.class);
+        intent.putExtra("URL", faq_text);
+        startActivity(intent);
     }
 }

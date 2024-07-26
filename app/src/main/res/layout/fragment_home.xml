@@ -306,7 +306,13 @@
                                     android:textColor="@drawable/text_selector_primary"
                                     android:background="@drawable/btn_outline_selector_primary"/>
                             </LinearLayout>
-                            <androidx.recyclerview.widget.RecyclerView
+                            <androidx.viewpager.widget.ViewPager
+                                android:id="@+id/viewPager"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                />
+                        <!--    <androidx.recyclerview.widget.RecyclerView
                                 android:layout_marginTop="@dimen/_10sdp"
                                 android:id="@+id/list_promo"
                                 android:layout_width="match_parent"
@@ -318,7 +324,7 @@
                                 android:paddingStart="@dimen/_10sdp"
                                 android:orientation="horizontal"
                                 android:scrollbars="horizontal"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>

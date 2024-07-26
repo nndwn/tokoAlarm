@@ -1,5 +1,6 @@
 package com.tester.iotss.domain.model;
 
+import android.content.Context;
 import android.net.Uri;
 
 import androidx.multidex.BuildConfig;
@@ -24,7 +25,7 @@ public class RingtoneList {
         this.uri = uri;
     }
 
-    public void setUriFromResource(int resId) {
-        this.uri = Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID + "/" + resId);
+    public void setUriFromResource(Context context, int resId) {
+        this.uri = Uri.parse("android.resource://" + context.getPackageName() + "/" + resId);
     }
 }
