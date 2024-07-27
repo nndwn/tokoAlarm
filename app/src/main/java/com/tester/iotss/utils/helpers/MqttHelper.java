@@ -16,16 +16,30 @@ import java.util.UUID;
 
 public class MqttHelper {
     public MqttAndroidClient mqttAndroidClient;
+    private String BrokerUri;
 
+    public MqttHelper(Context context, String BrokerUri, String username, String password) {
+        this.BrokerUri = BrokerUri;
+        mqttAndroidClient = new MqttAndroidClient(context, BrokerUri, UUID.randomUUID().toString(), Ack.AUTO_ACK);
 
-    String BrokerUri;
-    public MqttHelper(Context context,String BrokerUri){
-        this.BrokerUri=BrokerUri;
-        try {
-            mqttAndroidClient = new MqttAndroidClient(context, BrokerUri, UUID.randomUUID().toString(), Ack.AUTO_ACK);
-        }catch (Exception ex) {
-            Log.w("abah", "MqttException:"+ex.toString());
-        }
+        // Mengatur username dan password
+        MqttConnectOptions options = new MqttConnectOptions();
+        options.setUserName(username);
+        options.setPassword(password.toCharArray());
+
+        // Menghubungkan ke broker dengan opsi yang sudah diatur
+        mqttAndroidClient.connect(options, null, new IMqttActionListener() {
+            @Override
+            public void onSuccess(IMqttToken asyncActionToken) {
+                Log.i("MqttHelper", "Connected to broker");
+            }
+
+            @Override
+            public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                Log.e("MqttHelper", "Failed to connect to broker: " + exception.toString());
+            }
+        });
+
     }
 
 

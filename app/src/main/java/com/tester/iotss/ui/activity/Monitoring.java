@@ -50,6 +50,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -194,9 +196,10 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
 
     private void initializeUI() {
         if (getIntent().hasExtra("id_alat")) {
-            id_alat = getIntent().getStringExtra("id_alat");
+            id_alat = Objects.requireNonNull(getIntent().getStringExtra("id_alat")).toUpperCase();
             nomor_paket = getIntent().getStringExtra("nomor_paket");
             tvIdAlat.setText(id_alat);
+
         }
 
         blinkAnimation = new AlphaAnimation(0.0f, 1.0f);
@@ -242,8 +245,8 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     private void setupSensorSwitchListener(CompoundButton switchButton, String urlSuffix, String enabledValue, String disabledValue) {
         switchButton.setOnCheckedChangeListener((compoundButton, isChecked) -> {
             if (!checkeddaridata) {
-                if (tvIdAlat.getText().toString().length() > 1) {
-                    String url = tvIdAlat.getText().toString() + urlSuffix;
+                if (id_alat.length() > 1) {
+                    String url = id_alat + urlSuffix;
                     String value = isChecked ? enabledValue : disabledValue;
                     if (sendToServer(url, value)) {
                         txtSwIn1.setText(isChecked ? "Enable" : "Disable");
@@ -265,8 +268,8 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     private void setupAlarmSwitchListener(CompoundButton switchButton, String urlSuffix, String enabledValue, String disabledValue) {
         switchButton.setOnCheckedChangeListener((compoundButton, isChecked) -> {
             if (!checkeddaridata) {
-                if (tvIdAlat.getText().toString().length() > 1) {
-                    String url = tvIdAlat.getText().toString() + urlSuffix;
+                if (id_alat.length() > 1) {
+                    String url = id_alat + urlSuffix;
                     String value = isChecked ? enabledValue : disabledValue;
                     if (sendToServer(url, value)) {
                         switchButton.setText(isChecked ? "Mode: Otomatis" : "Mode: Manual");
@@ -289,8 +292,8 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     private void setupSwitchListener(CompoundButton switchButton, String urlSuffix, String enabledValue, String disabledValue) {
         switchButton.setOnCheckedChangeListener((compoundButton, isChecked) -> {
             if (!checkeddaridata) {
-                if (tvIdAlat.getText().toString().length() > 1) {
-                    String url = tvIdAlat.getText().toString() + urlSuffix;
+                if (id_alat.length() > 1) {
+                    String url = id_alat + urlSuffix;
                     String value = isChecked ? enabledValue : disabledValue;
                     if (sendToServer(url, value)) {
                         switchButton.setText(isChecked ? "Enable" : "Disable");
@@ -511,7 +514,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
 
     private void konekMQTT() {
         diskonekMQTT();
-        mqttHelper = new MqttHelper(Monitoring.this, BrokerUri);
+        mqttHelper = new MqttHelper(Monitoring.this, BrokerUri,AppConstant.MQTT_USER,AppConstant.MQTT_PASSWORD);
         mqttHelper.connect(sessionLogin.getNohp(getApplicationContext()), sessionLogin.getPassword(getApplicationContext()));
         startMqtt();
         Log.d("reza", "sudah konek");
@@ -525,16 +528,16 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                 tvSocket.setText("Server Connected");
                 ivSocket.setImageResource(R.drawable.circle_success);
 
-                subscribeToTopic(tvIdAlat.getText().toString() + "/in1");
-                subscribeToTopic(tvIdAlat.getText().toString() + "/in2");
-                subscribeToTopic(tvIdAlat.getText().toString() + "/in3");
+                subscribeToTopic(id_alat + "/in1");
+                subscribeToTopic(id_alat + "/in2");
+                subscribeToTopic(id_alat + "/in3");
 
-                subscribeToTopic(tvIdAlat.getText().toString() + "/statin1");
-                subscribeToTopic(tvIdAlat.getText().toString() + "/statin2");
-                subscribeToTopic(tvIdAlat.getText().toString() + "/statin3");
-                subscribeToTopic(tvIdAlat.getText().toString() + "/alarm");
-                subscribeToTopic(tvIdAlat.getText().toString() + "/delay");
-                subscribeToTopic(tvIdAlat.getText().toString() + "/active");
+                subscribeToTopic(id_alat + "/statin1");
+                subscribeToTopic(id_alat + "/statin2");
+                subscribeToTopic(id_alat + "/statin3");
+                subscribeToTopic(id_alat + "/alarm");
+                subscribeToTopic(id_alat + "/delay");
+                subscribeToTopic(id_alat + "/active");
                 Log.d("abah", "SERVER MQTT KONEK");
             }
 
@@ -549,7 +552,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 Log.d("NETWORK MQTT", "Message size: " + mqttMessage.getPayload().length + " bytes");
                 Log.d("FragmentHomeLog", mqttMessage.toString());
-                if (topic.equals(tvIdAlat.getText().toString() + "/in1")) {
+                if (topic.equals(id_alat + "/in1")) {
                     if (mqttMessage.toString().equals("1")) {
                         tvSensor1.setText("Mendeteksi");
                         ivSensor1.setImageResource(R.drawable.circle_danger);
@@ -557,7 +560,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                         tvSensor1.setText("Normal");
                         ivSensor1.setImageResource(R.drawable.circle_success);
                     }
-                } else if (topic.equals(tvIdAlat.getText().toString() + "/in2")) {
+                } else if (topic.equals(id_alat + "/in2")) {
                     if (mqttMessage.toString().equals("1")) {
                         tvSensor2.setText("Mendeteksi");
                         ivSensor2.setImageResource(R.drawable.circle_danger);
@@ -565,7 +568,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                         tvSensor2.setText("Normal");
                         ivSensor2.setImageResource(R.drawable.circle_success);
                     }
-                } else if (topic.equals(tvIdAlat.getText().toString() + "/in3")) {
+                } else if (topic.equals(id_alat + "/in3")) {
                     if (mqttMessage.toString().equals("1")) {
                         tvSensor3.setText("Mendeteksi");
                         ivSensor3.setImageResource(R.drawable.circle_danger);
@@ -573,7 +576,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                         tvSensor3.setText("Normal");
                         ivSensor3.setImageResource(R.drawable.circle_success);
                     }
-                } else if (topic.equals(tvIdAlat.getText().toString() + "/statin1")) {
+                } else if (topic.equals(id_alat + "/statin1")) {
                     if (mqttMessage.toString().equals("1")) {
                         swIn1.setChecked(true);
                         txtSwIn1.setText("Enable");
@@ -582,7 +585,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                         txtSwIn1.setText("Disable");
                     }
 
-                } else if (topic.equals(tvIdAlat.getText().toString() + "/statin2")) {
+                } else if (topic.equals(id_alat + "/statin2")) {
                     if (mqttMessage.toString().equals("1")) {
                         swIn2.setChecked(true);
                         txtSwIn2.setText("Enable");
@@ -591,7 +594,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                         txtSwIn2.setText("Disable");
                     }
 
-                } else if (topic.equals(tvIdAlat.getText().toString() + "/statin3")) {
+                } else if (topic.equals(id_alat + "/statin3")) {
                     if (mqttMessage.toString().equals("1")) {
                         swIn3.setChecked(true);
                         txtSwIn3.setText("Enable");
@@ -600,16 +603,16 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                         txtSwIn3.setText("Disable");
                     }
 
-                } else if (topic.equals(tvIdAlat.getText().toString() + "/alarm")) {
+                } else if (topic.equals(id_alat + "/alarm")) {
                     if (mqttMessage.toString().equals("0")) {
                         btnAlarm.setEnabled(true);
                         ivButtonHidupkanAlarm.setImageResource(R.drawable.alarm_aktif);
                     }
-                } else if (topic.equals(tvIdAlat.getText().toString() + "/delay")) {
+                } else if (topic.equals(id_alat + "/delay")) {
                     tvDelay.setText(mqttMessage.toString());
                     tvDelayAlarm.setText(mqttMessage + " Detik");
 
-                } else if (topic.equals(tvIdAlat.getText().toString() + "/active")) {
+                } else if (topic.equals(id_alat + "/active")) {
                     if (mqttMessage.toString().equals("1")) {
                         tvStatusAlat.setText("Aktif");
                         tvStatusAlat.setEnabled(true);
@@ -658,28 +661,16 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     }
 
     private boolean sendToServer(String topic, String datanya) {
-        try {
-            if (mqttHelper != null) {
-                if (mqttHelper.mqttAndroidClient != null) {
-                    if (mqttHelper.mqttAndroidClient.isConnected()) {
-                        MqttMessage message = new MqttMessage();
-                        message.setPayload(datanya.getBytes());
-                        message.setQos(0);
-                        message.setRetained(false);
-                        mqttHelper.mqttAndroidClient.publish(topic, message);
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
 
-        } catch (Exception e) {
-            Log.d("FragmentHomeLog", "send:" + e);
+        if (mqttHelper.mqttAndroidClient.isConnected()) {
+            MqttMessage message = new MqttMessage();
+            message.setPayload(datanya.getBytes());
+            message.setQos(0);
+            message.setRetained(false);
+            mqttHelper.mqttAndroidClient.publish(topic, message);
+            return true;
+        } else {
+            Log.d("Publish", "Enggak Bisa publish");
             return false;
         }
     }
@@ -782,7 +773,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
 
         btnSimpan.setOnClickListener(view1 -> {
             sheetDialog.dismiss();
-            sendToServer(tvIdAlat.getText().toString() + "/delay", edDelay.getText().toString());
+            sendToServer(id_alat + "/delay", edDelay.getText().toString());
             tvDelay.setText(edDelay.getText().toString());
             tvDelayAlarm.setText(edDelay.getText().toString() + " Detik");
         });
@@ -809,7 +800,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
         AndroidNetworking.post(BASE_URL + "users/rename")
                 .setPriority(Priority.HIGH)
                 .addBodyParameter("nohp", sessionLogin.getNohp(getApplicationContext()))
-                .addBodyParameter("id_alat", tvIdAlat.getText().toString())
+                .addBodyParameter("id_alat", id_alat)
                 .addBodyParameter("before_rename", before_rename)
                 .addBodyParameter("after_rename", after_rename)
                 .build()
@@ -853,13 +844,14 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     void btnAlarm() {
         btnAlarm.setEnabled(false);
         ivButtonHidupkanAlarm.setImageResource(R.drawable.alarm_nonaktif);
-        sendToServer(tvIdAlat.getText().toString() + "/alarm", "1");
+        sendToServer(id_alat + "/alarm", "1");
     }
 
     @OnClick(R.id.btnCekAlat)
     void btnCekAlat() {
+
         btnCekAlat.setEnabled(false);
         isCekAlatButton = true;
-        sendToServer(tvIdAlat.getText().toString() + "/active", "0");
+        sendToServer(id_alat + "/active", "0");
     }
 }
