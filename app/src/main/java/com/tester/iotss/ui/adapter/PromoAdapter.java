@@ -16,13 +16,14 @@ import java.util.List;
 
 public class PromoAdapter extends PagerAdapter {
     Context context;
-    private final LayoutInflater layoutInflater;
+    private final View.OnClickListener onClickListener;
     private final List<ListPromo> listPromos;
 
-    public PromoAdapter(List<ListPromo> listPromos, Context context) {
+    public PromoAdapter(List<ListPromo> listPromos, Context context, View.OnClickListener click) {
         this.listPromos = listPromos;
         this.context = context;
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.onClickListener = click;
+        context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -40,9 +41,10 @@ public class PromoAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
-        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.list_promo,  container, false);
+        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.list_promo, container, false);
         ImageView imageView = view.findViewById(R.id.imageView);
-
+        view.setTag(position);
+        view.setOnClickListener(onClickListener);
         ListPromo listPromo = listPromos.get(position);
         Glide.with(context)
                 .load(listPromo.getBanner())

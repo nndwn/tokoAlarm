@@ -40,10 +40,10 @@ import com.tester.iotss.domain.model.ListPromo;
 import com.tester.iotss.ui.activity.PusatBantuan;
 import com.tester.iotss.R;
 import com.tester.iotss.ui.activity.WebViewActivity;
+import com.tester.iotss.utils.Utils;
 import com.tester.iotss.utils.sessions.SessionLogin;
 import com.tester.iotss.ui.activity.Setting;
 import com.tester.iotss.ui.activity.Topup;
-import com.tester.iotss.ui.activity.Tutorial;
 import com.tester.iotss.ui.adapter.PromoAdapter;
 
 import org.json.JSONException;
@@ -53,6 +53,8 @@ import static com.tester.iotss.data.config.Config.BASE_URL;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -67,8 +69,6 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
     @BindView(R.id.containerSwipe)
     SwipeRefreshLayout swipeRefreshLayout;
 
- /*   @BindView(R.id.scrollView)
-    ScrollView scrollView;*/
 
     @BindView(R.id.tvSaldo)
     TextView tvSaldo;
@@ -84,14 +84,12 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
     private Handler handler;
     private int currentPage = 0;
 
-   /* @BindView(R.id.list_promo)*/
     String URL_TUTORIAL = "";
     String URL_PESAN_ALARM = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
         FirebaseApp.initializeApp(requireActivity());
@@ -146,8 +144,21 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
         });
     }
 
+    private void LinkBanner( int i)
+    {
+        List<String> banner = Arrays.asList(
+                "https://tokoalarm.com/promo/",
+                "https://tokoalarm.com/informasi-update-apk/");
+        String url = banner.get(i);
+        Log.d("Banner", banner.get(i));
+        Intent intent = new Intent(getContext(), WebViewActivity.class);
+        intent.putExtra("URL", url);
+        startActivity(intent);
+
+    }
 
     private void getData() {
+
         SessionLogin sessionLogin = new SessionLogin();
         AndroidNetworking.post(BASE_URL + "users/datapelanggan")
                 .addBodyParameter("id_users", sessionLogin.getId(requireActivity()))
@@ -166,18 +177,19 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
                                 Type listType = new TypeToken<ArrayList<ListPromo>>() {
                                 }.getType();
                                 listPromos = new Gson().fromJson(String.valueOf(person.getJSONArray("data")), listType);
-                                sliderAdapter = new PromoAdapter(listPromos, requireContext());
+                                sliderAdapter = new PromoAdapter(listPromos, requireContext(),view -> {
+                                    int position = (int) view.getTag();
+                                    LinkBanner(position);
+                                });
                                 viewPager.setAdapter(sliderAdapter);
                                 sliderAdapter.notifyDataSetChanged();
                                 URL_TUTORIAL = person.getJSONObject("config").getString("link_tutorial");
                                 URL_PESAN_ALARM = person.getJSONObject("config").getString("link_pesan_alarm");
-                            } else {
-                                Toast.makeText(getActivity(), "Failed to get data", Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.d("FRAGMENTHOMELOG", e.getMessage());
-                            Toast.makeText(getActivity().getApplicationContext(), "Terjadi Kesalahan " + e.getMessage(), Toast.LENGTH_LONG).show();
+                           //Toast.makeText(getActivity().getApplicationContext(), "Terjadi Kesalahan " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -186,7 +198,7 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
                     public void onError(ANError error) {
                         swipeRefreshLayout.setRefreshing(false);
                         Log.d("FRAGMENTHOMELOG", error.getMessage());
-                        Toast.makeText(getActivity().getApplicationContext(), "Terjadi Kesalahan " + error.getMessage(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getActivity().getApplicationContext(), "Terjadi Kesalahan " + error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -202,8 +214,6 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
         super.onPause();
         handler.removeCallbacks(runnable); // Stop the automatic page change
     }
-
-
 
     @OnClick(R.id.btnTopup)
     void btnTopup() {
