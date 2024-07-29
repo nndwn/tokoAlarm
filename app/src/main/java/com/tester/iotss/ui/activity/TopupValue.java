@@ -13,13 +13,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tester.iotss.R;
+import com.tester.iotss.domain.model.PaymentMetode;
+import com.tester.iotss.utils.Utils;
 import com.tester.iotss.utils.helpers.AppHelper;
 import com.tester.iotss.utils.sessions.SessionLogin;
 
@@ -30,105 +39,102 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class TopupValue extends AppCompatActivity{
-    private TextView tvValue;
-    private TextView tvPaymentInfo;
-    private AutoCompleteTextView spinnerPayment;
-    private TextView tvPaymentName;
+    private TextView rekening;
+    private TextView pemilik;
     private String nomor_cs = "";
+    private String price = "";
     private String selectedPayment = "";
-    private String resultValue ="";
     private Context context;
     SessionLogin sessionLogin;
+
     @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         context = this;
         setContentView(R.layout.activity_topup_value);
         ButterKnife.bind(this);
         getData();
+        PaymentManual();
+    }
 
-        tvValue = findViewById(R.id.tvValue);
-        tvPaymentInfo = findViewById(R.id.tvPaymentInfo);
-        spinnerPayment = findViewById(R.id.spinnerPayment);
-        tvPaymentName = findViewById(R.id.tvPaymentName);
+    private static class paymentMetode{
+        public List<PaymentMetode> payment;
+    }
 
-        Intent intent = getIntent();
-        String value = intent.getStringExtra("value");
+    private List<PaymentMetode> DataPayment() {
+        String jsonStr = Utils.readRawResource( getResources().openRawResource(R.raw.payment_metode));
+        Gson gson = new Gson();
+        Type responseType = new TypeToken<paymentMetode>() {}.getType();
+        paymentMetode response = gson.fromJson(jsonStr, responseType);
+        return response.payment;
+    }
 
-        Random random = new Random();
-        int randomDigits = random.nextInt(1000);
-
-        String[] paymentMethods = getResources().getStringArray(R.array.payment_methods);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, paymentMethods);
+    private void DropDownPayment() {
+        AutoCompleteTextView spinnerPayment = findViewById(R.id.spinnerPayment);
+        List<String> nameMetode = new ArrayList<>();
+        for (int i = 0 ; i < DataPayment().size() ; i++) {
+            nameMetode.add(DataPayment().get(i).GetName());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nameMetode);
         spinnerPayment.setAdapter(adapter);
 
         spinnerPayment.setOnItemClickListener((parent, view, position, id) -> {
             selectedPayment = parent.getItemAtPosition(position).toString();
-            switch (selectedPayment) {
-                case "Bank Mandiri":
-                    tvPaymentInfo.setText("1060012526581");
-                    break;
-                case "Bank Jago":
-                    tvPaymentInfo.setText("507381262547");
-                    break;
-                case "Super Bank":
-                    tvPaymentInfo.setText("000000077305");
-                    break;
-                case "Ovo":
-                case "Dana":
-                case "Gopay":
-                    tvPaymentInfo.setText("081264628242");
-                    break;
-                default:
-                    tvPaymentInfo.setText("");
-                    break;
+            if (selectedPayment.isBlank() || selectedPayment.isEmpty())
+            {
+                pemilik.setText("");
+                rekening.setText("");
+                return;
             }
+            for (int i = 0; i < nameMetode.size(); i++) {
+                if (nameMetode.get(i).equals(selectedPayment)) {
+                    rekening.setText(String.valueOf(DataPayment().get(i).GetNomor()));
+                    pemilik.setText(DataPayment().get(i).GetPemilik());
+                    break;
+                }
+            }
+            pemilik.setVisibility(View.VISIBLE);
+            rekening.setVisibility(View.VISIBLE);
 
-            tvPaymentName.setVisibility(View.VISIBLE);
-            tvPaymentInfo.setVisibility(View.VISIBLE);
         });
-
-        if (value != null) {
-            resultValue = String.format("%s.%03d", value, randomDigits);
-            tvValue.setText(resultValue);
-
-        }
     }
 
+    private void PaymentManual() {
+        TextView textPayment = findViewById(R.id.tvValue);
+        rekening = findViewById(R.id.tvPaymentInfo);
+        pemilik = findViewById(R.id.tvPaymentName);
 
+        DropDownPayment();
+
+        Intent intent = getIntent();
+        price = intent.getStringExtra("priceTopUp");
+        textPayment.setText(price);
+
+    }
 
     private void getData() {
+        AndroidNetworking.initialize(getApplicationContext());
         AndroidNetworking.get(BASE_URL + "users/pusatbantuan")
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(final JSONObject person) {
-                        Log.d("PUSATBANTUANLOG", person.toString());
                         try {
-
                             boolean status = person.getBoolean("status");
                             if (status) {
                                 JSONObject data = person.getJSONObject("data");
-                                nomor_cs =
-                                        data.getString("nomor_cs");
-                            } else {
-
+                                nomor_cs = data.getString("nomor_cs");
                             }
                         } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.d("PUSATBANTUANLOG", e.getMessage());
-                            Toast.makeText(getApplicationContext(), "Terjadi Kesalahan " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            Log.d("PUSATBANTUANLOG", Objects.requireNonNull(e.getMessage()));
                         }
 
                     }
-
                     @Override
                     public void onError(ANError error) {
-                        Log.d("PUSATBANTUANLOG", error.getMessage());
-                        Toast.makeText(getApplicationContext(), "Terjadi Kesalahan " + error.getMessage(), Toast.LENGTH_LONG).show();
+                        Log.d("PUSATBANTUANLOG", Objects.requireNonNull(error.getMessage()));
                     }
                 });
     }
@@ -137,7 +143,7 @@ public class TopupValue extends AppCompatActivity{
     void lnChatCs() {
         String countryCode = "62";
         sessionLogin = new SessionLogin();
-        String message = "Top Up: \n" + "username: "+sessionLogin.getNama(getApplicationContext()) +"\nmetode : " + selectedPayment + "\nPembayaran: " + resultValue;
+        String message = "Top Up: \n" + "username: "+sessionLogin.getNama(getApplicationContext()) +"\nmetode : " + selectedPayment + "\nPembayaran: " + price;
         String formattedNumber = nomor_cs.replaceFirst("^0", countryCode);
         AppHelper.openWhatsApp(context, formattedNumber, message);
 

@@ -1,0 +1,41 @@
+{
+  "payment":
+  [
+    {
+      "id" : 1,
+      "name" : "bank mandiri",
+      "nomor": "1060012526581",
+      "pemilik": "Dani Saputra"
+    },
+    {
+      "id" : 2,
+      "name" : "bank jago",
+      "nomor": "507381262547",
+      "pemilik": "Dani Saputra"
+    },
+    {
+      "id" : 3,
+      "name" : "super bank",
+      "nomor": "000000077305",
+      "pemilik": "Dani Saputra"
+    },
+    {
+      "id" : 4,
+      "name" : "ovo",
+      "nomor": "081264628242",
+      "pemilik": "Dani Saputra"
+    },
+    {
+      "id" : 5,
+      "name" : "dana",
+      "nomor": "081264628242",
+      "pemilik": "Dani Saputra"
+    },
+    {
+      "id" : 6,
+      "name" : "gopay",
+      "nomor": "081264628242",
+      "pemilik": "Dani Saputra"
+    }
+  ]
+}

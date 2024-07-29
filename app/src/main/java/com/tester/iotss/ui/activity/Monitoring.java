@@ -154,7 +154,6 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     LoadingDialog loadingDialog;
     AlertSuccess alertSuccess;
     AlertError alertError;
-    private Animation blinkAnimation;
 
     @BindView(R.id.tvLogIn1)
     TextView tvLogIn1;
@@ -186,9 +185,8 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitoring);
         ButterKnife.bind(this);
-
+        sessionLogin = new SessionLogin();
         initializeUI();
-        setupFirebase();
         setupSwipeRefresh();
         setupScrollListener();
         setupSwitchListeners();
@@ -202,23 +200,8 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
 
         }
 
-        blinkAnimation = new AlphaAnimation(0.0f, 1.0f);
-        blinkAnimation.setDuration(500);
-        blinkAnimation.setStartOffset(20);
-        blinkAnimation.setRepeatMode(Animation.REVERSE);
-        blinkAnimation.setRepeatCount(Animation.INFINITE);
-
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
         sheetBehaviorDelay = BottomSheetBehavior.from(bottom_sheet_delay);
-    }
-
-    private void setupFirebase() {
-        FirebaseApp.initializeApp(this);
-        sessionLogin = new SessionLogin();
-        FirebaseMessaging.getInstance().subscribeToTopic(sessionLogin.getNohp(getApplicationContext()));
-        loadingDialog = new LoadingDialog(this);
-        alertSuccess = new AlertSuccess(this);
-        alertError = new AlertError(this);
     }
 
     private void setupSwipeRefresh() {

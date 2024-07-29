@@ -8,6 +8,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import com.tester.iotss.R;
 
+import java.util.Objects;
+
 
 public class LoadingDialog {
     Activity activity;
@@ -33,7 +35,7 @@ public class LoadingDialog {
             }
         });
         dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
         isShowing = true;
     }

@@ -35,11 +35,11 @@
                                 android:layout_gravity="left"
                                 android:layout_width="@dimen/_37sdp"
                                 android:layout_height="@dimen/_37sdp"
-                                android:tint="@color/white"
                                 android:padding="@dimen/_10sdp"
                                 android:elevation="@dimen/_2sdp"
                                 android:background="@drawable/primary_rect"
-                                android:src="@drawable/ic_arrow_back"/>
+                                android:src="@drawable/ic_arrow_back"
+                                app:tint="@color/white" />
 
                         </RelativeLayout>
                     </androidx.appcompat.widget.Toolbar>
@@ -83,111 +83,95 @@
 
                             </LinearLayout>
                         </LinearLayout>
-                        <LinearLayout
-                            android:layout_marginTop="@dimen/_15sdp"
-                            android:id="@+id/Sepuluh"
-                            android:layout_marginBottom="@dimen/_5sdp"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/btnListTopUp"
                             android:layout_width="match_parent"
-                            android:orientation="horizontal"
-                            android:padding="@dimen/_10sdp"
-                            android:layout_height="@dimen/_40sdp"
-                            android:gravity="center"
-                            android:background="@drawable/green_rect">
+                            android:layout_height="match_parent"/>
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="wrap_content"
-                                android:text="Rp. 10.000"
-                                android:layout_marginLeft="@dimen/_10sdp"
-                                android:textColor="@color/white"
-                                android:fontFamily="@font/robotomedium"
-                                android:textSize="@dimen/_13sdp"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_marginTop="@dimen/_15sdp"
-                            android:id="@+id/tigaPuluh"
-                            android:layout_marginBottom="@dimen/_5sdp"
-                            android:layout_width="match_parent"
-                            android:orientation="horizontal"
-                            android:padding="@dimen/_10sdp"
-                            android:layout_height="@dimen/_40sdp"
-                            android:gravity="center"
-                            android:background="@drawable/green_rect">
+<!--                        <LinearLayout-->
+<!--                            android:layout_marginTop="@dimen/_15sdp"-->
+<!--                            android:id="@+id/tigaPuluh"-->
+<!--                            android:layout_marginBottom="@dimen/_5sdp"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/_10sdp"-->
+<!--                            android:layout_height="@dimen/_40sdp"-->
+<!--                            android:gravity="center"-->
+<!--                            android:background="@drawable/green_rect">-->
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="wrap_content"
-                                android:text="Rp. 30.000"
-                                android:layout_marginLeft="@dimen/_10sdp"
-                                android:textColor="@color/white"
-                                android:fontFamily="@font/robotomedium"
-                                android:textSize="@dimen/_13sdp"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_marginTop="@dimen/_15sdp"
-                            android:id="@+id/LimaPuluh"
-                            android:layout_marginBottom="@dimen/_5sdp"
-                            android:layout_width="match_parent"
-                            android:orientation="horizontal"
-                            android:padding="@dimen/_10sdp"
-                            android:layout_height="@dimen/_40sdp"
-                            android:gravity="center"
-                            android:background="@drawable/green_rect">
+<!--                            <TextView-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:layout_weight="1"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Rp. 30.000"-->
+<!--                                android:layout_marginLeft="@dimen/_10sdp"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:fontFamily="@font/robotomedium"-->
+<!--                                android:textSize="@dimen/_13sdp"/>-->
+<!--                        </LinearLayout>-->
+<!--                        <LinearLayout-->
+<!--                            android:layout_marginTop="@dimen/_15sdp"-->
+<!--                            android:id="@+id/LimaPuluh"-->
+<!--                            android:layout_marginBottom="@dimen/_5sdp"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/_10sdp"-->
+<!--                            android:layout_height="@dimen/_40sdp"-->
+<!--                            android:gravity="center"-->
+<!--                            android:background="@drawable/green_rect">-->
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="wrap_content"
-                                android:text="Rp. 50.000"
-                                android:layout_marginLeft="@dimen/_10sdp"
-                                android:textColor="@color/white"
-                                android:fontFamily="@font/robotomedium"
-                                android:textSize="@dimen/_13sdp"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_marginTop="@dimen/_15sdp"
-                            android:id="@+id/Seratus"
-                            android:layout_marginBottom="@dimen/_5sdp"
-                            android:layout_width="match_parent"
-                            android:orientation="horizontal"
-                            android:padding="@dimen/_10sdp"
-                            android:layout_height="@dimen/_40sdp"
-                            android:gravity="center"
-                            android:background="@drawable/green_rect">
+<!--                            <TextView-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:layout_weight="1"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Rp. 50.000"-->
+<!--                                android:layout_marginLeft="@dimen/_10sdp"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:fontFamily="@font/robotomedium"-->
+<!--                                android:textSize="@dimen/_13sdp"/>-->
+<!--                        </LinearLayout>-->
+<!--                        <LinearLayout-->
+<!--                            android:layout_marginTop="@dimen/_15sdp"-->
+<!--                            android:id="@+id/Seratus"-->
+<!--                            android:layout_marginBottom="@dimen/_5sdp"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/_10sdp"-->
+<!--                            android:layout_height="@dimen/_40sdp"-->
+<!--                            android:gravity="center"-->
+<!--                            android:background="@drawable/green_rect">-->
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="wrap_content"
-                                android:text="Rp. 100.000"
-                                android:layout_marginLeft="@dimen/_10sdp"
-                                android:textColor="@color/white"
-                                android:fontFamily="@font/robotomedium"
-                                android:textSize="@dimen/_13sdp"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_marginTop="@dimen/_15sdp"
-                            android:id="@+id/SatuJuta"
-                            android:layout_marginBottom="@dimen/_5sdp"
-                            android:layout_width="match_parent"
-                            android:orientation="horizontal"
-                            android:padding="@dimen/_10sdp"
-                            android:layout_height="@dimen/_40sdp"
-                            android:gravity="center"
-                            android:background="@drawable/green_rect">
+<!--                            <TextView-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:layout_weight="1"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Rp. 100.000"-->
+<!--                                android:layout_marginLeft="@dimen/_10sdp"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:fontFamily="@font/robotomedium"-->
+<!--                                android:textSize="@dimen/_13sdp"/>-->
+<!--                        </LinearLayout>-->
+<!--                        <LinearLayout-->
+<!--                            android:layout_marginTop="@dimen/_15sdp"-->
+<!--                            android:id="@+id/SatuJuta"-->
+<!--                            android:layout_marginBottom="@dimen/_5sdp"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/_10sdp"-->
+<!--                            android:layout_height="@dimen/_40sdp"-->
+<!--                            android:gravity="center"-->
+<!--                            android:background="@drawable/green_rect">-->
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="wrap_content"
-                                android:text="Rp. 1000.000"
-                                android:layout_marginLeft="@dimen/_10sdp"
-                                android:textColor="@color/white"
-                                android:fontFamily="@font/robotomedium"
-                                android:textSize="@dimen/_13sdp"/>
-                        </LinearLayout>
+<!--                            <TextView-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:layout_weight="1"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Rp. 1.000.000"-->
+<!--                                android:layout_marginLeft="@dimen/_10sdp"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:fontFamily="@font/robotomedium"-->
+<!--                                android:textSize="@dimen/_13sdp"/>-->
+<!--                        </LinearLayout>-->
                     </LinearLayout>
 
 
