@@ -29,16 +29,17 @@
                         <include layout="@layout/shimmer_layout_home" />
 
                     </com.facebook.shimmer.ShimmerFrameLayout>
+
                     <LinearLayout
                         android:id="@+id/lnHome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-                  <!--      <RelativeLayout
+                        <!--      <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1">-->
-                          <!--  <LinearLayout
+                        <!--  <LinearLayout
                                 android:id="@+id/toolbarMain"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_120sdp"
@@ -48,99 +49,107 @@
                                 android:paddingLeft="@dimen/_10sdp"
                                 tools:ignore="MissingConstraints">
                             </LinearLayout>-->
+                        <LinearLayout
+                            android:id="@+id/lnSlider"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_40sdp"
+                            android:layout_marginRight="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:background="@drawable/primary_rect"
+                            android:elevation="@dimen/_1sdp"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_10sdp">
+
                             <LinearLayout
-                                android:background="@drawable/primary_rect"
-                                android:layout_marginTop="@dimen/_40sdp"
-                                android:layout_marginLeft="@dimen/_15sdp"
-                                android:layout_marginRight="@dimen/_15sdp"
-                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/lnSlider"
-                                android:elevation="@dimen/_1sdp"
-                                android:padding="@dimen/_10sdp"
-                                android:orientation="vertical"
-                                android:layout_width="match_parent">
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_50sdp"
+                                    android:layout_height="@dimen/_50sdp"
+                                    android:src="@drawable/logo_icon" />
+
                                 <LinearLayout
-                                    android:layout_width="match_parent"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-                                    <ImageView
-                                        android:layout_width="@dimen/_50sdp"
-                                        android:layout_height="@dimen/_50sdp"
-                                        android:src="@drawable/logo_icon"/>
-                                    <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_weight="1"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:orientation="vertical">
-                                        <TextView
-                                            android:gravity="right"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/robotolight"
-                                            android:text="Saldo Saya"
-                                            android:textColor="@color/white"
-                                            android:textSize="@dimen/_11sdp" />
-                                        <TextView
-                                            android:id="@+id/tvSaldo"
-                                            android:gravity="right"
-                                            android:layout_marginTop="@dimen/_10sdp"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/robotomedium"
-                                            android:text="-"
-                                            android:textColor="@color/white"
-                                            android:textSize="@dimen/_15sdp" />
-                                    </LinearLayout>
-                                </LinearLayout>
+                                        android:fontFamily="@font/robotolight"
+                                        android:gravity="right"
+                                        android:text="Saldo Saya"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/_11sdp" />
 
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_5sdp"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:layout_marginBottom="@dimen/_5sdp"/>
-                                <LinearLayout
-                                    android:gravity="right"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-                                    <androidx.appcompat.widget.AppCompatButton
+                                    <TextView
+                                        android:id="@+id/tvSaldo"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_10sdp"
-                                        android:id="@+id/btnTopup"
-                                        android:layout_width="@dimen/_80sdp"
-                                        android:layout_height="@dimen/_35sdp"
-                                        android:layout_marginRight="@dimen/_5sdp"
-                                        android:background="@drawable/white_rect"
                                         android:fontFamily="@font/robotomedium"
-                                        android:text="+ Top Up"
-                                        android:textSize="@dimen/_10sdp"
-                                        android:textAllCaps="false"
-                                        android:textColor="@color/colorPrimary" />
-                                    <androidx.appcompat.widget.AppCompatButton
-                                        android:layout_marginTop="@dimen/_10sdp"
-                                        android:id="@+id/btnHistory"
-                                        style="?android:attr/borderlessButtonStyle"
-                                        android:layout_width="@dimen/_80sdp"
-                                        android:layout_height="@dimen/_35sdp"
-                                        android:background="@drawable/orange_rect"
-                                        android:fontFamily="@font/robotomedium"
-                                        android:text="History"
-                                        android:textSize="@dimen/_10sdp"
-                                        android:textAllCaps="false"
-                                        android:textColor="@color/white" />
+                                        android:gravity="right"
+                                        android:text="-"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/_15sdp" />
                                 </LinearLayout>
-
                             </LinearLayout>
 
-                       <!-- </RelativeLayout>-->
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_5sdp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginBottom="@dimen/_5sdp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:orientation="horizontal">
+
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:id="@+id/btnTopup"
+                                    android:layout_width="@dimen/_80sdp"
+                                    android:layout_height="@dimen/_35sdp"
+                                    android:layout_marginTop="@dimen/_10sdp"
+                                    android:layout_marginRight="@dimen/_5sdp"
+                                    android:background="@drawable/white_rect"
+                                    android:fontFamily="@font/robotomedium"
+                                    android:text="+ Top Up"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/_10sdp" />
+
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:id="@+id/btnHistory"
+                                    style="?android:attr/borderlessButtonStyle"
+                                    android:layout_width="@dimen/_80sdp"
+                                    android:layout_height="@dimen/_35sdp"
+                                    android:layout_marginTop="@dimen/_10sdp"
+                                    android:background="@drawable/orange_rect"
+                                    android:fontFamily="@font/robotomedium"
+                                    android:text="History"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/_10sdp" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- </RelativeLayout>-->
 
 
                         <GridLayout
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_80sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_margin="@dimen/_15sdp"
                             android:layout_gravity="center"
+                            android:layout_margin="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
                             android:columnCount="4"
                             android:rowCount="2">
 
@@ -148,171 +157,176 @@
                                 android:id="@+id/lnCaraPenggunaan"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_columnWeight="1"
                                 android:layout_rowWeight="1"
+                                android:layout_columnWeight="1"
                                 android:gravity="center"
-                                >
+                                android:orientation="vertical">
 
                                 <ImageView
-                                    android:background="@drawable/outline_grey"
                                     android:layout_width="@dimen/_50sdp"
                                     android:layout_height="@dimen/_49sdp"
+                                    android:background="@drawable/outline_grey"
                                     android:contentDescription="Tutorial"
                                     android:padding="@dimen/_10sdp"
-                                    android:src="@drawable/tutorial"/>
+                                    android:src="@drawable/tutorial" />
 
                                 <TextView
-                                    android:layout_marginTop="@dimen/_2sdp"
-                                    android:gravity="center"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_2sdp"
+                                    android:fontFamily="@font/robotomedium"
+                                    android:gravity="center"
                                     android:text="Tutorial"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/_9sdp"
-                                    android:fontFamily="@font/robotomedium"/>
+                                    android:textSize="@dimen/_9sdp" />
                             </LinearLayout>
 
                             <LinearLayout
                                 android:id="@+id/lnSetting"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_columnWeight="1"
                                 android:layout_rowWeight="1"
-                                android:gravity="center">
+                                android:layout_columnWeight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
 
                                 <ImageView
-                                    android:background="@drawable/outline_grey"
                                     android:layout_width="@dimen/_50sdp"
                                     android:layout_height="@dimen/_49sdp"
+                                    android:background="@drawable/outline_grey"
                                     android:contentDescription="setting"
                                     android:padding="@dimen/_10sdp"
-                                    android:src="@drawable/setting"/>
+                                    android:src="@drawable/setting" />
 
                                 <TextView
-                                    android:layout_marginTop="@dimen/_2sdp"
-                                    android:gravity="center"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_2sdp"
+                                    android:fontFamily="@font/robotomedium"
+                                    android:gravity="center"
                                     android:text="Ubah Suara"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/_9sdp"
-                                    android:fontFamily="@font/robotomedium"/>
+                                    android:textSize="@dimen/_9sdp" />
                             </LinearLayout>
 
                             <LinearLayout
                                 android:id="@+id/lnBeliPaket"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_columnWeight="1"
                                 android:layout_rowWeight="1"
-                                android:gravity="center">
+                                android:layout_columnWeight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
 
                                 <ImageView
-                                    android:contentDescription="beli paket"
-                                    android:background="@drawable/outline_grey"
                                     android:layout_width="@dimen/_50sdp"
                                     android:layout_height="@dimen/_49sdp"
+                                    android:background="@drawable/outline_grey"
+                                    android:contentDescription="beli paket"
                                     android:padding="@dimen/_10sdp"
-                                    android:src="@drawable/paket"/>
+                                    android:src="@drawable/paket" />
 
                                 <TextView
-                                    android:layout_marginTop="@dimen/_2sdp"
-                                    android:gravity="center"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_2sdp"
+                                    android:fontFamily="@font/robotomedium"
+                                    android:gravity="center"
                                     android:text="Beli Paket"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/_9sdp"
-                                    android:fontFamily="@font/robotomedium"/>
+                                    android:textSize="@dimen/_9sdp" />
                             </LinearLayout>
 
                             <LinearLayout
                                 android:id="@+id/lnPesanAlarm"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_columnWeight="1"
                                 android:layout_rowWeight="1"
-                                android:gravity="center">
+                                android:layout_columnWeight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
 
                                 <ImageView
-                                    android:contentDescription="pesan alarm"
-                                    android:background="@drawable/outline_grey"
                                     android:layout_width="@dimen/_50sdp"
                                     android:layout_height="@dimen/_49sdp"
+                                    android:background="@drawable/outline_grey"
+                                    android:contentDescription="pesan alarm"
                                     android:padding="@dimen/_10sdp"
-                                    android:src="@drawable/order"/>
+                                    android:src="@drawable/order" />
 
                                 <TextView
-                                    android:layout_marginTop="@dimen/_2sdp"
-                                    android:gravity="center"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/_2sdp"
+                                    android:fontFamily="@font/robotomedium"
+                                    android:gravity="center"
                                     android:text="Pesan Alarm"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/_9sdp"
-                                    android:fontFamily="@font/robotomedium"/>
+                                    android:textSize="@dimen/_9sdp" />
                             </LinearLayout>
                         </GridLayout>
 
                         <LinearLayout
-                            android:background="@drawable/white_rect"
-                            android:layout_marginTop="@dimen/_15sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_180sdp"
                             android:layout_marginLeft="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
                             android:layout_marginRight="@dimen/_15sdp"
                             android:layout_marginBottom="@dimen/_130sdp"
-                            android:layout_height="@dimen/_180sdp"
-                            android:padding="@dimen/_10sdp"
+                            android:background="@drawable/white_rect"
                             android:orientation="vertical"
-                            android:layout_width="match_parent">
+                            android:padding="@dimen/_10sdp">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
+
                                 <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_weight="1"
                                     android:layout_height="wrap_content"
+                                    android:layout_weight="1"
                                     android:orientation="vertical">
+
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
+                                        android:fontFamily="@font/robotomedium"
                                         android:text="Berita &amp; Promo"
                                         android:textColor="#000"
-                                        android:textSize="@dimen/_14sdp"
-                                        android:fontFamily="@font/robotomedium"/>
+                                        android:textSize="@dimen/_14sdp" />
+
                                     <TextView
-                                        android:visibility="gone"
-                                        android:layout_marginTop="@dimen/_2sdp"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/_2sdp"
+                                        android:fontFamily="@font/robotolight"
                                         android:text="Yuk lihat lebih detail !"
                                         android:textColor="#000"
                                         android:textSize="@dimen/_10sdp"
-                                        android:fontFamily="@font/robotolight"/>
+                                        android:visibility="gone" />
                                 </LinearLayout>
+
                                 <Button
-                                    android:visibility="gone"
                                     android:id="@+id/btnPromo"
                                     android:layout_width="0dp"
-                                    android:layout_weight="0.5"
                                     android:layout_height="@dimen/_35sdp"
-                                    android:text="lihat semua"
+                                    android:layout_weight="0.5"
+                                    android:background="@drawable/btn_outline_selector_primary"
                                     android:fontFamily="@font/robotomedium"
-                                    android:textSize="@dimen/_10sdp"
+                                    android:text="lihat semua"
                                     android:textColor="@drawable/text_selector_primary"
-                                    android:background="@drawable/btn_outline_selector_primary"/>
+                                    android:textSize="@dimen/_10sdp"
+                                    android:visibility="gone" />
                             </LinearLayout>
+
                             <androidx.viewpager.widget.ViewPager
                                 android:id="@+id/viewPager"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
 
                                 />
-                        <!--    <androidx.recyclerview.widget.RecyclerView
+                            <!--    <androidx.recyclerview.widget.RecyclerView
                                 android:layout_marginTop="@dimen/_10sdp"
                                 android:id="@+id/list_promo"
                                 android:layout_width="match_parent"

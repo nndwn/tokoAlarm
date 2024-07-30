@@ -95,8 +95,6 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
         FirebaseApp.initializeApp(requireActivity());
         sessionLogin = new SessionLogin();
         FirebaseMessaging.getInstance().subscribeToTopic(sessionLogin.getNohp(requireContext()));
-        sessionLogin = new SessionLogin();
-
 
         viewPager = view.findViewById(R.id.viewPager);
         listPromos = new ArrayList<>();

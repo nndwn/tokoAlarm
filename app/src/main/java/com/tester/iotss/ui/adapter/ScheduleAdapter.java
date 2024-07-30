@@ -29,7 +29,7 @@ import retrofit2.Response;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder> {
 
-    private List<Schedule> scheduleList;
+    private final List<Schedule> scheduleList;
 
     public ScheduleAdapter(List<Schedule> scheduleList) {
         this.scheduleList = scheduleList;
@@ -75,10 +75,15 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         return scheduleList.size();
     }
 
-    public class ScheduleViewHolder extends RecyclerView.ViewHolder {
+    public static class ScheduleViewHolder extends RecyclerView.ViewHolder {
 
-        private MaterialSwitch materialSwitch;
-        private TextView tvTime, tvDays, tvTitle, tvSensorSwitch, tvSensorOhm, tvSensorRf;
+        private final MaterialSwitch materialSwitch;
+        private final TextView tvTime;
+        private final TextView tvDays;
+        private final TextView tvTitle;
+        private final TextView tvSensorSwitch;
+        private final TextView tvSensorOhm;
+        private final TextView tvSensorRf;
 
         public ScheduleViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -91,16 +96,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
             tvSensorRf = itemView.findViewById(R.id.tvSensorRf);
         }
 
-        public void bind(Schedule schedule) {
+        public void bind(@NonNull Schedule schedule) {
             String dayNames = Common.convertToDayNames(schedule.getDays());
             tvDays.setText(dayNames);
             tvTime.setText(schedule.getStart_time() + " - " + schedule.getEnd_time());
 
-            if (schedule.getIs_active().equals("1")) {
-                materialSwitch.setChecked(true);
-            } else {
-                materialSwitch.setChecked(false);
-            }
+            materialSwitch.setChecked(schedule.getIs_active().equals("1"));
 
             if (!schedule.getNama_paket().equals("-")) {
                 tvTitle.setText(schedule.getNama_paket());

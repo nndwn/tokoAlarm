@@ -32,6 +32,7 @@ import com.tester.iotss.ui.activity.UbahPassword;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.File;
+import java.util.Objects;
 
 import static com.tester.iotss.data.config.Config.BASE_URL;
 
@@ -137,7 +138,7 @@ public class FragmentAccount extends Fragment implements SwipeRefreshLayout.OnRe
                         @Override
                         public void onResponse(final JSONObject person) {
                             swipeRefreshLayout.setRefreshing(false);
-                            getActivity().runOnUiThread(() -> {
+                            requireActivity().runOnUiThread(() -> {
                                 Log.d("FRAGMENTHOMELOG",person.toString());
                                 try {
 
