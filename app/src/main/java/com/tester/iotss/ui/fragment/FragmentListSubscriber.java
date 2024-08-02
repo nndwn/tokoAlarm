@@ -4,26 +4,15 @@ package com.tester.iotss.ui.fragment;
 import static android.view.View.GONE;
 import static com.tester.iotss.data.config.Config.API_SERVER_KEY;
 import static com.tester.iotss.data.config.Config.BASE_URL;
+import static com.tester.iotss.utils.Common.apiService;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,23 +21,32 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tester.iotss.R;
+import com.tester.iotss.data.remote.request.GetUserScheduleRequest;
+import com.tester.iotss.data.remote.response.ScheduleResponse;
+import com.tester.iotss.domain.model.AlatList;
+import com.tester.iotss.domain.model.Schedule;
+import com.tester.iotss.ui.adapter.AlatAdapter;
 import com.tester.iotss.ui.dialog.AlertError;
 import com.tester.iotss.ui.dialog.AlertSuccess;
 import com.tester.iotss.ui.dialog.LoadingDialog;
+import com.tester.iotss.utils.Common;
 import com.tester.iotss.utils.helpers.ErrorHandlerHelper;
-import com.tester.iotss.domain.model.AlatList;
-import com.tester.iotss.R;
 import com.tester.iotss.utils.sessions.SessionLogin;
-import com.tester.iotss.ui.adapter.AlatAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,6 +55,13 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -95,19 +100,23 @@ public class FragmentListSubscriber extends Fragment implements SwipeRefreshLayo
     AlertSuccess alertSuccess;
     AlertError alertError;
 
+    private final List<Schedule> scheduleList = new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_subscriber, container, false);
         ButterKnife.bind(this, view);
+        getJadwal();
+
         loadingDialog = new LoadingDialog(getActivity());
         alertSuccess = new AlertSuccess(getActivity());
         alertError = new AlertError(getActivity());
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
         swipeRefreshLayout.setOnRefreshListener(this);
         alatLists = new ArrayList<>();
-        recyclerViewadapter = new AlatAdapter(getActivity(), alatLists, getActivity(), FragmentListSubscriber.this, FragmentListSubscriber.this);
+
+        adapter = new AlatAdapter(getActivity(),scheduleList, alatLists, getActivity(), FragmentListSubscriber.this, FragmentListSubscriber.this);
         recyclerView.setAdapter(recyclerViewadapter);
         recyclerView.setHasFixedSize(false);
         linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -119,19 +128,43 @@ public class FragmentListSubscriber extends Fragment implements SwipeRefreshLayo
             getData();
         });
 
-        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> swipeRefreshLayout.setEnabled(scrollView.getScrollY() == 0));
+
+        return view;
+    }
+
+    private void getJadwal() {
+        GetUserScheduleRequest requestBody = new GetUserScheduleRequest(Common.sessionLogin.getNohp(requireContext()));
+        Call<ScheduleResponse> call = apiService.getUserSchedules(requestBody);
+        call.enqueue(new Callback<>() {
             @Override
-            public void onScrollChanged() {
-                swipeRefreshLayout.setEnabled(scrollView.getScrollY() == 0);
+            public void onResponse(@NonNull Call<ScheduleResponse> call, @NonNull Response<ScheduleResponse> response) {
+                swipeRefreshLayout.setRefreshing(false);
+                if (response.isSuccessful()) {
+                    ScheduleResponse scheduleResponse = response.body();
+                    if (scheduleResponse != null) {
+                        scheduleList.clear();
+                        scheduleList.addAll(scheduleResponse.getData());
+                        adapter.notifyDataSetChanged();
+                    }
+                } else {
+                    scheduleList.clear();
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ScheduleResponse> call, @NonNull Throwable t) {
+                swipeRefreshLayout.setRefreshing(false); // Hide refresh indicator
+                Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        return view;
     }
 
 
     @Override
     public void onRefresh() {
-        getActivity().runOnUiThread(() -> {
+        requireActivity().runOnUiThread(() -> {
             swipeRefreshLayout.setRefreshing(true);
             //shimmerLog.setVisibility(View.VISIBLE);
             lnData.setVisibility(GONE);
@@ -144,7 +177,7 @@ public class FragmentListSubscriber extends Fragment implements SwipeRefreshLayo
         ErrorHandlerHelper.resetErrorHandledFlag();
         AndroidNetworking.post(BASE_URL + "users/getalat")
                 .setPriority(Priority.HIGH)
-                .addBodyParameter("nohp", sessionLogin.getNohp(getContext()))
+                .addBodyParameter("nohp", sessionLogin.getNohp(requireContext()))
                 .addBodyParameter("status", "Aktif")
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -163,16 +196,16 @@ public class FragmentListSubscriber extends Fragment implements SwipeRefreshLayo
                                 }.getType();
                                 alatLists = new Gson().fromJson(String.valueOf(jsonArray), listType);
                                 Log.d("TESTINGHITAPI", String.valueOf(jsonArray));
-                                recyclerViewadapter = new AlatAdapter(getActivity(), alatLists, getActivity(), FragmentListSubscriber.this, FragmentListSubscriber.this);
+                                recyclerViewadapter = new AlatAdapter(getActivity(),scheduleList, alatLists, getActivity(), FragmentListSubscriber.this, FragmentListSubscriber.this);
                                 recyclerView.setAdapter(recyclerViewadapter);
                                 recyclerViewadapter.notifyDataSetChanged();
                             } else {
-                                Toast.makeText(getActivity().getApplicationContext(), person.getString("message"), Toast.LENGTH_LONG).show();
+                                Toast.makeText(requireActivity().getApplicationContext(), person.getString("message"), Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.d("FRAGMENTHISTORYLOG", e.getMessage());
-                            Toast.makeText(getActivity().getApplicationContext(), "Tidak ada koneksi " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            Log.d("FRAGMENTHISTORYLOG", Objects.requireNonNull(e.getMessage()));
+                            Toast.makeText(requireActivity().getApplicationContext(), "Tidak ada koneksi " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
 
@@ -201,8 +234,6 @@ public class FragmentListSubscriber extends Fragment implements SwipeRefreshLayo
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 // Handle state changes
-                if (newState == BottomSheetBehavior.STATE_DRAGGING) {
-                }
             }
 
             @Override
@@ -215,11 +246,11 @@ public class FragmentListSubscriber extends Fragment implements SwipeRefreshLayo
         Button btnSimpan;
         LinearLayout lnIdAlat;
 
-        lnIdAlat = (LinearLayout) view.findViewById(R.id.lnIdAlat);
-        tvNamaPaket = (TextView) view.findViewById(R.id.tvNamaPaket);
-        tvDurasi = (TextView) view.findViewById(R.id.tvDurasi);
-        tvHarga = (TextView) view.findViewById(R.id.tvHarga);
-        btnSimpan = (Button) view.findViewById(R.id.btnSimpan);
+        lnIdAlat = view.findViewById(R.id.lnIdAlat);
+        tvNamaPaket = view.findViewById(R.id.tvNamaPaket);
+        tvDurasi = view.findViewById(R.id.tvDurasi);
+        tvHarga = view.findViewById(R.id.tvHarga);
+        btnSimpan = view.findViewById(R.id.btnSimpan);
         tvNamaPaket.setText(alatLists.get(position).getPeriode());
         tvDurasi.setText(alatLists.get(position).getDayConvertion() + " Hari");
         tvHarga.setText(alatLists.get(position).getBiayaRupiah());
@@ -234,9 +265,7 @@ public class FragmentListSubscriber extends Fragment implements SwipeRefreshLayo
         });
         sheetDialog = new BottomSheetDialog(getActivity());
         sheetDialog.setContentView(view);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            sheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
+        sheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         sheetDialog.show();
         sheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {

@@ -1,24 +1,21 @@
 package com.tester.iotss.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.tester.iotss.R;
-import com.tester.iotss.domain.model.Perangkat;
-import com.tester.iotss.domain.model.Schedule;
 import com.tester.iotss.data.remote.api.ApiService;
 import com.tester.iotss.data.remote.network.RetrofitClient;
 import com.tester.iotss.data.remote.request.PerangkatRequest;
@@ -26,11 +23,15 @@ import com.tester.iotss.data.remote.request.ScheduleRequest;
 import com.tester.iotss.data.remote.response.CommonApiResponse;
 import com.tester.iotss.data.remote.response.PerangkatResponse;
 import com.tester.iotss.databinding.ActivityFormJadwalBinding;
-import com.tester.iotss.ui.fragment.ScheduleFragment;
+import com.tester.iotss.domain.model.Perangkat;
+import com.tester.iotss.domain.model.Schedule;
 import com.tester.iotss.utils.Common;
+import com.tester.iotss.utils.Utils;
+import com.tester.iotss.utils.services.ScheduleService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,9 +52,7 @@ public class FormJadwalActivity extends AppCompatActivity {
 
     private int selectedIdDevice = 0;
     private String startTime, endTime, days;
-    private int isActive = 1;
-    private ChipGroup chipGroupDays;
-    List<String> selectedDays;
+    private final int isActive = 1;
     String name = "";
     int isSensorSwitchActive = 0;
     int isSensorOhmActive = 0;
@@ -80,9 +79,7 @@ public class FormJadwalActivity extends AppCompatActivity {
             getOnBackPressedDispatcher().onBackPressed();
         });
 
-        formJadwalBinding.refreshButton.setOnClickListener(v -> {
-            getTextRule();
-        });
+
     }
 
     @Override
@@ -102,17 +99,14 @@ public class FormJadwalActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        if (item.getItemId() == R.id.hapus_jadwal) {// Handle the click on "Hapus Jadwal" menu item
+        if (item.getItemId() == R.id.hapus_jadwal) {
             DeleteJadwal();
             return true;
-            // Add more cases for other menu items if needed
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void isUpdatedData() {
-        // Retrieve Schedule object from intent extras
         schedule = (Schedule) getIntent().getSerializableExtra("schedule");
         if (schedule != null) {
             selectedIdDevice = Integer.parseInt(schedule.getId_book());
@@ -148,18 +142,15 @@ public class FormJadwalActivity extends AppCompatActivity {
 
             String[] numbersArray = schedule.getDays().split(",");
 
-            for (int i = 0; i < numbersArray.length; i++) {
-                int index = Integer.parseInt(numbersArray[i]) - 1;
+            for (String s : numbersArray) {
+                int index = Integer.parseInt(s) - 1;
                 View view = formJadwalBinding.chipGroupDays.getChildAt(index);
-                if (view instanceof Chip) {
-                    Chip chip = (Chip) view;
+                if (view instanceof Chip chip) {
                     chip.setChecked(true);
                 }
             }
 
             isUpdated = true;
-
-            getTextRule();
         }
     }
 
@@ -174,9 +165,15 @@ public class FormJadwalActivity extends AppCompatActivity {
             } else {
                 UpdateExistingJadwal();
             }
+
+            if (!Utils.isServiceRunning(this, ScheduleService.class))
+            {
+                Intent serviceIntent = new Intent(this, ScheduleService.class);
+                startService(serviceIntent);
+            }
+
         });
 
-        chipGroupDays = formJadwalBinding.chipGroupDays;
     }
 
     private void showTimePicker(boolean isStartTime, String title) {
@@ -229,15 +226,16 @@ public class FormJadwalActivity extends AppCompatActivity {
         Call<PerangkatResponse> call = apiService.fetchPerangkat(request);
         call.enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<PerangkatResponse> call, Response<PerangkatResponse> response) {
+            public void onResponse(@NonNull Call<PerangkatResponse> call, @NonNull Response<PerangkatResponse> response) {
                 if (response.isSuccessful()) {
+                    assert response.body() != null;
                     perangkatList = response.body().getData();
                     setupDropdownAdapter(perangkatList);
                 }
             }
 
             @Override
-            public void onFailure(Call<PerangkatResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<PerangkatResponse> call, @NonNull Throwable t) {
                 Toast.makeText(FormJadwalActivity.this, "Network error", Toast.LENGTH_SHORT).show();
             }
         });
@@ -255,9 +253,8 @@ public class FormJadwalActivity extends AppCompatActivity {
         formJadwalBinding.dropdownPerangkat.setAdapter(adapter);
         formJadwalBinding.dropdownPerangkat.setThreshold(1);
 
-        // Optional: Set an item click listener if you want to handle item clicks
         formJadwalBinding.dropdownPerangkat.setOnItemClickListener((parent, view, position, id) -> {
-            String selectedItem = adapter.getItem(position);
+            //String selectedItem = adapter.getItem(position);
 
             selectedIdDevice = perangkatList.get(position).getId();
 
@@ -272,8 +269,8 @@ public class FormJadwalActivity extends AppCompatActivity {
     }
 
     private void AddNewJadwal() {
-        startTime = formJadwalBinding.startTimeEditText.getText().toString();
-        endTime = formJadwalBinding.endTimeEditText.getText().toString();
+        startTime = Objects.requireNonNull(formJadwalBinding.startTimeEditText.getText()).toString();
+        endTime = Objects.requireNonNull(formJadwalBinding.endTimeEditText.getText()).toString();
         name = formJadwalBinding.dropdownPerangkat.getText().toString();
 
         days = convertListToString(getSelectedDays());
@@ -298,7 +295,7 @@ public class FormJadwalActivity extends AppCompatActivity {
             Call<CommonApiResponse> call = apiService.sendSchedule(request);
             call.enqueue(new Callback<>() {
                 @Override
-                public void onResponse(Call<CommonApiResponse> call, Response<CommonApiResponse> response) {
+                public void onResponse(@NonNull Call<CommonApiResponse> call, @NonNull Response<CommonApiResponse> response) {
                     if (response.isSuccessful()) {
                         CommonApiResponse apiResponse = response.body();
                         if (apiResponse != null) {
@@ -313,7 +310,7 @@ public class FormJadwalActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<CommonApiResponse> call, Throwable t) {
+                public void onFailure(@NonNull Call<CommonApiResponse> call, @NonNull Throwable t) {
                     Toast.makeText(FormJadwalActivity.this, "Network error", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -321,8 +318,8 @@ public class FormJadwalActivity extends AppCompatActivity {
     }
 
     private void UpdateExistingJadwal() {
-        startTime = formJadwalBinding.startTimeEditText.getText().toString();
-        endTime = formJadwalBinding.endTimeEditText.getText().toString();
+        startTime = Objects.requireNonNull(formJadwalBinding.startTimeEditText.getText()).toString();
+        endTime = Objects.requireNonNull(formJadwalBinding.endTimeEditText.getText()).toString();
         name = formJadwalBinding.dropdownPerangkat.getText().toString();
 
         days = convertListToString(getSelectedDays());
@@ -347,7 +344,7 @@ public class FormJadwalActivity extends AppCompatActivity {
             Call<CommonApiResponse> call = apiService.updateSchedule(request);
             call.enqueue(new Callback<>() {
                 @Override
-                public void onResponse(Call<CommonApiResponse> call, Response<CommonApiResponse> response) {
+                public void onResponse(@NonNull Call<CommonApiResponse> call, @NonNull Response<CommonApiResponse> response) {
                     if (response.isSuccessful()) {
                         CommonApiResponse apiResponse = response.body();
                         if (apiResponse != null) {
@@ -362,7 +359,7 @@ public class FormJadwalActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<CommonApiResponse> call, Throwable t) {
+                public void onFailure(@NonNull Call<CommonApiResponse> call, @NonNull Throwable t) {
                     Toast.makeText(FormJadwalActivity.this, "Network error", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -376,7 +373,7 @@ public class FormJadwalActivity extends AppCompatActivity {
         call.enqueue(new Callback<>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
-            public void onResponse(Call<CommonApiResponse> call, Response<CommonApiResponse> response) {
+            public void onResponse(@NonNull Call<CommonApiResponse> call, @NonNull Response<CommonApiResponse> response) {
                 if (response.isSuccessful()) {
                     CommonApiResponse apiResponse = response.body();
                     if (apiResponse != null) {
@@ -391,7 +388,7 @@ public class FormJadwalActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<CommonApiResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<CommonApiResponse> call, @NonNull Throwable t) {
                 Toast.makeText(FormJadwalActivity.this, "Network error", Toast.LENGTH_SHORT).show();
             }
         });
@@ -401,27 +398,13 @@ public class FormJadwalActivity extends AppCompatActivity {
         List<String> selectedDays = new ArrayList<>();
         for (int i = 0; i < formJadwalBinding.chipGroupDays.getChildCount(); i++) {
             View view = formJadwalBinding.chipGroupDays.getChildAt(i);
-            if (view instanceof Chip) {
-                Chip chip = (Chip) view;
+            if (view instanceof Chip chip) {
                 if (chip.isChecked()) {
-                    selectedDays.add(getDayNumber(chip.getText().toString())); // Convert day name to number if needed
+                    selectedDays.add(Utils.getDayNumber(chip.getText().toString())); // Convert day name to number if needed
                 }
             }
         }
         return selectedDays;
-    }
-
-    private String getDayNumber(String dayName) {
-        return switch (dayName.toLowerCase()) {
-            case "senin" -> "1";
-            case "selasa" -> "2";
-            case "rabu" -> "3";
-            case "kamis" -> "4";
-            case "jumat" -> "5";
-            case "sabtu" -> "6";
-            case "minggu" -> "7";
-            default -> ""; // Handle unknown day names if necessary
-        };
     }
 
     private String convertListToString(List<String> list) {
@@ -435,53 +418,6 @@ public class FormJadwalActivity extends AppCompatActivity {
         return sb.toString();
     }
 
-    private void getTextRule(){
-        String textRule = "Aturan Jadwal\n\nSensor:";
-        if(formJadwalBinding.chipSensor1.isChecked()){
-            textRule += "\n- Switch (Aktif)";
-        }else{
-            textRule += "\n- Switch (Tidak Aktif)";
-        }
-        if(formJadwalBinding.chipSensor2.isChecked()){
-            textRule += "\n- Ohm (Aktif)";
-        }else{
-            textRule += "\n- Ohm (Tidak Aktif)";
-        }
 
-        if(formJadwalBinding.chipSensor3.isChecked()){
-            textRule += "\n- Radio Frequency (RF) (Aktif)";
-        }else{
-            textRule += "\n- Radio Frequency (RF) (Tidak Aktif)";
-        }
-
-        textRule += "\n\nPerangkat:\n";
-
-        textRule += formJadwalBinding.dropdownPerangkat.getText().toString();
-
-        textRule += "\n\nJadwal mulai:\nHari ";
-
-        for (int i = 0; i < formJadwalBinding.chipGroupDays.getChildCount(); i++) {
-            View view = formJadwalBinding.chipGroupDays.getChildAt(i);
-            if (view instanceof Chip) {
-                Chip chip = (Chip) view;
-                if (chip.isChecked()) {
-                    textRule += chip.getText().toString();
-                    if(i != formJadwalBinding.chipGroupDays.getChildCount() -1){
-                        textRule += ", ";
-                    }
-                }
-            }
-        }
-
-        textRule += " pada pukul ";
-
-        textRule += formJadwalBinding.startTimeEditText.getText();
-
-        textRule += " s/d ";
-
-        textRule += formJadwalBinding.endTimeEditText.getText();
-
-        formJadwalBinding.tvRule.setText(textRule);
-    }
 }
 

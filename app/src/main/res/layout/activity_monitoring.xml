@@ -343,16 +343,6 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/_10sdp">
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
 
                                         <LinearLayout
                                             android:layout_width="match_parent"
@@ -365,13 +355,14 @@
                                                 android:layout_width="@dimen/_15sdp"
                                                 android:layout_height="@dimen/_15sdp"
                                                 android:layout_gravity="center"
+                                                android:contentDescription="TODO"
                                                 android:src="@drawable/edit" />
 
                                             <TextView
                                                 android:id="@+id/tvIn1"
                                                 android:layout_width="0dp"
                                                 android:layout_height="wrap_content"
-                                                android:layout_marginLeft="8dp"
+                                                android:layout_marginStart="8dp"
                                                 android:layout_weight="1"
                                                 android:fontFamily="@font/robotomedium"
                                                 android:text="Modul Switch"
@@ -396,13 +387,14 @@
                                                 android:id="@+id/ivSensor1"
                                                 android:layout_width="@dimen/_15sdp"
                                                 android:layout_height="@dimen/_15sdp"
+                                                android:contentDescription="TODO"
                                                 android:src="@drawable/circle_success" />
 
                                             <TextView
                                                 android:id="@+id/tvSensor1"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:layout_marginLeft="@dimen/_5sdp"
+                                                android:layout_marginStart="@dimen/_5sdp"
                                                 android:fontFamily="@font/robotolight"
                                                 android:text="Normal"
                                                 android:textColor="#000"
@@ -412,14 +404,14 @@
                                                 android:id="@+id/txtSwIn1"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:layout_marginLeft="@dimen/_5sdp"
+                                                android:layout_marginStart="@dimen/_5sdp"
                                                 android:fontFamily="@font/robotolight"
                                                 android:text="Enable"
                                                 android:textAlignment="textEnd"
                                                 android:textColor="#000" />
                                         </LinearLayout>
-                                    </LinearLayout>
-                                </LinearLayout>
+
+
                             </LinearLayout>
 
                             <LinearLayout
@@ -435,17 +427,6 @@
                                 android:padding="@dimen/_10sdp">
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
-
-                                        <LinearLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:gravity="center_vertical"
@@ -456,21 +437,23 @@
                                                 android:layout_width="@dimen/_15sdp"
                                                 android:layout_height="@dimen/_15sdp"
                                                 android:layout_gravity="center"
+                                                android:contentDescription="TODO"
                                                 android:src="@drawable/edit" />
 
-                                            <TextView
-                                                android:id="@+id/tvIn2"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:layout_marginStart="8dp"
-                                                android:fontFamily="@font/robotomedium"
-                                                android:text="Modul Ohm"
-                                                android:textColor="@color/black"
-                                                android:textSize="@dimen/_14sdp" />
+                                    <TextView
+                                        android:id="@+id/tvIn2"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="8dp"
+                                        android:layout_weight="1"
+                                        android:fontFamily="@font/robotomedium"
+                                        android:text="Modul Ohm"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/_14sdp" />
 
-                                            <Switch
+                                    <Switch
                                                 android:id="@+id/swIn2"
-                                                android:layout_width="match_parent"
+                                                android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 tools:ignore="UseSwitchCompatOrMaterialXml" />
                                         </LinearLayout>
@@ -485,13 +468,13 @@
                                                 android:id="@+id/ivSensor2"
                                                 android:layout_width="@dimen/_15sdp"
                                                 android:layout_height="@dimen/_15sdp"
-                                                android:src="@drawable/circle_success" />
+                                                android:contentDescription="TODO" android:src="@drawable/circle_success" />
 
                                             <TextView
                                                 android:id="@+id/tvSensor2"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:layout_marginLeft="@dimen/_5sdp"
+                                                android:layout_marginStart="@dimen/_5sdp"
                                                 android:fontFamily="@font/robotolight"
                                                 android:text="Normal"
                                                 android:textColor="#000"
@@ -501,14 +484,13 @@
                                                 android:id="@+id/txtSwIn2"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:layout_marginLeft="@dimen/_5sdp"
+                                                android:layout_marginStart="@dimen/_5sdp"
                                                 android:fontFamily="@font/robotolight"
                                                 android:text="Enable"
                                                 android:textAlignment="textEnd"
                                                 android:textColor="#000" />
                                         </LinearLayout>
-                                    </LinearLayout>
-                                </LinearLayout>
+
                             </LinearLayout>
 
                             <LinearLayout
@@ -523,16 +505,8 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/_10sdp">
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
 
-                                    <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
+
 
                                         <LinearLayout
                                             android:layout_width="match_parent"
@@ -549,9 +523,10 @@
 
                                             <TextView
                                                 android:id="@+id/tvIn3"
-                                                android:layout_width="wrap_content"
+                                                android:layout_width="0dp"
                                                 android:layout_height="wrap_content"
-                                                android:layout_marginLeft="8dp"
+                                                android:layout_marginStart="8dp"
+                                                android:layout_weight="1"
                                                 android:fontFamily="@font/robotomedium"
                                                 android:text="Modul RF"
                                                 android:textColor="@color/black"
@@ -559,7 +534,7 @@
 
                                             <Switch
                                                 android:id="@+id/swIn3"
-                                                android:layout_width="match_parent"
+                                                android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 tools:ignore="UseSwitchCompatOrMaterialXml" />
                                         </LinearLayout>
@@ -574,13 +549,13 @@
                                                 android:id="@+id/ivSensor3"
                                                 android:layout_width="@dimen/_15sdp"
                                                 android:layout_height="@dimen/_15sdp"
-                                                android:src="@drawable/circle_success" />
+                                                android:contentDescription="TODO" android:src="@drawable/circle_success" />
 
                                             <TextView
                                                 android:id="@+id/tvSensor3"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:layout_marginLeft="@dimen/_5sdp"
+                                                android:layout_marginStart="@dimen/_5sdp"
                                                 android:fontFamily="@font/robotolight"
                                                 android:text="Normal"
                                                 android:textColor="#000"
@@ -590,14 +565,12 @@
                                                 android:id="@+id/txtSwIn3"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:layout_marginLeft="@dimen/_5sdp"
+                                                android:layout_marginStart="@dimen/_5sdp"
                                                 android:fontFamily="@font/robotolight"
                                                 android:text="Enable"
                                                 android:textAlignment="textEnd"
                                                 android:textColor="#000" />
                                         </LinearLayout>
-                                    </LinearLayout>
-                                </LinearLayout>
                             </LinearLayout>
 
                             <LinearLayout
@@ -704,6 +677,7 @@
                                             android:layout_marginBottom="@dimen/_10sdp"
                                             android:background="@drawable/btn_hover_primary"
                                             android:clickable="true"
+                                            android:focusable="true"
                                             android:gravity="center"
                                             android:orientation="horizontal">
 
@@ -711,7 +685,7 @@
                                                 android:id="@+id/ivButtonHidupkanAlarm"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:layout_marginRight="8dp"
+                                                android:layout_marginEnd="8dp"
                                                 android:adjustViewBounds="true"
                                                 android:scaleType="fitCenter"
                                                 android:src="@drawable/alarm_aktif" />

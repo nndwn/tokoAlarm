@@ -8,12 +8,9 @@ import com.tester.iotss.data.remote.response.CommonApiResponse;
 import com.tester.iotss.data.remote.response.PerangkatResponse;
 import com.tester.iotss.data.remote.response.ScheduleResponse;
 
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 
 public interface ApiService {
     @POST("schedule/alat")

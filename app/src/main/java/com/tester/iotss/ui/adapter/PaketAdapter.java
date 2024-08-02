@@ -9,11 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import com.tester.iotss.domain.model.PaketList;
+
 import com.tester.iotss.R;
+import com.tester.iotss.domain.model.PaketList;
+
 import java.util.List;
 
 public class PaketAdapter extends RecyclerView.Adapter<PaketAdapter.ViewHolder> {

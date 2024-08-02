@@ -8,8 +8,10 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+
 import com.tester.iotss.R;
 
 public class MyBackgroundService extends Service {
@@ -20,8 +22,6 @@ public class MyBackgroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         startForeground(SERVICE_NOTIFICATION_ID, createNotification());
-        // Jalankan operasi Anda di sini
-        // Misalnya, operasi Firebase Messaging di latar belakang
         return START_STICKY;
     }
 
@@ -38,7 +38,7 @@ public class MyBackgroundService extends Service {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
                 .setContentTitle("Background Service")
                 .setContentText("Service is running in the background")
-                .setSmallIcon(R.drawable.logohitam);
+                .setSmallIcon(R.drawable.logo_icon);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(

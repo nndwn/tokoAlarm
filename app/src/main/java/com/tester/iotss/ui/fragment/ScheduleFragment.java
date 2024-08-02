@@ -1,9 +1,11 @@
 package com.tester.iotss.ui.fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,22 +14,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.google.android.material.appbar.MaterialToolbar;
-import com.tester.iotss.domain.model.Schedule;
+import com.tester.iotss.R;
 import com.tester.iotss.data.remote.api.ApiService;
 import com.tester.iotss.data.remote.network.RetrofitClient;
 import com.tester.iotss.data.remote.request.GetUserScheduleRequest;
 import com.tester.iotss.data.remote.response.ScheduleResponse;
 import com.tester.iotss.databinding.FragmentScheduleBinding;
+import com.tester.iotss.domain.model.Schedule;
 import com.tester.iotss.ui.activity.FormJadwalActivity;
-import com.tester.iotss.R;
 import com.tester.iotss.ui.adapter.ScheduleAdapter;
-import com.tester.iotss.ui.viewmodel.ScheduleViewModel;
 import com.tester.iotss.utils.Common;
 
 import java.util.ArrayList;
@@ -39,26 +35,21 @@ import retrofit2.Response;
 
 public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private ScheduleViewModel mViewModel;
-    private FragmentScheduleBinding fragmentScheduleBinding;
-
-    private RecyclerView recyclerView;
     private ScheduleAdapter adapter;
-    private List<Schedule> scheduleList = new ArrayList<>();
+    private final List<Schedule> scheduleList = new ArrayList<>();
     private ApiService apiService;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    public static ScheduleFragment newInstance() {
-        return new ScheduleFragment();
-    }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        fragmentScheduleBinding = FragmentScheduleBinding.inflate(inflater, container, false);
+        //private ScheduleViewModel mViewModel;
+        com.tester.iotss.databinding.FragmentScheduleBinding fragmentScheduleBinding = FragmentScheduleBinding.inflate(inflater, container, false);
         View view = fragmentScheduleBinding.getRoot();
 
-        mViewModel = new ViewModelProvider(this).get(ScheduleViewModel.class);
+        //mViewModel = new ViewModelProvider(this).get(ScheduleViewModel.class);
 
         MaterialToolbar toolbar = fragmentScheduleBinding.topAppBar;
 
@@ -70,12 +61,11 @@ public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnR
             return false;
         });
 
-        recyclerView = fragmentScheduleBinding.rvSchedule;
+        RecyclerView recyclerView = fragmentScheduleBinding.rvSchedule;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ScheduleAdapter(scheduleList);
+        adapter = new ScheduleAdapter(getContext(), scheduleList);
         recyclerView.setAdapter(adapter);
 
-        // Initialize SwipeRefreshLayout and set listener
         swipeRefreshLayout = fragmentScheduleBinding.swipeRefreshLayout;
         swipeRefreshLayout.setOnRefreshListener(this);
 
@@ -107,9 +97,11 @@ public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnR
         getData();
     }
 
+
+
     private void getData() {
         // Call API to fetch schedules
-        GetUserScheduleRequest requestBody = new GetUserScheduleRequest(Common.sessionLogin.getNohp(getContext()));
+        GetUserScheduleRequest requestBody = new GetUserScheduleRequest(Common.sessionLogin.getNohp(requireContext()));
         Call<ScheduleResponse> call = apiService.getUserSchedules(requestBody);
         call.enqueue(new Callback<>() {
             @Override
@@ -120,7 +112,7 @@ public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnR
                     if (scheduleResponse != null) {
                         scheduleList.clear(); // Clear old data
                         scheduleList.addAll(scheduleResponse.getData());
-                        adapter.notifyDataSetChanged(); // Notify adapter of data change
+                        adapter.notifyDataSetChanged();
                     }
                 } else {
                     scheduleList.clear();

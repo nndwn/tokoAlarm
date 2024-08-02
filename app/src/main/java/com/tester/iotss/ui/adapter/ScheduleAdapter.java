@@ -1,22 +1,19 @@
 package com.tester.iotss.ui.adapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.tester.iotss.R;
-import com.tester.iotss.data.remote.request.GetUserScheduleRequest;
 import com.tester.iotss.data.remote.request.ScheduleEnableDisableRequest;
 import com.tester.iotss.data.remote.response.CommonApiResponse;
-import com.tester.iotss.data.remote.response.ScheduleResponse;
 import com.tester.iotss.domain.model.Schedule;
 import com.tester.iotss.ui.activity.FormJadwalActivity;
 import com.tester.iotss.utils.Common;
@@ -30,8 +27,10 @@ import retrofit2.Response;
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder> {
 
     private final List<Schedule> scheduleList;
+    private final Context context;
 
-    public ScheduleAdapter(List<Schedule> scheduleList) {
+    public ScheduleAdapter(Context context, List<Schedule> scheduleList) {
+        this.context = context;
         this.scheduleList = scheduleList;
     }
 
@@ -59,16 +58,15 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
                 @Override
                 public void onResponse(@NonNull Call<CommonApiResponse> call, @NonNull Response<CommonApiResponse> response) {
                     assert response.body() != null;
-                    Toast.makeText(holder.materialSwitch.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<CommonApiResponse> call, @NonNull Throwable t) {
-                  //  Toast.makeText(holder.materialSwitch.getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+                public void onFailure(@NonNull Call<CommonApiResponse> call, @NonNull Throwable t) {}
             });
         });
     }
+
 
     @Override
     public int getItemCount() {

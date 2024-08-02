@@ -2,12 +2,6 @@ package com.tester.iotss.ui.activity;
 
 import static com.tester.iotss.data.config.Config.BASE_URL;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -21,6 +15,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -30,12 +30,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tester.iotss.R;
+import com.tester.iotss.domain.model.PaketList;
+import com.tester.iotss.ui.adapter.PaketAdapter;
 import com.tester.iotss.ui.dialog.AlertError;
 import com.tester.iotss.ui.dialog.AlertSuccess;
 import com.tester.iotss.ui.dialog.LoadingDialog;
-import com.tester.iotss.domain.model.PaketList;
 import com.tester.iotss.utils.sessions.SessionLogin;
-import com.tester.iotss.ui.adapter.PaketAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;

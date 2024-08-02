@@ -1,29 +1,29 @@
 package com.tester.iotss.ui.subfragment;
 
 
+import static android.view.View.GONE;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.tester.iotss.domain.model.ListHistoryInput;
 import com.tester.iotss.R;
+import com.tester.iotss.domain.model.ListHistoryInput;
 import com.tester.iotss.utils.sessions.SessionLogin;
 
 import java.util.ArrayList;
 
-import static android.view.View.GONE;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.

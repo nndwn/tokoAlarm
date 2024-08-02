@@ -13,170 +13,166 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <ScrollView
-                android:id="@+id/scrollView"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <RelativeLayout
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/toolbar"
-                        android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    tools:ignore="MissingConstraints">
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        tools:ignore="MissingConstraints">
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                            <ImageView
-                                android:id="@+id/backButton"
-                                android:layout_gravity="left"
-                                android:layout_width="@dimen/_37sdp"
-                                android:layout_height="@dimen/_37sdp"
-                                android:padding="@dimen/_10sdp"
-                                android:elevation="@dimen/_2sdp"
-                                android:background="@drawable/primary_rect"
-                                android:src="@drawable/ic_arrow_back"
-                                app:tint="@color/white" />
-
-                        </RelativeLayout>
-                    </androidx.appcompat.widget.Toolbar>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_70sdp"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_15sdp"
-                        android:layout_marginBottom="@dimen/_5sdp"
-                        android:orientation="vertical">
-                        <LinearLayout
-                            android:background="@drawable/white_rect"
-                            android:layout_height="wrap_content"
-                            android:elevation="@dimen/_2sdp"
-                            android:id="@+id/lnSlider"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/backButton"
+                            android:layout_gravity="left"
+                            android:layout_width="@dimen/_37sdp"
+                            android:layout_height="@dimen/_37sdp"
+                            android:contentDescription="TODO"
                             android:padding="@dimen/_10sdp"
-                            android:orientation="vertical"
-                            android:layout_width="match_parent">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Info Topup"
-                                android:textSize="@dimen/_15sdp"
-                                android:textColor="@color/black"
-                                android:fontFamily="@font/robotobold"/>
-                            <LinearLayout
-                                android:layout_marginTop="@dimen/_10sdp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_weight="1"
-                                    android:layout_height="wrap_content"
-                                    android:text="Silahkan chatting customer service kami dibawah untuk melakukan Top Up Saldo !"
-                                    android:textSize="@dimen/_12sdp"
-                                    android:textColor="@color/black"
-                                    android:fontFamily="@font/robotolight"/>
+                            android:elevation="@dimen/_2sdp"
+                            android:background="@drawable/primary_rect"
+                            android:src="@drawable/ic_arrow_back"
+                            app:tint="@color/white" />
 
-                            </LinearLayout>
-                        </LinearLayout>
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/btnListTopUp"
+                    </RelativeLayout>
+                </androidx.appcompat.widget.Toolbar>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_70sdp"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:background="@drawable/white_rect"
+                        android:layout_height="wrap_content"
+                        android:elevation="@dimen/_2sdp"
+                        android:id="@+id/lnSlider"
+                        android:padding="@dimen/_10sdp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent">
+                        <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="wrap_content"
+                            android:text="Info Topup"
+                            android:textSize="@dimen/_15sdp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/robotobold"/>
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="Silahkan chatting customer service kami dibawah untuk melakukan Top Up Saldo !"
+                                android:textSize="@dimen/_12sdp"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/robotolight"/>
 
-<!--                        <LinearLayout-->
-<!--                            android:layout_marginTop="@dimen/_15sdp"-->
-<!--                            android:id="@+id/tigaPuluh"-->
-<!--                            android:layout_marginBottom="@dimen/_5sdp"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:orientation="horizontal"-->
-<!--                            android:padding="@dimen/_10sdp"-->
-<!--                            android:layout_height="@dimen/_40sdp"-->
-<!--                            android:gravity="center"-->
-<!--                            android:background="@drawable/green_rect">-->
-
-<!--                            <TextView-->
-<!--                                android:layout_width="0dp"-->
-<!--                                android:layout_weight="1"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="Rp. 30.000"-->
-<!--                                android:layout_marginLeft="@dimen/_10sdp"-->
-<!--                                android:textColor="@color/white"-->
-<!--                                android:fontFamily="@font/robotomedium"-->
-<!--                                android:textSize="@dimen/_13sdp"/>-->
-<!--                        </LinearLayout>-->
-<!--                        <LinearLayout-->
-<!--                            android:layout_marginTop="@dimen/_15sdp"-->
-<!--                            android:id="@+id/LimaPuluh"-->
-<!--                            android:layout_marginBottom="@dimen/_5sdp"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:orientation="horizontal"-->
-<!--                            android:padding="@dimen/_10sdp"-->
-<!--                            android:layout_height="@dimen/_40sdp"-->
-<!--                            android:gravity="center"-->
-<!--                            android:background="@drawable/green_rect">-->
-
-<!--                            <TextView-->
-<!--                                android:layout_width="0dp"-->
-<!--                                android:layout_weight="1"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="Rp. 50.000"-->
-<!--                                android:layout_marginLeft="@dimen/_10sdp"-->
-<!--                                android:textColor="@color/white"-->
-<!--                                android:fontFamily="@font/robotomedium"-->
-<!--                                android:textSize="@dimen/_13sdp"/>-->
-<!--                        </LinearLayout>-->
-<!--                        <LinearLayout-->
-<!--                            android:layout_marginTop="@dimen/_15sdp"-->
-<!--                            android:id="@+id/Seratus"-->
-<!--                            android:layout_marginBottom="@dimen/_5sdp"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:orientation="horizontal"-->
-<!--                            android:padding="@dimen/_10sdp"-->
-<!--                            android:layout_height="@dimen/_40sdp"-->
-<!--                            android:gravity="center"-->
-<!--                            android:background="@drawable/green_rect">-->
-
-<!--                            <TextView-->
-<!--                                android:layout_width="0dp"-->
-<!--                                android:layout_weight="1"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="Rp. 100.000"-->
-<!--                                android:layout_marginLeft="@dimen/_10sdp"-->
-<!--                                android:textColor="@color/white"-->
-<!--                                android:fontFamily="@font/robotomedium"-->
-<!--                                android:textSize="@dimen/_13sdp"/>-->
-<!--                        </LinearLayout>-->
-<!--                        <LinearLayout-->
-<!--                            android:layout_marginTop="@dimen/_15sdp"-->
-<!--                            android:id="@+id/SatuJuta"-->
-<!--                            android:layout_marginBottom="@dimen/_5sdp"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:orientation="horizontal"-->
-<!--                            android:padding="@dimen/_10sdp"-->
-<!--                            android:layout_height="@dimen/_40sdp"-->
-<!--                            android:gravity="center"-->
-<!--                            android:background="@drawable/green_rect">-->
-
-<!--                            <TextView-->
-<!--                                android:layout_width="0dp"-->
-<!--                                android:layout_weight="1"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="Rp. 1.000.000"-->
-<!--                                android:layout_marginLeft="@dimen/_10sdp"-->
-<!--                                android:textColor="@color/white"-->
-<!--                                android:fontFamily="@font/robotomedium"-->
-<!--                                android:textSize="@dimen/_13sdp"/>-->
-<!--                        </LinearLayout>-->
+                        </LinearLayout>
                     </LinearLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/btnListTopUp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+                    <!--                        <LinearLayout-->
+                    <!--                            android:layout_marginTop="@dimen/_15sdp"-->
+                    <!--                            android:id="@+id/tigaPuluh"-->
+                    <!--                            android:layout_marginBottom="@dimen/_5sdp"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:orientation="horizontal"-->
+                    <!--                            android:padding="@dimen/_10sdp"-->
+                    <!--                            android:layout_height="@dimen/_40sdp"-->
+                    <!--                            android:gravity="center"-->
+                    <!--                            android:background="@drawable/green_rect">-->
+
+                    <!--                            <TextView-->
+                    <!--                                android:layout_width="0dp"-->
+                    <!--                                android:layout_weight="1"-->
+                    <!--                                android:layout_height="wrap_content"-->
+                    <!--                                android:text="Rp. 30.000"-->
+                    <!--                                android:layout_marginLeft="@dimen/_10sdp"-->
+                    <!--                                android:textColor="@color/white"-->
+                    <!--                                android:fontFamily="@font/robotomedium"-->
+                    <!--                                android:textSize="@dimen/_13sdp"/>-->
+                    <!--                        </LinearLayout>-->
+                    <!--                        <LinearLayout-->
+                    <!--                            android:layout_marginTop="@dimen/_15sdp"-->
+                    <!--                            android:id="@+id/LimaPuluh"-->
+                    <!--                            android:layout_marginBottom="@dimen/_5sdp"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:orientation="horizontal"-->
+                    <!--                            android:padding="@dimen/_10sdp"-->
+                    <!--                            android:layout_height="@dimen/_40sdp"-->
+                    <!--                            android:gravity="center"-->
+                    <!--                            android:background="@drawable/green_rect">-->
+
+                    <!--                            <TextView-->
+                    <!--                                android:layout_width="0dp"-->
+                    <!--                                android:layout_weight="1"-->
+                    <!--                                android:layout_height="wrap_content"-->
+                    <!--                                android:text="Rp. 50.000"-->
+                    <!--                                android:layout_marginLeft="@dimen/_10sdp"-->
+                    <!--                                android:textColor="@color/white"-->
+                    <!--                                android:fontFamily="@font/robotomedium"-->
+                    <!--                                android:textSize="@dimen/_13sdp"/>-->
+                    <!--                        </LinearLayout>-->
+                    <!--                        <LinearLayout-->
+                    <!--                            android:layout_marginTop="@dimen/_15sdp"-->
+                    <!--                            android:id="@+id/Seratus"-->
+                    <!--                            android:layout_marginBottom="@dimen/_5sdp"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:orientation="horizontal"-->
+                    <!--                            android:padding="@dimen/_10sdp"-->
+                    <!--                            android:layout_height="@dimen/_40sdp"-->
+                    <!--                            android:gravity="center"-->
+                    <!--                            android:background="@drawable/green_rect">-->
+
+                    <!--                            <TextView-->
+                    <!--                                android:layout_width="0dp"-->
+                    <!--                                android:layout_weight="1"-->
+                    <!--                                android:layout_height="wrap_content"-->
+                    <!--                                android:text="Rp. 100.000"-->
+                    <!--                                android:layout_marginLeft="@dimen/_10sdp"-->
+                    <!--                                android:textColor="@color/white"-->
+                    <!--                                android:fontFamily="@font/robotomedium"-->
+                    <!--                                android:textSize="@dimen/_13sdp"/>-->
+                    <!--                        </LinearLayout>-->
+                    <!--                        <LinearLayout-->
+                    <!--                            android:layout_marginTop="@dimen/_15sdp"-->
+                    <!--                            android:id="@+id/SatuJuta"-->
+                    <!--                            android:layout_marginBottom="@dimen/_5sdp"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:orientation="horizontal"-->
+                    <!--                            android:padding="@dimen/_10sdp"-->
+                    <!--                            android:layout_height="@dimen/_40sdp"-->
+                    <!--                            android:gravity="center"-->
+                    <!--                            android:background="@drawable/green_rect">-->
+
+                    <!--                            <TextView-->
+                    <!--                                android:layout_width="0dp"-->
+                    <!--                                android:layout_weight="1"-->
+                    <!--                                android:layout_height="wrap_content"-->
+                    <!--                                android:text="Rp. 1.000.000"-->
+                    <!--                                android:layout_marginLeft="@dimen/_10sdp"-->
+                    <!--                                android:textColor="@color/white"-->
+                    <!--                                android:fontFamily="@font/robotomedium"-->
+                    <!--                                android:textSize="@dimen/_13sdp"/>-->
+                    <!--                        </LinearLayout>-->
+                </LinearLayout>
 
 
-                </RelativeLayout>
-            </ScrollView>
+            </RelativeLayout>
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>

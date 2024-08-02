@@ -8,9 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.RecyclerView;
-import com.tester.iotss.domain.model.RingtoneList;
+
 import com.tester.iotss.R;
+import com.tester.iotss.domain.model.RingtoneList;
+
 import java.util.List;
 
 public class RingtoneAdapter extends RecyclerView.Adapter<RingtoneAdapter.ViewHolder> {

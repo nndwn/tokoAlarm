@@ -1,7 +1,5 @@
 package com.tester.iotss.domain.model;
 
-import java.util.List;
-
 public class Perangkat {
     private int id;
     private String id_alat;

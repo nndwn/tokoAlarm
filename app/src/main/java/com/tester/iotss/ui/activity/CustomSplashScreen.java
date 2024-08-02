@@ -1,11 +1,11 @@
 package com.tester.iotss.ui.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.splashscreen.SplashScreen;
-
-import android.os.Bundle;
 
 import com.tester.iotss.R;
 import com.tester.iotss.utils.sessions.SessionLogin;

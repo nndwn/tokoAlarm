@@ -1,6 +1,7 @@
 package com.tester.iotss.utils;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.app.ActivityManager;
+import android.content.Context;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -29,4 +30,30 @@ public class Utils  {
 
         return stringBuilder.toString();
     }
+
+    public static String getDayNumber(String dayName) {
+        return switch (dayName.toLowerCase()) {
+            case "senin" -> "1";
+            case "selasa" -> "2";
+            case "rabu" -> "3";
+            case "kamis" -> "4";
+            case "jumat" -> "5";
+            case "sabtu" -> "6";
+            case "minggu" -> "7";
+            default -> ""; // Handle unknown day names if necessary
+        };
+    }
+
+    public static boolean isServiceRunning(Context context, Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
 }

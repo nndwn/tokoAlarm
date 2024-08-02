@@ -1,30 +1,20 @@
 package com.tester.iotss.ui.fragment;
 
 
+import static com.tester.iotss.data.config.Config.BASE_URL;
+
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager.widget.ViewPager;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -34,28 +24,27 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tester.iotss.R;
+import com.tester.iotss.domain.model.ListPromo;
 import com.tester.iotss.ui.activity.BeliPaket;
 import com.tester.iotss.ui.activity.History;
-import com.tester.iotss.domain.model.ListPromo;
-import com.tester.iotss.ui.activity.PusatBantuan;
-import com.tester.iotss.R;
-import com.tester.iotss.ui.activity.WebViewActivity;
-import com.tester.iotss.utils.Utils;
-import com.tester.iotss.utils.sessions.SessionLogin;
 import com.tester.iotss.ui.activity.Setting;
 import com.tester.iotss.ui.activity.Topup;
+import com.tester.iotss.ui.activity.WebViewActivity;
 import com.tester.iotss.ui.adapter.PromoAdapter;
+import com.tester.iotss.utils.sessions.SessionLogin;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import static com.tester.iotss.data.config.Config.BASE_URL;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -156,49 +145,59 @@ public class FragmentHome extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     private void getData() {
+        if (isAdded()) {
+            SessionLogin sessionLogin = new SessionLogin();
+            String userId = sessionLogin.getId(requireActivity());
 
-        SessionLogin sessionLogin = new SessionLogin();
-        AndroidNetworking.post(BASE_URL + "users/datapelanggan")
-                .addBodyParameter("id_users", sessionLogin.getId(requireActivity()))
-                .setPriority(Priority.HIGH)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(final JSONObject person) {
-                        swipeRefreshLayout.setRefreshing(false);
-                        listPromos.clear();
-                        Log.d("FRAGMENTHOMELOG", person.toString());
-                        try {
-                            boolean status = person.getBoolean("status");
-                            if (status) {
-                                tvSaldo.setText(person.getString("saldo"));
-                                Type listType = new TypeToken<ArrayList<ListPromo>>() {
-                                }.getType();
-                                listPromos = new Gson().fromJson(String.valueOf(person.getJSONArray("data")), listType);
-                                sliderAdapter = new PromoAdapter(listPromos, requireContext(),view -> {
-                                    int position = (int) view.getTag();
-                                    LinkBanner(position);
-                                });
-                                viewPager.setAdapter(sliderAdapter);
-                                sliderAdapter.notifyDataSetChanged();
-                                URL_TUTORIAL = person.getJSONObject("config").getString("link_tutorial");
-                                URL_PESAN_ALARM = person.getJSONObject("config").getString("link_pesan_alarm");
+            AndroidNetworking.post(BASE_URL + "users/datapelanggan")
+                    .addBodyParameter("id_users", userId)
+                    .setPriority(Priority.HIGH)
+                    .build()
+                    .getAsJSONObject(new JSONObjectRequestListener() {
+                        @Override
+                        public void onResponse(final JSONObject person) {
+                            if (isAdded() && getView() != null) { // Check if the fragment is still attached
+                                swipeRefreshLayout.setRefreshing(false);
+                                listPromos.clear();
+                                Log.d("FRAGMENTHOMELOG", person.toString());
+                                try {
+                                    boolean status = person.getBoolean("status");
+                                    if (status) {
+                                        tvSaldo.setText(person.getString("saldo"));
+                                        Type listType = new TypeToken<ArrayList<ListPromo>>() {}.getType();
+                                        listPromos = new Gson().fromJson(String.valueOf(person.getJSONArray("data")), listType);
+                                        sliderAdapter = new PromoAdapter(listPromos, requireContext(), view -> {
+                                            int position = (int) view.getTag();
+                                            LinkBanner(position);
+                                        });
+                                        viewPager.setAdapter(sliderAdapter);
+                                        sliderAdapter.notifyDataSetChanged();
+                                        URL_TUTORIAL = person.getJSONObject("config").getString("link_tutorial");
+                                        URL_PESAN_ALARM = person.getJSONObject("config").getString("link_pesan_alarm");
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.d("FRAGMENTHOMELOG", e.getMessage());
+                                }
+                            } else {
+                                Log.d("FRAGMENTHOMELOG", "Fragment not attached to context during response.");
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.d("FRAGMENTHOMELOG", e.getMessage());
-                           //Toast.makeText(getActivity().getApplicationContext(), "Terjadi Kesalahan " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
 
-                    }
-
-                    @Override
-                    public void onError(ANError error) {
-                        swipeRefreshLayout.setRefreshing(false);
-                        Log.d("FRAGMENTHOMELOG", error.getMessage());
-                        //Toast.makeText(getActivity().getApplicationContext(), "Terjadi Kesalahan " + error.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
+                        @Override
+                        public void onError(ANError error) {
+                            if (isAdded() && getView() != null) { // Check if the fragment is still attached
+                                swipeRefreshLayout.setRefreshing(false);
+                                Log.d("FRAGMENTHOMELOG", error.getMessage());
+                            } else {
+                                Log.d("FRAGMENTHOMELOG", "Fragment not attached to context during error.");
+                            }
+                        }
+                    });
+        } else {
+            // Handle the fragment not being attached
+            Log.d("FRAGMENTHOMELOG", "Fragment not attached to context.");
+        }
     }
 
     @Override

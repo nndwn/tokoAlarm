@@ -1,9 +1,6 @@
 package com.tester.iotss.data.remote.network;
 
 
-import java.io.IOException;
-
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
@@ -21,16 +18,13 @@ public class RetrofitClient {
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
             // Add a custom Interceptor to add "x-api-key" header to all requests
-            httpClient.addInterceptor(new Interceptor() {
-                @Override
-                public okhttp3.Response intercept(Chain chain) throws IOException {
-                    Request original = chain.request();
-                    Request request = original.newBuilder()
-                            .header("x-api-key", API_KEY)
-                            .method(original.method(), original.body())
-                            .build();
-                    return chain.proceed(request);
-                }
+            httpClient.addInterceptor(chain -> {
+                Request original = chain.request();
+                Request request = original.newBuilder()
+                        .header("x-api-key", API_KEY)
+                        .method(original.method(), original.body())
+                        .build();
+                return chain.proceed(request);
             });
 
             retrofit = new Retrofit.Builder()

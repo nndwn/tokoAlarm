@@ -2,19 +2,12 @@ package com.tester.iotss.ui.activity;
 
 import static com.tester.iotss.data.config.Config.BASE_URL;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -24,6 +17,10 @@ import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -35,6 +32,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.tester.iotss.R;
 import com.tester.iotss.data.AppConstant;
+import com.tester.iotss.domain.model.Schedule;
 import com.tester.iotss.ui.dialog.AlertError;
 import com.tester.iotss.ui.dialog.AlertSuccess;
 import com.tester.iotss.ui.dialog.LoadingDialog;
@@ -180,16 +178,29 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     @BindView(R.id.lnListOfSensor)
     LinearLayout lnListOfSensor;
 
+    private Schedule schedule;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitoring);
         ButterKnife.bind(this);
-        sessionLogin = new SessionLogin();
         initializeUI();
+
+        setupFirebase();
         setupSwipeRefresh();
         setupScrollListener();
         setupSwitchListeners();
+
+    }
+
+    private void setupFirebase() {
+        FirebaseApp.initializeApp(this);
+        sessionLogin = new SessionLogin();
+        FirebaseMessaging.getInstance().subscribeToTopic(sessionLogin.getNohp(getApplicationContext()));
+        loadingDialog = new LoadingDialog(this);
+        alertSuccess = new AlertSuccess(this);
+        alertError = new AlertError(this);
     }
 
     private void initializeUI() {
@@ -218,47 +229,53 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
         });
     }
 
-    private void setupSwitchListeners() {
-        setupAlarmSwitchListener(swMode, "/mode", "otomatis", "manual");
-        setupSensorSwitchListener(swIn1, "/statin1", "1", "0");
-        setupSwitchListener(swIn2, "/statin2", "1", "0");
-        setupSwitchListener(swIn3, "/statin3", "1", "0");
-    }
-
-    private void setupSensorSwitchListener(CompoundButton switchButton, String urlSuffix, String enabledValue, String disabledValue) {
-        switchButton.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            if (!checkeddaridata) {
+    private void setupSensorSwitchListener(String sensor, CompoundButton sw , String topic , TextView txt)
+    {
+        if (Objects.equals(schedule.getIs_active(), "1") && Objects.equals(sensor, "1"))
+        {
+            sw.setChecked(false);
+        }
+        sw.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            if (Objects.equals(schedule.getIs_active(), "1") && Objects.equals(sensor, "1"))
+            {
+                Toast.makeText(Monitoring.this, "Tidak Dapat Melakukan setting manual , periksa pengaturan jadwal"  , Toast.LENGTH_LONG).show();
+                sw.setChecked(!isChecked);
+            }else if (!checkeddaridata ) {
                 if (id_alat.length() > 1) {
-                    String url = id_alat + urlSuffix;
-                    String value = isChecked ? enabledValue : disabledValue;
+                    String url = id_alat + topic;
+                    String value = isChecked ? "1" : "0";
                     if (sendToServer(url, value)) {
-                        txtSwIn1.setText(isChecked ? "Enable" : "Disable");
-                        if (urlSuffix.equals("/mode")) {
-                            btnAlarm.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-                        }
+                        txt.setText(isChecked ? "Enable" : "Disable");
                     } else {
-                        switchButton.setChecked(!isChecked);
-                        txtSwIn1.setText(isChecked ? "Disable" : "Enable");
+                        sw.setChecked(!isChecked);
+                        txt.setText(isChecked ? "Disable" : "Enable");
                     }
                 } else {
-                    switchButton.setChecked(!isChecked);
-                    txtSwIn1.setText(isChecked ? "Disable" : "Enable");
+                    sw.setChecked(!isChecked);
+                    txt.setText(isChecked ? "Disable" : "Enable");
                 }
             }
         });
     }
 
-    private void setupAlarmSwitchListener(CompoundButton switchButton, String urlSuffix, String enabledValue, String disabledValue) {
+    private void setupSwitchListeners() {
+        schedule = (Schedule) getIntent().getSerializableExtra("schedule");
+        setupAlarmSwitchListener(swMode);
+        setupSensorSwitchListener(schedule.getSensor_switch(),swIn1, "/statin1",txtSwIn1);
+        setupSensorSwitchListener(schedule.getSensor_ohm(),swIn2, "/statin2",txtSwIn2);
+        setupSensorSwitchListener(schedule.getSensor_rf(),swIn3, "/statin3",txtSwIn3);
+
+    }
+
+    private void setupAlarmSwitchListener(CompoundButton switchButton) {
         switchButton.setOnCheckedChangeListener((compoundButton, isChecked) -> {
             if (!checkeddaridata) {
                 if (id_alat.length() > 1) {
-                    String url = id_alat + urlSuffix;
-                    String value = isChecked ? enabledValue : disabledValue;
+                    String url = id_alat + "/mode";
+                    String value = isChecked ? "otomatis" : "manual";
                     if (sendToServer(url, value)) {
                         switchButton.setText(isChecked ? "Mode: Otomatis" : "Mode: Manual");
-                        if (urlSuffix.equals("/mode")) {
-                            btnAlarm.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-                        }
+                        btnAlarm.setVisibility(isChecked ? View.GONE : View.VISIBLE);
                     } else {
                         switchButton.setChecked(!isChecked);
                         switchButton.setText(isChecked ? "Mode: Manual" : "Mode: Otomatis");
@@ -266,30 +283,6 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                 } else {
                     switchButton.setChecked(!isChecked);
                     switchButton.setText(isChecked ? "Mode: Manual" : "Mode: Otomatis");
-                }
-            }
-        });
-    }
-
-
-    private void setupSwitchListener(CompoundButton switchButton, String urlSuffix, String enabledValue, String disabledValue) {
-        switchButton.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            if (!checkeddaridata) {
-                if (id_alat.length() > 1) {
-                    String url = id_alat + urlSuffix;
-                    String value = isChecked ? enabledValue : disabledValue;
-                    if (sendToServer(url, value)) {
-                        switchButton.setText(isChecked ? "Enable" : "Disable");
-                        if (urlSuffix.equals("/mode")) {
-                            btnAlarm.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-                        }
-                    } else {
-                        switchButton.setChecked(!isChecked);
-                        switchButton.setText(isChecked ? "Disable" : "Enable");
-                    }
-                } else {
-                    switchButton.setChecked(!isChecked);
-                    switchButton.setText(isChecked ? "Disable" : "Enable");
                 }
             }
         });
@@ -370,7 +363,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                                             ivSensor3.setImageResource(R.drawable.circle_success);
                                         }
 
-                                        if (data_last.getString("stsstatin1").equals("1")) {
+                                       /* if (data_last.getString("stsstatin1").equals("1")) {
                                             swIn1.setChecked(true);
                                             txtSwIn1.setText("Enable");
                                         } else {
@@ -392,7 +385,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                                         } else {
                                             swIn3.setChecked(false);
                                             txtSwIn3.setText("Disable");
-                                        }
+                                        }*/
 
                                         if (data_last.getString("mode").equals("otomatis")) {
                                             swMode.setChecked(true);
@@ -449,7 +442,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                Log.d("FRAGMENTHOMELOG", e.getMessage());
+                                Log.d("FRAGMENTHOMELOG", Objects.requireNonNull(e.getMessage()));
                                 Toast.makeText(Monitoring.this, "Terjadi Kesalahan " + e.getMessage(), Toast.LENGTH_LONG).show();
                             }
 
@@ -462,7 +455,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                     public void onError(ANError error) {
                         swipeRefreshLayout.setRefreshing(false);
                         konekMQTT();
-                        Log.d("FRAGMENTHOMELOG", error.getMessage());
+                        Log.d("FRAGMENTHOMELOG", Objects.requireNonNull(error.getMessage()));
                         Toast.makeText(Monitoring.this, "Terjadi Kesalahan " + error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
@@ -532,7 +525,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
             }
 
             @Override
-            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+            public void messageArrived(String topic, MqttMessage mqttMessage) {
                 Log.d("NETWORK MQTT", "Message size: " + mqttMessage.getPayload().length + " bytes");
                 Log.d("FragmentHomeLog", mqttMessage.toString());
                 if (topic.equals(id_alat + "/in1")) {
@@ -559,32 +552,32 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                         tvSensor3.setText("Normal");
                         ivSensor3.setImageResource(R.drawable.circle_success);
                     }
-                } else if (topic.equals(id_alat + "/statin1")) {
-                    if (mqttMessage.toString().equals("1")) {
-                        swIn1.setChecked(true);
-                        txtSwIn1.setText("Enable");
-                    } else {
-                        swIn1.setChecked(false);
-                        txtSwIn1.setText("Disable");
-                    }
-
-                } else if (topic.equals(id_alat + "/statin2")) {
-                    if (mqttMessage.toString().equals("1")) {
-                        swIn2.setChecked(true);
-                        txtSwIn2.setText("Enable");
-                    } else {
-                        swIn2.setChecked(false);
-                        txtSwIn2.setText("Disable");
-                    }
-
-                } else if (topic.equals(id_alat + "/statin3")) {
-                    if (mqttMessage.toString().equals("1")) {
-                        swIn3.setChecked(true);
-                        txtSwIn3.setText("Enable");
-                    } else {
-                        swIn3.setChecked(false);
-                        txtSwIn3.setText("Disable");
-                    }
+//                } else if (topic.equals(id_alat + "/statin1")) {
+//                    if (mqttMessage.toString().equals("1")) {
+//                        swIn1.setChecked(true);
+//                        txtSwIn1.setText("Enable");
+//                    } else {
+//                        swIn1.setChecked(false);
+//                        txtSwIn1.setText("Disable");
+//                    }
+//
+//                } else if (topic.equals(id_alat + "/statin2")) {
+//                    if (mqttMessage.toString().equals("1")) {
+//                        swIn2.setChecked(true);
+//                        txtSwIn2.setText("Enable");
+//                    } else {
+//                        swIn2.setChecked(false);
+//                        txtSwIn2.setText("Disable");
+//                    }
+//
+//                } else if (topic.equals(id_alat + "/statin3")) {
+//                    if (mqttMessage.toString().equals("1")) {
+//                        swIn3.setChecked(true);
+//                        txtSwIn3.setText("Enable");
+//                    } else {
+//                        swIn3.setChecked(false);
+//                        txtSwIn3.setText("Disable");
+//                    }
 
                 } else if (topic.equals(id_alat + "/alarm")) {
                     if (mqttMessage.toString().equals("0")) {
@@ -687,9 +680,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
         sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                // Handle state changes
-                if (newState == BottomSheetBehavior.STATE_DRAGGING) {
-                }
+
             }
 
             @Override
@@ -701,8 +692,8 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
         EditText edRename;
         Button btnSimpan;
 
-        edRename = (EditText) view.findViewById(R.id.edRename);
-        btnSimpan = (Button) view.findViewById(R.id.btnSimpan);
+        edRename = view.findViewById(R.id.edRename);
+        btnSimpan = view.findViewById(R.id.btnSimpan);
 
         edRename.setText(label);
 
@@ -714,9 +705,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
 
         sheetDialog = new BottomSheetDialog(Monitoring.this);
         sheetDialog.setContentView(view);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            sheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
+        Objects.requireNonNull(sheetDialog.getWindow()).addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         sheetDialog.show();
         sheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -736,8 +725,6 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 // Handle state changes
-                if (newState == BottomSheetBehavior.STATE_DRAGGING) {
-                }
             }
 
             @Override
@@ -764,9 +751,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
 
         sheetDialog = new BottomSheetDialog(Monitoring.this);
         sheetDialog.setContentView(view);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            sheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
+        sheetDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         sheetDialog.show();
         sheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -816,7 +801,7 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                     @Override
                     public void onError(ANError error) {
                         loadingDialog.dismissDialog();
-                        Log.d("FRAGMENTHOMELOG", error.getMessage());
+                        Log.d("FRAGMENTHOMELOG", Objects.requireNonNull(error.getMessage()));
                         alertError.startDialog("Gagal", "Terjadi Kesalahan " + error.getMessage());
                     }
                 });

@@ -2,11 +2,11 @@ package com.tester.iotss.ui.activity;
 
 import static com.tester.iotss.data.config.Config.BASE_URL;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;

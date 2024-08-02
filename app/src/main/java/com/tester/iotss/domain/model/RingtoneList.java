@@ -3,8 +3,6 @@ package com.tester.iotss.domain.model;
 import android.content.Context;
 import android.net.Uri;
 
-import androidx.multidex.BuildConfig;
-
 public class RingtoneList {
     String title;
     Uri uri;

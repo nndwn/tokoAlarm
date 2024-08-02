@@ -1,13 +1,10 @@
 package com.tester.iotss.ui.fragment;
 
 
+import static com.tester.iotss.data.config.Config.BASE_URL;
+
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +13,10 @@ import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -23,18 +24,21 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.makeramen.roundedimageview.RoundedImageView;
-import com.tester.iotss.ui.activity.Login;
 import com.tester.iotss.R;
+import com.tester.iotss.ui.activity.Login;
 import com.tester.iotss.ui.activity.PusatBantuan;
+import com.tester.iotss.ui.activity.UbahPassword;
 import com.tester.iotss.utils.sessions.SessionLogin;
 import com.tester.iotss.utils.sessions.SessionSetting;
-import com.tester.iotss.ui.activity.UbahPassword;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.File;
-import java.util.Objects;
 
-import static com.tester.iotss.data.config.Config.BASE_URL;
+import java.io.File;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.

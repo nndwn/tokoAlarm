@@ -2,14 +2,14 @@ package com.tester.iotss.ui.activity;
 
 import static com.tester.iotss.data.config.Config.BASE_URL;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -19,8 +19,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tester.iotss.R;
 import com.tester.iotss.domain.model.HistoryList;
-import com.tester.iotss.utils.sessions.SessionLogin;
 import com.tester.iotss.ui.adapter.HistoryAdapter;
+import com.tester.iotss.utils.sessions.SessionLogin;
 
 import org.json.JSONException;
 import org.json.JSONObject;

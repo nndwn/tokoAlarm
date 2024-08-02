@@ -3,17 +3,19 @@ package com.tester.iotss.utils.services;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import com.tester.iotss.data.AppConstant;
 import com.tester.iotss.utils.helpers.MqttHelper;
 import com.tester.iotss.utils.sessions.SessionLogin;
+
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class MqttService extends Service {
-    private MqttHelper mqttHelper;
     private static MqttCallbackListener callbackListener;
     public interface MqttCallbackListener {
         void onMqttConnected(boolean reconnect, String serverURI);
@@ -22,16 +24,15 @@ public class MqttService extends Service {
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // Initialize and connect your MQTT client here
-        mqttHelper = new MqttHelper(this, AppConstant.MQTT_SERVER_PROTOCOL + AppConstant.MQTT_SERVER_HOST + ":" + AppConstant.MQTT_SERVER_PORT, AppConstant.MQTT_USER, AppConstant.MQTT_PASSWORD);
+        MqttHelper mqttHelper = new MqttHelper(this, AppConstant.MQTT_SERVER_PROTOCOL + AppConstant.MQTT_SERVER_HOST + ":" + AppConstant.MQTT_SERVER_PORT, AppConstant.MQTT_USER, AppConstant.MQTT_PASSWORD);
         SessionLogin sessionLogin = new SessionLogin();
         mqttHelper.connect(sessionLogin.getNohp(getApplicationContext()), sessionLogin.getPassword(getApplicationContext()));
 
+        Log.d("Nandawan", "Test");
         // Set the callback listener
         mqttHelper.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
-                // MQTT connection is established or re-established
                 if (callbackListener != null) {
                     callbackListener.onMqttConnected(reconnect, serverURI);
                 }
@@ -39,7 +40,6 @@ public class MqttService extends Service {
 
             @Override
             public void connectionLost(Throwable throwable) {
-                // MQTT connection is lost
                 if (callbackListener != null) {
                     callbackListener.onMqttConnectionLost(throwable);
                 }
@@ -55,11 +55,10 @@ public class MqttService extends Service {
 
             @Override
             public void deliveryComplete(IMqttDeliveryToken token) {
-                // Message delivery is complete
+
             }
         });
 
-        // Ensure that the service keeps running, even if the app is in the background
         return START_STICKY;
     }
 

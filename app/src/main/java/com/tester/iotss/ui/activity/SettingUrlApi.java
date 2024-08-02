@@ -1,15 +1,16 @@
 package com.tester.iotss.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 import android.os.Bundle;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.tester.iotss.R;
 import com.tester.iotss.utils.sessions.SessionSetting;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SettingUrlApi extends AppCompatActivity {
 
