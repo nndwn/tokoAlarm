@@ -1,37 +1,27 @@
 package com.tester.iotss.utils.services;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.media.AudioAttributes;
-import android.net.Uri;
-import android.os.Build;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.tester.iotss.R;
-import com.tester.iotss.ui.activity.Home;
 import com.tester.iotss.utils.sessions.SessionLogin;
 
 import java.util.Objects;
-import java.util.Random;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "FirebaseMessagingServic";
     SessionLogin sessionLogin = new SessionLogin();
-
-    public MyFirebaseMessagingService() {
-        super();
-    }
+    private ScheduleService scheduleService;
+    private boolean isBound = false;
+    public MyFirebaseMessagingService() {}
 
     @Override
     public void onCreate() {
@@ -45,6 +35,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     }
                     Log.d(TAG, msg);
                 });
+        Intent intent = new Intent(this, ScheduleService.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -54,16 +46,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String message = remoteMessage.getNotification().getBody(); //get message
         String tag = remoteMessage.getNotification().getTag();
 
-        Log.d(TAG, "Message Notification Title: " + title);
-        Log.d(TAG, "Message Notification Body: " + message);
-        Log.d(TAG, "Message Notification Nomor HP: " + tag);
-        Log.d(TAG, "Message Notification Session Login Nomor HP: " + sessionLogin.getNohp(this));
-
-        sendNotification(title, message);
+        if (isBound && scheduleService != null) {
+            scheduleService.createNotification(false, title, message, "your_channel_id");
+        } else {
+            Log.d(TAG, "Service not bound");
+        }
     }
 
     @Override
-    public void onNewToken(String token) {
+    public void onNewToken(@NonNull String token) {
         sendRegistrationToServer(token);
     }
 
@@ -77,88 +68,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Implementasikan metode ini untuk mengirim token ke server aplikasi Anda
     }
 
-    public void sendNotification(String title, String message) {
-        Intent intent = new Intent(this, Home.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+    private final ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            ScheduleService.LocalBinder binder = (ScheduleService.LocalBinder) service;
+            scheduleService = binder.getService();
+            isBound = true;
+        }
 
-        //SessionLogin sessionLogin = new SessionLogin();
-        //Uri defaultSoundUri = sessionLogin.getUrialarm(getApplicationContext());
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            isBound = false;
+        }
+    };
 
-        Uri defaultSoundUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sound_notification_1);
-
-//        Log.d("SUARA",defaultSoundUri.toString());
-
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        Log.d("WWO", "WPW");
-
-        String channelId = "TOKOALARM220";
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel mChannel = new NotificationChannel(channelId,
-                    getApplicationContext().getString(R.string.app_name),
-                    NotificationManager.IMPORTANCE_HIGH);
-
-            // Configure the notification channel.
-            mChannel.setDescription("Notifikasi Toko Alarm");
-            mChannel.enableLights(true);
-            mChannel.enableVibration(true);
-            mChannel.setSound(defaultSoundUri, new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-                    .build());
-            mChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-            mChannel.setShowBadge(true);
-
-            notificationManager.createNotificationChannel(mChannel);
-
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.drawable.logo_icon)
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setChannelId(channelId)
-                    .setAutoCancel(true)
-                    .setSound(defaultSoundUri)
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                    .setPriority(NotificationCompat.PRIORITY_MAX)
-                    .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
-                    .setLights(Color.RED, 3000, 3000);
-
-            notificationManager.notify(1, notificationBuilder.build());
-        } else {
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.drawable.logo_icon)
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setAutoCancel(true)
-                    .setSound(defaultSoundUri)
-                    .setContentIntent(pendingIntent)
-                    .setChannelId(channelId)
-                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                    .setPriority(NotificationCompat.PRIORITY_MAX)
-                    .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
-                    .setLights(Color.RED, 3000, 3000);
-
-            notificationManager.notify(1, notificationBuilder.build());
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (isBound) {
+            unbindService(serviceConnection);
+            isBound = false;
         }
     }
 
-    public static String generateRandomString(int length) {
-        // Karakter yang mungkin digunakan dalam string acak
-        String characters = "0123456789";
-        StringBuilder stringBuilder = new StringBuilder();
-
-        // Pembangkit bilangan acak
-        Random random = new Random();
-
-        // Membuat string acak dengan panjang yang ditentukan
-        for (int i = 0; i < length; i++) {
-            int randomIndex = random.nextInt(characters.length());
-            char randomChar = characters.charAt(randomIndex);
-            stringBuilder.append(randomChar);
-        }
-
-        return stringBuilder.toString();
-    }
 }

@@ -2,6 +2,7 @@ package com.tester.iotss.ui.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +31,8 @@ import com.tester.iotss.ui.fragment.FragmentAccount;
 import com.tester.iotss.ui.fragment.FragmentHome;
 import com.tester.iotss.ui.fragment.FragmentListSubscriber;
 import com.tester.iotss.ui.fragment.ScheduleFragment;
+import com.tester.iotss.utils.Utils;
+import com.tester.iotss.utils.services.ScheduleService;
 
 import butterknife.ButterKnife;
 
@@ -62,6 +65,9 @@ public class Home extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.frame_layout, new FragmentHome())
                 .commit();
+
+        Intent serviceIntent = new Intent(this, ScheduleService.class);
+        startService(serviceIntent);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Intent intent = new Intent();
@@ -104,6 +110,7 @@ public class Home extends AppCompatActivity {
         ColorStateList iconColorStateList = ContextCompat.getColorStateList(this, R.color.bottom_nav_icon_selector);
         activityHomeBinding.bottomNavigation.setItemIconTintList(iconColorStateList);
     }
+
 
 
     private void checkNotificationPermission() {

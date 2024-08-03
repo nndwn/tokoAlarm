@@ -234,6 +234,9 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
         if (Objects.equals(schedule.getIs_active(), "1") && Objects.equals(sensor, "1"))
         {
             sw.setChecked(false);
+        }else
+        {
+            getData();
         }
         sw.setOnCheckedChangeListener((compoundButton, isChecked) -> {
             if (Objects.equals(schedule.getIs_active(), "1") && Objects.equals(sensor, "1"))
@@ -363,29 +366,39 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                                             ivSensor3.setImageResource(R.drawable.circle_success);
                                         }
 
-                                       /* if (data_last.getString("stsstatin1").equals("1")) {
-                                            swIn1.setChecked(true);
-                                            txtSwIn1.setText("Enable");
-                                        } else {
-                                            swIn1.setChecked(false);
-                                            txtSwIn1.setText("Disable");
+                                        if (!Objects.equals(schedule.getIs_active(), "1"))
+                                        {
+                                            if (data_last.getString("stsstatin1").equals("1")) {
+                                                swIn1.setChecked(true);
+                                                txtSwIn1.setText("Enable");
+                                            } else {
+                                                swIn1.setChecked(false);
+                                                txtSwIn1.setText("Disable");
+                                            }
                                         }
 
-                                        if (data_last.getString("stsstatin2").equals("1")) {
-                                            swIn2.setChecked(true);
-                                            txtSwIn2.setText("Enable");
-                                        } else {
-                                            swIn2.setChecked(false);
-                                            txtSwIn2.setText("Disable");
+                                        if (!Objects.equals(schedule.getIs_active(), "1"))
+                                        {
+                                            if (data_last.getString("stsstatin2").equals("1")) {
+                                                swIn2.setChecked(true);
+                                                txtSwIn2.setText("Enable");
+                                            } else {
+                                                swIn2.setChecked(false);
+                                                txtSwIn2.setText("Disable");
+                                            }
                                         }
 
-                                        if (data_last.getString("stsstatin3").equals("1")) {
-                                            swIn3.setChecked(true);
-                                            txtSwIn3.setText("Enable");
-                                        } else {
-                                            swIn3.setChecked(false);
-                                            txtSwIn3.setText("Disable");
-                                        }*/
+                                        if (!Objects.equals(schedule.getIs_active(), "1"))
+                                        {
+                                            if (data_last.getString("stsstatin3").equals("1")) {
+                                                swIn3.setChecked(true);
+                                                txtSwIn3.setText("Enable");
+                                            } else {
+                                                swIn3.setChecked(false);
+                                                txtSwIn3.setText("Disable");
+                                            }
+                                        }
+
 
                                         if (data_last.getString("mode").equals("otomatis")) {
                                             swMode.setChecked(true);
@@ -736,8 +749,8 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
         EditText edDelay;
         Button btnSimpan;
 
-        edDelay = (EditText) view.findViewById(R.id.edDelay);
-        btnSimpan = (Button) view.findViewById(R.id.btnSimpan);
+        edDelay = view.findViewById(R.id.edDelay);
+        btnSimpan = view.findViewById(R.id.btnSimpan);
 
         edDelay.setText(before_delay);
 

@@ -28,7 +28,7 @@ public class MqttService extends Service {
         SessionLogin sessionLogin = new SessionLogin();
         mqttHelper.connect(sessionLogin.getNohp(getApplicationContext()), sessionLogin.getPassword(getApplicationContext()));
 
-        Log.d("Nandawan", "Test");
+
         // Set the callback listener
         mqttHelper.setCallback(new MqttCallbackExtended() {
             @Override

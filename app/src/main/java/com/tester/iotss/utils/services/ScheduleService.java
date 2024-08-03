@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioAttributes;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -60,56 +61,39 @@ public class ScheduleService extends Service {
 
     private final ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
     SessionLogin sessionLogin = new SessionLogin();
-    private static final String BrokerUri = AppConstant.MQTT_SERVER_PROTOCOL + AppConstant.MQTT_SERVER_HOST + ":" + AppConstant.MQTT_SERVER_PORT;
+    public static final String BrokerUri = AppConstant.MQTT_SERVER_PROTOCOL + AppConstant.MQTT_SERVER_HOST + ":" + AppConstant.MQTT_SERVER_PORT;
     private MqttHelper mqttHelper;
+
+
+    boolean[] end ;
+    private final IBinder binder = new LocalBinder();
+
+    public class LocalBinder extends Binder {
+        ScheduleService getService() {
+            return ScheduleService.this;
+        }
+    }
 
     @Override
     public void onCreate(){
         super.onCreate();
         scheduleList = new ArrayList<>();
         timer = new Timer();
-        startForegroundService();
+        end = new boolean[10];
+        createNotification(true,
+                "Monitoring Alat",
+                "TokoAlarm Berjalan dilatar belakang",
+                "Monitoring Alat");
         fetchSchedules();
         startService();
-
     }
 
-    private void startForegroundService() {
-        String channelId = "SchedulerServiceChannel";
-        NotificationChannel channel = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            channel = new NotificationChannel(
-                    channelId,
-                    "Scheduler Service Channel",
-                    NotificationManager.IMPORTANCE_DEFAULT
-            );
-        }
-
-        NotificationManager manager = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            manager = getSystemService(NotificationManager.class);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            manager.createNotificationChannel(channel);
-        }
-
-        Notification notification = new NotificationCompat.Builder(this, channelId)
-                .setContentTitle("Mode Jadwal Aktif")
-                .setContentText("Service is running in the background")
-                .setSmallIcon(R.drawable.logo_icon)
-                .build();
-
-        startForeground(1, notification);
-    }
-
-
-    private void createNotification(String name, String message) {
+    public void createNotification(boolean foreground, String title, String message, String channelId) {
         Intent intent = new Intent(this, Home.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
         Uri defaultSoundUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sound_notification_1);
-        String channelId = "TOKOALARM220";
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel mChannel = new NotificationChannel(channelId,
@@ -124,36 +108,36 @@ public class ScheduleService extends Service {
             mChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             mChannel.setShowBadge(true);
             notificationManager.createNotificationChannel(mChannel);
-
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
-                    .setSmallIcon(R.drawable.logo_icon)
-                    .setContentTitle("Jadwal Alarm " + name)
-                    .setContentText(message)
-                    .setAutoCancel(true)
-                    .setSound(defaultSoundUri)
-                    .setContentIntent(pendingIntent)
-                    .setPriority(NotificationCompat.PRIORITY_MAX);
-            notificationManager.notify(1, notificationBuilder.build());
-        }else
-        {
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
-                    .setSmallIcon(R.drawable.logo_icon)
-                    .setContentTitle("Jadwal Alarm " + name)
-                    .setContentText(message)
-                    .setAutoCancel(true)
-                    .setSound(defaultSoundUri)
-                    .setContentIntent(pendingIntent)
-                    .setPriority(NotificationCompat.PRIORITY_MAX);
-
-            notificationManager.notify(1, notificationBuilder.build());
         }
+            if (foreground)
+            {
+                Notification notification = new NotificationCompat.Builder(this, channelId)
+                        .setContentTitle(title)
+                        .setContentText(message)
+                        .setSmallIcon(R.drawable.logo_icon)
+                        .setContentIntent(pendingIntent)
+                        .build();
+                startForeground(2, notification);
+            }else
+            {
+                NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
+                        .setSmallIcon(R.drawable.logo_icon)
+                        .setContentTitle(title)
+                        .setContentText(message)
+                        .setAutoCancel(true)
+                        .setSound(defaultSoundUri)
+                        .setContentIntent(pendingIntent)
+                        .setPriority(NotificationCompat.PRIORITY_MAX);
 
+                notificationManager.notify(3, notificationBuilder.build());
+            }
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
 
+        fetchSchedules();
         if (intent != null) {
             String action = intent.getAction();
             if (ACTION_STOP_FOREGROUND_SERVICE.equals(action)) {
@@ -166,7 +150,7 @@ public class ScheduleService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return binder;
     }
 
 
@@ -192,6 +176,7 @@ public class ScheduleService extends Service {
                 if (response.isSuccessful() && response.body() != null) {
                     scheduleList.clear();
                     scheduleList.addAll(response.body().getData());
+
                     Log.d(TAG, "Schedules fetched successfully");
                 } else {
                     scheduleList.clear();
@@ -268,7 +253,7 @@ public class ScheduleService extends Service {
     private void checkSchedules() {
         if (scheduleList == null) return;
         String day= "";
-        boolean[] end = new boolean[scheduleList.size()];
+
         Date currentTime = new Date();
         LocalDate today ;
 
@@ -279,21 +264,23 @@ public class ScheduleService extends Service {
         String formattedTime = dateFormat.format(currentTime);
         for (int i = 0; i <  scheduleList.size(); i++) {
             String[] numbersArray = scheduleList.get(i).getDays().split(",");
+            boolean isActive = scheduleList.get(i).getIs_active().equals("1");
+            if (!isActive) continue;
             for (String s : numbersArray) {
                 if (s.equalsIgnoreCase(Utils.getDayNumber(day))) {
-                    Log.d(TAG, String.valueOf(!end[i]));
                     if (!end[i] && formattedTime.equals(scheduleList.get(i).getStart_time()))  {
                         Log.d(TAG, "Sudah mulai" );
-                        createNotification(scheduleList.get(i).getName(), "Memulai Jadwal Alarm");
-                        startMqtt(i, scheduleList.get(i).getId_alat(), "1");
+
+                        createNotification(false, "Alarm "+ scheduleList.get(i).getName(), "Memulai Jadwal Alarm", "jadwal");
+                        startMqtt(i, scheduleList.get(i).getId_alat().toUpperCase(), "1");
                         end[i] = true;
                     }
                 }
             }
             if ( end[i]  && formattedTime.equals(scheduleList.get(i).getEnd_time())) {
                 Log.d(TAG, "Sudah berakhir");
-                createNotification(scheduleList.get(i).getName(), "Jadwal Alarm Berakhir");
-                startMqtt(i, scheduleList.get(i).getId_alat(), "0");
+                createNotification(false, "Alarm "+ scheduleList.get(i).getName(), "Jadwal Alarm Berakhir", "jadwal");
+                startMqtt(i, scheduleList.get(i).getId_alat().toUpperCase(), "0");
                 end[i] = false;
             }
 

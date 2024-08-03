@@ -1,8 +1,12 @@
 package com.tester.iotss.ui.activity;
 
+import static com.tester.iotss.utils.Common.sessionLogin;
+import static com.tester.iotss.utils.services.ScheduleService.BrokerUri;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +20,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.tester.iotss.R;
+import com.tester.iotss.data.AppConstant;
 import com.tester.iotss.data.remote.api.ApiService;
 import com.tester.iotss.data.remote.network.RetrofitClient;
 import com.tester.iotss.data.remote.request.PerangkatRequest;
@@ -27,7 +32,12 @@ import com.tester.iotss.domain.model.Perangkat;
 import com.tester.iotss.domain.model.Schedule;
 import com.tester.iotss.utils.Common;
 import com.tester.iotss.utils.Utils;
+import com.tester.iotss.utils.helpers.MqttHelper;
 import com.tester.iotss.utils.services.ScheduleService;
+
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +59,6 @@ public class FormJadwalActivity extends AppCompatActivity {
     private ApiService apiService;
 
     private List<Perangkat> perangkatList;
-
     private int selectedIdDevice = 0;
     private String startTime, endTime, days;
     private final int isActive = 1;
@@ -57,6 +66,8 @@ public class FormJadwalActivity extends AppCompatActivity {
     int isSensorSwitchActive = 0;
     int isSensorOhmActive = 0;
     int isSensorRfActive = 0;
+    private MqttHelper mqttHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +82,7 @@ public class FormJadwalActivity extends AppCompatActivity {
 
         setComponentListener();
 
-        fetchPerangkatData(Common.sessionLogin.getNohp(this));
+        fetchPerangkatData(sessionLogin.getNohp(this));
 
         setSupportActionBar(formJadwalBinding.topAppBar);
 
@@ -166,15 +177,69 @@ public class FormJadwalActivity extends AppCompatActivity {
                 UpdateExistingJadwal();
             }
 
-            if (!Utils.isServiceRunning(this, ScheduleService.class))
-            {
-                Intent serviceIntent = new Intent(this, ScheduleService.class);
-                startService(serviceIntent);
-            }
+            Intent serviceIntent = new Intent(this, ScheduleService.class);
+            startService(serviceIntent);
+
+            startMqtt(schedule);
 
         });
-
     }
+
+    public void startMqtt(Schedule jadwal) {
+        disconnectMqtt();
+        mqttHelper = new MqttHelper(this, BrokerUri, AppConstant.MQTT_USER,AppConstant.MQTT_PASSWORD);
+        mqttHelper.connect(sessionLogin.getNohp(getApplicationContext()), sessionLogin.getPassword(getApplicationContext()));
+        mqttHelper.mqttAndroidClient.setCallback(new MqttCallbackExtended() {
+            @Override
+            public void connectComplete(boolean b, String s) {
+                String id = jadwal.getId_alat().toUpperCase();
+                sendToServer(id+"/statin1");
+                sendToServer(id+"/statin2");
+                sendToServer(id+"/statin3");
+
+                Log.d("abah", "SERVER MQTT KONEK");
+            }
+
+            @Override
+            public void connectionLost(Throwable throwable) {}
+            @Override
+            public void messageArrived(String topic, MqttMessage mqttMessage) {}
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {}
+        });
+    }
+
+    private void sendToServer( String topic) {
+
+        if (mqttHelper.mqttAndroidClient.isConnected()) {
+            MqttMessage message = new MqttMessage();
+            message.setPayload("0".getBytes());
+            message.setQos(0);
+            message.setRetained(false);
+            mqttHelper.mqttAndroidClient.publish(topic, message);
+        } else {
+            Log.d("Publish", "Enggak Bisa publish");
+        }
+    }
+
+    private void disconnectMqtt() {
+        if (mqttHelper != null) {
+            if (mqttHelper.mqttAndroidClient != null) {
+                if (mqttHelper.mqttAndroidClient.isConnected()) {
+                    Log.d("FragmentHomeLog", "berhasil diskonek mqtt");
+                    try {
+                        mqttHelper.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.d("FragmentHomeLog", "gagal diskonek mqtt");
+                    }
+                }
+                mqttHelper = null;
+            }
+        }
+    }
+
+
 
     private void showTimePicker(boolean isStartTime, String title) {
         int hour, minute;

@@ -25,9 +25,12 @@ import com.tester.iotss.domain.model.Schedule;
 import com.tester.iotss.ui.activity.FormJadwalActivity;
 import com.tester.iotss.ui.adapter.ScheduleAdapter;
 import com.tester.iotss.utils.Common;
+import com.tester.iotss.utils.Utils;
+import com.tester.iotss.utils.services.ScheduleService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,6 +63,12 @@ public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
             return false;
         });
+
+        if (Utils.isServiceRunning(requireContext(), ScheduleService.class))
+        {
+            Intent serviceIntent = new Intent(requireContext(), ScheduleService.class);
+            requireContext().startService(serviceIntent);
+        }
 
         RecyclerView recyclerView = fragmentScheduleBinding.rvSchedule;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
