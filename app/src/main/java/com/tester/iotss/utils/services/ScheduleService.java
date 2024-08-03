@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Binder;
@@ -63,7 +64,7 @@ public class ScheduleService extends Service {
     SessionLogin sessionLogin = new SessionLogin();
     public static final String BrokerUri = AppConstant.MQTT_SERVER_PROTOCOL + AppConstant.MQTT_SERVER_HOST + ":" + AppConstant.MQTT_SERVER_PORT;
     private MqttHelper mqttHelper;
-
+    private SharedPreferences sharedPreferences;
 
     boolean[] end ;
     private final IBinder binder = new LocalBinder();
@@ -80,9 +81,10 @@ public class ScheduleService extends Service {
         scheduleList = new ArrayList<>();
         timer = new Timer();
         end = new boolean[10];
+        sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
         createNotification(true,
-                "Monitoring Alat",
-                "TokoAlarm Berjalan dilatar belakang",
+                "Toko Alarm",
+                "Aplikasi Telah Berjalan ",
                 "Monitoring Alat");
         fetchSchedules();
         startService();
@@ -93,7 +95,19 @@ public class ScheduleService extends Service {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
-        Uri defaultSoundUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sound_notification_1);
+        // Retrieve the stored ringtone URI
+        SharedPreferences sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        String uriString = sharedPreferences.getString("RingtoneUri", "");
+        Uri ringtoneUri = null;
+        if (!uriString.isEmpty()) {
+            ringtoneUri = Uri.parse(uriString);
+        }
+
+        Log.d("NotificationService", "Using Ringtone URI: " + (ringtoneUri != null ? ringtoneUri.toString() : "default"));
+
+        // Use the default sound URI if no custom URI is set
+        Uri soundUri = (ringtoneUri != null) ? ringtoneUri : Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sound_notification_1);
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel mChannel = new NotificationChannel(channelId,
@@ -102,35 +116,35 @@ public class ScheduleService extends Service {
             mChannel.setDescription("Notifikasi Toko Alarm");
             mChannel.enableLights(true);
             mChannel.enableVibration(true);
-            mChannel.setSound(defaultSoundUri, new AudioAttributes.Builder()
+            mChannel.setSound(soundUri, new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                     .build());
             mChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             mChannel.setShowBadge(true);
             notificationManager.createNotificationChannel(mChannel);
         }
-            if (foreground)
-            {
-                Notification notification = new NotificationCompat.Builder(this, channelId)
-                        .setContentTitle(title)
-                        .setContentText(message)
-                        .setSmallIcon(R.drawable.logo_icon)
-                        .setContentIntent(pendingIntent)
-                        .build();
-                startForeground(2, notification);
-            }else
-            {
-                NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
-                        .setSmallIcon(R.drawable.logo_icon)
-                        .setContentTitle(title)
-                        .setContentText(message)
-                        .setAutoCancel(true)
-                        .setSound(defaultSoundUri)
-                        .setContentIntent(pendingIntent)
-                        .setPriority(NotificationCompat.PRIORITY_MAX);
+        if (foreground) {
+            Notification notification = new NotificationCompat.Builder(this, channelId)
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setSmallIcon(R.drawable.logo_icon)
+                    .setContentIntent(pendingIntent)
+                    .setSilent(true)
+                    .build();
+            startForeground(2, notification);
 
-                notificationManager.notify(3, notificationBuilder.build());
-            }
+        } else {
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
+                    .setSmallIcon(R.drawable.logo_icon)
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setAutoCancel(true)
+                    .setSound(soundUri)
+                    .setContentIntent(pendingIntent)
+                    .setPriority(NotificationCompat.PRIORITY_MAX);
+
+            notificationManager.notify(3, notificationBuilder.build());
+        }
     }
 
     @Override
@@ -201,9 +215,9 @@ public class ScheduleService extends Service {
             public void connectComplete(boolean b, String s) {
                 if (Objects.equals(scheduleList.get(i).getIs_active(), "1"))
                 {
-                    sendToServer(scheduleList.get(i).getSensor_switch(),id_alat+"/statin1",value);
-                    sendToServer(scheduleList.get(i).getSensor_ohm(),id_alat+"/statin2",value);
-                    sendToServer(scheduleList.get(i).getSensor_rf(),id_alat+"/statin3",value);
+                    sendToServer(id_alat+"/statin1",value);
+                    sendToServer(id_alat+"/statin2",value);
+                    sendToServer(id_alat+"/statin3",value);
                 }
 
                 Log.d("abah", "SERVER MQTT KONEK");
@@ -218,18 +232,16 @@ public class ScheduleService extends Service {
         });
     }
 
-    private void sendToServer( String sensor, String topic, String datanya) {
+    private void sendToServer(  String topic, String datanya) {
 
-        if (Objects.equals(sensor, "1")) {
-            if (mqttHelper.mqttAndroidClient.isConnected()) {
-                MqttMessage message = new MqttMessage();
-                message.setPayload(datanya.getBytes());
-                message.setQos(0);
-                message.setRetained(false);
-                mqttHelper.mqttAndroidClient.publish(topic, message);
-            } else {
-                Log.d("Publish", "Enggak Bisa publish");
-            }
+        if (mqttHelper.mqttAndroidClient.isConnected()) {
+            MqttMessage message = new MqttMessage();
+            message.setPayload(datanya.getBytes());
+            message.setQos(0);
+            message.setRetained(false);
+            mqttHelper.mqttAndroidClient.publish(topic, message);
+        } else {
+            Log.d("Publish", "Enggak Bisa publish");
         }
     }
 

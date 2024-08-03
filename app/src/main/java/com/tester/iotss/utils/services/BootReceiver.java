@@ -21,12 +21,12 @@ public class BootReceiver extends BroadcastReceiver {
             } else {
                 context.startService(serviceSchedule);
             }
-//            Intent serviceMqqt = new Intent(context, MqttService.class);
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                context.startForegroundService(serviceMqqt);
-//            } else {
-//                context.startService(serviceMqqt);
-//            }
+            Intent serviceMqqt = new Intent(context, MqttService.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(serviceMqqt);
+            } else {
+                context.startService(serviceMqqt);
+            }
         }
 
     }

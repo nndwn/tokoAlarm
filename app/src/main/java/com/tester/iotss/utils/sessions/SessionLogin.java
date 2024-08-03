@@ -24,7 +24,7 @@ public class SessionLogin {
         SharedPreferences sharedPreferences = context.getSharedPreferences("urialarm", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("urialarm", urialarm.toString());
-        editor.commit();
+        editor.apply();
         this.urialarm = urialarm;
     }
 

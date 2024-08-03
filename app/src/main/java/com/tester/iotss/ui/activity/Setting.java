@@ -1,6 +1,7 @@
 package com.tester.iotss.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
@@ -54,18 +55,23 @@ public class Setting extends AppCompatActivity implements RingtoneAdapter.OnItem
         RingtoneManager ringtoneManager = new RingtoneManager(this);
         ringtoneManager.setType(RingtoneManager.TYPE_ALARM);
         Cursor cursor = ringtoneManager.getCursor();
-        listRiwayat.clear();
-        while (cursor.moveToNext()) {
-            RingtoneList memberData = new RingtoneList();
-            String ringtoneTitle = cursor.getString(RingtoneManager.TITLE_COLUMN_INDEX);
-            Uri ringtoneUri = ringtoneManager.getRingtoneUri(cursor.getPosition());
-            Log.d("Ringtone", "Judul: " + ringtoneTitle + ", URI: " + ringtoneUri.toString());
-            RingtoneList model = new RingtoneList();
-            memberData.setTitle(ringtoneTitle);
-            memberData.setUri(ringtoneUri);
-            listRiwayat.add(memberData);
+        if (cursor != null) {
+            try {
+                listRiwayat.clear();
+                while (cursor.moveToNext()) {
+                    String ringtoneTitle = cursor.getString(RingtoneManager.TITLE_COLUMN_INDEX);
+                    Uri ringtoneUri = ringtoneManager.getRingtoneUri(cursor.getPosition());
+
+                    RingtoneList memberData = new RingtoneList();
+                    memberData.setTitle(ringtoneTitle);
+                    memberData.setUri(ringtoneUri);
+                    listRiwayat.add(memberData);
+                }
+            } finally {
+                cursor.close();
+            }
         }
-        cursor.close();
+
 
         addLocalRingtones();
         recyclerViewadapter = new RingtoneAdapter(Setting.this, listRiwayat, Setting.this, this);
@@ -86,13 +92,12 @@ public class Setting extends AppCompatActivity implements RingtoneAdapter.OnItem
         listRiwayat.add(localRingtone);
     }
 
-    @SuppressLint("NewApi")
     @Override
     public void onItemClick(int position) {
-
         Uri ringtoneUri = listRiwayat.get(position).getUri();
-        if(mediaPlayer!=null) {
+        Log.d("RingtoneSelected", "Selected Ringtone URI: " + ringtoneUri.toString());
 
+        if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
@@ -105,19 +110,18 @@ public class Setting extends AppCompatActivity implements RingtoneAdapter.OnItem
 
         try {
             mediaPlayer.setDataSource(getApplicationContext(), ringtoneUri);
-            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mp.start();
-                }
-            });
+            mediaPlayer.setOnPreparedListener(MediaPlayer::start);
+            SharedPreferences sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("RingtoneUri", ringtoneUri.toString());
+            editor.apply();
+            Log.d("SharedPreferences", "Stored Ringtone URI: " + ringtoneUri.toString());
             mediaPlayer.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        SessionLogin sessionLogin = new SessionLogin();
-        sessionLogin.setUrialarm(listRiwayat.get(position).getUri(), getApplicationContext());
+        // Save the selected ringtone URI in SharedPreferences
 
     }
 

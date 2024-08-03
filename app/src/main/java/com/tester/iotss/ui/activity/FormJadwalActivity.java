@@ -173,26 +173,28 @@ public class FormJadwalActivity extends AppCompatActivity {
         formJadwalBinding.btnSimpan.setOnClickListener(v -> {
             if (!isUpdated) {
                 AddNewJadwal();
+                startMqtt(formJadwalBinding.dropdownPerangkat.getText().toString());
             } else {
                 UpdateExistingJadwal();
+                if (schedule != null)
+                {
+                    startMqtt(schedule.getId_alat().toUpperCase());
+                }
             }
-
             Intent serviceIntent = new Intent(this, ScheduleService.class);
             startService(serviceIntent);
 
-            startMqtt(schedule);
 
         });
     }
 
-    public void startMqtt(Schedule jadwal) {
+    public void startMqtt(String id) {
         disconnectMqtt();
         mqttHelper = new MqttHelper(this, BrokerUri, AppConstant.MQTT_USER,AppConstant.MQTT_PASSWORD);
         mqttHelper.connect(sessionLogin.getNohp(getApplicationContext()), sessionLogin.getPassword(getApplicationContext()));
         mqttHelper.mqttAndroidClient.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
-                String id = jadwal.getId_alat().toUpperCase();
                 sendToServer(id+"/statin1");
                 sendToServer(id+"/statin2");
                 sendToServer(id+"/statin3");

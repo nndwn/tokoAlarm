@@ -108,6 +108,8 @@ public class AlatAdapter extends RecyclerView.Adapter<AlatAdapter.ViewHolder> {
             Intent intent = new Intent(activity, Monitoring.class);
             intent.putExtra("id_alat",getDataAdapter1.getIdAlat());
             intent.putExtra("nomor_paket",getDataAdapter1.getNomorPaket());
+            if (scheduleList != null)
+            {
                 for (int i = 0 ; i < scheduleList.size(); i++ )
                 {
                     Schedule schedule = scheduleList.get(i);
@@ -116,6 +118,8 @@ public class AlatAdapter extends RecyclerView.Adapter<AlatAdapter.ViewHolder> {
                         intent.putExtra("schedule", schedule);
                     }
                 }
+            }
+
             activity.startActivity(intent);
 
         });

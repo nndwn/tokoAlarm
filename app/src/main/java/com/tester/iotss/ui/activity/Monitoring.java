@@ -231,15 +231,19 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
 
     private void setupSensorSwitchListener(String sensor, CompoundButton sw , String topic , TextView txt)
     {
-        if (Objects.equals(schedule.getIs_active(), "1") && Objects.equals(sensor, "1"))
+        if (schedule != null)
         {
-            sw.setChecked(false);
-        }else
-        {
-            getData();
+            if (Objects.equals(schedule.getIs_active(), "0") || Objects.equals(Objects.requireNonNull(schedule).getIs_active(), "1") && Objects.equals(sensor, "1"))
+            {
+                sw.setChecked(false);
+            }else
+            {
+                getData();
+            }
         }
+
         sw.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            if (Objects.equals(schedule.getIs_active(), "1") && Objects.equals(sensor, "1"))
+            if (schedule != null && Objects.equals(schedule.getIs_active(), "1") && Objects.equals(sensor, "1"))
             {
                 Toast.makeText(Monitoring.this, "Tidak Dapat Melakukan setting manual , periksa pengaturan jadwal"  , Toast.LENGTH_LONG).show();
                 sw.setChecked(!isChecked);
@@ -262,11 +266,14 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
     }
 
     private void setupSwitchListeners() {
-        schedule = (Schedule) getIntent().getSerializableExtra("schedule");
+        if (schedule != null)
+        {
+            schedule = (Schedule) getIntent().getSerializableExtra("schedule");
+        }
         setupAlarmSwitchListener(swMode);
-        setupSensorSwitchListener(schedule.getSensor_switch(),swIn1, "/statin1",txtSwIn1);
-        setupSensorSwitchListener(schedule.getSensor_ohm(),swIn2, "/statin2",txtSwIn2);
-        setupSensorSwitchListener(schedule.getSensor_rf(),swIn3, "/statin3",txtSwIn3);
+        setupSensorSwitchListener(schedule != null ? schedule.getSensor_switch() : "",swIn1, "/statin1",txtSwIn1);
+        setupSensorSwitchListener(schedule != null ? schedule.getSensor_ohm(): "",swIn2, "/statin2",txtSwIn2);
+        setupSensorSwitchListener(schedule != null ? schedule.getSensor_rf(): "",swIn3, "/statin3",txtSwIn3);
 
     }
 
@@ -366,39 +373,29 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                                             ivSensor3.setImageResource(R.drawable.circle_success);
                                         }
 
-                                        if (!Objects.equals(schedule.getIs_active(), "1"))
-                                        {
-                                            if (data_last.getString("stsstatin1").equals("1")) {
-                                                swIn1.setChecked(true);
-                                                txtSwIn1.setText("Enable");
-                                            } else {
-                                                swIn1.setChecked(false);
-                                                txtSwIn1.setText("Disable");
-                                            }
+                                        if (data_last.getString("stsstatin1").equals("1")) {
+                                            swIn1.setChecked(true);
+                                            txtSwIn1.setText("Enable");
+                                        } else {
+                                            swIn1.setChecked(false);
+                                            txtSwIn1.setText("Disable");
                                         }
 
-                                        if (!Objects.equals(schedule.getIs_active(), "1"))
-                                        {
-                                            if (data_last.getString("stsstatin2").equals("1")) {
-                                                swIn2.setChecked(true);
-                                                txtSwIn2.setText("Enable");
-                                            } else {
-                                                swIn2.setChecked(false);
-                                                txtSwIn2.setText("Disable");
-                                            }
+                                        if (data_last.getString("stsstatin2").equals("1")) {
+                                            swIn2.setChecked(true);
+                                            txtSwIn2.setText("Enable");
+                                        } else {
+                                            swIn2.setChecked(false);
+                                            txtSwIn2.setText("Disable");
                                         }
 
-                                        if (!Objects.equals(schedule.getIs_active(), "1"))
-                                        {
-                                            if (data_last.getString("stsstatin3").equals("1")) {
-                                                swIn3.setChecked(true);
-                                                txtSwIn3.setText("Enable");
-                                            } else {
-                                                swIn3.setChecked(false);
-                                                txtSwIn3.setText("Disable");
-                                            }
+                                        if (data_last.getString("stsstatin3").equals("1")) {
+                                            swIn3.setChecked(true);
+                                            txtSwIn3.setText("Enable");
+                                        } else {
+                                            swIn3.setChecked(false);
+                                            txtSwIn3.setText("Disable");
                                         }
-
 
                                         if (data_last.getString("mode").equals("otomatis")) {
                                             swMode.setChecked(true);
