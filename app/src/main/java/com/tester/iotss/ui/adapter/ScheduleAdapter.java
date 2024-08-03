@@ -1,7 +1,11 @@
 package com.tester.iotss.ui.adapter;
 
+import static com.tester.iotss.utils.Common.sessionLogin;
+import static com.tester.iotss.utils.services.ScheduleService.BrokerUri;
+
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.tester.iotss.R;
+import com.tester.iotss.data.AppConstant;
 import com.tester.iotss.data.remote.request.ScheduleEnableDisableRequest;
 import com.tester.iotss.data.remote.response.CommonApiResponse;
 import com.tester.iotss.domain.model.Schedule;
 import com.tester.iotss.ui.activity.FormJadwalActivity;
 import com.tester.iotss.utils.Common;
+import com.tester.iotss.utils.helpers.MqttHelper;
+
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.List;
 
@@ -28,6 +38,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
 
     private final List<Schedule> scheduleList;
     private final Context context;
+    private MqttHelper mqttHelper;
 
     public ScheduleAdapter(Context context, List<Schedule> scheduleList) {
         this.context = context;
@@ -44,7 +55,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     @Override
     public void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position) {
         Schedule schedule = scheduleList.get(position);
-        holder.bind(schedule);
+        holder.bind(schedule, context);
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), FormJadwalActivity.class);
             intent.putExtra("schedule", schedule);
@@ -53,6 +64,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
 
         holder.materialSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             ScheduleEnableDisableRequest requestBody = new ScheduleEnableDisableRequest(schedule.getId(), schedule.getId_book(), isChecked);
+            if (isChecked)
+            {
+                startMqtt(schedule, context);
+            }
             Call<CommonApiResponse> call = Common.apiService.setScheduleStatus(requestBody);
             call.enqueue(new Callback<>() {
                 @Override
@@ -83,6 +98,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         private final TextView tvSensorOhm;
         private final TextView tvSensorRf;
 
+
+
         public ScheduleViewHolder(@NonNull View itemView) {
             super(itemView);
             materialSwitch = itemView.findViewById(R.id.materialSwitch);
@@ -94,7 +111,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
             tvSensorRf = itemView.findViewById(R.id.tvSensorRf);
         }
 
-        public void bind(@NonNull Schedule schedule) {
+        public void bind(@NonNull Schedule schedule, Context context) {
             String dayNames = Common.convertToDayNames(schedule.getDays());
             tvDays.setText(dayNames);
             tvTime.setText(schedule.getStart_time() + " - " + schedule.getEnd_time());
@@ -110,9 +127,11 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
             if (schedule.getSensor_switch().equals("1")) {
                 tvSensorSwitch.setText("Switch On");
                 tvSensorSwitch.setEnabled(true);
+
             } else {
                 tvSensorSwitch.setText("Switch Off");
                 tvSensorSwitch.setEnabled(false);
+
             }
 
             if (schedule.getSensor_ohm().equals("1")) {
@@ -133,4 +152,59 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         }
 
     }
+    private void disconnectMqtt() {
+        if (mqttHelper != null) {
+            if (mqttHelper.mqttAndroidClient != null) {
+                if (mqttHelper.mqttAndroidClient.isConnected()) {
+                    Log.d("FragmentHomeLog", "berhasil diskonek mqtt");
+                    try {
+                        mqttHelper.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.d("FragmentHomeLog", "gagal diskonek mqtt");
+                    }
+                }
+                mqttHelper = null;
+            }
+        }
+    }
+
+    public void startMqtt(Schedule jadwal, Context context) {
+        disconnectMqtt();
+        mqttHelper = new MqttHelper(context, BrokerUri, AppConstant.MQTT_USER,AppConstant.MQTT_PASSWORD);
+        mqttHelper.connect(sessionLogin.getNohp(context.getApplicationContext()), sessionLogin.getPassword(context.getApplicationContext()));
+        mqttHelper.mqttAndroidClient.setCallback(new MqttCallbackExtended() {
+            @Override
+            public void connectComplete(boolean b, String s) {
+                String id = jadwal.getId_alat().toUpperCase();
+                sendToServer(id+"/statin1");
+                sendToServer(id+"/statin2");
+                sendToServer(id+"/statin3");
+
+                Log.d("abah", "SERVER MQTT KONEK");
+            }
+
+            @Override
+            public void connectionLost(Throwable throwable) {}
+            @Override
+            public void messageArrived(String topic, MqttMessage mqttMessage) {}
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {}
+        });
+    }
+
+    private void sendToServer( String topic) {
+
+        if (mqttHelper.mqttAndroidClient.isConnected()) {
+            MqttMessage message = new MqttMessage();
+            message.setPayload("0".getBytes());
+            message.setQos(0);
+            message.setRetained(false);
+            mqttHelper.mqttAndroidClient.publish(topic, message);
+        } else {
+            Log.d("Publish", "Enggak Bisa publish");
+        }
+    }
+
+
 }
