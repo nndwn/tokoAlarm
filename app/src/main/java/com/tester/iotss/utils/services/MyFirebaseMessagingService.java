@@ -1,13 +1,16 @@
 package com.tester.iotss.utils.services;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -23,10 +26,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private boolean isBound = false;
     public MyFirebaseMessagingService() {}
 
+    private final BroadcastReceiver tokenReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("token")) {
+                String token = intent.getStringExtra("token");
+                sendRegistrationToServer(token);
+            }
+        }
+    };
+
+
     @Override
     public void onCreate() {
         super.onCreate();
-        // Subscribe to a topic (if needed)
+        LocalBroadcastManager.getInstance(this).registerReceiver(tokenReceiver, new IntentFilter("FCMTokenIntent"));
         FirebaseMessaging.getInstance().subscribeToTopic(sessionLogin.getNohp(this))
                 .addOnCompleteListener(task -> {
                     String msg = "Subscribed to topic";
@@ -45,9 +59,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String title = Objects.requireNonNull(remoteMessage.getNotification()).getTitle(); //get title
         String message = remoteMessage.getNotification().getBody(); //get message
         String tag = remoteMessage.getNotification().getTag();
-
+        String test = remoteMessage.getData().get("sound");
         if (isBound && scheduleService != null) {
-            scheduleService.createNotification(false, title, message, "your_channel_id");
+            scheduleService.createNotification( title, message, "TOKOALARM220", test);
         } else {
             Log.d(TAG, "Service not bound");
         }
@@ -55,6 +69,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(@NonNull String token) {
+        super.onNewToken(token);
         sendRegistrationToServer(token);
     }
 
@@ -64,8 +79,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void sendRegistrationToServer(String token) {
-        // Implement this method to send token to your app server
-        // Implementasikan metode ini untuk mengirim token ke server aplikasi Anda
+        Log.d("MyFirebaseService", "Token sent to server: " + token);
     }
 
     private final ServiceConnection serviceConnection = new ServiceConnection() {
@@ -84,6 +98,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(tokenReceiver);
         super.onDestroy();
         if (isBound) {
             unbindService(serviceConnection);

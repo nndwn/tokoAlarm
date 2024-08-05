@@ -82,32 +82,65 @@ public class ScheduleService extends Service {
         timer = new Timer();
         end = new boolean[10];
         sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
-        createNotification(true,
-                "Toko Alarm",
-                "Aplikasi Telah Berjalan ",
-                "Monitoring Alat");
-        fetchSchedules();
+        foreGroundAktif();
         startService();
     }
 
-    public void createNotification(boolean foreground, String title, String message, String channelId) {
+    private void foreGroundAktif ()
+    {
         Intent intent = new Intent(this, Home.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        String CHANNEL_ID = "ForegroundServiceChannel";
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel serviceChannel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Silent Foreground Service Channel",
+                    NotificationManager.IMPORTANCE_LOW
+            );
+            serviceChannel.setDescription("This is a silent foreground service channel");
+            serviceChannel.setSound(null, null);
+            serviceChannel.enableVibration(false);
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            if (manager != null) {
+                manager.createNotificationChannel(serviceChannel);
+            }
+        }
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("Toko Alarm")
+                .setContentText("Toko Alarm Berjalan")
+                .setSmallIcon(R.drawable.logo_icon)
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setSilent(true)
+                .build();
+
+        startForeground(1, notification);
+    }
+
+    public void createNotification( String title, String message, String channelId, String sound ) {
+        Intent intent = new Intent(this, Home.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
-        // Retrieve the stored ringtone URI
-        SharedPreferences sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
-        String uriString = sharedPreferences.getString("RingtoneUri", "");
-        Uri ringtoneUri = null;
-        if (!uriString.isEmpty()) {
-            ringtoneUri = Uri.parse(uriString);
+        //SharedPreferences sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+        //String uriString = sharedPreferences.getString("RingtoneUri", "");
+        //Uri ringtoneUri = null;
+        //if (!uriString.isEmpty()) {
+          //  ringtoneUri = Uri.parse(uriString);
+   //     }
+        Uri soundUri = null;
+        if (sound.isEmpty())
+        {
+             soundUri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + R.raw.sound_notification_1);
+        }else
+        {
+            soundUri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + sound);
         }
-
-        Log.d("NotificationService", "Using Ringtone URI: " + (ringtoneUri != null ? ringtoneUri.toString() : "default"));
-
-        // Use the default sound URI if no custom URI is set
-        Uri soundUri = (ringtoneUri != null) ? ringtoneUri : Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sound_notification_1);
-
+        //Uri soundUri = (ringtoneUri != null) ? ringtoneUri : ;
+        Log.d("NotificationService", soundUri .toString());
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel mChannel = new NotificationChannel(channelId,
@@ -123,28 +156,16 @@ public class ScheduleService extends Service {
             mChannel.setShowBadge(true);
             notificationManager.createNotificationChannel(mChannel);
         }
-        if (foreground) {
-            Notification notification = new NotificationCompat.Builder(this, channelId)
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setSmallIcon(R.drawable.logo_icon)
-                    .setContentIntent(pendingIntent)
-                    .setSilent(true)
-                    .build();
-            startForeground(2, notification);
+        Notification notificationBuilder = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.logo_icon)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setAutoCancel(true)
+                .setSound(soundUri)
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_MAX).build();
 
-        } else {
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
-                    .setSmallIcon(R.drawable.logo_icon)
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setAutoCancel(true)
-                    .setSound(soundUri)
-                    .setContentIntent(pendingIntent)
-                    .setPriority(NotificationCompat.PRIORITY_MAX);
-
-            notificationManager.notify(3, notificationBuilder.build());
-        }
+        notificationManager.notify(3, notificationBuilder);
     }
 
     @Override
@@ -283,7 +304,7 @@ public class ScheduleService extends Service {
                     if (!end[i] && formattedTime.equals(scheduleList.get(i).getStart_time()))  {
                         Log.d(TAG, "Sudah mulai" );
 
-                        createNotification(false, "Alarm "+ scheduleList.get(i).getName(), "Memulai Jadwal Alarm", "jadwal");
+                        createNotification( "Alarm "+ scheduleList.get(i).getName(), "Memulai Jadwal Alarm", "jadwal","");
                         startMqtt(i, scheduleList.get(i).getId_alat().toUpperCase(), "1");
                         end[i] = true;
                     }
@@ -291,7 +312,7 @@ public class ScheduleService extends Service {
             }
             if ( end[i]  && formattedTime.equals(scheduleList.get(i).getEnd_time())) {
                 Log.d(TAG, "Sudah berakhir");
-                createNotification(false, "Alarm "+ scheduleList.get(i).getName(), "Jadwal Alarm Berakhir", "jadwal");
+                createNotification("Alarm "+ scheduleList.get(i).getName(), "Jadwal Alarm Berakhir", "jadwal","");
                 startMqtt(i, scheduleList.get(i).getId_alat().toUpperCase(), "0");
                 end[i] = false;
             }

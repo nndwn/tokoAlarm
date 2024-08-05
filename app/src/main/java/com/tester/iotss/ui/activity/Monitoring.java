@@ -602,9 +602,9 @@ public class Monitoring extends AppCompatActivity implements SwipeRefreshLayout.
                     if (mqttMessage.toString().equals("1")) {
                         tvStatusAlat.setText("Aktif");
                         tvStatusAlat.setEnabled(true);
-                        if (isCekAlatButton) {
-                            alertSuccess.startDialog("Sukses", "Alat dalam keadaan aktif");
-                        }
+//                        if (isCekAlatButton) {
+//                            alertSuccess.startDialog("Sukses", "Alat dalam keadaan aktif");
+//                        }
                         lnListOfSensor.setVisibility(View.VISIBLE);
                     } else {
                         tvStatusAlat.setText("Non Aktif");

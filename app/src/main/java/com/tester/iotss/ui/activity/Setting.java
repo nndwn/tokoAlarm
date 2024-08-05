@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -97,6 +98,9 @@ public class Setting extends AppCompatActivity implements RingtoneAdapter.OnItem
         Uri ringtoneUri = listRiwayat.get(position).getUri();
         Log.d("RingtoneSelected", "Selected Ringtone URI: " + ringtoneUri.toString());
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Suara Notifikasi");
+        builder.setMessage("Ubah Suara Notifikasi ?");
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -111,20 +115,24 @@ public class Setting extends AppCompatActivity implements RingtoneAdapter.OnItem
         try {
             mediaPlayer.setDataSource(getApplicationContext(), ringtoneUri);
             mediaPlayer.setOnPreparedListener(MediaPlayer::start);
-            SharedPreferences sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("RingtoneUri", ringtoneUri.toString());
-            editor.apply();
-            Log.d("SharedPreferences", "Stored Ringtone URI: " + ringtoneUri.toString());
             mediaPlayer.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        builder.setPositiveButton("Ok" , (dialog, which) -> {
+            SharedPreferences sharedPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("RingtoneUri", ringtoneUri.toString());
+            editor.apply();
+            Log.d("SharedPreferences", "Stored Ringtone URI: " + ringtoneUri);
+        });
+        builder.setNegativeButton("No", (dialog, which) -> {
+            dialog.dismiss();
+        });
 
-        // Save the selected ringtone URI in SharedPreferences
-
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
-
 
 
     @Override

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tester.iotss.R;
@@ -19,9 +20,9 @@ import java.util.List;
 public class RingtoneAdapter extends RecyclerView.Adapter<RingtoneAdapter.ViewHolder> {
 
     private Context context;
-    private List<RingtoneList> list;
+    private final List<RingtoneList> list;
     private Activity activity;
-    private OnItemClickListener listener;
+    private final OnItemClickListener listener;
     private int selectedItem = RecyclerView.NO_POSITION;
     public RingtoneAdapter(Context context, List<RingtoneList> list, Activity activity, OnItemClickListener listener) {
         this.context = context;
@@ -30,11 +31,11 @@ public class RingtoneAdapter extends RecyclerView.Adapter<RingtoneAdapter.ViewHo
         this.listener = listener;
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_ringtone, parent, false);
-        ViewHolder viewHolder = new ViewHolder(v);
-        return viewHolder;
+        return new ViewHolder(v);
     }
 
     @Override
@@ -48,8 +49,6 @@ public class RingtoneAdapter extends RecyclerView.Adapter<RingtoneAdapter.ViewHo
             holder.lnRingtone.setBackgroundColor(Color.parseColor("#FFFFFF"));
             holder.tvTitle.setTextColor(Color.BLACK);
         }
-
-
     }
 
     @Override

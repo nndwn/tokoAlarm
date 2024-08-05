@@ -132,7 +132,7 @@ public class ScheduleFragment extends Fragment implements SwipeRefreshLayout.OnR
             @Override
             public void onFailure(@NonNull Call<ScheduleResponse> call, @NonNull Throwable t) {
                 swipeRefreshLayout.setRefreshing(false); // Hide refresh indicator
-                Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
