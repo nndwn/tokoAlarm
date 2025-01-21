@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">tokoAlarm</string>
+    <string name="background">background</string>
+    <string name="application_system_security">Application System Security</string>
+    <string name="logo">logo</string>
+    <string name="app_copyright">Copyright &#169; 2023</string>
+    <string name="app_version">Versi 1.8.2</string>
+    <string name="nomor_handphone">Nomor Handphone</string>
+    <string name="silahkan_login_pada_form_dibawah_ini">Silahkan Login Pada Form dibawah ini</string>
+    <string name="input">input</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="daftar">Daftar</string>
+    <string name="mohon_tunggu">Mohon Tunggu</string>
+    <string name="close">Tutup</string>
+    <string name="error_phone">Harap Isi No hp Anda</string>
+    <string name="error_password">Harap Isi Password Anda</string>
+    <string name="logout">Log Out</string>
+    <string name="fail_login">Login Gagal</string>
+    <string name="trouble_connection"> Periksa Koneksi Internet Anda</string>
+    <string name="fail_access">"no hp atau password salah"</string>
+
+</resources>

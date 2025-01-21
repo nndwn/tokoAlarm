@@ -1,0 +1,97 @@
+package com.example.tokoalarm
+
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+
+class Login : AppCompatActivity(){
+    private lateinit var phoneNumber: EditText
+    private lateinit var pwdText: EditText
+    private lateinit var loginBtn: Button
+
+    private lateinit var errorDialog: ErrorDialog
+    private  lateinit var loading: Loading
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.login)
+        phoneNumber = findViewById(R.id.phoneNumber)
+        pwdText = findViewById(R.id.password)
+        loginBtn = findViewById(R.id.btnLogin)
+
+        loginBtn.setOnClickListener {
+            if (validateInput()) {
+                loginUser()
+            }
+        }
+    }
+
+    private fun loginUser() {
+        loading = Loading(this@Login)
+        errorDialog = ErrorDialog(this@Login)
+        loading.startLoadingDialog()
+        val failLogin = getString(R.string.fail_login)
+
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.apiService.login(
+                    phoneNumber.text.toString(),
+                    pwdText.text.toString()
+                )
+
+                if (response.isSuccessful) {
+                    val loginResponse = response.body()
+                    if (loginResponse?.status == true) {
+                        val data = loginResponse.data
+                        val pref = PreferencesManager(applicationContext)
+                        val sessionLogin = Session(pref)
+                        sessionLogin.setIdUser(data.id)
+                        sessionLogin.setNameUser(data.nama)
+                        sessionLogin.setPhone(data.nohp)
+                        sessionLogin.setPwd(data.password)
+
+                        val intent = Intent(this@Login, Home::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        errorDialog.startDialog(failLogin, getString(R.string.fail_access))
+                    }
+                } else {
+                    println("test1")
+                    errorDialog.startDialog(failLogin, getString(R.string.trouble_connection))
+                }
+            } catch (e: Exception) {
+                println("test $e")
+                errorDialog.startDialog(failLogin, getString(R.string.trouble_connection))
+            } finally {
+                loading.dismissDialog()
+            }
+        }
+    }
+
+
+
+    private fun validateInput(): Boolean {
+        val phone = phoneNumber.text.toString().trim()
+        val password = pwdText.text.toString().trim()
+
+        return  when {
+            phone.isEmpty() -> {
+                phoneNumber.error = R.string.error_phone.toString()
+                phoneNumber.requestFocus()
+                false
+            }
+            password.isEmpty() -> {
+                pwdText.error = R.string.error_password.toString()
+                pwdText.requestFocus()
+                false
+            }
+            else -> true
+        }
+    }
+}
