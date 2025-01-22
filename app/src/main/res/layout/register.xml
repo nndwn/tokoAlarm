@@ -9,18 +9,18 @@
         android:background="@color/background">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="700dp"
             android:background="@drawable/splash2"
             android:contentDescription="@string/background" />
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="700dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/splash3"
             android:contentDescription="@string/background" />
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="380dp"
+            android:layout_height="680dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/splash1"
             android:contentDescription="@string/background" />
@@ -31,13 +31,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginTop="-100dp">
         <LinearLayout
             android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="70dp"
-            android:paddingStart="20dp"
             android:paddingEnd="20dp">
             <ImageView
                 android:layout_width="196dp"
@@ -59,7 +59,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="360dp"
+            android:layout_width="390dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rectangle_round_10"
@@ -213,7 +213,7 @@
                 android:textColor="#FFFFFF" />
 
             <Button
-                android:id="@+id/btnDaftar"
+                android:id="@+id/btnLogin"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="30dp"

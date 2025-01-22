@@ -2,6 +2,7 @@ package com.example.tokoalarm
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ class Login : AppCompatActivity(){
     private lateinit var phoneNumber: EditText
     private lateinit var pwdText: EditText
     private lateinit var loginBtn: Button
+    private lateinit var registerBtn: Button
 
     private lateinit var errorDialog: ErrorDialog
     private  lateinit var loading: Loading
@@ -22,12 +24,26 @@ class Login : AppCompatActivity(){
         phoneNumber = findViewById(R.id.phoneNumber)
         pwdText = findViewById(R.id.password)
         loginBtn = findViewById(R.id.btnLogin)
+        registerBtn = findViewById(R.id.btnDaftar)
 
         loginBtn.setOnClickListener {
             if (validateInput()) {
                 loginUser()
             }
+            unFocus()
         }
+        registerBtn.setOnClickListener {
+            val intent = Intent(this@Login, Register::class.java)
+            startActivity(intent)
+            unFocus()
+        }
+    }
+
+    private fun unFocus() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+        phoneNumber.clearFocus()
+        pwdText.clearFocus()
     }
 
     private fun loginUser() {

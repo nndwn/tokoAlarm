@@ -34,6 +34,7 @@ class Session(private val preferencesManager: PreferencesManager) {
     fun setPhone(phone : String) = runBlocking {
         preferencesManager.setPhone(phone)
     }
+
     fun logout () = runBlocking {
         preferencesManager.setIdUser("")
         preferencesManager.setNameUser("")

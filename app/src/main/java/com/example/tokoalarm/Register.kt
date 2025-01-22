@@ -11,6 +11,7 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -23,20 +24,30 @@ class Register :AppCompatActivity(){
 
     private lateinit var nameText: EditText
     private lateinit var phoneNumber: EditText
-    private  lateinit var pwdText: EditText
+    private lateinit var pwdText: EditText
     private lateinit var signUpBtn: Button
     private lateinit var aggrementCheck: CheckBox
     private lateinit var aggrementText: TextView
+    private lateinit var loginBtn: Button
 
     private lateinit var errorDialog: ErrorDialog
     private  lateinit var loading: Loading
 
+    private var name :String? = null
+    private var phone :String? = null
+    private var password :String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.register)
         errorDialog = ErrorDialog(this@Register)
         aggrementText = findViewById(R.id.aggrement_text)
+        loginBtn = findViewById(R.id.btnLogin)
+        loginBtn.setOnClickListener {
+            val intent = Intent(this@Register, Login::class.java)
+            startActivity(intent)
+            unFocus()
+        }
         aggrementMore()
 
         nameText = findViewById(R.id.reg_name)
@@ -45,11 +56,26 @@ class Register :AppCompatActivity(){
         signUpBtn = findViewById(R.id.reg_btn)
         aggrementCheck = findViewById(R.id.aggrement_checkbox)
 
+        aggrementCheck.setOnClickListener {
+            unFocus()
+        }
         signUpBtn.setOnClickListener {
+            name = nameText.text.toString()
+            phone = phoneNumber.text.toString().trim()
+            password = pwdText.text.toString().trim()
+
             if (validateInput()) {
                 signUpUser()
             }
+            unFocus()
         }
+    }
+    private fun unFocus() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+        nameText.clearFocus()
+        phoneNumber.clearFocus()
+        pwdText.clearFocus()
     }
 
 
@@ -77,23 +103,21 @@ class Register :AppCompatActivity(){
     }
 
     private fun validateInput(): Boolean {
-        val name = nameText.text.toString()
-        val phone = phoneNumber.text.toString().trim()
-        val password = pwdText.text.toString().trim()
+
         val aggrement = aggrementCheck.isChecked
 
         return when {
-            phone.isEmpty() -> {
+            phone!!.isEmpty() -> {
                 phoneNumber.error = getString(R.string.error_phone)
                 phoneNumber.requestFocus()
                 false
             }
-            password.isEmpty() -> {
+            password!!.isEmpty() -> {
                 pwdText.error = getString(R.string.error_password)
                 pwdText.requestFocus()
                 false
             }
-            name.isEmpty() -> {
+            name!!.isEmpty() -> {
                 nameText.error = getString(R.string.error_name)
                 nameText.requestFocus()
                 false
@@ -113,20 +137,19 @@ class Register :AppCompatActivity(){
         lifecycleScope.launch {
             try {
                 val response = RetrofitClient.apiService.sigUp(
-                    nameText.text.toString(),
-                    phoneNumber.text.toString(),
-                    pwdText.text.toString()
+                    name!!,
+                    phone!!,
+                    password!!
                 )
                 if (response.isSuccessful) {
                     val signUpResponse = response.body()
+                    println(signUpResponse)
                     if (signUpResponse?.status == true) {
-                        val data = signUpResponse.data!!
                         val pref = PreferencesManager(applicationContext)
                         val sessionLogin = Session(pref)
-                        sessionLogin.setIdUser(data.id)
-                        sessionLogin.setNameUser(data.nama)
-                        sessionLogin.setPhone(data.nohp)
-                        sessionLogin.setPwd(data.password)
+                        sessionLogin.setNameUser(name!!)
+                        sessionLogin.setPhone(phone!!)
+                        sessionLogin.setPwd(password!!)
                         val intent = Intent(this@Register, Home::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)

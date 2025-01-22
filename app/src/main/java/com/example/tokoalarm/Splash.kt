@@ -16,7 +16,7 @@ class Splash : AppCompatActivity() {
         var intent : Intent
         setContentView(R.layout.splash)
         Handler(Looper.getMainLooper()).postDelayed({
-            if (session.getIdUser() == "" ) {
+            if (session.getPhone() == "" ) {
                 intent = Intent(this, Login::class.java)
                 startActivity(intent)
                 finish()
