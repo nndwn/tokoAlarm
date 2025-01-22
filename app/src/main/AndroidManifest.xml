@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".Login"/>
         <activity android:name=".Home"/>
+        <activity android:name=".Register"/>
     </application>
 
 </manifest>

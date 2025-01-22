@@ -57,6 +57,7 @@
                 android:text="@string/application_system_security"
                 android:contentDescription="@string/logo" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="360dp"
             android:layout_height="wrap_content"
@@ -72,7 +73,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/robotolight"
                 android:gravity="center"
-                android:text="@string/silahkan_login_pada_form_dibawah_ini"
+                android:text="@string/registerText"
                 android:textColor="#000"
                 android:textSize="17sp"
                 android:textStyle="normal" />
@@ -90,10 +91,41 @@
                     android:layout_width="41dp"
                     android:layout_height="35dp"
                     android:contentDescription="@string/input"
+                    android:src="@drawable/baseline_account_circle_24" />
+
+                <EditText
+                    android:id="@+id/reg_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:autofillHints="name"
+                    android:background="@null"
+                    android:fontFamily="@font/robotolight"
+                    android:hint="@string/name"
+                    android:inputType="textPersonName"
+                    android:singleLine="true"
+                    android:textColorHint="#C5000000"
+                    android:textColor="@color/black"
+                    android:textSize="19sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rectangle_input"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="41dp"
+                    android:layout_height="35dp"
+                    android:contentDescription="@string/input"
                     android:src="@drawable/ic_phone" />
 
                 <EditText
-                    android:id="@+id/phoneNumber"
+                    android:id="@+id/reg_phoneNumber"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
@@ -121,12 +153,11 @@
                 <ImageView
                     android:layout_width="37dp"
                     android:layout_height="34dp"
-
                     android:contentDescription="@string/input"
                     android:src="@drawable/ic_lock" />
 
                 <EditText
-                    android:id="@+id/password"
+                    android:id="@+id/reg_password"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
@@ -139,17 +170,45 @@
                     android:textColorHint="#C5000000"
                     android:textColor="@color/black"
                     android:textSize="19sp"
-
                     />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="20dp"
+                >
+
+                <CheckBox
+                    android:id="@+id/aggrement_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.8"
+                    android:buttonTint="@color/black"
+                    android:fontFamily="@font/robotomedium"
+                    android:text="@string/agreement_text"
+                    android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:id ="@+id/aggrement_text"
+                    android:textColor="@color/black"
+                    android:alpha="0.7"
+                    android:layout_marginStart="6dp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/robotomedium" />
+
+            </LinearLayout>
+
             <Button
-                android:id="@+id/btnLogin"
+                android:id="@+id/reg_btn"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@drawable/rectangle_round_10_blue"
                 android:fontFamily="@font/robotomedium"
-                android:text="@string/login"
+                android:text="@string/register_text_btn"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
 
@@ -160,11 +219,10 @@
                 android:layout_marginTop="30dp"
                 android:background="@null"
                 android:fontFamily="@font/robotomedium"
-                android:text="@string/daftar"
+                android:text="@string/login"
                 android:textAllCaps="false"
                 android:alpha="0.7"
                 android:textColor="@color/black" />
-
         </LinearLayout>
     </LinearLayout>
 

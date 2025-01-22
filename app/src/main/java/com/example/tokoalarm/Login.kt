@@ -62,11 +62,9 @@ class Login : AppCompatActivity(){
                         errorDialog.startDialog(failLogin, getString(R.string.fail_access))
                     }
                 } else {
-                    println("test1")
                     errorDialog.startDialog(failLogin, getString(R.string.trouble_connection))
                 }
             } catch (e: Exception) {
-                println("test $e")
                 errorDialog.startDialog(failLogin, getString(R.string.trouble_connection))
             } finally {
                 loading.dismissDialog()
@@ -82,12 +80,12 @@ class Login : AppCompatActivity(){
 
         return  when {
             phone.isEmpty() -> {
-                phoneNumber.error = R.string.error_phone.toString()
+                phoneNumber.error = getString(R.string.error_phone)
                 phoneNumber.requestFocus()
                 false
             }
             password.isEmpty() -> {
-                pwdText.error = R.string.error_password.toString()
+                pwdText.error = getString(R.string.error_password)
                 pwdText.requestFocus()
                 false
             }

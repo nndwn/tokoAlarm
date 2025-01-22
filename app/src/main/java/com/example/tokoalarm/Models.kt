@@ -8,6 +8,12 @@ data class LoginResponse(
     val data: UserData
 )
 
+data class RegisterResponse(
+    val status: Boolean,
+    val message: String,
+    val data: UserData?
+)
+
 data class UserData (
     val id: String,
     val nama: String,

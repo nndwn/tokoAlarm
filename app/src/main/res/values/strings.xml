@@ -19,5 +19,15 @@
     <string name="fail_login">Login Gagal</string>
     <string name="trouble_connection"> Periksa Koneksi Internet Anda</string>
     <string name="fail_access">"no hp atau password salah"</string>
+    <string name="registerText">Isi form pendaftaran di bawah ini</string>
+    <string name="name">Nama Lengkap</string>
+    <string name="register_text_btn">Mulai Daftar</string>
+    <string name="agreement_text"><![CDATA[Syarat & Ketentuan]]></string>
+    <string name="error_name">Harap Isi Nama Anda</string>
+    <string name="aggrement_more">Silakan membaca seluruh ketentuan pada Syarat dan Ketentuan Selengkapnya</string>
+    <string name="here">disini</string>
+    <string name="info">info</string>
+    <string name="error_aggrement"><![CDATA[Harap Ceklis Syarat & Ketentuan]]></string>
+    <string name= "fail_register">Pendaftaran Gagal</string>">
 
 </resources>

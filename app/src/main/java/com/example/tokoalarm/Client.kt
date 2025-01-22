@@ -15,6 +15,14 @@ interface ApiService {
         @Field("nohp") phone: String,
         @Field("password") password: String
     ): Response<LoginResponse>
+
+    @FormUrlEncoded
+    @POST("users/regis")
+    suspend fun sigUp(
+        @Field("nama") name: String,
+        @Field("nohp") phone: String,
+        @Field("password") password: String
+    ): Response<RegisterResponse>
 }
 
 
