@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
-class Register :AppCompatActivity(){
+class ActivityRegister :AppCompatActivity(){
 
     private lateinit var nameText: EditText
     private lateinit var phoneNumber: EditText
@@ -30,8 +30,8 @@ class Register :AppCompatActivity(){
     private lateinit var aggrementText: TextView
     private lateinit var loginBtn: Button
 
-    private lateinit var errorDialog: ErrorDialog
-    private  lateinit var loading: Loading
+    private lateinit var errorDialog: DialogError
+    private  lateinit var loading: DialogLoading
 
     private var name :String? = null
     private var phone :String? = null
@@ -40,11 +40,11 @@ class Register :AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        errorDialog = ErrorDialog(this@Register)
+        errorDialog = DialogError(this@ActivityRegister)
         aggrementText = findViewById(R.id.aggrement_text)
         loginBtn = findViewById(R.id.btnLogin)
         loginBtn.setOnClickListener {
-            val intent = Intent(this@Register, Login::class.java)
+            val intent = Intent(this@ActivityRegister, ActivityLogin::class.java)
             startActivity(intent)
             unFocus()
         }
@@ -131,7 +131,7 @@ class Register :AppCompatActivity(){
     }
 
     private fun signUpUser() {
-        loading = Loading(this@Register)
+        loading = DialogLoading(this@ActivityRegister)
         loading.startLoadingDialog()
         val failSignUp = getString(R.string.fail_register)
         lifecycleScope.launch {
@@ -143,14 +143,13 @@ class Register :AppCompatActivity(){
                 )
                 if (response.isSuccessful) {
                     val signUpResponse = response.body()
-                    println(signUpResponse)
                     if (signUpResponse?.status == true) {
                         val pref = PreferencesManager(applicationContext)
                         val sessionLogin = Session(pref)
                         sessionLogin.setNameUser(name!!)
                         sessionLogin.setPhone(phone!!)
                         sessionLogin.setPwd(password!!)
-                        val intent = Intent(this@Register, Main::class.java)
+                        val intent = Intent(this@ActivityRegister, ActivityMain::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish()

@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 
-class Splash : AppCompatActivity() {
+class ActivitySplash : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,12 +18,12 @@ class Splash : AppCompatActivity() {
         var intent : Intent
         setContentView(R.layout.activity_splash)
         Handler(Looper.getMainLooper()).postDelayed({
-            if (session.getPhone() == "" ) {
-                intent = Intent(this, Login::class.java)
+            if (session.getPhone() == "" || session.getPhone() == null) {
+                intent = Intent(this, ActivityLogin::class.java)
                 startActivity(intent)
                 finish()
             } else {
-                intent = Intent(this, Main::class.java)
+                intent = Intent(this, ActivityMain::class.java)
                 startActivity(intent)
                 finish()
             }

@@ -9,14 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
-class Login : AppCompatActivity(){
+class ActivityLogin : AppCompatActivity(){
     private lateinit var phoneNumber: EditText
     private lateinit var pwdText: EditText
     private lateinit var loginBtn: Button
     private lateinit var registerBtn: Button
 
-    private lateinit var errorDialog: ErrorDialog
-    private  lateinit var loading: Loading
+    private lateinit var errorDialog: DialogError
+    private  lateinit var loading: DialogLoading
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +33,7 @@ class Login : AppCompatActivity(){
             unFocus()
         }
         registerBtn.setOnClickListener {
-            val intent = Intent(this@Login, Register::class.java)
+            val intent = Intent(this@ActivityLogin, ActivityRegister::class.java)
             startActivity(intent)
             unFocus()
         }
@@ -47,8 +47,8 @@ class Login : AppCompatActivity(){
     }
 
     private fun loginUser() {
-        loading = Loading(this@Login)
-        errorDialog = ErrorDialog(this@Login)
+        loading = DialogLoading(this@ActivityLogin)
+        errorDialog = DialogError(this@ActivityLogin)
         loading.startLoadingDialog()
         val failLogin = getString(R.string.fail_login)
 
@@ -70,7 +70,7 @@ class Login : AppCompatActivity(){
                         sessionLogin.setPhone(data.nohp)
                         sessionLogin.setPwd(data.password)
 
-                        val intent = Intent(this@Login, Main::class.java)
+                        val intent = Intent(this@ActivityLogin, ActivityMain::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish()

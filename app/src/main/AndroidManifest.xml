@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/base"
         tools:targetApi="34">
-        <activity android:name=".Splash"
+        <activity android:name=".ActivitySplash"
             android:exported="true"
             android:theme="@style/Theme.App.Starting">
             <intent-filter>
@@ -21,11 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login"/>
-        <activity android:name=".Main"/>
-        <activity android:name=".Register"/>
-        <activity android:name=".TopUp"/>
-        <activity android:name=".History"/>
+        <activity android:name=".ActivityLogin"/>
+        <activity android:name=".ActivityMain"/>
+        <activity android:name=".ActivityRegister"/>
+        <activity android:name=".ActivityTopUp"/>
+        <activity android:name=".ActivityHistory"/>
+        <activity android:name=".ActivityWebView"/>
     </application>
 
 </manifest>

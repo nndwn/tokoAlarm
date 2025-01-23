@@ -7,7 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.widget.Button
 import android.widget.TextView
 
-class ErrorDialog (private val activity: Activity){
+class DialogError (private val activity: Activity){
     private var dialog: AlertDialog? = null
     private var isShowing = false
 

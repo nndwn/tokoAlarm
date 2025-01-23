@@ -6,7 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 
 
-class Loading(private val activity: Activity) {
+class DialogLoading(private val activity: Activity) {
     private lateinit var dialog: AlertDialog
     private var isShowing = false
 

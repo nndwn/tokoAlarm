@@ -14,35 +14,38 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var session : Session
-    private lateinit var saldeText : TextView
+    private lateinit var saldoText : TextView
+    private lateinit var errorDialog : DialogError
 
+    var urlTutorial :String? = null
 
     override fun onViewCreated(view : View, savedIntanceState: Bundle?) {
         super.onViewCreated(view, savedIntanceState)
-        saldeText = view.findViewById(R.id.tvSaldo)
+        saldoText = view.findViewById(R.id.tvSaldo)
         session = Session(PreferencesManager(requireContext()))
-        getIdUser()
+        errorDialog = DialogError(requireActivity())
         topUpBtn(view)
         historyBtn(view)
-
         swipeRefreshLayout = view.findViewById(R.id.containerSwipe)
         swipeRefreshLayout.setOnRefreshListener(this)
         swipeRefreshLayout.post {
-            swipeRefreshLayout.isRefreshing = true
-            getData()
+            if (isAdded) {
+                swipeRefreshLayout.isRefreshing = true
+                getIdUser()
+            }
         }
 
 
     }
 
     override fun onRefresh() {
-        getData()
+       getIdUser()
     }
 
     private fun topUpBtn(view: View) {
         val btn = view.findViewById<Button>(R.id.btnTopup)
         btn.setOnClickListener {
-            val intent = Intent(activity, TopUp::class.java)
+            val intent = Intent(activity, ActivityTopUp::class.java)
             startActivity(intent)
         }
     }
@@ -50,7 +53,7 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
     private fun historyBtn(view: View) {
         val btn = view.findViewById<Button>(R.id.btnHistory)
         btn.setOnClickListener {
-            val intent = Intent(activity, History::class.java)
+            val intent = Intent(activity, ActivityHistory::class.java)
             startActivity(intent)
         }
     }
@@ -63,9 +66,12 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
                         session.getIdUser()!!
                     )
                     if (response.isSuccessful) {
-                        val loginResponse = response.body()
-                        if (loginResponse?.status == true) {
-
+                        val responseData = response.body()
+                        if (responseData?.status == true) {
+                            saldoText.text = responseData.saldo
+                            urlTutorial = responseData.config.linkTutorial
+                            println(urlTutorial)
+                            swipeRefreshLayout.isRefreshing = false
                         }else {
                             throw Exception("problem in status response")
                         }
@@ -73,14 +79,15 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
                         throw Exception("Response not successful")
                     }
                 }catch (e : Exception){
-
+                    swipeRefreshLayout.isRefreshing = false
+                    println("getData $e")
+                    errorDialog.startDialog(getString(R.string.info), getString(R.string.trouble_connection))
                 }
             }
         }
     }
     private fun getIdUser() {
-        val errorDialog = ErrorDialog(requireActivity())
-        if (session.getIdUser() == "")
+        if (session.getIdUser() == "" || session.getIdUser() == null){
             lifecycleScope.launch {
                 try {
                     val response = RetrofitClient.apiService.login(
@@ -99,9 +106,16 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
                         throw Exception("Response not successful")
                     }
                 } catch (e: Exception) {
-                    println("error $e")
+                    println("getUser $e")
                     errorDialog.startDialog(getString(R.string.info), getString(R.string.trouble_connection))
+                    return@launch
                 }
+                getData()
             }
+
+        } else {
+            getData()
+        }
+
     }
 }

@@ -95,5 +95,132 @@
                     android:textSize="@dimen/_11ssp" />
             </LinearLayout>
         </LinearLayout>
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:columnCount="4"
+            android:rowCount="2">
+
+            <LinearLayout
+                android:id="@+id/lnCaraPenggunaan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_49sdp"
+                    android:background="@drawable/rectangle_round_10_blue"
+                    android:elevation="@dimen/_2sdp"
+                    android:contentDescription="@string/tutorial"
+                    android:padding="@dimen/_10sdp"
+                    android:src="@drawable/book_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:fontFamily="@font/robotomedium"
+                    android:gravity="center"
+                    android:text="@string/tutorial"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_9sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lnSetting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_49sdp"
+                    android:background="@drawable/rectangle_round_10_blue"
+                    android:elevation="@dimen/_2sdp"
+                    android:contentDescription="@string/setting"
+                    android:padding="@dimen/_10sdp"
+                    android:src="@drawable/setting_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:fontFamily="@font/robotomedium"
+                    android:gravity="center"
+                    android:text="@string/setting"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_9sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lnBeliPaket"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_49sdp"
+                    android:background="@drawable/rectangle_round_10_blue"
+                    android:elevation="@dimen/_2sdp"
+                    android:contentDescription="@string/buy_paket"
+                    android:padding="@dimen/_10sdp"
+                    android:src="@drawable/wallet_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:fontFamily="@font/robotomedium"
+                    android:gravity="center"
+                    android:text="@string/buy_paket"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_9sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lnPesanAlarm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_49sdp"
+                    android:background="@drawable/rectangle_round_10_blue"
+                    android:elevation="@dimen/_2sdp"
+                    android:contentDescription="@string/purpose"
+                    android:padding="@dimen/_10sdp"
+                    android:src="@drawable/bucket_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:fontFamily="@font/robotomedium"
+                    android:gravity="center"
+                    android:text="@string/purpose"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_9sdp" />
+            </LinearLayout>
+        </GridLayout>
     </LinearLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -13,7 +13,7 @@ class FragmentAccount :Fragment(R.layout.fragment_account) {
         btnLogout.setOnClickListener {
             val session = Session(PreferencesManager(requireContext()))
             session.logout()
-            val intent = Intent(requireContext(), Login::class.java)
+            val intent = Intent(requireContext(), ActivityLogin::class.java)
             startActivity(intent)
             requireActivity().finish()
         }

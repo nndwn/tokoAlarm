@@ -35,6 +35,11 @@
     <string name="account">Akun</string>
     <string name="saldo">Saldo Saya</string>
     <string name="top_up">+ Top Up</string>
-    <string name="history">History</string>">
+    <string name="history">History</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="setting">setting</string>
+    <string name="buy_paket">beli paket</string>
+    <string name="purpose">pesan alarm</string>">
+    <string name= "help_administrator">app mengalami masalah , hubungin admin</string>
 
 </resources>

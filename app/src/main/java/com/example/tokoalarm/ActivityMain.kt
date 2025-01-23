@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
-class Main :AppCompatActivity() {
+class ActivityMain :AppCompatActivity() {
 
     private var currentFragment: String? = null
 
