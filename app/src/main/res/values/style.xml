@@ -8,4 +8,18 @@
 
         <item name="android:windowBackground">@color/white</item>
     </style>
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="android:windowSplashScreenBackground" tools:ignore="NewApi">
+            @color/primary_color
+        </item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:ignore="NewApi">
+            @color/primary_color
+        </item>
+        <item name="android:windowSplashScreenBrandingImage" tools:ignore="NewApi">
+            @drawable/logoputih
+        </item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="postSplashScreenTheme">@style/base</item>
+    </style>
 </resources>

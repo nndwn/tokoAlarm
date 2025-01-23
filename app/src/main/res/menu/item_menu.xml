@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_home"
+        android:enabled="true"
+        android:icon="@drawable/icon_home_light"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/menu_device"
+        android:enabled="true"
+        android:icon="@drawable/icon_mobile_light"
+        android:title="@string/device" />
+    <item
+        android:id="@+id/menu_schedule"
+        android:enabled="true"
+        android:icon="@drawable/icon_schedule_light"
+        android:title="@string/schedule" />
+    <item
+        android:id="@+id/menu_account"
+        android:enabled="true"
+        android:icon="@drawable/icon_user_light"
+        android:title="@string/account" />
+</menu>

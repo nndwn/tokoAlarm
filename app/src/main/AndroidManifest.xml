@@ -14,15 +14,18 @@
         android:theme="@style/base"
         tools:targetApi="34">
         <activity android:name=".Splash"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".Login"/>
-        <activity android:name=".Home"/>
+        <activity android:name=".Main"/>
         <activity android:name=".Register"/>
+        <activity android:name=".TopUp"/>
+        <activity android:name=".History"/>
     </application>
 
 </manifest>

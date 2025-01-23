@@ -20,7 +20,7 @@ class Login : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.login)
+        setContentView(R.layout.activity_login)
         phoneNumber = findViewById(R.id.phoneNumber)
         pwdText = findViewById(R.id.password)
         loginBtn = findViewById(R.id.btnLogin)
@@ -70,7 +70,7 @@ class Login : AppCompatActivity(){
                         sessionLogin.setPhone(data.nohp)
                         sessionLogin.setPwd(data.password)
 
-                        val intent = Intent(this@Login, Home::class.java)
+                        val intent = Intent(this@Login, Main::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish()

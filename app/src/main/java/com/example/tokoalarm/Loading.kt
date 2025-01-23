@@ -7,13 +7,13 @@ import android.graphics.drawable.ColorDrawable
 
 
 class Loading(private val activity: Activity) {
-    private var dialog: AlertDialog? = null
+    private lateinit var dialog: AlertDialog
     private var isShowing = false
 
     fun startLoadingDialog() {
         val builder = AlertDialog.Builder(activity)
         val inflater = activity.layoutInflater
-        val view = inflater.inflate(R.layout.loading, null)
+        val view = inflater.inflate(R.layout.activity_loading, null)
         builder.setView(view)
         builder.setCancelable(true)
         builder.setOnDismissListener {
@@ -21,12 +21,12 @@ class Loading(private val activity: Activity) {
         }
 
         dialog = builder.create()
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog?.show()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
         isShowing = true
     }
     fun dismissDialog() {
-        dialog?.dismiss()
+        dialog.dismiss()
         isShowing = false
     }
 }

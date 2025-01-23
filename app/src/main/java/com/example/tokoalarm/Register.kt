@@ -39,7 +39,7 @@ class Register :AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.register)
+        setContentView(R.layout.activity_register)
         errorDialog = ErrorDialog(this@Register)
         aggrementText = findViewById(R.id.aggrement_text)
         loginBtn = findViewById(R.id.btnLogin)
@@ -150,7 +150,7 @@ class Register :AppCompatActivity(){
                         sessionLogin.setNameUser(name!!)
                         sessionLogin.setPhone(phone!!)
                         sessionLogin.setPwd(password!!)
-                        val intent = Intent(this@Register, Home::class.java)
+                        val intent = Intent(this@Register, Main::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish()

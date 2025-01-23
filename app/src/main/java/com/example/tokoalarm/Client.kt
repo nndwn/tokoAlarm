@@ -23,6 +23,13 @@ interface ApiService {
         @Field("nohp") phone: String,
         @Field("password") password: String
     ): Response<RegisterResponse>
+
+    @FormUrlEncoded
+    @POST("users/datapelanggan")
+    suspend fun getDataPelanggan(
+        @Field("id_users") idUser: String
+    ): Response<DataPelangganResponse>
+
 }
 
 
