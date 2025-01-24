@@ -3,7 +3,7 @@ package com.example.tokoalarm
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
-class Session(private val preferencesManager: PreferencesManager) {
+class Session(private val preferencesManager: PrefSession) {
     fun getIdAlat(): String? = runBlocking {
         preferencesManager.idAlatFlow.first()
     }

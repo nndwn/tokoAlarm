@@ -2,7 +2,10 @@ package com.example.tokoalarm
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -13,14 +16,26 @@ import androidx.appcompat.app.AppCompatActivity
 class ActivityWebView :AppCompatActivity(){
     private lateinit var webView: WebView
     private lateinit var loading: DialogLoading
+    private lateinit var dialogError: DialogError
+    private val handler  = Handler(Looper.getMainLooper())
+    private val timeoutRunnable = Runnable {
+        webView.stopLoading()
+        loading.dismissDialog()
+        dialogError.startDialog(getString(R.string.info), getString(R.string.trouble_connection))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
         webView = findViewById(R.id.webview)
         loading = DialogLoading(this@ActivityWebView)
+        dialogError = DialogError(this@ActivityWebView)
 
         val webSettings = webView.settings
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            webView.setBackgroundColor(getColor(R.color.primary_color))
+        }
+        loading.startLoadingDialog()
         webSettings.javaScriptEnabled = true
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, request : WebResourceRequest?): Boolean {
@@ -28,10 +43,11 @@ class ActivityWebView :AppCompatActivity(){
                 return true
             }
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                loading.startLoadingDialog()
+                handler.postDelayed(timeoutRunnable,  10000)
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
+                handler.removeCallbacks(timeoutRunnable)
                 loading.dismissDialog()
             }
         }

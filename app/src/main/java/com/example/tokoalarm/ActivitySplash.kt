@@ -13,7 +13,7 @@ class ActivitySplash : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
-        val pref = PreferencesManager(applicationContext)
+        val pref = PrefSession(applicationContext)
         val session = Session(pref)
         var intent : Intent
         setContentView(R.layout.activity_splash)

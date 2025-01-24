@@ -144,7 +144,7 @@ class ActivityRegister :AppCompatActivity(){
                 if (response.isSuccessful) {
                     val signUpResponse = response.body()
                     if (signUpResponse?.status == true) {
-                        val pref = PreferencesManager(applicationContext)
+                        val pref = PrefSession(applicationContext)
                         val sessionLogin = Session(pref)
                         sessionLogin.setNameUser(name!!)
                         sessionLogin.setPhone(phone!!)

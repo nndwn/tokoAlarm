@@ -63,7 +63,7 @@ class ActivityLogin : AppCompatActivity(){
                     val loginResponse = response.body()
                     if (loginResponse?.status == true) {
                         val data = loginResponse.data
-                        val pref = PreferencesManager(applicationContext)
+                        val pref = PrefSession(applicationContext)
                         val sessionLogin = Session(pref)
                         sessionLogin.setIdUser(data.id)
                         sessionLogin.setNameUser(data.nama)

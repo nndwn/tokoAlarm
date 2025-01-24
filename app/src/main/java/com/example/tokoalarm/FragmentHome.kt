@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -17,15 +18,21 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
     private lateinit var saldoText : TextView
     private lateinit var errorDialog : DialogError
 
-    var urlTutorial :String? = null
+    private var linkPemesanan :String? = null
 
     override fun onViewCreated(view : View, savedIntanceState: Bundle?) {
         super.onViewCreated(view, savedIntanceState)
         saldoText = view.findViewById(R.id.tvSaldo)
-        session = Session(PreferencesManager(requireContext()))
+        session = Session(PrefSession(requireContext()))
         errorDialog = DialogError(requireActivity())
+
         topUpBtn(view)
         historyBtn(view)
+        tutorialBtn(view)
+        settingBtn(view)
+        beliPaketBtn(view)
+        purposeBtn(view)
+
         swipeRefreshLayout = view.findViewById(R.id.containerSwipe)
         swipeRefreshLayout.setOnRefreshListener(this)
         swipeRefreshLayout.post {
@@ -34,12 +41,47 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
                 getIdUser()
             }
         }
-
-
     }
 
     override fun onRefresh() {
        getIdUser()
+    }
+
+    private fun tutorialBtn(view: View) {
+        val btn = view.findViewById<LinearLayout>(R.id.lnCaraPenggunaan)
+        btn.setOnClickListener{
+            val intent = Intent(activity, ActivityWebView::class.java)
+            intent.putExtra("URL","https://tokoalarm.com/cara-penggunaan/" )
+            startActivity(intent)
+        }
+    }
+
+    private fun purposeBtn(view: View) {
+        val btn = view.findViewById<LinearLayout>(R.id.lnPesanAlarm)
+        btn.setOnClickListener {
+            val intent = Intent(activity, ActivityWebView::class.java)
+            if (linkPemesanan ==null) {
+                getData()
+            }
+            intent.putExtra("URL", linkPemesanan)
+            startActivity(intent)
+        }
+    }
+
+    private fun beliPaketBtn(view: View) {
+        val btn = view.findViewById<LinearLayout>(R.id.lnBeliPaket)
+        btn.setOnClickListener {
+            val intent = Intent(activity, ActivityBeliPaket::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun settingBtn(view: View) {
+        val btn = view.findViewById<LinearLayout>(R.id.lnSetting)
+        btn.setOnClickListener {
+            val intent = Intent(activity, ActivitySettings::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun topUpBtn(view: View) {
@@ -69,8 +111,7 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
                         val responseData = response.body()
                         if (responseData?.status == true) {
                             saldoText.text = responseData.saldo
-                            urlTutorial = responseData.config.linkTutorial
-                            println(urlTutorial)
+                            linkPemesanan = responseData.config.linkPesanAlarm
                             swipeRefreshLayout.isRefreshing = false
                         }else {
                             throw Exception("problem in status response")

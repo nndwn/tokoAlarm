@@ -27,6 +27,9 @@
         <activity android:name=".ActivityTopUp"/>
         <activity android:name=".ActivityHistory"/>
         <activity android:name=".ActivityWebView"/>
+        <activity android:name=".ActivitySettings"/>
+        <activity android:name=".ActivityBeliPaket"/>
+
     </application>
 
 </manifest>

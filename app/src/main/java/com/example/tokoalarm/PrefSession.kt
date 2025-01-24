@@ -12,7 +12,7 @@ import java.io.IOException
 
 private val Context.dataStore by preferencesDataStore(name = "preferences")
 
-class PreferencesManager (private val context: Context){
+class PrefSession (private val context: Context){
     private val idAlatKey = stringPreferencesKey("id_alat")
     private val pwdKey = stringPreferencesKey("password")
     private val idUserKey = stringPreferencesKey("id_users")

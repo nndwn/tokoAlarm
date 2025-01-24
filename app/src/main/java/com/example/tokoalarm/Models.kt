@@ -29,6 +29,7 @@ data class DataPelangganResponse(
     val config: Config
 )
 
+//Todo: Link Tutorial tidak sesuai pada API diberikan
 data class Config(
     @SerializedName("link_tutorial")
     val linkTutorial : String,
