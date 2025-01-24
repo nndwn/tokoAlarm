@@ -10,7 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class ActivityMain :AppCompatActivity() {
 
     private var currentFragment: String? = null
-
+    private var slide :Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -48,14 +48,36 @@ class ActivityMain :AppCompatActivity() {
     }
 
 
-    private fun replaceFragment(fragment: Fragment , tag :String) {
-
+    private fun replaceFragment(fragment: Fragment, tag: String) {
         if (tag == currentFragment) return
+
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+
+        slide = when {
+            tag == getString(R.string.home) -> true
+            currentFragment == getString(R.string.home) -> false
+            currentFragment == getString(R.string.device) && tag == getString(R.string.schedule) -> false
+            currentFragment == getString(R.string.schedule) && tag == getString(R.string.device) -> true
+            currentFragment == getString(R.string.account) && tag == getString(R.string.schedule) -> true
+            currentFragment == getString(R.string.account) && tag == getString(R.string.device) -> true
+            currentFragment == getString(R.string.device) && tag == getString(R.string.home) -> true
+            currentFragment == getString(R.string.home) && tag == getString(R.string.device) -> false
+            currentFragment == getString(R.string.account) && tag == getString(R.string.home) -> true
+            currentFragment == getString(R.string.schedule) && tag == getString(R.string.home) -> true
+            else -> false
+        }
+
+        if (slide) {
+            transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
+        } else {
+            transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+        }
+
         transaction.replace(R.id.fragment_container, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
+
         currentFragment = tag
     }
+
 }
