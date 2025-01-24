@@ -2,14 +2,21 @@ package com.example.tokoalarm
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.viewpager2.widget.ViewPager2
+import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
+
 
 class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefreshListener{
 
@@ -17,14 +24,41 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
     private lateinit var session : Session
     private lateinit var saldoText : TextView
     private lateinit var errorDialog : DialogError
+    private lateinit var viewPager: ViewPager2
+    private lateinit var adapterPromoList : AdapterListPromo
+    private lateinit var prefManager: PrefManager
+
+    private val handler = Handler(Looper.getMainLooper())
+    private val runnable = object : Runnable {
+        override fun run() {
+            if (viewPager.currentItem == adapterPromoList.itemCount - 1) {
+                viewPager.currentItem = 0
+            } else {
+                viewPager.currentItem++
+            }
+            handler.postDelayed(this, 3000)
+        }
+    }
 
     private var linkPemesanan :String? = null
+    private var listPromo : List<ListPromo> = emptyList()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_home, container, false)
+    }
 
     override fun onViewCreated(view : View, savedIntanceState: Bundle?) {
         super.onViewCreated(view, savedIntanceState)
+        prefManager = PrefManager(requireContext())
+
         saldoText = view.findViewById(R.id.tvSaldo)
-        session = Session(PrefSession(requireContext()))
+        session = Session(prefManager)
         errorDialog = DialogError(requireActivity())
+
 
         topUpBtn(view)
         historyBtn(view)
@@ -41,10 +75,46 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
                 getIdUser()
             }
         }
+
+        viewPager = view.findViewById(R.id.viewPager)
+        promoBanner()
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback () {
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+                if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                    handler.postDelayed(runnable, 3000)
+                } else if (state == ViewPager2.SCROLL_STATE_DRAGGING || state == ViewPager2.SCROLL_STATE_SETTLING) {
+                    handler.removeCallbacks(runnable)
+                }
+            }
+        })
+    }
+
+    private fun promoBanner () {
+        adapterPromoList = AdapterListPromo(listPromo,  {
+            val position = viewPager.currentItem
+            LinkBanner(position)
+        })
+        viewPager.adapter = adapterPromoList
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        handler.removeCallbacks(runnable)
     }
 
     override fun onRefresh() {
        getIdUser()
+    }
+
+    private fun LinkBanner( i :Int) {
+        val banner :List<String> =  listOf(
+            "https://tokoalarm.com/promo/",
+            "https://tokoalarm.com/informasi-update-apk/")
+        val url = banner[i]
+        val intent = Intent(context, ActivityWebView::class.java);
+        intent.putExtra("URL", url);
+        startActivity(intent);
     }
 
     private fun tutorialBtn(view: View) {
@@ -112,6 +182,7 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
                         if (responseData?.status == true) {
                             saldoText.text = responseData.saldo
                             linkPemesanan = responseData.config.linkPesanAlarm
+                            listPromo = responseData.data
                             swipeRefreshLayout.isRefreshing = false
                         }else {
                             throw Exception("problem in status response")
@@ -124,9 +195,13 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
                     println("getData $e")
                     errorDialog.startDialog(getString(R.string.info), getString(R.string.trouble_connection))
                 }
+                promoBanner()
+                handler.postDelayed(runnable, 3000)
+
             }
         }
     }
+
     private fun getIdUser() {
         if (session.getIdUser() == "" || session.getIdUser() == null){
             lifecycleScope.launch {

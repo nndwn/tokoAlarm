@@ -55,6 +55,8 @@ dependencies {
     implementation (libs.intuit.ssp.android)
     implementation(libs.converter.gson)
     implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.androidx.viewpager2)
+    implementation (libs.glide)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

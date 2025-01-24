@@ -11,7 +11,7 @@ class FragmentAccount :Fragment(R.layout.fragment_account) {
         super.onViewCreated(view, savedInstanceState)
         val btnLogout = view.findViewById<Button>(R.id.btnLogout)
         btnLogout.setOnClickListener {
-            val session = Session(PrefSession(requireContext()))
+            val session = Session(PrefManager(requireContext()))
             session.logout()
             val intent = Intent(requireContext(), ActivityLogin::class.java)
             startActivity(intent)

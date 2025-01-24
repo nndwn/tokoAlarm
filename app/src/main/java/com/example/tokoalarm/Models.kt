@@ -36,7 +36,7 @@ data class Config(
     @SerializedName("link_pesan_alarm")
     val linkPesanAlarm :String
 )
-
+//Todo: Pada list Promo tidak terdapat link di API
 data class ListPromo(
     @SerializedName("updated_at")
     val updatedAt :String,

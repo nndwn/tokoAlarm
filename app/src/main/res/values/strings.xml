@@ -41,5 +41,7 @@
     <string name="buy_paket">beli paket</string>
     <string name="purpose">pesan alarm</string>">
     <string name= "help_administrator">app mengalami masalah , hubungin admin</string>
+    <string name="news_label"><![CDATA[Berita & Promo]]></string>
+    <string name="image_promo">image promo</string>
 
 </resources>
