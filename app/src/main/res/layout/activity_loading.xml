@@ -9,13 +9,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@drawable/loading_rect"
-        android:gravity="center">
+        android:gravity="center"
+        android:paddingTop="@dimen/_20sdp"
+        android:paddingBottom="@dimen/_20sdp"
+        >
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id = "@+id/progressBar"
-            android:visibility="gone"
-            android:indeterminate="true"/>
+            android:indeterminate="true"
+            />
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
@@ -24,8 +26,8 @@
             android:fontFamily="@font/robotomedium"
             android:gravity="center"
             android:textColor="@color/white"
-            android:layout_marginTop="28dp"
-            android:layout_marginBottom="28dp"
+            android:layout_marginTop="@dimen/_20sdp"
+
             android:textSize="18.20sp"/>
 
     </LinearLayout>

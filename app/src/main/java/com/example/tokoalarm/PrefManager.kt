@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -18,6 +19,7 @@ class PrefManager (private val context: Context){
     private val idUserKey = stringPreferencesKey("id_users")
     private val nameUserKey = stringPreferencesKey("name_user")
     private val phoneKey = stringPreferencesKey("phone_number")
+    private val imagePathsKey = stringSetPreferencesKey("image_paths")
 
     val idAlatFlow: Flow<String?> = context.dataStore.data
         .catch { ex ->
@@ -69,6 +71,17 @@ class PrefManager (private val context: Context){
             pref[phoneKey]
         }
 
+    val imagePathsFlow: Flow<Set<String>> = context.dataStore.data
+        .catch { ex ->
+            if (ex is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw ex
+            }
+        }.map { pref ->
+            pref[imagePathsKey] ?: emptySet()
+        }
+
     suspend fun setIdAlat(idAlat: String) {
         context.dataStore.edit { pref ->
             pref[idAlatKey] = idAlat
@@ -94,6 +107,11 @@ class PrefManager (private val context: Context){
             pref[phoneKey] = phone
         }
     }
-
-
+    suspend fun setImagePaths(imagePaths: Set<String>) {
+        context.dataStore.edit { pref ->
+            val currentPaths = pref[imagePathsKey] ?: emptySet()
+            val updatedPaths = currentPaths + imagePaths
+            pref[imagePathsKey] = updatedPaths
+        }
+    }
 }

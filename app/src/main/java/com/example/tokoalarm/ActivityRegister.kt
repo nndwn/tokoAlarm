@@ -151,7 +151,8 @@ class ActivityRegister :AppCompatActivity(){
                         sessionLogin.setPwd(password!!)
                         val intent = Intent(this@ActivityRegister, ActivityMain::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
+                        intent.putExtra("register", true)
+                        startActivity(intent) 
                         finish()
                     } else {
                         errorDialog.startDialog(failSignUp, signUpResponse?.message ?: getString(R.string.fail_register))

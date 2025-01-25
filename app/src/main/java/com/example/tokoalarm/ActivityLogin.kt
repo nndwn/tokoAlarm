@@ -72,6 +72,7 @@ class ActivityLogin : AppCompatActivity(){
 
                         val intent = Intent(this@ActivityLogin, ActivityMain::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        intent.putExtra("login", true)
                         startActivity(intent)
                         finish()
                     } else {

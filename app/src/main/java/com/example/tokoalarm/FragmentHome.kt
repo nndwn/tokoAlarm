@@ -72,12 +72,22 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
         swipeRefreshLayout.post {
             if (isAdded) {
                 swipeRefreshLayout.isRefreshing = true
-                getIdUser()
+                getData()
             }
         }
 
         viewPager = view.findViewById(R.id.viewPager)
-        promoBanner()
+
+        lifecycleScope.launch {
+            prefManager.imagePathsFlow.collect { imagePaths ->
+                adapterPromoList= AdapterListPromo(imagePaths.toList()) {
+                    val position = viewPager.currentItem
+                    linkBanner(position)
+                }
+                viewPager.adapter = adapterPromoList
+            }
+        }
+
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback () {
             override fun onPageScrollStateChanged(state: Int) {
                 super.onPageScrollStateChanged(state)
@@ -88,15 +98,9 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
                 }
             }
         })
+        handler.postDelayed(runnable, 3000)
     }
 
-    private fun promoBanner () {
-        adapterPromoList = AdapterListPromo(listPromo,  {
-            val position = viewPager.currentItem
-            LinkBanner(position)
-        })
-        viewPager.adapter = adapterPromoList
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -104,10 +108,10 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
     }
 
     override fun onRefresh() {
-       getIdUser()
+       getData()
     }
 
-    private fun LinkBanner( i :Int) {
+    private fun linkBanner(i :Int) {
         val banner :List<String> =  listOf(
             "https://tokoalarm.com/promo/",
             "https://tokoalarm.com/informasi-update-apk/")
@@ -195,43 +199,7 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
                     println("getData $e")
                     errorDialog.startDialog(getString(R.string.info), getString(R.string.trouble_connection))
                 }
-                promoBanner()
-                handler.postDelayed(runnable, 3000)
-
             }
         }
-    }
-
-    private fun getIdUser() {
-        if (session.getIdUser() == "" || session.getIdUser() == null){
-            lifecycleScope.launch {
-                try {
-                    val response = RetrofitClient.apiService.login(
-                        session.getPhone()!!,
-                        session.getPwd()!!
-                    )
-                    if (response.isSuccessful) {
-                        val loginResponse = response.body()
-                        if (loginResponse?.status == true) {
-                            val data = loginResponse.data
-                            session.setIdUser(data.id)
-                        } else {
-                            throw Exception("problem in status response")
-                        }
-                    } else {
-                        throw Exception("Response not successful")
-                    }
-                } catch (e: Exception) {
-                    println("getUser $e")
-                    errorDialog.startDialog(getString(R.string.info), getString(R.string.trouble_connection))
-                    return@launch
-                }
-                getData()
-            }
-
-        } else {
-            getData()
-        }
-
     }
 }

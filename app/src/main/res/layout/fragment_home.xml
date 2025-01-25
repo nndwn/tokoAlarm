@@ -231,6 +231,7 @@
             android:layout_marginBottom="@dimen/_130sdp"
             android:background="@drawable/rectangle_round_10"
             android:orientation="vertical"
+            android:elevation="@dimen/_2sdp"
             android:padding="@dimen/_10sdp">
             <TextView
                 android:layout_width="match_parent"

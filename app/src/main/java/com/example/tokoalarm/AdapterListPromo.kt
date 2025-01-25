@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 class AdapterListPromo(
-    private val promoList :List<ListPromo>,
+    private val promoList :List<String>,
     private val click :View.OnClickListener
 
 ) :RecyclerView.Adapter<AdapterListPromo.ViewHolderPromo>() {
@@ -24,11 +24,11 @@ class AdapterListPromo(
     }
 
     override fun onBindViewHolder(holder: ViewHolderPromo, position: Int) {
-        val imageUrl = promoList[position].banner
+        val imageUrl = promoList[position]
         holder.imageView.setOnClickListener(click)
         Glide.with(holder.imageView.context)
             .load(imageUrl)
-            .into(holder.imageView);
+            .into(holder.imageView)
 
     }
 
