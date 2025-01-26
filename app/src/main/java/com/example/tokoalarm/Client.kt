@@ -30,6 +30,12 @@ interface ApiService {
         @Field("id_users") idUser: String
     ): Response<DataPelangganResponse>
 
+    @FormUrlEncoded
+    @POST("users/historisaldo")
+    suspend fun getHistorySaldo(
+        @Field("id_users") idUser: String
+    ): Response<TopUpResponse>
+
 }
 
 

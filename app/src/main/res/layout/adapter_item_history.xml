@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/rectangle_round_10"
+    android:padding="@dimen/_10sdp"
+    android:elevation="@dimen/_2sdp"
+    android:layout_marginHorizontal="@dimen/_15sdp"
+    android:layout_marginVertical="@dimen/_10sdp"
+    >
+    <TextView
+        android:id="@+id/tvNoreff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/robotobold"
+        android:textColor="#000"
+        android:text="@string/sample"
+        android:textSize="@dimen/_13ssp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        />
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="@string/sample"
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_5sdp"
+        android:paddingLeft="@dimen/_15sdp"
+        android:paddingRight="@dimen/_15sdp"
+        android:fontFamily="@font/robotobold"
+        android:textColor="@color/text_failed"
+        android:backgroundTint="@color/bg_failed"
+        android:background="@drawable/rectangle_round_10"
+        android:textSize="@dimen/_10ssp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_5sdp"
+        android:background="@drawable/dashed_line"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/robotomedium"
+            android:text="@string/keterangan"
+            android:textSize="@dimen/_11ssp"
+            android:textColor = "@color/black"/>
+
+        <TextView
+            android:id="@+id/tvKeterangan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/robotobold"
+            android:gravity="end"
+            android:text="ssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaa"
+            android:textColor="#000"
+            android:textSize="@dimen/_11ssp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/robotomedium"
+            android:text="@string/tipe"
+            android:textSize="@dimen/_11ssp"
+            android:textColor = "@color/black"/>
+
+        <TextView
+            android:id="@+id/tvTipe"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/robotobold"
+            android:gravity="end"
+            android:text="ssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaa"
+            android:textColor="#000"
+            android:textSize="@dimen/_11ssp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/robotomedium"
+            android:text="@string/jumlah"
+            android:textSize="@dimen/_11ssp"
+            android:textColor = "@color/black"/>
+
+        <TextView
+            android:id="@+id/tvJumlah"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/robotobold"
+            android:gravity="end"
+            android:text="ssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaa"
+            android:textColor="#000"
+            android:textSize="@dimen/_11ssp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/robotomedium"
+            android:text="@string/saldo_awal"
+            android:textSize="@dimen/_11ssp"
+            android:textColor = "@color/black"/>
+
+        <TextView
+            android:id="@+id/tvSaldoAwal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/robotobold"
+            android:gravity="end"
+            android:text="ssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaa"
+            android:textColor="#000"
+            android:textSize="@dimen/_11ssp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/robotomedium"
+            android:text="@string/saldo_akhir"
+            android:textSize="@dimen/_11ssp"
+            android:textColor = "@color/black"/>
+
+        <TextView
+            android:id="@+id/tvSaldoAkhir"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/robotobold"
+            android:gravity="end"
+            android:text="ssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaa"
+            android:textColor="#000"
+            android:textSize="@dimen/_11ssp" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_5sdp"
+        android:background="@drawable/dashed_line"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"/>
+    <TextView
+        android:id="@+id/tvUpdatedAt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/robotobold"
+        android:text="ssssssssssss"
+        android:textColor="#000"
+        android:textSize="@dimen/_11ssp" />
+</LinearLayout>

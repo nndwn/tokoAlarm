@@ -41,7 +41,7 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
     }
 
     private var linkPemesanan :String? = null
-    private var listPromo : List<ListPromo> = emptyList()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,17 +87,6 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
                 viewPager.adapter = adapterPromoList
             }
         }
-
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback () {
-            override fun onPageScrollStateChanged(state: Int) {
-                super.onPageScrollStateChanged(state)
-                if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                    handler.postDelayed(runnable, 3000)
-                } else if (state == ViewPager2.SCROLL_STATE_DRAGGING || state == ViewPager2.SCROLL_STATE_SETTLING) {
-                    handler.removeCallbacks(runnable)
-                }
-            }
-        })
         handler.postDelayed(runnable, 3000)
     }
 
@@ -186,7 +175,7 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
                         if (responseData?.status == true) {
                             saldoText.text = responseData.saldo
                             linkPemesanan = responseData.config.linkPesanAlarm
-                            listPromo = responseData.data
+
                             swipeRefreshLayout.isRefreshing = false
                         }else {
                             throw Exception("problem in status response")

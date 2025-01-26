@@ -44,5 +44,12 @@
     <string name="news_label"><![CDATA[Berita & Promo]]></string>
     <string name="image_promo">image promo</string>
     <string name="item_navigation">item navigation</string>
+    <string name="back">kembali</string>
+    <string name="sample">sample</string>
+    <string name="keterangan">Keterangan</string>
+    <string name="tipe">Tipe</string>
+    <string name="jumlah">Jumlah</string>
+    <string name="saldo_awal">Saldo Awal</string>
+    <string name="saldo_akhir">Saldo Akhir</string>
 
 </resources>

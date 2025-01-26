@@ -47,3 +47,27 @@ data class ListPromo(
     val deskripsi :String,
     val title :String
 )
+
+data class TopUpResponse(
+    val status: Boolean,
+    val data: List<ListTopUpData>
+)
+
+data class ListTopUpData(
+    val keterangan :String,
+    val noreff :String,
+    val jumlah :String,
+    @SerializedName("updated_at")
+    val updatedAt :String,
+    @SerializedName("id_users")
+    val idUsers :String,
+    @SerializedName("created_at")
+    val cratedAt :String,
+    val id :String,
+    @SerializedName("saldo_awal")
+    val saldoAwal :String,
+    val tipe :String,
+    @SerializedName("saldo_akhir")
+    val saldoAkhir :String,
+    val status :String
+)

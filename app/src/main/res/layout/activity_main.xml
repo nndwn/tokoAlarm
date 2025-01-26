@@ -35,8 +35,8 @@
             android:paddingBottom="@dimen/_15sdp">
             <ImageView
                 android:id = "@+id/home_icon_id"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
                 android:contentDescription="@string/home"
                 android:src="@drawable/icon_home_light"
                 app:tint="@color/primary_color"
@@ -48,7 +48,7 @@
                 android:fontFamily="@font/robotomedium"
                 android:gravity = "center"
                 android:text="@string/home"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_10ssp"
                 android:textColor="@color/primary_color"/>
         </LinearLayout>
         <LinearLayout
@@ -63,8 +63,8 @@
             android:paddingBottom="@dimen/_15sdp">
             <ImageView
                 android:id = "@+id/device_icon_id"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
                 android:contentDescription="@string/device"
                 android:src="@drawable/icon_mobile_light"
                 app:tint="@color/primary_color"
@@ -76,7 +76,7 @@
                 android:fontFamily="@font/robotomedium"
                 android:gravity = "center"
                 android:text="@string/device"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_10ssp"
                 android:textColor="@color/primary_color"/>
         </LinearLayout>
         <LinearLayout
@@ -91,8 +91,8 @@
             android:paddingBottom="@dimen/_15sdp">
             <ImageView
                 android:id = "@+id/schedule_icon_id"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
                 android:contentDescription="@string/schedule"
                 android:src="@drawable/icon_schedule_light"
                 app:tint="@color/primary_color"
@@ -104,7 +104,7 @@
                 android:fontFamily="@font/robotomedium"
                 android:gravity = "center"
                 android:text="@string/schedule"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_10ssp"
                 android:textColor="@color/primary_color"/>
         </LinearLayout>
         <LinearLayout
@@ -119,8 +119,8 @@
             android:paddingBottom="@dimen/_15sdp">
             <ImageView
                 android:id = "@+id/account_icon_id"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
                 android:contentDescription="@string/account"
                 android:src="@drawable/icon_user_light"
                 app:tint="@color/primary_color"
@@ -132,7 +132,7 @@
                 android:fontFamily="@font/robotomedium"
                 android:gravity = "center"
                 android:text="@string/account"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_10ssp"
                 android:textColor="@color/primary_color"/>
         </LinearLayout>
 

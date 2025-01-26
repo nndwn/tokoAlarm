@@ -35,20 +35,21 @@ class ActivityMain : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        session = Session(PrefManager(this))
-
-
+        session = Session(PrefManager(this@ActivityMain))
+        val utils = Utils(this@ActivityMain)
+        val loading = DialogLoading(this)
         lifecycleScope.launch {
             try {
+                loading.startLoadingDialog()
                 val fromRegister = intent.getBooleanExtra("register", false)
                 val fromLogin = intent.getBooleanExtra("login", false)
                 if (fromRegister && session.getIdUser().isNullOrEmpty()) {
                     getUserId()
 
                 } else if (fromLogin) {
-
+                    utils.getBanner()
                 }
-
+                loading.dismissDialog()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -129,9 +130,7 @@ class ActivityMain : AppCompatActivity() {
         }
 
         transaction.replace(R.id.fragment_container, fragment)
-        transaction.addToBackStack(null)
         transaction.commit()
-
         currentFragment = tag
     }
 
