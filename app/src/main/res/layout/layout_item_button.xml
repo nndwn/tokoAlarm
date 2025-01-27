@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rectangle_input"
+    android:backgroundTint="@color/primary_color_dark"
+    android:elevation="@dimen/_2sdp"
+    android:padding="@dimen/_9sdp"
+    android:layout_marginBottom="@dimen/_15sdp"
+    android:id="@+id/container_btn"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginEnd="@dimen/_10sdp"
+    >
+    <TextView
+        android:id= "@+id/textBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sample"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_13sdp"
+        android:fontFamily="@font/robotobold"
+        />
+
+</LinearLayout>

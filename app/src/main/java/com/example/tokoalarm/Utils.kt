@@ -7,6 +7,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
+import java.text.NumberFormat
+import java.util.Locale
 
 
 class Utils (private var context: Context){
@@ -36,7 +38,10 @@ class Utils (private var context: Context){
             pref.setImagePaths(setOf(file))
         }
     }
-
+    fun formatRupiah(number : Int) :String {
+        val format = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
+        return format.format(number)
+    }
     private suspend fun saveImageToFile(bitmap: Bitmap, filename: String) : String {
         val file = File( context.filesDir, filename)
         withContext(Dispatchers.IO) {

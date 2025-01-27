@@ -1,5 +1,7 @@
 package com.example.tokoalarm
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.google.gson.annotations.SerializedName
 
 
@@ -71,3 +73,31 @@ data class ListTopUpData(
     val saldoAkhir :String,
     val status :String
 )
+
+data class ResponseNumberCs(
+    val status: Boolean,
+    val data: NumberCs
+)
+
+data class NumberCs (
+    @SerializedName("nomor_cs")
+    val numberCs :String
+)
+
+data class BankAccount(
+    val id : Int,
+    val name : String,
+    val numberRek : String ,
+    val owner :String
+)
+
+data class Price(
+    val id : Int,
+    val price: Int
+)
+
+
+class SharedViewTopUp : ViewModel() {
+    val price : MutableLiveData<Int> = MutableLiveData()
+    val methodPayment : MutableLiveData<BankAccount> = MutableLiveData()
+}

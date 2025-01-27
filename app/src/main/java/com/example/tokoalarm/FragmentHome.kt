@@ -43,14 +43,6 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
     private var linkPemesanan :String? = null
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
-    }
-
     override fun onViewCreated(view : View, savedIntanceState: Bundle?) {
         super.onViewCreated(view, savedIntanceState)
         prefManager = PrefManager(requireContext())
@@ -101,10 +93,7 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
     }
 
     private fun linkBanner(i :Int) {
-        val banner :List<String> =  listOf(
-            "https://tokoalarm.com/promo/",
-            "https://tokoalarm.com/informasi-update-apk/")
-        val url = banner[i]
+        val url = DataManual().banner[i]
         val intent = Intent(context, ActivityWebView::class.java);
         intent.putExtra("URL", url);
         startActivity(intent);

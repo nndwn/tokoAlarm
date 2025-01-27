@@ -36,6 +36,9 @@ interface ApiService {
         @Field("id_users") idUser: String
     ): Response<TopUpResponse>
 
+    @FormUrlEncoded
+    @POST("users/pusatbantuan")
+    suspend fun getPusatBantuan(): Response<ResponseNumberCs>
 }
 
 

@@ -51,5 +51,13 @@
     <string name="jumlah">Jumlah</string>
     <string name="saldo_awal">Saldo Awal</string>
     <string name="saldo_akhir">Saldo Akhir</string>
+    <string name="isi_paket">Isi Paket</string>
+    <string name="informasi">Informasi</string>
+    <string name="pilih_harga">
+        Pilih dan tekan Salah satu paket yang kamu sediakan di bawah ini.
+    </string>
+    <string name= "pilih_cara_pembayarran">
+        Pilih dan Tekan Metode pembayaran yang anda inginkan di bawah ini.
+    </string>
 
 </resources>
