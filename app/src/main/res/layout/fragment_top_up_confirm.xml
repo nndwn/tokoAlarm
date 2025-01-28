@@ -7,15 +7,121 @@
     <include layout="@layout/layout_info"/>
 
   <LinearLayout
-      android:layout_width="wrap_content"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="vertical"
       android:background="@drawable/rectangle_round_10"
-      android:layout_margin="@dimen/_10sdp"
+      android:layout_marginHorizontal="@dimen/_10sdp"
+      android:elevation="@dimen/_2sdp"
       android:padding="@dimen/_10sdp">
     <TextView
+        android:id = "@+id/top_up_price"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:text="100000"
+        android:textSize="@dimen/_17ssp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:paddingVertical="@dimen/_15sdp"
+        android:fontFamily="@font/robotobold"
+        />
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/_5sdp"
+          android:background="@drawable/dashed_line"
+          android:layout_marginTop="@dimen/_5sdp"
+          android:layout_marginBottom="@dimen/_5sdp"/>
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/_10sdp"
+          android:orientation="horizontal">
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:fontFamily="@font/robotomedium"
+              android:text="@string/pembayaran"
+              android:textSize="@dimen/_11ssp"
+              android:textColor = "@color/black"/>
+
+          <TextView
+              android:id="@+id/pembayaran_top_up"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:fontFamily="@font/robotobold"
+              android:gravity="end"
+              android:text="Bank BNI"
+              android:textColor="#000"
+              android:textSize="@dimen/_11ssp" />
+      </LinearLayout>
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/_10sdp"
+          android:orientation="horizontal">
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:fontFamily="@font/robotomedium"
+              android:text="@string/no_rek"
+              android:textSize="@dimen/_11ssp"
+              android:textColor = "@color/black"/>
+
+          <TextView
+              android:id="@+id/rekening_top_up"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:fontFamily="@font/robotobold"
+              android:gravity="end"
+              android:text="97797979797979797"
+              android:textColor="#000"
+              android:textSize="@dimen/_11ssp" />
+      </LinearLayout>
+      <TextView
+          android:layout_marginTop="@dimen/_10sdp"
+          android:id="@+id/nama_rek_top_up"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:fontFamily="@font/robotobold"
+          android:gravity="end"
+          android:text="dani saputra"
+          android:textColor="#000"
+          android:textSize="@dimen/_11ssp" />
+
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/_5sdp"
+          android:background="@drawable/dashed_line"
+          android:layout_marginTop="@dimen/_10sdp"
+          android:layout_marginBottom="@dimen/_20sdp"
+          />
   </LinearLayout>
+
+    <Button
+        android:id= "@+id/konfirmasi_btn_topup"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/konfirmasi"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:background="@drawable/rectangle_input"
+        android:backgroundTint="@color/text_success"
+        />
+
+    <Button
+        android:id = "@+id/batal_btn_topup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/batal"
+        android:textColor="@color/black"
+        android:alpha="0.8"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:background="@null"
+        android:backgroundTint="@color/text_success"
+        />
 
 </LinearLayout>

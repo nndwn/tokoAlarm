@@ -30,7 +30,9 @@
         <activity android:name=".ActivityWebView"/>
         <activity android:name=".ActivitySettings"/>
         <activity android:name=".ActivityBeliPaket"/>
-
     </application>
+    <queries>
+        <package android:name="com.whatsapp" />
+    </queries>
 
 </manifest>

@@ -59,5 +59,12 @@
     <string name= "pilih_cara_pembayarran">
         Pilih dan Tekan Metode pembayaran yang anda inginkan di bawah ini.
     </string>
+    <string name="pembayaran">pembayaran</string>
+    <string name="no_rek">no/rek</string>
+    <string name="konfirmasi">Konfirmasi</string>
+    <string name="batal">Kembali Ke Beranda</string>
+    <string name="cara_pembayaran">
+    Pembayaran sesuai angka nominal diberikan. Pastikan tiga digit angka di belakang sesuai dengan angka yang ditransfer. Setelah itu, tekan tombol konfirmasi. Customer Service kami akan segera menghubungi Anda.
+    </string>
 
 </resources>

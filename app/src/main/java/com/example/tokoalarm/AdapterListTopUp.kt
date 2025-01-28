@@ -22,8 +22,7 @@ class AdapterListTopUp(
         return ViewHolderTopUp(view)
     }
     override fun onBindViewHolder(holder: ViewHolderTopUp, position: Int) {
-        holder.textView.text = Utils(holder.textView.context)
-            .formatRupiah(listTopUp[position].price)
+        holder.textView.text = formatRupiah(listTopUp[position].price)
         holder.bgView.setOnClickListener(onclick)
     }
     override fun getItemCount() = listTopUp.size
