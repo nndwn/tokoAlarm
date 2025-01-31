@@ -4,17 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="42dp">
+    android:padding="@dimen/_39sdp">
     <LinearLayout
+
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/rectangle_round_10"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="@dimen/_12sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_view"
             android:layout_marginTop="7dp"
-            android:layout_width="140dp"
+            android:layout_width="@dimen/_89sdp"
             android:layout_height="wrap_content"
             app:lottie_rawRes="@raw/crosserror"
             app:lottie_loop="true"
@@ -24,46 +31,47 @@
             android:layout_gravity="center"/>
         <TextView
             android:id="@+id/tvMessage"
-            android:layout_marginBottom="14dp"
+            android:layout_marginBottom="@dimen/_14sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Message"
+            android:text="ssdd ddsd dsdds dsdsdsdd dsdsd dsdsdsdd dsdasd dasdsdasd"
             android:fontFamily="@font/robotomedium"
             android:gravity="center"
             android:textColor="#000000"
-            android:textSize="14sp"/>
+            android:textSize="@dimen/_14ssp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/_10sdp"
             >
-            <Button
-                style="?android:attr/borderlessButtonStyle"
-                android:id="@+id/btnOkConfirm"
 
-                android:layout_width="126dp"
+            <Button
+                android:id="@+id/btnCancelConfirm"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:background="@drawable/rectangle_round_10_blue"
-                android:layout_height="@dimen/_35sdp"
-                android:layout_marginBottom="14dp"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:text="Tutup"
+                android:layout_height="@dimen/_40sdp"
+                android:text="@string/close"
                 android:fontFamily="@font/robotomedium"
                 android:textColor="@color/white"
+                android:textSize="@dimen/_13ssp"
                 android:textAllCaps="false"/>
             <Button
+                android:id="@+id/btnOkConfirm"
                 style="?android:attr/borderlessButtonStyle"
-                android:id="@+id/btnCancelConfirm"
-                android:layout_width="126dp"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:background="@drawable/rectangle_round_10_blue"
-                android:layout_height="@dimen/_35sdp"
-                android:layout_marginBottom="14dp"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:text="Tutup"
+                android:layout_height="@dimen/_40sdp"
+                android:text="@string/ok"
                 android:fontFamily="@font/robotomedium"
                 android:textColor="@color/white"
+                android:textSize="@dimen/_13ssp"
                 android:textAllCaps="false"/>
 
         </LinearLayout>

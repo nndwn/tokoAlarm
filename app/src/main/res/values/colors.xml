@@ -15,4 +15,5 @@
     <color  name= "bg_success">#EEFFF6</color>
     <color  name= "bg_pending">#FFF7E8</color>
     <color  name= "bg_failed">#FFF4F2</color>
+    <color  name= "bg_transparant">#81000000</color>
 </resources>

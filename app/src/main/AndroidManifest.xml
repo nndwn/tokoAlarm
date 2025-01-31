@@ -30,9 +30,22 @@
         <activity android:name=".ActivityWebView"/>
         <activity android:name=".ActivitySettings"/>
         <activity android:name=".ActivityBeliPaket"/>
+        <service android:name=".ServiceFCM"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_icon"
+                android:resource="@drawable/logo_icon"/>
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_color"
+                android:resource="@color/primary_color" />
+        </service>
     </application>
     <queries>
         <package android:name="com.whatsapp" />
     </queries>
+
 
 </manifest>

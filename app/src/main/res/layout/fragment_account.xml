@@ -14,7 +14,19 @@
         />
 
     <Button
-        android:id="@+id/testNotification"
+        android:id="@+id/testNotificationOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/logout"
+        />
+    <Button
+        android:id="@+id/testNotificationTwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/logout"
+        />
+    <Button
+        android:id="@+id/testNotificationThree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/logout"

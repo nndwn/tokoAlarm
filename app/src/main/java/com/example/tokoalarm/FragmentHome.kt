@@ -4,9 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -23,10 +21,10 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var session : Session
     private lateinit var saldoText : TextView
-    private lateinit var errorDialog : DialogError
     private lateinit var viewPager: ViewPager2
     private lateinit var adapterPromoList : AdapterListPromo
     private lateinit var prefManager: PrefManager
+    private lateinit var alert : DialogAlert
 
     private val handler = Handler(Looper.getMainLooper())
     private val runnable = object : Runnable {
@@ -49,7 +47,7 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
 
         saldoText = view.findViewById(R.id.tvSaldo)
         session = Session(prefManager)
-        errorDialog = DialogError(requireActivity())
+        alert = DialogAlert(requireActivity())
 
 
         topUpBtn(view)
@@ -175,7 +173,10 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
                 }catch (e : Exception){
                     swipeRefreshLayout.isRefreshing = false
                     println("getData $e")
-                    errorDialog.startDialog(getString(R.string.info), getString(R.string.trouble_connection))
+                    alert.show(getString(R.string.info),
+                        getString(R.string.trouble_connection),
+                        R.raw.crosserror
+                    )
                 }
             }
         }

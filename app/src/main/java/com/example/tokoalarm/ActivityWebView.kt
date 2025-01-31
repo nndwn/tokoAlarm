@@ -16,12 +16,16 @@ import androidx.appcompat.app.AppCompatActivity
 class ActivityWebView :AppCompatActivity(){
     private lateinit var webView: WebView
     private lateinit var loading: DialogLoading
-    private lateinit var dialogError: DialogError
+    private lateinit var alert : DialogAlert
     private val handler  = Handler(Looper.getMainLooper())
     private val timeoutRunnable = Runnable {
         webView.stopLoading()
         loading.dismissDialog()
-        dialogError.startDialog(getString(R.string.info), getString(R.string.trouble_connection))
+        alert.show(
+            getString(R.string.info),
+            getString(R.string.trouble_connection),
+            R.raw.crosserror
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +33,6 @@ class ActivityWebView :AppCompatActivity(){
         setContentView(R.layout.activity_web_view)
         webView = findViewById(R.id.webview)
         loading = DialogLoading(this@ActivityWebView)
-        dialogError = DialogError(this@ActivityWebView)
 
         val webSettings = webView.settings
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

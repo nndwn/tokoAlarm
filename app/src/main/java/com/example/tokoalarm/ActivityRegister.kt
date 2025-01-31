@@ -30,17 +30,19 @@ class ActivityRegister :AppCompatActivity(){
     private lateinit var aggrementText: TextView
     private lateinit var loginBtn: Button
 
-    private lateinit var errorDialog: DialogError
     private  lateinit var loading: DialogLoading
+    private  lateinit var alert : DialogAlert
+
 
     private var name :String? = null
     private var phone :String? = null
     private var password :String? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        errorDialog = DialogError(this@ActivityRegister)
+        alert = DialogAlert(this)
         aggrementText = findViewById(R.id.aggrement_text)
         loginBtn = findViewById(R.id.btnLogin)
         loginBtn.setOnClickListener {
@@ -48,6 +50,7 @@ class ActivityRegister :AppCompatActivity(){
             startActivity(intent)
             unFocus()
         }
+
         aggrementMore()
 
         nameText = findViewById(R.id.reg_name)
@@ -123,7 +126,10 @@ class ActivityRegister :AppCompatActivity(){
                 false
             }
             aggrement.not() -> {
-                errorDialog.startDialog(getString(R.string.info), getString(R.string.error_aggrement))
+                alert.show(
+                    getString(R.string.info),
+                    getString(R.string.error_aggrement),
+                    R.raw.crosserror )
                 false
             }
             else -> true
@@ -155,14 +161,24 @@ class ActivityRegister :AppCompatActivity(){
                         startActivity(intent) 
                         finish()
                     } else {
-                        errorDialog.startDialog(failSignUp, signUpResponse?.message ?: getString(R.string.fail_register))
+                        alert.show(
+                            failSignUp,
+                            getString(R.string.fail_register),
+                            R.raw.crosserror
+                        )
                     }
                 } else {
-                    errorDialog.startDialog(failSignUp, getString(R.string.fail_register))
+                    alert.show(
+                        failSignUp,
+                        getString(R.string.fail_register),
+                        R.raw.crosserror)
                 }
 
             } catch (e : Exception) {
-                errorDialog.startDialog(failSignUp,getString(R.string.trouble_connection))
+                alert.show(
+                    failSignUp,
+                    getString(R.string.trouble_connection),
+                    R.raw.crosserror)
             } finally {
                 loading.dismissDialog()
             }

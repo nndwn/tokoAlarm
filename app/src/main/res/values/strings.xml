@@ -64,7 +64,16 @@
     <string name="konfirmasi">Konfirmasi</string>
     <string name="batal">Kembali Ke Beranda</string>
     <string name="cara_pembayaran">
-    Pembayaran sesuai angka nominal diberikan. Pastikan tiga digit angka di belakang sesuai dengan angka yang ditransfer. Setelah itu, tekan tombol konfirmasi. Customer Service kami akan segera menghubungi Anda.
+        Pembayaran sesuai angka nominal diberikan. Pastikan tiga digit angka di belakang sesuai dengan angka yang ditransfer. Setelah itu, tekan tombol konfirmasi. Customer Service kami akan segera menghubungi Anda.
     </string>
-
+    <string name="ubah_suara">
+        Ubah Suara Notifikasi dengan nada
+    </string>
+    <string name="ok">OK</string>
+    <string name="notification_permission">
+        Agar Aplikasi dapat berjalan baik , kami perlu izin notifikasi dari perangkat anda. tekan allow atau izinkan setelah dialog ini.
+    </string>
+    <string name="perhatian">
+        perhatian
+    </string>
 </resources>

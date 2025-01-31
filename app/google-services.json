@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "213047359168",
+    "project_id": "tokoalarmku",
+    "storage_bucket": "tokoalarmku.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213047359168:android:6e7291abc5745cfbe1df25",
+        "android_client_info": {
+          "package_name": "com.tester.iotss"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzE9Vp6NvbmS2u_W8dO9KMxra0mbkm0YM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

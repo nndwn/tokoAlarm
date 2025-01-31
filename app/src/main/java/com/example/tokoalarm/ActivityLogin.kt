@@ -15,8 +15,9 @@ class ActivityLogin : AppCompatActivity(){
     private lateinit var loginBtn: Button
     private lateinit var registerBtn: Button
 
-    private lateinit var errorDialog: DialogError
+
     private  lateinit var loading: DialogLoading
+    private lateinit var errorFail: DialogAlert
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,9 +49,9 @@ class ActivityLogin : AppCompatActivity(){
 
     private fun loginUser() {
         loading = DialogLoading(this@ActivityLogin)
-        errorDialog = DialogError(this@ActivityLogin)
+        errorFail = DialogAlert(this@ActivityLogin)
+
         loading.startLoadingDialog()
-        val failLogin = getString(R.string.fail_login)
 
         lifecycleScope.launch {
             try {
@@ -76,13 +77,24 @@ class ActivityLogin : AppCompatActivity(){
                         startActivity(intent)
                         finish()
                     } else {
-                        errorDialog.startDialog(failLogin, getString(R.string.fail_access))
+                        errorFail.show(
+                            getString(R.string.fail_login),
+                            getString(R.string.fail_access),
+                            R.raw.crosserror)
                     }
                 } else {
-                    errorDialog.startDialog(failLogin, getString(R.string.trouble_connection))
+                    errorFail.show(
+                        getString(R.string.fail_login),
+                        getString(R.string.trouble_connection),
+                        R.raw.crosserror
+                    )
                 }
             } catch (e: Exception) {
-                errorDialog.startDialog(failLogin, getString(R.string.trouble_connection))
+                errorFail.show(
+                    getString(R.string.fail_login),
+                    getString(R.string.trouble_connection),
+                    R.raw.crosserror
+                )
             } finally {
                 loading.dismissDialog()
             }

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.view.animation.AnimationUtils
 
 
 class DialogLoading(private val activity: Activity) {
@@ -19,6 +20,8 @@ class DialogLoading(private val activity: Activity) {
         builder.setOnDismissListener {
             isShowing = false
         }
+        val fadeInScale = AnimationUtils.loadAnimation(activity, R.anim.fade_in_scale)
+        view.startAnimation(fadeInScale)
 
         dialog = builder.create()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

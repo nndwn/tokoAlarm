@@ -10,7 +10,10 @@ class FragmentAccount :Fragment(R.layout.fragment_account) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val btnLogout = view.findViewById<Button>(R.id.btnLogout)
-        val btnNotification = view.findViewById<Button>(R.id.testNotification)
+        val btnNotificationOne = view.findViewById<Button>(R.id.testNotificationOne)
+        val btnNotificationTwo = view.findViewById<Button>(R.id.testNotificationTwo)
+        val btnNotificationThree = view.findViewById<Button>(R.id.testNotificationThree)
+
         btnLogout.setOnClickListener {
             val session = Session(PrefManager(requireContext()))
             session.logout()
@@ -19,9 +22,29 @@ class FragmentAccount :Fragment(R.layout.fragment_account) {
             requireActivity().finish()
         }
 
-        btnNotification.setOnClickListener {
+        btnNotificationOne.setOnClickListener {
 
         }
+
+        btnNotificationTwo.setOnClickListener {
+
+        }
+
+        btnNotificationThree.setOnClickListener {
+
+        }
+    }
+
+    private fun notifOne() {
+
+    }
+
+    private fun notifTwo() {
+
+    }
+
+    private fun notifThree() {
+
     }
 
 

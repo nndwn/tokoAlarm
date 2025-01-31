@@ -1,6 +1,5 @@
 package com.example.tokoalarm
 
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -9,7 +8,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
@@ -37,12 +35,16 @@ class ActivityMain : AppCompatActivity() {
     private lateinit var textSchedule: TextView
     private lateinit var textAccount: TextView
 
+    private lateinit var dialogAlert: DialogAlert
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         session = Session(PrefManager(this@ActivityMain))
         val utils = Utils(this@ActivityMain)
         val loading = DialogLoading(this)
+
+        dialogAlert = DialogAlert(this)
 
         checkNotificationPermission()
 
@@ -107,7 +109,11 @@ class ActivityMain : AppCompatActivity() {
        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
            val permission = android.Manifest.permission.POST_NOTIFICATIONS
             if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, arrayOf(permission), 1)
+                dialogAlert.show(getString(R.string.info),
+                    getString(R.string.notification_permission),
+                    R.raw.lottie_notif) {
+                    ActivityCompat.requestPermissions(this, arrayOf(permission), 1)
+                }
             }
         }
     }
