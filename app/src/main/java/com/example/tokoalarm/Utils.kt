@@ -20,6 +20,10 @@ fun formatRupiah(number : Int) :String {
     return format.format(number)
 }
 
+fun showNotification() {
+
+}
+
 
 class Utils (private var context: Context){
     private var pref : PrefManager = PrefManager(context)

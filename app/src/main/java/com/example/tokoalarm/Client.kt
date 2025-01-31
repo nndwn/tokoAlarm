@@ -37,8 +37,11 @@ interface ApiService {
     ): Response<TopUpResponse>
 
     @FormUrlEncoded
-    @POST("users/pusatbantuan")
-    suspend fun getPusatBantuan(): Response<ResponseNumberCs>
+    @POST("sendMessage")
+    suspend fun sendMessage(
+        @Field("chat_id") chatId: String,
+        @Field("text") text: String
+    ): Response<String>
 }
 
 
@@ -49,6 +52,13 @@ object RetrofitClient {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+    private val retrofitTelegram by lazy {
+        Retrofit.Builder()
+            .baseUrl(TELEGRAM_URL+ TELEGRAMTOKEN)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
     val apiService : ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }

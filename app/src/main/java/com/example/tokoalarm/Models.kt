@@ -74,15 +74,6 @@ data class ListTopUpData(
     val status :String
 )
 
-data class ResponseNumberCs(
-    val status: Boolean,
-    val data: NumberCs
-)
-
-data class NumberCs (
-    @SerializedName("nomor_cs")
-    val numberCs :String
-)
 
 data class BankAccount(
     val id : Int,
@@ -96,8 +87,14 @@ data class Price(
     val price: Int
 )
 
+data class Tone(
+    val name : String,
+    val value : Int
+)
+
 
 class SharedViewTopUp : ViewModel() {
     val price : MutableLiveData<Int> = MutableLiveData()
     val methodPayment : MutableLiveData<BankAccount> = MutableLiveData()
 }
+

@@ -14,7 +14,7 @@ class DialogError (private val activity: Activity){
     fun startDialog(title: String, message: String) {
         if (!isShowing) {
             val builder = AlertDialog.Builder(activity)
-            val myView = activity.layoutInflater.inflate(R.layout.activity_error, null)
+            val myView = activity.layoutInflater.inflate(R.layout.dialog_error, null)
             val tvTitle = myView.findViewById<TextView>(R.id.tvTitle)
             val tvMessage = myView.findViewById<TextView>(R.id.tvMessage)
             val btnTutup = myView.findViewById<Button>(R.id.btnTutup)

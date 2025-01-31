@@ -1,10 +1,15 @@
 package com.example.tokoalarm
 
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
@@ -38,6 +43,9 @@ class ActivityMain : AppCompatActivity() {
         session = Session(PrefManager(this@ActivityMain))
         val utils = Utils(this@ActivityMain)
         val loading = DialogLoading(this)
+
+        checkNotificationPermission()
+
         lifecycleScope.launch {
             try {
                 loading.startLoadingDialog()
@@ -92,6 +100,15 @@ class ActivityMain : AppCompatActivity() {
             updateSelectedMenu(btnHome)
             replaceFragment(FragmentHome(), home)
             currentFragment = home
+        }
+    }
+
+    private fun checkNotificationPermission() {
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+           val permission = android.Manifest.permission.POST_NOTIFICATIONS
+            if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(permission), 1)
+            }
         }
     }
 
