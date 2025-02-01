@@ -71,7 +71,8 @@
     </string>
     <string name="ok">OK</string>
     <string name="notification_permission">
-        Agar Aplikasi dapat berjalan baik , kami perlu izin notifikasi dari perangkat anda. tekan allow atau izinkan setelah dialog ini.
+        mohon berikan izin untuk menerima notifikasi.
+        app tidak akan berjalan baik jika izin tidak diberikan.
     </string>
     <string name="perhatian">
         perhatian

@@ -1,8 +1,11 @@
 package com.example.tokoalarm
 
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -10,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 
@@ -19,6 +23,7 @@ class ActivityMain : AppCompatActivity() {
     private var slide: Boolean = false
 
     private lateinit var session: Session
+    private lateinit var prefManager: PrefManager
 
     private lateinit var btnHome: LinearLayout
     private lateinit var btnDevice: LinearLayout
@@ -40,7 +45,9 @@ class ActivityMain : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        session = Session(PrefManager(this@ActivityMain))
+
+        prefManager = PrefManager(this@ActivityMain)
+        session = Session(prefManager)
         val utils = Utils(this@ActivityMain)
         val loading = DialogLoading(this)
 
@@ -108,13 +115,46 @@ class ActivityMain : AppCompatActivity() {
     private fun checkNotificationPermission() {
        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
            val permission = android.Manifest.permission.POST_NOTIFICATIONS
-            if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                dialogAlert.show(getString(R.string.info),
-                    getString(R.string.notification_permission),
-                    R.raw.lottie_notif) {
-                    ActivityCompat.requestPermissions(this, arrayOf(permission), 1)
+           lifecycleScope.launch {
+               if (ActivityCompat.checkSelfPermission(this@ActivityMain, permission) != PackageManager.PERMISSION_GRANTED) {
+                   ActivityCompat.requestPermissions(this@ActivityMain, arrayOf(permission), 1)
+                   if (prefManager.abortNotifFlow.first() == true) {
+                       ifNotGranted()
+                   }
+               } else {
+                   prefManager.setPermissionNotif(false)
+               }
+           }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1) {
+            for (i in permissions.indices) {
+                if (permissions[i] == android.Manifest.permission.POST_NOTIFICATIONS && grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    lifecycleScope.launch {
+                        prefManager.setPermissionNotif(false)
+                        ifNotGranted()
+                    }
                 }
             }
+        }
+    }
+
+    private fun ifNotGranted() {
+        dialogAlert.show(getString(R.string.info),
+            getString(R.string.notification_permission),
+            R.raw.lottie_notif) {
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                data = Uri.fromParts("package", packageName, null)
+            }
+            startActivity(intent)
+            finish()
         }
     }
 

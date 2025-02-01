@@ -1,6 +1,7 @@
 package com.example.tokoalarm
 
 import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -20,6 +21,7 @@ class PrefManager (private val context: Context){
     private val nameUserKey = stringPreferencesKey("name_user")
     private val phoneKey = stringPreferencesKey("phone_number")
     private val imagePathsKey = stringSetPreferencesKey("image_paths")
+    private val abortNotifKey = booleanPreferencesKey("notification")
 
     val idAlatFlow: Flow<String?> = context.dataStore.data
         .catch { ex ->
@@ -81,6 +83,23 @@ class PrefManager (private val context: Context){
         }.map { pref ->
             pref[imagePathsKey] ?: emptySet()
         }
+    val abortNotifFlow: Flow<Boolean?> = context.dataStore.data
+        .catch { ex ->
+            if (ex is IOException) {
+                emit(emptyPreferences())
+            } else {
+              throw ex
+            }
+        } .map { pref ->
+            pref[abortNotifKey] ?: false
+        }
+
+
+    suspend fun setPermissionNotif(notification: Boolean) {
+        context.dataStore.edit { pref ->
+            pref[abortNotifKey] = notification
+        }
+    }
 
     suspend fun setIdAlat(idAlat: String) {
         context.dataStore.edit { pref ->
