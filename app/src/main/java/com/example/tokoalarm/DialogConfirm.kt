@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import com.airbnb.lottie.LottieAnimationView
 
 class DialogConfirm (
-    private  val activity : Activity):DialogFragment()
+    private  val activity : Activity)
 {
     private lateinit var dialog: AlertDialog
     private  var isShowing = false
@@ -38,7 +38,7 @@ class DialogConfirm (
 
 
         fun dismiss() {
-            val fadeOutScale = AnimationUtils.loadAnimation(context, R.anim.fade_out_scale)
+            val fadeOutScale = AnimationUtils.loadAnimation(activity, R.anim.fade_out_scale)
             view.startAnimation(fadeOutScale)
             view.postDelayed({
                 dialog.dismiss()

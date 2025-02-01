@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.first
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
 
 
@@ -72,6 +72,8 @@ class ActivityMain : AppCompatActivity() {
             }
         }
 
+        FirebaseMessaging.getInstance().subscribeToTopic(session.getPhone()!!)
+
         btnHome = findViewById(R.id.home_id)
         btnDevice = findViewById(R.id.device_id)
         btnSchedule = findViewById(R.id.schedule_id)
@@ -113,18 +115,21 @@ class ActivityMain : AppCompatActivity() {
     }
 
     private fun checkNotificationPermission() {
-       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-           val permission = android.Manifest.permission.POST_NOTIFICATIONS
-           lifecycleScope.launch {
-               if (ActivityCompat.checkSelfPermission(this@ActivityMain, permission) != PackageManager.PERMISSION_GRANTED) {
-                   ActivityCompat.requestPermissions(this@ActivityMain, arrayOf(permission), 1)
-                   if (prefManager.abortNotifFlow.first() == true) {
-                       ifNotGranted()
-                   }
-               } else {
-                   prefManager.setPermissionNotif(false)
-               }
-           }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val permission = android.Manifest.permission.POST_NOTIFICATIONS
+            if (ActivityCompat.checkSelfPermission(
+                    this@ActivityMain,
+                    permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(this@ActivityMain, arrayOf(permission), 1)
+                if (prefManager.getAbortNotif) {
+                    ifNotGranted()
+                }
+            } else {
+                prefManager.setPermissionNotif(false)
+            }
+
         }
     }
 
@@ -137,19 +142,19 @@ class ActivityMain : AppCompatActivity() {
         if (requestCode == 1) {
             for (i in permissions.indices) {
                 if (permissions[i] == android.Manifest.permission.POST_NOTIFICATIONS && grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                    lifecycleScope.launch {
-                        prefManager.setPermissionNotif(false)
-                        ifNotGranted()
-                    }
+                    prefManager.setPermissionNotif(false)
+                    ifNotGranted()
                 }
             }
         }
     }
 
     private fun ifNotGranted() {
-        dialogAlert.show(getString(R.string.info),
+        dialogAlert.show(
+            getString(R.string.info),
             getString(R.string.notification_permission),
-            R.raw.lottie_notif) {
+            R.raw.lottie_notif
+        ) {
             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                 data = Uri.fromParts("package", packageName, null)
             }

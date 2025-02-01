@@ -10,18 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ActivitySettings :AppCompatActivity() {
 
-    private val nada  : List<Tone> = listOf(
-        Tone("tone 1", R.raw.suara_satu),
-        Tone("tone 2", R.raw.suara_dua),
-        Tone("tone 3", R.raw.suara_tiga),
-        Tone("tone 4", R.raw.suara_empat)
-    )
-
-    private lateinit var mediaPlayer :MediaPlayer
+    private var mediaPlayer :MediaPlayer? = null
+    private lateinit var prefManager: PrefManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
+        prefManager = PrefManager(this)
+
 
         findViewById<ImageView>(R.id.iconMenu)
             .setOnClickListener { onBackPressedDispatcher.onBackPressed() }
@@ -30,18 +27,22 @@ class ActivitySettings :AppCompatActivity() {
 
         val dialogConfirm = DialogConfirm(this)
         val containerView = findViewById<RecyclerView>(R.id.container)
+        val nada = DataManual().nada
         containerView.layoutManager = LinearLayoutManager(this)
         containerView.adapter = AdapterListNada(nada) {
             val position = containerView.getChildAdapterPosition(it)
             mediaPlayer = MediaPlayer.create(this, nada[position].value)
-            mediaPlayer.start()
+            mediaPlayer?.start()
             dialogConfirm.show(
                 "${getString(R.string.ubah_suara)} ${nada[position].name}",
                 R.raw.lottie_music, {
-                    mediaPlayer.stop()
+                    prefManager.setTone(nada[position].name)
+                    mediaPlayer?.stop()
+                    mediaPlayer?.release()
 
                     }, {
-                mediaPlayer.stop()
+                     mediaPlayer?.stop()
+                    mediaPlayer?.release()
             })
         }
 
@@ -49,6 +50,6 @@ class ActivitySettings :AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer.release()
+        mediaPlayer?.release()
     }
 }

@@ -92,4 +92,11 @@ class DataManual {
         )
     )
 
+    val nada  : List<Tone> = listOf(
+        Tone("tone1", R.raw.suara_satu),
+        Tone("tone2", R.raw.suara_dua),
+        Tone("tone3", R.raw.suara_tiga),
+        Tone("tone4", R.raw.suara_empat)
+    )
+
 }
