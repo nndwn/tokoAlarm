@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
+//todo: alat dapat di input dengan nilai yang sama , seharus di berikan relasi ke user
 class FragmentGetAlat :Fragment(R.layout.fragment_get_alat) {
     private lateinit var viewModel : SharedViewPilihPaket
     private lateinit var session: Session

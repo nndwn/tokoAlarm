@@ -1,13 +1,17 @@
 package com.example.tokoalarm
 
 
+import com.google.gson.JsonObject
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.http.Field
 import retrofit2.http.POST
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Header
 
 interface ApiService {
     @FormUrlEncoded
@@ -58,8 +62,21 @@ interface ApiService {
         @Field("id_users") idUsers: String,
         @Field("id_alat") idAlat: String
     ) :Response<PaketResponse>
-}
 
+    @FormUrlEncoded
+    @POST("users/getalat")
+    suspend fun getAlat(
+        @Field("nohp") nohp: String,
+        @Field("status") status : String
+    ) :Response<ListAlatResponse>
+
+
+    @POST("alat/rename")
+    fun renameAlat(
+        @Header("x-api-key") apiKey: String,
+        @Body jsonBody: JsonObject
+    ): Call<JsonObject>
+}
 
 object RetrofitClient {
     private  val retrofit by lazy {

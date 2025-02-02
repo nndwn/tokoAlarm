@@ -9,22 +9,22 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
 
 
-class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefreshListener{
+class FragmentHome :Fragment(R.layout.fragment_home) {
 
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
     private lateinit var session : Session
-    private lateinit var saldoText : TextView
     private lateinit var viewPager: ViewPager2
     private lateinit var adapterPromoList : AdapterListPromo
     private lateinit var prefManager: PrefManager
     private lateinit var alert : DialogAlert
+    private lateinit var viewModel: SharedViewMainActivity
 
     private val handler = Handler(Looper.getMainLooper())
     private val runnable = object : Runnable {
@@ -40,15 +40,18 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
 
     private var linkPemesanan :String? = null
 
-
     override fun onViewCreated(view : View, savedIntanceState: Bundle?) {
         super.onViewCreated(view, savedIntanceState)
         prefManager = PrefManager(requireContext())
 
-        saldoText = view.findViewById(R.id.tvSaldo)
+
         session = Session(prefManager)
         alert = DialogAlert(requireActivity())
 
+        viewModel = ViewModelProvider(requireActivity())[SharedViewMainActivity::class.java]
+        viewModel.saldo.observe(viewLifecycleOwner) {
+            view.findViewById<TextView>(R.id.tvSaldo).text = it
+        }
 
         topUpBtn(view)
         historyBtn(view)
@@ -57,14 +60,6 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
         beliPaketBtn(view)
         purposeBtn(view)
 
-        swipeRefreshLayout = view.findViewById(R.id.containerSwipe)
-        swipeRefreshLayout.setOnRefreshListener(this)
-        swipeRefreshLayout.post {
-            if (isAdded) {
-                swipeRefreshLayout.isRefreshing = true
-                getData()
-            }
-        }
 
         viewPager = view.findViewById(R.id.viewPager)
 
@@ -86,9 +81,7 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
         handler.removeCallbacks(runnable)
     }
 
-    override fun onRefresh() {
-       getData()
-    }
+
 
     private fun linkBanner(i :Int) {
         val url = DataManual().banner[i]
@@ -108,11 +101,11 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
 
     private fun purposeBtn(view: View) {
         val btn = view.findViewById<LinearLayout>(R.id.lnPesanAlarm)
+        viewModel.linkPemesanan.observe(viewLifecycleOwner){
+            linkPemesanan = it
+        }
         btn.setOnClickListener {
             val intent = Intent(activity, ActivityWebView::class.java)
-            if (linkPemesanan ==null) {
-                getData()
-            }
             intent.putExtra("URL", linkPemesanan)
             startActivity(intent)
         }
@@ -150,35 +143,5 @@ class FragmentHome :Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefre
         }
     }
 
-    private fun getData() {
-        if (isAdded) {
-            lifecycleScope.launch {
-                try {
-                    val response = RetrofitClient.apiService.getDataPelanggan(
-                        session.getIdUser()!!
-                    )
-                    if (response.isSuccessful) {
-                        val responseData = response.body()
-                        if (responseData?.status == true) {
-                            saldoText.text = responseData.saldo
-                            linkPemesanan = responseData.config.linkPesanAlarm
 
-                            swipeRefreshLayout.isRefreshing = false
-                        }else {
-                            throw Exception("problem in status response")
-                        }
-                    }else {
-                        throw Exception("Response not successful")
-                    }
-                }catch (e : Exception){
-                    swipeRefreshLayout.isRefreshing = false
-                    println("getData $e")
-                    alert.show(getString(R.string.info),
-                        getString(R.string.trouble_connection),
-                        R.raw.crosserror
-                    )
-                }
-            }
-        }
-    }
 }

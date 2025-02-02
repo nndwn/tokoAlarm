@@ -94,4 +94,15 @@
     <string name="id_salah" >
         ID Alat tidak sesuai, mohon periksa kembali
     </string>
+    <string name="perpanjang">perpanjang</string>
+    <string name="berakhir_pada">Berakhir pada</string>
+    <string name="periode_mulai">Periode Mulai</string>
+    <string name="paket">Paket</string>
+    <string name="nomor_alat">Nomor Alat</string>
+    <string name="sisa_masa_aktif">Sisa Masa Aktif</string>
+    <string name="status">Status</string>
+    <string name="monitoring">Monitoring</string>
+    <string name="alat" >Alat</string>
+    <string name="ubah_name">Ubah Nama</string>
+    <string name="simpan">simpan</string>
 </resources>

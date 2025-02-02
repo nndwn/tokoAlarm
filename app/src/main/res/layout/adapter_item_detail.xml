@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rectangle_round_10"
+    android:elevation="@dimen/_3sdp"
+    android:layout_marginVertical="@dimen/_10sdp"
+    android:paddingHorizontal="@dimen/_20sdp"
+    android:paddingTop="@dimen/_10sdp"
+    android:paddingBottom="@dimen/_20sdp"
+  >
+
+    <TextView
+        android:id="@+id/namePerangkat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/robotobold"
+        android:text="Ass Asss sd sssssssssssd s "
+        android:textColor="@color/black"
+        android:textSize="@dimen/_15ssp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/rename"
+        app:layout_constraintEnd_toStartOf="@+id/rename"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/rename"
+        android:layout_width="@dimen/_47sdp"
+        android:layout_height="@dimen/_29sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/rectangle_input"
+        android:backgroundTint="@color/primary_color"
+        android:fontFamily="@font/robotobold"
+        android:text="Ubah"
+        android:textSize="@dimen/_9ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_14sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:background="@drawable/dashed_line"
+        android:backgroundTint="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/namePerangkat" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:alpha="0.6"
+        android:fontFamily="@font/robotomedium"
+        android:text="@string/status"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/separator" />
+
+    <TextView
+        android:id="@+id/statusResult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:fontFamily="@font/robotomedium"
+        android:text="Status"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/separator" />
+
+    <TextView
+        android:id="@+id/exp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:alpha="0.6"
+        android:fontFamily="@font/robotomedium"
+        android:text="@string/sisa_masa_aktif"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusResult" />
+
+    <TextView
+        android:id="@+id/expResult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:fontFamily="@font/robotomedium"
+        android:text="Status"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/exp" />
+
+    <TextView
+        android:id="@+id/idAlat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:alpha="0.6"
+        android:fontFamily="@font/robotomedium"
+        android:text="@string/nomor_alat"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exp" />
+
+    <TextView
+        android:id="@+id/idAlatResult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:fontFamily="@font/robotomedium"
+        android:text="Paket Bulanan Wifi"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/idAlat" />
+
+    <TextView
+        android:id="@+id/namePaket"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:alpha="0.6"
+        android:fontFamily="@font/robotomedium"
+        android:text="@string/paket"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idAlat" />
+
+    <TextView
+        android:id="@+id/namePaketResult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:fontFamily="@font/robotomedium"
+        android:text="Status"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/namePaket" />
+
+    <TextView
+        android:id="@+id/mulai"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:alpha="0.6"
+        android:fontFamily="@font/robotomedium"
+        android:text="@string/periode_mulai"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/namePaket" />
+
+    <TextView
+        android:id="@+id/mulaiResult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:fontFamily="@font/robotomedium"
+        android:text="Status"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/mulai" />
+
+    <TextView
+        android:id="@+id/akhir"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:alpha="0.6"
+        android:fontFamily="@font/robotomedium"
+        android:text="@string/berakhir_pada"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mulai" />
+
+    <TextView
+        android:id="@+id/akhirReult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:fontFamily="@font/robotomedium"
+        android:text="Status"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/akhir" />
+
+    <View
+        android:id="@+id/separatorEnd"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_14sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:background="@drawable/dashed_line"
+        android:backgroundTint="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/akhir" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnMonitoring"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/monitoring"
+        app:layout_constraintTop_toBottomOf="@+id/separatorEnd"
+        app:layout_constraintEnd_toStartOf="@+id/btnPerpanjang"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnPerpanjang"
+        android:background="@drawable/rectangle_round_10_blue"
+        android:layout_marginEnd="@dimen/_7sdp"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnPerpanjang"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/perpanjang"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_7sdp"
+        android:background="@drawable/rectangle_round_10_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnMonitoring"
+        app:layout_constraintTop_toBottomOf="@+id/separatorEnd"
+ />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

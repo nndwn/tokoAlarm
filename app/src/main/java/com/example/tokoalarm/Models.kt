@@ -113,6 +113,46 @@ data class ListPaket(
     val dayConvertion : String
 )
 
+data class ListAlatResponse(
+    val status : Boolean,
+    val data : List<ListAlat>
+)
+
+data class ListAlat(
+    @SerializedName("nama_paket")
+    var namePaket : String,
+    @SerializedName("nomor_paket")
+    val nomorPaket: String,
+    @SerializedName("created_at")
+    val createdAt : String,
+    @SerializedName("biaya_rupiah")
+    val biayaRupiah : String,
+    @SerializedName("cutoff_day")
+    val cutoffDay: String,
+    val periode : String,
+    @SerializedName("tanggal_selesai")
+    val tanggalSelesai : String,
+    @SerializedName("updated_at")
+    val updatedAt: String,
+    val biaya : String,
+    @SerializedName("tanggal_mulai")
+    val tanggalMulai : String,
+    @SerializedName("id_alat")
+    var idAlat : String,
+    val nohp : String,
+    val id : String,
+    @SerializedName("sisa_hari")
+    val sisaHari : String,
+    val status : String,
+    @SerializedName("day_convertion")
+    val dayConvertion : String
+)
+
+class SharedViewMainActivity : ViewModel() {
+    val saldo : MutableLiveData<String> = MutableLiveData()
+    val linkPemesanan : MutableLiveData<String> = MutableLiveData()
+    val listAlat : MutableLiveData<List<ListAlat>> = MutableLiveData()
+}
 
 class SharedViewTopUp : ViewModel() {
     val price : MutableLiveData<Int> = MutableLiveData()

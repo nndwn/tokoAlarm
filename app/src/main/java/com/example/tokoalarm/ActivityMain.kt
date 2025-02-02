@@ -12,12 +12,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
 
 
-class ActivityMain : AppCompatActivity() {
+class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
 
     private var currentFragment: String? = null
     private var slide: Boolean = false
@@ -39,7 +41,10 @@ class ActivityMain : AppCompatActivity() {
     private lateinit var textDevice: TextView
     private lateinit var textSchedule: TextView
     private lateinit var textAccount: TextView
-
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    
+    private lateinit var viewModel: SharedViewMainActivity
+    
     private lateinit var dialogAlert: DialogAlert
     private  lateinit var loading: DialogLoading
     private  lateinit var utils: Utils
@@ -54,9 +59,18 @@ class ActivityMain : AppCompatActivity() {
         loading = DialogLoading(this)
 
         dialogAlert = DialogAlert(this)
+        
+        viewModel = ViewModelProvider(this)[SharedViewMainActivity::class.java]
+
+        swipeRefreshLayout = findViewById(R.id.containerSwipe)
+        swipeRefreshLayout.setOnRefreshListener(this)
+        swipeRefreshLayout.post {
+            if (isFinishing) return@post
+            fetchSaldo()
+            swipeRefreshLayout.isRefreshing = true
+        }
 
         checkNotificationPermission()
-        fromLoginAndRegister()
         FirebaseMessaging.getInstance().subscribeToTopic(session.getPhone()!!)
         transitionFragment()
 
@@ -73,6 +87,10 @@ class ActivityMain : AppCompatActivity() {
             replaceFragment(FragmentHome(), home)
             currentFragment = home
         }
+    }
+
+    override fun onRefresh() {
+        fetchSaldo()
     }
 
     private fun checkNotificationPermission() {
@@ -158,25 +176,7 @@ class ActivityMain : AppCompatActivity() {
         }
     }
 
-    private fun fromLoginAndRegister() {
-        val fromRegister = intent.getBooleanExtra("register", false)
-        val fromLogin = intent.getBooleanExtra("login", false)
 
-        if (!fromRegister && !fromLogin) return
-        lifecycleScope.launch {
-            try {
-                loading.startLoadingDialog()
-                if (fromRegister && session.getIdUser().isNullOrEmpty()) {
-                    getUserId()
-                } else if (fromLogin) {
-                    utils.getBanner()
-                }
-                loading.dismissDialog()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
 
 
     private fun updateSelectedMenu(selectedBtn: LinearLayout) {
@@ -217,16 +217,69 @@ class ActivityMain : AppCompatActivity() {
         currentFragment = tag
     }
 
-    private suspend fun getUserId() {
-        val response = RetrofitClient.apiService.login(
-            session.getPhone()!!,
-            session.getPwd()!!
+    private fun connectionTrouble () {
+        dialogAlert.show(
+            getString(R.string.info),
+            getString(R.string.trouble_connection),
+            R.raw.crosserror
         )
-        if (!response.isSuccessful) throw Exception("Response not successful")
-        val loginResponse = response.body()
-        if (loginResponse?.status != true) throw Exception("status not true")
-        val data = loginResponse.data
-        session.setIdUser(data.id)
+    }
+
+    private fun fetchSaldo() {
+        val fromRegister = intent.getBooleanExtra("register", false)
+        val fromLogin = intent.getBooleanExtra("login", false)
+        lifecycleScope.launch {
+            if (fromRegister && session.getIdUser().isNullOrEmpty()) {
+                val response = RetrofitClient.apiService.login(
+                    session.getPhone()!!,
+                    session.getPwd()!!
+                )
+                if (!response.isSuccessful)  {
+                    connectionTrouble()
+                    return@launch
+                }
+                val loginResponse = response.body()
+                if (loginResponse?.status != true) {
+                    connectionTrouble()
+                    return@launch
+                }
+                session.setIdUser(loginResponse.data.id)
+                swipeRefreshLayout.isRefreshing = false
+            } else if (fromLogin) {
+                utils.getBanner()
+            }
+            val response = RetrofitClient.apiService.getDataPelanggan(
+                session.getIdUser()!!
+            )
+            if (!response.isSuccessful)  {
+                connectionTrouble()
+                return@launch
+            }
+            val responseData = response.body()
+            if (responseData?.status != true) {
+                connectionTrouble()
+                return@launch
+            }
+            viewModel.saldo.value = responseData.saldo
+            viewModel.linkPemesanan.value = responseData.config.linkPesanAlarm
+
+            val responseDetailAlat = RetrofitClient.apiService.getAlat(
+                session.getPhone()!!,
+                "Aktif"
+            )
+            if (!responseDetailAlat.isSuccessful)  {
+                connectionTrouble()
+                return@launch
+            }
+            val responseDataDetailAlat = responseDetailAlat.body()
+            if (responseDataDetailAlat?.status != true) {
+                connectionTrouble()
+                return@launch
+            }
+            viewModel.listAlat.value = responseDataDetailAlat.data
+            println(responseDataDetailAlat.data)
+            swipeRefreshLayout.isRefreshing = false
+        }
     }
 
 }
