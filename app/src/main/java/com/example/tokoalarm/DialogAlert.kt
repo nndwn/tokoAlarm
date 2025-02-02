@@ -47,8 +47,6 @@ class DialogAlert (
         }
 
         builder.setOnDismissListener {
-            click()
-            dismiss()
             isShowing = false
         }
 

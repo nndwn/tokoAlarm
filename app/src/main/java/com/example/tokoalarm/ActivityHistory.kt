@@ -1,7 +1,6 @@
 package com.example.tokoalarm
 
 import android.os.Bundle
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +17,7 @@ class ActivityHistory :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListene
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var session : Session
     private lateinit var historyView : RecyclerView
+
 
     private var listHistory :List<ListTopUpData> = emptyList()
 
@@ -42,29 +42,36 @@ class ActivityHistory :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListene
         }
     }
 
+    private fun  troubleConnection() {
+        val alert = DialogAlert(this)
+        alert.show(
+            getString(R.string.info),
+            getString(R.string.trouble_connection),
+            R.raw.crosserror
+        )
+    }
+
     private fun getData() {
         lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.apiService.getHistorySaldo(
-                    session.getIdUser()!!
-                )
-                if (!response.isSuccessful) throw Exception("Response not successful")
-                val responseData = response.body()
-                if (responseData?.status != true) throw Exception("Problem in status response")
-                listHistory = responseData.data
-                println(listHistory)
-            } catch (e :Exception) {
-                println("getData $e")
-            } finally {
-                swipeRefreshLayout.isRefreshing = false
+            val response = RetrofitClient.apiService.getHistorySaldo(
+                session.getIdUser()!!
+            )
+            if (!response.isSuccessful) {
+                troubleConnection()
+                return@launch
             }
+            val responseData = response.body()
+            if (responseData?.status != true) {
+                troubleConnection()
+                return@launch
+            }
+            listHistory = responseData.data
+            swipeRefreshLayout.isRefreshing = false
             historyView.layoutManager = LinearLayoutManager(this@ActivityHistory)
             historyView.adapter = AdapterListHistory(listHistory)
 
         }
     }
-
-
 
     override fun onRefresh() {
         getData()

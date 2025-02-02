@@ -74,7 +74,24 @@
         mohon berikan izin untuk menerima notifikasi.
         app tidak akan berjalan baik jika izin tidak diberikan.
     </string>
-    <string name="perhatian">
-        perhatian
+    <string name="perhatian">perhatian</string>
+    <string name="hari"> hari</string>
+    <string name="durasi">Durasi</string>
+    <string name= "harga">Harga</string>
+    <string name= "infoBeliPaket">
+        Pilih paket yang ingin Anda beli di bawah ini.
+    </string>
+    <string name ="get_alat">
+        Isi ID sesuai pada perangkat , Hubungin CS jika ada masalah.
+    </string>
+    <string name="nomor_id_alat">Nomor Id Alat</string>
+    <string name="empty_id_alat">
+        ID Alat tidak boleh kosong.
+    </string>
+    <string name="berhasil" >
+        Berhasil
+    </string>
+    <string name="id_salah" >
+        ID Alat tidak sesuai, mohon periksa kembali
     </string>
 </resources>

@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
-class ActivityRegister :AppCompatActivity(){
+class       ActivityRegister :AppCompatActivity(){
 
     private lateinit var nameText: EditText
     private lateinit var phoneNumber: EditText
@@ -175,6 +175,7 @@ class ActivityRegister :AppCompatActivity(){
                 }
 
             } catch (e : Exception) {
+                e.printStackTrace()
                 alert.show(
                     failSignUp,
                     getString(R.string.trouble_connection),

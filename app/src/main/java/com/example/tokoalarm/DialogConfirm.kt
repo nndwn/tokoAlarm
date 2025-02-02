@@ -46,8 +46,6 @@ class DialogConfirm (
         }
 
         builder.setOnDismissListener {
-            onCancel()
-            dismiss()
             isShowing = false
         }
 

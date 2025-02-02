@@ -34,31 +34,10 @@
             android:text="Title"
             android:fontFamily="@font/robotobold"
             android:gravity="center"
-            android:textColor="@color/error"
+            android:textColor="@color/text_success"
             android:layout_marginHorizontal="@dimen/_12sdp"
             android:textAllCaps="true"
             android:textSize="@dimen/_18ssp"/>
-        <TextView
-            android:id="@+id/tvMessage"
-            android:layout_marginVertical="@dimen/_5sdp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ssdd ddsd dsdds dsdsdsdd dsdsd dsdsdsdd dsdasd dasdsdasd"
-            android:fontFamily="@font/robotomedium"
-            android:gravity="center"
-            android:textColor="#000000"
-            android:textSize="@dimen/_14ssp"/>
-        <Button
-            style="?android:attr/borderlessButtonStyle"
-            android:id="@+id/btnTutup"
-            android:layout_gravity="center"
-            android:layout_width="@dimen/_125sdp"
-            android:background="@drawable/rectangle_round_10_blue"
-            android:layout_height="@dimen/_40sdp"
-            android:text="@string/close"
-            android:layout_marginVertical="@dimen/_5sdp"
-            android:fontFamily="@font/robotomedium"
-            android:textColor="@color/white"
-            android:textAllCaps="false"/>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

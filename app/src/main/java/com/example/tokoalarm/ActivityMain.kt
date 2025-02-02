@@ -41,6 +41,8 @@ class ActivityMain : AppCompatActivity() {
     private lateinit var textAccount: TextView
 
     private lateinit var dialogAlert: DialogAlert
+    private  lateinit var loading: DialogLoading
+    private  lateinit var utils: Utils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,65 +50,24 @@ class ActivityMain : AppCompatActivity() {
 
         prefManager = PrefManager(this@ActivityMain)
         session = Session(prefManager)
-        val utils = Utils(this@ActivityMain)
-        val loading = DialogLoading(this)
+        utils = Utils(this@ActivityMain)
+        loading = DialogLoading(this)
 
         dialogAlert = DialogAlert(this)
 
         checkNotificationPermission()
-
-        lifecycleScope.launch {
-            try {
-                loading.startLoadingDialog()
-                val fromRegister = intent.getBooleanExtra("register", false)
-                val fromLogin = intent.getBooleanExtra("login", false)
-                if (fromRegister && session.getIdUser().isNullOrEmpty()) {
-                    getUserId()
-
-                } else if (fromLogin) {
-                    utils.getBanner()
-                }
-                loading.dismissDialog()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-
+        fromLoginAndRegister()
         FirebaseMessaging.getInstance().subscribeToTopic(session.getPhone()!!)
+        transitionFragment()
 
-        btnHome = findViewById(R.id.home_id)
-        btnDevice = findViewById(R.id.device_id)
-        btnSchedule = findViewById(R.id.schedule_id)
-        btnAccount = findViewById(R.id.account_id)
-
-        iconHome = findViewById(R.id.home_icon_id)
-        iconDevice = findViewById(R.id.device_icon_id)
-        iconSchedule = findViewById(R.id.schedule_icon_id)
-        iconAccount = findViewById(R.id.account_icon_id)
-
-        textHome = findViewById(R.id.home_text_id)
-        textDevice = findViewById(R.id.device_text_id)
-        textSchedule = findViewById(R.id.schedule_text_id)
-        textAccount = findViewById(R.id.account_text_id)
-
-        btnHome.setOnClickListener {
-            updateSelectedMenu(btnHome)
-            replaceFragment(FragmentHome(), getString(R.string.home))
-        }
-        btnDevice.setOnClickListener {
+        val toFragment = intent.getStringExtra("toFragment")
+        val perangkat = getString(R.string.device)
+        if (toFragment == perangkat) {
             updateSelectedMenu(btnDevice)
-            replaceFragment(FragmentDevice(), getString(R.string.device))
-        }
-        btnSchedule.setOnClickListener {
-            updateSelectedMenu(btnSchedule)
-            replaceFragment(FragmentSchedule(), getString(R.string.schedule))
-        }
-        btnAccount.setOnClickListener {
-            updateSelectedMenu(btnAccount)
-            replaceFragment(FragmentAccount(), getString(R.string.account))
-        }
+            replaceFragment(FragmentDevice(), perangkat)
+            currentFragment = perangkat
 
-        if (savedInstanceState == null) {
+        } else if (savedInstanceState == null ) {
             val home = getString(R.string.home)
             updateSelectedMenu(btnHome)
             replaceFragment(FragmentHome(), home)
@@ -160,6 +121,60 @@ class ActivityMain : AppCompatActivity() {
             }
             startActivity(intent)
             finish()
+        }
+    }
+
+    private fun transitionFragment() {
+        btnHome = findViewById(R.id.home_id)
+        btnDevice = findViewById(R.id.device_id)
+        btnSchedule = findViewById(R.id.schedule_id)
+        btnAccount = findViewById(R.id.account_id)
+
+        iconHome = findViewById(R.id.home_icon_id)
+        iconDevice = findViewById(R.id.device_icon_id)
+        iconSchedule = findViewById(R.id.schedule_icon_id)
+        iconAccount = findViewById(R.id.account_icon_id)
+
+        textHome = findViewById(R.id.home_text_id)
+        textDevice = findViewById(R.id.device_text_id)
+        textSchedule = findViewById(R.id.schedule_text_id)
+        textAccount = findViewById(R.id.account_text_id)
+
+        btnHome.setOnClickListener {
+            updateSelectedMenu(btnHome)
+            replaceFragment(FragmentHome(), getString(R.string.home))
+        }
+        btnDevice.setOnClickListener {
+            updateSelectedMenu(btnDevice)
+            replaceFragment(FragmentDevice(), getString(R.string.device))
+        }
+        btnSchedule.setOnClickListener {
+            updateSelectedMenu(btnSchedule)
+            replaceFragment(FragmentSchedule(), getString(R.string.schedule))
+        }
+        btnAccount.setOnClickListener {
+            updateSelectedMenu(btnAccount)
+            replaceFragment(FragmentAccount(), getString(R.string.account))
+        }
+    }
+
+    private fun fromLoginAndRegister() {
+        val fromRegister = intent.getBooleanExtra("register", false)
+        val fromLogin = intent.getBooleanExtra("login", false)
+
+        if (!fromRegister && !fromLogin) return
+        lifecycleScope.launch {
+            try {
+                loading.startLoadingDialog()
+                if (fromRegister && session.getIdUser().isNullOrEmpty()) {
+                    getUserId()
+                } else if (fromLogin) {
+                    utils.getBanner()
+                }
+                loading.dismissDialog()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 

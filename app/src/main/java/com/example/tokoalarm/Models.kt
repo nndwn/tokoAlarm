@@ -92,9 +92,35 @@ data class Tone(
     val value : Int
 )
 
+data class PaketResponse(
+    val status: Boolean,
+    val data : List<ListPaket>
+)
+
+data class ListPaket(
+    val biaya : String,
+    @SerializedName("updated_at")
+    val updateAt : String,
+    @SerializedName("created_at")
+    val createdAt: String,
+    @SerializedName("biaya_rupiah")
+    val biayaRupiah : String,
+    val id :String,
+    @SerializedName("cutoff_day")
+    val cutoffDay : String,
+    val periode : String,
+    @SerializedName("day_convertion")
+    val dayConvertion : String
+)
+
 
 class SharedViewTopUp : ViewModel() {
     val price : MutableLiveData<Int> = MutableLiveData()
     val methodPayment : MutableLiveData<BankAccount> = MutableLiveData()
+}
+
+class SharedViewPilihPaket : ViewModel() {
+    val paket : MutableLiveData<List<ListPaket>> = MutableLiveData()
+    val position : MutableLiveData<Int> = MutableLiveData()
 }
 

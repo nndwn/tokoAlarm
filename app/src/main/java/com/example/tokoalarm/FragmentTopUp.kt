@@ -24,7 +24,7 @@ class FragmentTopUp :Fragment(R.layout.fragment_top_up) {
         val textInfo = view.findViewById<TextView>(R.id.infoText)
         textInfo.text = getString(R.string.pilih_harga)
 
-        listPriceView = view.findViewById(R.id.adapter_topUp)
+        listPriceView = view.findViewById(R.id.adapterList)
         listPriceView.layoutManager = LinearLayoutManager(view.context)
         listPriceView.adapter = AdapterListTopUp(data.listPrice) {
             val position = listPriceView.getChildAdapterPosition(it)

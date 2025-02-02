@@ -2,15 +2,17 @@
 <RelativeLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
 
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        />
+        android:name="com.example.tokoalarm.FragmentHome"
+        tools:layout="@layout/fragment_home" />
 
     <GridLayout
         android:layout_width="match_parent"
