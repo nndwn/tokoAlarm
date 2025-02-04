@@ -105,4 +105,13 @@
     <string name="alat" >Alat</string>
     <string name="ubah_name">Ubah Nama</string>
     <string name="simpan">simpan</string>
+    <string name="max_char_error">
+        Nama Tidak Boleh Lebih Dari 40 Karakter
+    </string>
+    <string name="app_error">
+        App mengalami masalah , Hubungi Admin
+    </string>
+    <string name="saldo_tidak_mencukupin">
+        Saldo Tidak Mencukupin Silahkan Lakukan Top Up Terlebih dahulu
+    </string>
 </resources>

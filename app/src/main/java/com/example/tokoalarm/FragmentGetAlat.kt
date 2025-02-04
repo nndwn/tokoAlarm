@@ -50,60 +50,51 @@ class FragmentGetAlat :Fragment(R.layout.fragment_get_alat) {
                 .setOnClickListener {
                     unFocus(view.context)
                     if (validation()) {
-                        loading.startLoadingDialog()
                         lifecycleScope.launch {
-                            try {
-                                val response = RetrofitClient.apiService.beliPaket(
-                                    session.getPhone()!!,
-                                    data[position].periode,
-                                    data[position].dayConvertion,
-                                    data[position].cutoffDay,
-                                    data[position].biaya,
-                                    session.getIdUser()!!,
-                                    numbIdAlat.text.toString().trim()
-                                )
-                                if (!response.isSuccessful) {
+                            loading.startLoadingDialog()
+                            viewModel.input(
+                                session.getPhone()!!,
+                                data[position],
+                                session.getIdUser()!!,
+                                numbIdAlat.text.toString().trim()
+                            )
+
+                            when(viewModel.check.value) {
+                                "connection" -> {
                                     alert.show(
                                         getString(R.string.info),
                                         getString(R.string.trouble_connection),
                                         R.raw.crosserror
                                     )
-                                    return@launch
                                 }
-                                val body = response.body()
-                                if (body?.status != true) {
+
+                                "failed" -> {
                                     alert.show(
                                         getString(R.string.info),
                                         getString(R.string.id_salah),
                                         R.raw.crosserror
                                     )
-                                  return@launch
                                 }
-                                success.apply {
-                                    animation = R.raw.lotisuccess
-                                    title = getString(R.string.berhasil)
-                                }.show {
-                                    val intent = Intent(view.context, ActivityMain::class.java)
-                                    intent.putExtra("toFragment", getString(R.string.device))
-                                    startActivity(intent)
-                                    requireActivity().finish()
+                                "success" ->{
+                                    success.apply {
+                                        animation = R.raw.lotisuccess
+                                        title = getString(R.string.berhasil)
+                                    }.show {
+                                        val intent = Intent(view.context, ActivityMain::class.java)
+                                        intent.putExtra("toFragment", getString(R.string.device))
+                                        startActivity(intent)
+                                        requireActivity().finish()
+                                    }
                                 }
-
-                            }catch (e : Exception) {
-                                e.printStackTrace()
-                                alert.show(
-                                    getString(R.string.info),
-                                    getString(R.string.trouble_connection),
-                                    R.raw.crosserror
-                                )
-                            } finally {
-                                loading.dismissDialog()
                             }
+                            loading.dismissDialog()
+
                         }
                     }
                 }
         }
     }
+
 
     private fun validation() : Boolean {
         return when {

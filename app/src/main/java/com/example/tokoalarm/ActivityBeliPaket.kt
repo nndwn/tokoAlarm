@@ -1,6 +1,7 @@
 package com.example.tokoalarm
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ class ActivityBeliPaket :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListe
     private lateinit var viewModel :SharedViewPilihPaket
     private lateinit var dialogAlert: DialogAlert
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +31,13 @@ class ActivityBeliPaket :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListe
         }
 
         viewModel = ViewModelProvider(this)[SharedViewPilihPaket::class.java]
+        val saldoInt = intent.getStringExtra("saldo")?.let { parseSaldo(it) }
+        viewModel.idAlat.value = intent.getStringExtra("idAlat")
+        viewModel.saldo.value = saldoInt
+
         findViewById<TextView>(R.id.textMenu)
             .text = getString(R.string.buy_paket)
-        findViewById<ImageView>(R.id.iconMenu)
+        findViewById<View>(R.id.toolbar)
             .setOnClickListener {
                 if (supportFragmentManager.backStackEntryCount > 0 ) {
                     supportFragmentManager.popBackStack()
@@ -45,6 +51,7 @@ class ActivityBeliPaket :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListe
                 .commit()
         }
     }
+
 
     override fun onRefresh() {
         getData()

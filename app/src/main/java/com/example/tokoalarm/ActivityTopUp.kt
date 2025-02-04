@@ -1,6 +1,7 @@
 package com.example.tokoalarm
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,10 +15,10 @@ class ActivityTopUp :AppCompatActivity(){
 
         viewModel = ViewModelProvider(this)[SharedViewTopUp::class.java]
 
-        val iconMenuToolbar = findViewById<ImageView>(R.id.iconMenu)
+
         val titleToolbar = findViewById<TextView>(R.id.textMenu)
         titleToolbar.text = getString(R.string.isi_paket)
-        iconMenuToolbar.setOnClickListener {
+        findViewById<View>(R.id.toolbar).setOnClickListener {
             if (supportFragmentManager.backStackEntryCount > 0 ){
                 supportFragmentManager.popBackStack()
             } else

@@ -16,7 +16,7 @@ class DialogLoading(private val activity: Activity) {
         val inflater = activity.layoutInflater
         val view = inflater.inflate(R.layout.dialog_loading, null)
         builder.setView(view)
-        builder.setCancelable(true)
+        builder.setCancelable(false)
         builder.setOnDismissListener {
             isShowing = false
         }

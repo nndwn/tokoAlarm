@@ -20,11 +20,23 @@ fun formatRupiah(number : Int) :String {
     return format.format(number)
 }
 
+/**
+ *Todo: function ini dibuat karena api memberikan nilai
+ * hasil yang sudah di konversi ke dalam Rupiah
+ */
+fun parseSaldo(saldo : String) :Int? {
+    val cleanString = saldo.replace("[^0-9]".toRegex(), "")
+    return cleanString.toIntOrNull()
+}
+
 class Utils (private var context: Context){
     private var pref : PrefManager = PrefManager(context)
     private var session: Session = Session(pref)
 
-    //todo: untuk nomor cs di buat secara hardcode api perlu diperbaikin kembali untuk menanganin configurasi app
+    /**
+     * Todo: untuk nomor cs di buat secara hardcode api
+     *  perlu diperbaikin kembali untuk menanganin configurasi app
+     */
     fun whatsapp(message: String) {
         val packageManager = context.packageManager
         val isWhatsAppInstalled = try {
@@ -65,6 +77,7 @@ class Utils (private var context: Context){
             pref.setImagePaths(setOf(file))
         }
     }
+
 
     private suspend fun saveImageToFile(bitmap: Bitmap, filename: String) : String {
         val file = File( context.filesDir, filename)

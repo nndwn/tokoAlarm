@@ -1,8 +1,12 @@
 package com.example.tokoalarm
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.gson.annotations.SerializedName
+import kotlinx.coroutines.launch
 
 
 data class LoginResponse(
@@ -148,6 +152,10 @@ data class ListAlat(
     val dayConvertion : String
 )
 
+class SharedViewModel(application: Application) : AndroidViewModel(application) {
+    val sharedData = MutableLiveData<String>()
+}
+
 class SharedViewMainActivity : ViewModel() {
     val saldo : MutableLiveData<String> = MutableLiveData()
     val linkPemesanan : MutableLiveData<String> = MutableLiveData()
@@ -162,5 +170,31 @@ class SharedViewTopUp : ViewModel() {
 class SharedViewPilihPaket : ViewModel() {
     val paket : MutableLiveData<List<ListPaket>> = MutableLiveData()
     val position : MutableLiveData<Int> = MutableLiveData()
+    val idAlat : MutableLiveData<String?> = MutableLiveData()
+    val saldo : MutableLiveData<Int?> = MutableLiveData()
+    val check : MutableLiveData<String> = MutableLiveData()
+    fun input(phone :String , listPaket: ListPaket , idUsers: String , nomorAlat : String) {
+        viewModelScope.launch {
+            val response = RetrofitClient.apiService.beliPaket(
+                phone,
+                listPaket.periode,
+                listPaket.dayConvertion,
+                listPaket.cutoffDay,
+                listPaket.biaya,
+                idUsers,
+                nomorAlat
+            )
+            if (!response.isSuccessful) {
+                check.value = "connection"
+                return@launch
+            }
+            val body = response.body()
+            if (body?.status != true) {
+                check.value = "failed"
+                return@launch
+            }
+            check.value = "success"
+        }
+    }
 }
 

@@ -211,7 +211,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnMonitoring"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_40sdp"
         android:text="@string/monitoring"
         app:layout_constraintTop_toBottomOf="@+id/separatorEnd"
         app:layout_constraintEnd_toStartOf="@+id/btnPerpanjang"
@@ -224,7 +224,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnPerpanjang"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_40sdp"
         android:text="@string/perpanjang"
         android:layout_marginVertical="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_7sdp"

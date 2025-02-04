@@ -2,6 +2,7 @@ package com.example.tokoalarm
 
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -19,8 +20,7 @@ class ActivitySettings :AppCompatActivity() {
 
         prefManager = PrefManager(this)
 
-
-        findViewById<ImageView>(R.id.iconMenu)
+        findViewById<View>(R.id.toolbar)
             .setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         findViewById<TextView>(R.id.textMenu)
             .text = getString(R.string.setting)

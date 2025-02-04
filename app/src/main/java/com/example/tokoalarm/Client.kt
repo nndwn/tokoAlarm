@@ -72,10 +72,10 @@ interface ApiService {
 
 
     @POST("alat/rename")
-    fun renameAlat(
+    suspend fun renameAlat(
         @Header("x-api-key") apiKey: String,
         @Body jsonBody: JsonObject
-    ): Call<JsonObject>
+    ): Response<JsonObject>
 }
 
 object RetrofitClient {

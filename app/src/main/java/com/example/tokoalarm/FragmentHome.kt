@@ -38,8 +38,6 @@ class FragmentHome :Fragment(R.layout.fragment_home) {
         }
     }
 
-    private var linkPemesanan :String? = null
-
     override fun onViewCreated(view : View, savedIntanceState: Bundle?) {
         super.onViewCreated(view, savedIntanceState)
         prefManager = PrefManager(requireContext())
@@ -101,12 +99,10 @@ class FragmentHome :Fragment(R.layout.fragment_home) {
 
     private fun purposeBtn(view: View) {
         val btn = view.findViewById<LinearLayout>(R.id.lnPesanAlarm)
-        viewModel.linkPemesanan.observe(viewLifecycleOwner){
-            linkPemesanan = it
-        }
+
         btn.setOnClickListener {
             val intent = Intent(activity, ActivityWebView::class.java)
-            intent.putExtra("URL", linkPemesanan)
+            intent.putExtra("URL","https://tokoalarm.com/shop/" )
             startActivity(intent)
         }
     }

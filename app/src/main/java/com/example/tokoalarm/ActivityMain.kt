@@ -277,7 +277,6 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
                 return@launch
             }
             viewModel.listAlat.value = responseDataDetailAlat.data
-            println(responseDataDetailAlat.data)
             swipeRefreshLayout.isRefreshing = false
         }
     }

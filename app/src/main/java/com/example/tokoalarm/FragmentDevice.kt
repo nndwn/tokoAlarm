@@ -1,6 +1,7 @@
 package com.example.tokoalarm
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 //todo: pada nilai masa aktif terdapat bug nilai mines selalu bertambah kemungkinan jika user kembali pembayaran hanya mengurangsin nilai mines tersebut
 //todo: pada api getalat terdapat Inp ut yang tidak diperlukan seperti "Status"
@@ -25,11 +23,14 @@ class FragmentDevice : Fragment(R.layout.fragment_device), OnItemClickListener {
     private lateinit var listAlat: List<ListAlat>
     private lateinit var adapter: AdapterListDetail
     private lateinit var session: Session
+    private lateinit var alert: DialogAlert
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel = ViewModelProvider(requireActivity())[SharedViewMainActivity::class.java]
         session = Session(PrefManager(requireContext()))
+        alert = DialogAlert(requireActivity())
 
         dialogInput = DialogInput(requireActivity()).apply {
             parent = view as ViewGroup
@@ -55,8 +56,14 @@ class FragmentDevice : Fragment(R.layout.fragment_device), OnItemClickListener {
             title = getString(R.string.ubah_name)
             text = nameAlat
         }.show {
-            println(dialogInput.text)
-            println(nameAlat)
+            if (dialogInput.text.length > 40 ){
+                alert.show(
+                    getString(R.string.perhatian),
+                    getString(R.string.max_char_error),
+                    R.raw.crosserror
+                )
+                return@show
+            }
             if (nameAlat != dialogInput.text ) {
                 listAlat[position].namePaket = dialogInput.text
                 viewModel.listAlat.value = listAlat
@@ -67,11 +74,16 @@ class FragmentDevice : Fragment(R.layout.fragment_device), OnItemClickListener {
     }
 
     override fun onItemMonitoring(position: Int) {
-        TODO("Not yet implemented")
+        println("test")
     }
 
     override fun onItemPerpanjang(position: Int) {
-        TODO("Not yet implemented")
+        val intent = Intent(requireContext(), ActivityBeliPaket::class.java)
+        intent.putExtra("idAlat", listAlat[position].idAlat)
+        viewModel.saldo.observe(viewLifecycleOwner){
+            intent.putExtra("saldo", it)
+        }
+        startActivity(intent)
     }
 
     private fun renameAlat(idAlat: String, newName: String) {
@@ -82,30 +94,23 @@ class FragmentDevice : Fragment(R.layout.fragment_device), OnItemClickListener {
                 addProperty("new_name", newName)
             }
 
-            val call = RetrofitClient.apiService.renameAlat(API_KEY, jsonBody)
-
-            call.enqueue(object : Callback<JsonObject> {
-                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                    if (response.isSuccessful) {
-                        response.body()?.let {
-                            val status = it.get("status").asInt
-                            val message = it.get("message").asString
-                            if (status == 200) {
-                                println("sucess")
-                            } else {
-                                println("not sucess")
-                            }
-                        }
+            val response = RetrofitClient.apiService.renameAlat(API_KEY, jsonBody)
+            if (response.isSuccessful) {
+                val responseBody = response.body()
+                responseBody?.let {
+                    val status = it.get("status").asInt
+                    val message = it.get("message").asString
+                    if (status == 200) {
+                        println("success")
                     } else {
-                        println("fail")
+                        println("not success: $message")
                     }
                 }
-
-                override fun onFailure(p0: Call<JsonObject>, p1: Throwable) {
-                    TODO("Not yet implemented")
-                }
-            })
+            } else {
+                println("fail: ${response.code()} - ${response.message()}")
+            }
         }
+
     }
 
 }

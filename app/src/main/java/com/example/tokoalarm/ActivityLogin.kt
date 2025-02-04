@@ -54,50 +54,42 @@ class ActivityLogin : AppCompatActivity(){
         loading.startLoadingDialog()
 
         lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.apiService.login(
-                    phoneNumber.text.toString(),
-                    pwdText.text.toString()
-                )
+            val response = RetrofitClient.apiService.login(
+                phoneNumber.text.toString(),
+                pwdText.text.toString()
+            )
 
-                if (response.isSuccessful) {
-                    val loginResponse = response.body()
-                    if (loginResponse?.status == true) {
-                        val data = loginResponse.data
-                        val pref = PrefManager(applicationContext)
-                        val sessionLogin = Session(pref)
-                        sessionLogin.setIdUser(data.id)
-                        sessionLogin.setNameUser(data.nama)
-                        sessionLogin.setPhone(data.nohp)
-                        sessionLogin.setPwd(data.password)
+            if (response.isSuccessful) {
+                val loginResponse = response.body()
+                if (loginResponse?.status == true) {
+                    val data = loginResponse.data
+                    val pref = PrefManager(applicationContext)
+                    val sessionLogin = Session(pref)
+                    sessionLogin.setIdUser(data.id)
+                    sessionLogin.setNameUser(data.nama)
+                    sessionLogin.setPhone(data.nohp)
+                    sessionLogin.setPwd(data.password)
 
-                        val intent = Intent(this@ActivityLogin, ActivityMain::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        intent.putExtra("login", true)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        errorFail.show(
-                            getString(R.string.fail_login),
-                            getString(R.string.fail_access),
-                            R.raw.crosserror)
-                    }
+                    val intent = Intent(this@ActivityLogin, ActivityMain::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    intent.putExtra("login", true)
+                    startActivity(intent)
+                    finish()
                 } else {
                     errorFail.show(
                         getString(R.string.fail_login),
-                        getString(R.string.trouble_connection),
-                        R.raw.crosserror
-                    )
+                        getString(R.string.fail_access),
+                        R.raw.crosserror)
                 }
-            } catch (e: Exception) {
+            } else {
                 errorFail.show(
                     getString(R.string.fail_login),
                     getString(R.string.trouble_connection),
                     R.raw.crosserror
                 )
-            } finally {
-                loading.dismissDialog()
             }
+            loading.dismissDialog()
+
         }
     }
 

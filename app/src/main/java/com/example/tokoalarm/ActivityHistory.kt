@@ -1,6 +1,7 @@
 package com.example.tokoalarm
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class ActivityHistory :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
 
-    private lateinit var iconMenuToolbar : ImageView
+
     private lateinit var texMenuToolbar : TextView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var session : Session
@@ -27,10 +28,9 @@ class ActivityHistory :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListene
         session = Session(PrefManager(this))
 
         historyView = findViewById(R.id.fragment_container_history)
-        iconMenuToolbar = findViewById(R.id.iconMenu)
         texMenuToolbar = findViewById(R.id.textMenu)
         texMenuToolbar.text = getString(R.string.history)
-        iconMenuToolbar.setOnClickListener {
+        findViewById<View>(R.id.toolbar).setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 
