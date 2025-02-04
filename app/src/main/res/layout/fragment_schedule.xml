@@ -1,12 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/backgrountTop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/white"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/schedule"
-        android:textSize="40sp"
-        android:textColor="@color/black"
+        android:elevation="@dimen/_4sdp"
+        android:paddingVertical="@dimen/_10sdp"
+        >
+        <TextView
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:textAlignment="textStart"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/title_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text ="@string/daftar_jadwal"
+            android:fontFamily="@font/robotomedium"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_18ssp"
+
+            />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnTambah"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/backgrountTop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginVertical="@dimen/_15sdp"
+        android:background="@drawable/rectangle_round_10_blue"
+        android:text="@string/tambah_jadwal"
+        android:textSize="@dimen/_15sdp"
         />
-</LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginHorizontal="@dimen/_15sdp"
+
+        app:layout_constraintTop_toBottomOf="@+id/backgrountTop"
+        android:id= "@+id/adapterList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

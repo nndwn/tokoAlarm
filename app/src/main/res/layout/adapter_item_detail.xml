@@ -12,31 +12,40 @@
     android:paddingBottom="@dimen/_20sdp"
   >
 
-    <TextView
-        android:id="@+id/namePerangkat"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/robotobold"
-        android:text="Ass Asss sd sssssssssssd s "
-        android:textColor="@color/black"
-        android:textSize="@dimen/_15ssp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/rename"
-        app:layout_constraintEnd_toStartOf="@+id/rename"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/rename"
-        android:layout_width="@dimen/_47sdp"
-        android:layout_height="@dimen/_29sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:background="@drawable/rectangle_input"
-        android:backgroundTint="@color/primary_color"
-        android:fontFamily="@font/robotobold"
-        android:text="Ubah"
-        android:textSize="@dimen/_9ssp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:id="@+id/namePerangkat"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotobold"
+            android:text="Ass Asss sd sssssssssssdsssssssss s "
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15ssp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/rename"
+            android:layout_weight="0"
+            android:layout_width="@dimen/_47sdp"
+            android:layout_height="@dimen/_29sdp"
+            android:background="@drawable/rectangle_input"
+            android:backgroundTint="@color/primary_color"
+            android:fontFamily="@font/robotobold"
+            android:text="@string/edit"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_9ssp" />
+    </LinearLayout>
+
 
     <View
         android:id="@+id/separator"
@@ -46,7 +55,7 @@
         android:layout_marginBottom="@dimen/_5sdp"
         android:background="@drawable/dashed_line"
         android:backgroundTint="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/namePerangkat" />
+        app:layout_constraintTop_toBottomOf="@+id/header" />
 
     <TextView
         android:id="@+id/status"
@@ -209,6 +218,7 @@
         app:layout_constraintTop_toBottomOf="@+id/akhir" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:textColor="@color/white"
         android:id="@+id/btnMonitoring"
         android:layout_width="0dp"
         android:layout_height="@dimen/_40sdp"
@@ -222,6 +232,7 @@
         />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:textColor="@color/white"
         android:id="@+id/btnPerpanjang"
         android:layout_width="0dp"
         android:layout_height="@dimen/_40sdp"
@@ -233,6 +244,9 @@
         app:layout_constraintStart_toEndOf="@+id/btnMonitoring"
         app:layout_constraintTop_toBottomOf="@+id/separatorEnd"
  />
+
+
+
 
 
 

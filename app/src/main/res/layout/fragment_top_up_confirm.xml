@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    >
     <include layout="@layout/layout_info"/>
 
   <LinearLayout
+      android:layout_marginHorizontal="@dimen/_15sdp"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="vertical"
-      android:background="@drawable/rectangle_round_10"
-      android:layout_marginHorizontal="@dimen/_10sdp"
       android:elevation="@dimen/_2sdp"
+      android:background="@drawable/rectangle_round_10"
       android:padding="@dimen/_10sdp">
     <TextView
         android:id = "@+id/top_up_price"
@@ -101,27 +101,29 @@
           />
   </LinearLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginHorizontal="@dimen/_15sdp"
         android:id= "@+id/konfirmasi_btn_topup"
         android:layout_marginVertical="@dimen/_10sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/konfirmasi"
-        android:layout_marginHorizontal="@dimen/_10sdp"
-        android:background="@drawable/rectangle_input"
-        android:backgroundTint="@color/text_success"
+        android:paddingVertical="@dimen/_10sdp"
+        android:textSize="@dimen/_12ssp"
+        android:textColor="@color/white"
+        android:background="@drawable/rectangle_round_10_blue"
         />
 
-    <Button
-        android:id = "@+id/batal_btn_topup"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/batal_btn_topup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/batal"
-        android:textColor="@color/black"
+        android:layout_marginHorizontal="@dimen/_15sdp"
         android:alpha="0.8"
-        android:layout_marginHorizontal="@dimen/_10sdp"
         android:background="@null"
-        android:backgroundTint="@color/text_success"
-        />
+        android:textSize="@dimen/_12ssp"
+        android:text="@string/batal"
+
+        android:textColor="@color/black" />
 
 </LinearLayout>

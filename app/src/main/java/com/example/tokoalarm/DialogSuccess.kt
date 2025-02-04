@@ -38,12 +38,8 @@ class DialogSuccess( private  val activity : Activity ) {
         dialog.show()
 
         view.postDelayed({
-            val fadeOutScale = AnimationUtils.loadAnimation(activity, R.anim.fade_out_scale)
-            view.startAnimation(fadeOutScale)
-            view.postDelayed({
-                dialog.dismiss()
-            }, 2000)
-        }, 2000)
+            dialog.dismiss()
+        }, 4000)
 
 
     }

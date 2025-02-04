@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -31,6 +32,9 @@ class FragmentDevice : Fragment(R.layout.fragment_device), OnItemClickListener {
         viewModel = ViewModelProvider(requireActivity())[SharedViewMainActivity::class.java]
         session = Session(PrefManager(requireContext()))
         alert = DialogAlert(requireActivity())
+
+
+        view.findViewById<TextView>(R.id.title_fragment).text = getString(R.string.daftar_detail_paket)
 
         dialogInput = DialogInput(requireActivity()).apply {
             parent = view as ViewGroup

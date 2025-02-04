@@ -152,6 +152,7 @@
         android:fontFamily="@font/robotomedium"
         android:textSize="@dimen/_12sdp"
         android:text="@string/isi_paket"
+        android:textColor="@color/white"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

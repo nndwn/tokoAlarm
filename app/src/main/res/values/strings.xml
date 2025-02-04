@@ -114,4 +114,8 @@
     <string name="saldo_tidak_mencukupin">
         Saldo Tidak Mencukupin Silahkan Lakukan Top Up Terlebih dahulu
     </string>
+    <string name="daftar_detail_paket">Daftar Detail Paket</string>
+    <string name="daftar_jadwal">Daftar Jadwal Alarm</string>
+    <string name="tambah_jadwal">Tambah Jadwal</string>
+    <string name="edit">Edit</string>
 </resources>
