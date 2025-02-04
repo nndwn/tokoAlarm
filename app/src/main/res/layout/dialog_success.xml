@@ -22,7 +22,7 @@
             android:layout_width="@dimen/_89sdp"
             android:layout_height="wrap_content"
             app:lottie_rawRes="@raw/crosserror"
-            app:lottie_loop="true"
+            app:lottie_loop="false"
             app:lottie_autoPlay="true"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"

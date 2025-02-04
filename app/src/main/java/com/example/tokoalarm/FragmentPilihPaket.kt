@@ -93,36 +93,39 @@ class FragmentPilihPaket :Fragment(R.layout.fragment_top_up) {
                                 data[position],
                                 session.getIdUser()!!,
                                 idAlat!!
-                            )
-                            when(viewModel.check.value) {
-                                "connection" -> {
-                                    alert.show(
-                                        getString(R.string.perhatian),
-                                        getString(R.string.trouble_connection),
-                                        R.raw.crosserror
-                                    )
-                                }
+                            ) { status ->
+                                when(status) {
+                                    "connection" -> {
+                                        alert.show(
+                                            getString(R.string.perhatian),
+                                            getString(R.string.trouble_connection),
+                                            R.raw.crosserror
+                                        )
+                                    }
 
-                                "failed" -> {
-                                    alert.show(
-                                        getString(R.string.perhatian),
-                                        getString(R.string.trouble_connection),
-                                        R.raw.crosserror
-                                    )
-                                }
-                                "success" ->{
-                                    success.apply {
-                                        animation = R.raw.lotisuccess
-                                        title = getString(R.string.berhasil)
-                                    }.show {
-                                        val intent = Intent(view.context, ActivityMain::class.java)
-                                        intent.putExtra("toFragment", getString(R.string.device))
-                                        startActivity(intent)
-                                        requireActivity().finish()
+                                    "failed" -> {
+                                        alert.show(
+                                            getString(R.string.perhatian),
+                                            getString(R.string.trouble_connection),
+                                            R.raw.crosserror
+                                        )
+                                    }
+                                    "success" ->{
+                                        success.apply {
+                                            animation = R.raw.lotisuccess
+                                            title = getString(R.string.berhasil)
+                                        }.show {
+                                            val intent = Intent(view.context, ActivityMain::class.java)
+                                            intent.putExtra("toFragment", getString(R.string.device))
+                                            startActivity(intent)
+                                            requireActivity().finish()
+                                        }
                                     }
                                 }
+                                loading.dismissDialog()
                             }
-                            loading.dismissDialog()
+
+
                         }
 
                     }

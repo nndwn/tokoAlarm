@@ -172,8 +172,7 @@ class SharedViewPilihPaket : ViewModel() {
     val position : MutableLiveData<Int> = MutableLiveData()
     val idAlat : MutableLiveData<String?> = MutableLiveData()
     val saldo : MutableLiveData<Int?> = MutableLiveData()
-    val check : MutableLiveData<String> = MutableLiveData()
-    fun input(phone :String , listPaket: ListPaket , idUsers: String , nomorAlat : String) {
+    fun input(phone :String , listPaket: ListPaket , idUsers: String , nomorAlat : String ,callback :( str :String) -> Unit ={}) {
         viewModelScope.launch {
             val response = RetrofitClient.apiService.beliPaket(
                 phone,
@@ -185,15 +184,16 @@ class SharedViewPilihPaket : ViewModel() {
                 nomorAlat
             )
             if (!response.isSuccessful) {
-                check.value = "connection"
+                callback("connection")
                 return@launch
             }
             val body = response.body()
             if (body?.status != true) {
-                check.value = "failed"
+                callback("failed")
                 return@launch
             }
-            check.value = "success"
+            callback( "success")
+
         }
     }
 }

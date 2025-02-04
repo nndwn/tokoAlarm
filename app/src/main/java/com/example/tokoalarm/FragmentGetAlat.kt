@@ -50,16 +50,14 @@ class FragmentGetAlat :Fragment(R.layout.fragment_get_alat) {
                 .setOnClickListener {
                     unFocus(view.context)
                     if (validation()) {
-                        lifecycleScope.launch {
-                            loading.startLoadingDialog()
-                            viewModel.input(
-                                session.getPhone()!!,
-                                data[position],
-                                session.getIdUser()!!,
-                                numbIdAlat.text.toString().trim()
-                            )
-
-                            when(viewModel.check.value) {
+                        loading.startLoadingDialog()
+                        viewModel.input(
+                            session.getPhone()!!,
+                            data[position],
+                            session.getIdUser()!!,
+                            numbIdAlat.text.toString().trim()
+                        ) { status ->
+                            when(status) {
                                 "connection" -> {
                                     alert.show(
                                         getString(R.string.info),
@@ -88,8 +86,9 @@ class FragmentGetAlat :Fragment(R.layout.fragment_get_alat) {
                                 }
                             }
                             loading.dismissDialog()
-
                         }
+
+
                     }
                 }
         }

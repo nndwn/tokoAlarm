@@ -36,10 +36,13 @@ class DialogSuccess( private  val activity : Activity ) {
         dialog = builder.create()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
-        val fadeOutScale = AnimationUtils.loadAnimation(activity, R.anim.fade_out_scale)
-        view.startAnimation(fadeOutScale)
+
         view.postDelayed({
-            dialog.dismiss()
+            val fadeOutScale = AnimationUtils.loadAnimation(activity, R.anim.fade_out_scale)
+            view.startAnimation(fadeOutScale)
+            view.postDelayed({
+                dialog.dismiss()
+            }, 2000)
         }, 2000)
 
 
