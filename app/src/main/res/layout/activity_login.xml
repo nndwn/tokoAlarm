@@ -153,7 +153,7 @@
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnDaftar"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"

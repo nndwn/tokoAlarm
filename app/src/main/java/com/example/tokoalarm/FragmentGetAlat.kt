@@ -20,9 +20,10 @@ class FragmentGetAlat :Fragment(R.layout.fragment_get_alat) {
     private lateinit var session: Session
     private lateinit var numbIdAlat: EditText
     private lateinit var loading: DialogLoading
-    private  lateinit var alert : DialogAlert
-    private  lateinit var success : DialogSuccess
-
+    private lateinit var alert : DialogAlert
+    private lateinit var success : DialogSuccess
+    private var saldoInt :Int? = null
+    private var harga : Int = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,6 +38,9 @@ class FragmentGetAlat :Fragment(R.layout.fragment_get_alat) {
         view.findViewById<TextView>(R.id.infoTitleId).text = getString(R.string.informasi)
         view.findViewById<TextView>(R.id.infoText).text = getString(R.string.get_alat)
 
+        viewModel.saldo.observe(viewLifecycleOwner) {
+            saldoInt = it
+        }
         viewModel.paket.observe(viewLifecycleOwner) { data ->
             val position = viewModel.position.value!!
             view.findViewById<TextView>(R.id.namePaketResult).text = data[position].periode
@@ -45,6 +49,8 @@ class FragmentGetAlat :Fragment(R.layout.fragment_get_alat) {
                 append(" ")
                 append(getString(R.string.hari))
             }
+            harga = data[position].biaya.toInt()
+            println(harga)
             view.findViewById<TextView>(R.id.biaya_result).text = data[position].biayaRupiah
             view.findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.button)
                 .setOnClickListener {
@@ -100,6 +106,26 @@ class FragmentGetAlat :Fragment(R.layout.fragment_get_alat) {
             numbIdAlat.text.toString().isEmpty() -> {
                 numbIdAlat.error = getString(R.string.empty_id_alat)
                 numbIdAlat.requestFocus()
+                false
+            }
+            saldoInt == null -> {
+                alert.show(
+                    getString(R.string.info),
+                    getString(R.string.app_error),
+                    R.raw.crosserror
+                )
+                false
+            }
+            saldoInt!! < harga -> {
+                alert.show(
+                    getString(R.string.info),
+                    getString(R.string.saldo_tidak_mencukupin),
+                    R.raw.crosserror
+                ){
+                    val intent = Intent(view?.context, ActivityTopUp::class.java)
+                    startActivity(intent)
+                    requireActivity().finish()
+                }
                 false
             }
             else -> true

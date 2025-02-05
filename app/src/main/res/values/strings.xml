@@ -117,5 +117,7 @@
     <string name="daftar_detail_paket">Daftar Detail Paket</string>
     <string name="daftar_jadwal">Daftar Jadwal Alarm</string>
     <string name="tambah_jadwal">Tambah Jadwal</string>
+    <string name="tambah_perangkat">Tambah Perangkat</string>
     <string name="edit">Edit</string>
+    <string name="hapus">hapus</string>
 </resources>

@@ -15,6 +15,7 @@ import java.net.URLEncoder
 import java.text.NumberFormat
 import java.util.Locale
 
+
 fun formatRupiah(number : Int) :String {
     val format = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
     return format.format(number)
@@ -27,6 +28,16 @@ fun formatRupiah(number : Int) :String {
 fun parseSaldo(saldo : String) :Int? {
     val cleanString = saldo.replace("[^0-9]".toRegex(), "")
     return cleanString.toIntOrNull()
+}
+
+
+fun convertDayName(numbStr: String): String {
+    if (numbStr.isEmpty()) return ""
+    val dayNames = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu")
+    val numbArray = numbStr.split(",")
+    return numbArray
+        .mapNotNull { it.trim().toIntOrNull() }
+        .filter { it in 1..7 }.joinToString(", ") { dayNames[it - 1] }
 }
 
 class Utils (private var context: Context){

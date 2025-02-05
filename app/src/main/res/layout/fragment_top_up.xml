@@ -7,8 +7,9 @@
     <include layout="@layout/layout_info"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:paddingTop="@dimen/_25sdp"
         android:id="@+id/adapterList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

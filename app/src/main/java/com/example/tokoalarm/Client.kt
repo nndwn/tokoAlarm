@@ -76,6 +76,12 @@ interface ApiService {
         @Header("x-api-key") apiKey: String,
         @Body jsonBody: JsonObject
     ): Response<JsonObject>
+
+    @POST("schedule/list")
+    suspend fun getListJadwal(
+        @Header("x-api-key") apiKey: String,
+        @Body jsonBody: JsonObject
+    ): Response<ListJadwalResponse>
 }
 
 object RetrofitClient {

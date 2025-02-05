@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 //todo: pada nilai masa aktif terdapat bug nilai mines selalu bertambah kemungkinan jika user kembali pembayaran hanya mengurangsin nilai mines tersebut
 //todo: pada api getalat terdapat Inp ut yang tidak diperlukan seperti "Status"
 
-class FragmentDevice : Fragment(R.layout.fragment_device), OnItemClickListener {
+class FragmentDevice : Fragment(R.layout.fragment_device), OnItemClickAdapterListDetail {
 
     private lateinit var viewModel: SharedViewMainActivity
     private lateinit var dialogInput: DialogInput
@@ -58,7 +58,13 @@ class FragmentDevice : Fragment(R.layout.fragment_device), OnItemClickListener {
         val nameAlat = listAlat[position].namePaket
         dialogInput.apply {
             title = getString(R.string.ubah_name)
-            text = nameAlat
+            text = if (nameAlat == "-" || nameAlat.isEmpty()) {
+                buildString {
+                    append(getString(R.string.alat))
+                    append(" ")
+                    append(listAlat[position].idAlat)
+                }
+            } else nameAlat
         }.show {
             if (dialogInput.text.length > 40 ){
                 alert.show(
@@ -84,6 +90,14 @@ class FragmentDevice : Fragment(R.layout.fragment_device), OnItemClickListener {
     override fun onItemPerpanjang(position: Int) {
         val intent = Intent(requireContext(), ActivityBeliPaket::class.java)
         intent.putExtra("idAlat", listAlat[position].idAlat)
+        viewModel.saldo.observe(viewLifecycleOwner){
+            intent.putExtra("saldo", it)
+        }
+        startActivity(intent)
+    }
+
+    override fun onItemAdd(position: Int) {
+        val intent = Intent(requireContext(), ActivityBeliPaket::class.java)
         viewModel.saldo.observe(viewLifecycleOwner){
             intent.putExtra("saldo", it)
         }

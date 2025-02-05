@@ -20,7 +20,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
-class       ActivityRegister :AppCompatActivity(){
+
+/**
+ * Todo: Filter Nomor hape jika user menginput +62 ubah menjadi 0 pada login bergit juga
+ *
+ *
+ */
+
+class ActivityRegister :AppCompatActivity(){
 
     private lateinit var nameText: EditText
     private lateinit var phoneNumber: EditText

@@ -26,6 +26,8 @@ class FragmentHome :Fragment(R.layout.fragment_home) {
     private lateinit var alert : DialogAlert
     private lateinit var viewModel: SharedViewMainActivity
 
+    private var saldo : String? = null
+
     private val handler = Handler(Looper.getMainLooper())
     private val runnable = object : Runnable {
         override fun run() {
@@ -49,6 +51,7 @@ class FragmentHome :Fragment(R.layout.fragment_home) {
         viewModel = ViewModelProvider(requireActivity())[SharedViewMainActivity::class.java]
         viewModel.saldo.observe(viewLifecycleOwner) {
             view.findViewById<TextView>(R.id.tvSaldo).text = it
+            saldo = it
         }
 
         topUpBtn(view)
@@ -78,8 +81,6 @@ class FragmentHome :Fragment(R.layout.fragment_home) {
         super.onDestroyView()
         handler.removeCallbacks(runnable)
     }
-
-
 
     private fun linkBanner(i :Int) {
         val url = DataManual().banner[i]
@@ -111,6 +112,7 @@ class FragmentHome :Fragment(R.layout.fragment_home) {
         val btn = view.findViewById<LinearLayout>(R.id.lnBeliPaket)
         btn.setOnClickListener {
             val intent = Intent(activity, ActivityBeliPaket::class.java)
+            intent.putExtra("saldo", saldo)
             startActivity(intent)
         }
     }
@@ -138,6 +140,4 @@ class FragmentHome :Fragment(R.layout.fragment_home) {
             startActivity(intent)
         }
     }
-
-
 }

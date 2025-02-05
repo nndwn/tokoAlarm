@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.launch
 
@@ -152,14 +153,61 @@ data class ListAlat(
     val dayConvertion : String
 )
 
-class SharedViewModel(application: Application) : AndroidViewModel(application) {
-    val sharedData = MutableLiveData<String>()
-}
+data class ListJadwalResponse(
+    val status : Int,
+    val data : List<ListJadwal>
+)
+
+data class ListJadwal(
+    val id : String,
+    @SerializedName("id_book")
+    val idBook :String,
+    val name :String,
+    @SerializedName("start_time")
+    val startTime : String,
+    @SerializedName("end_time")
+    val endTime : String,
+    val days : String,
+    @SerializedName("is_active")
+    val isActive : String,
+    @SerializedName("sensor_switch")
+    val sensorSwitch : String,
+    @SerializedName("sensor_ohm")
+    val sensorOhm : String,
+    @SerializedName( "sensor_rf")
+    val sensorRf : String,
+    @SerializedName("nama_paket")
+    val namePaket : String,
+    @SerializedName("id_alat")
+    val idAlat : String
+)
 
 class SharedViewMainActivity : ViewModel() {
     val saldo : MutableLiveData<String> = MutableLiveData()
     val linkPemesanan : MutableLiveData<String> = MutableLiveData()
     val listAlat : MutableLiveData<List<ListAlat>> = MutableLiveData()
+    val listJadwal :MutableLiveData<List<ListJadwal>> = MutableLiveData()
+
+    fun getJadwal (phone : String , callback: (str: String) -> Unit = {}) {
+        viewModelScope.launch {
+            val jsonBody = JsonObject().apply {
+                addProperty("no_hp", phone)
+            }
+            val response = RetrofitClient.apiService.getListJadwal(API_KEY, jsonBody)
+            if (!response.isSuccessful) {
+                callback("connection")
+                return@launch
+            }
+            val body = response.body()
+            if (body?.status != 200) {
+                callback("failed")
+                return@launch
+            }
+            listJadwal.value = body.data
+            callback( "success")
+        }
+    }
+
 }
 
 class SharedViewTopUp : ViewModel() {

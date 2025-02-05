@@ -45,6 +45,7 @@ class ActivityBeliPaket :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListe
                     onBackPressedDispatcher.onBackPressed()
                 }
             }
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment, FragmentPilihPaket())

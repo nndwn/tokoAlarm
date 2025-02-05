@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
@@ -68,6 +69,12 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
             if (isFinishing) return@post
             fetchSaldo()
             swipeRefreshLayout.isRefreshing = true
+        }
+        swipeRefreshLayout.setOnChildScrollUpCallback { _, child ->
+            if (child is RecyclerView) {
+                return@setOnChildScrollUpCallback child.canScrollVertically(-1)
+            }
+            false
         }
 
         checkNotificationPermission()
@@ -218,6 +225,7 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
     }
 
     private fun connectionTrouble () {
+
         dialogAlert.show(
             getString(R.string.info),
             getString(R.string.trouble_connection),
@@ -228,6 +236,10 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
     private fun fetchSaldo() {
         val fromRegister = intent.getBooleanExtra("register", false)
         val fromLogin = intent.getBooleanExtra("login", false)
+        viewModel.getJadwal(session.getPhone()!!) {
+            println(it)
+        }
+
         lifecycleScope.launch {
             if (fromRegister && session.getIdUser().isNullOrEmpty()) {
                 val response = RetrofitClient.apiService.login(

@@ -2,7 +2,6 @@ package com.example.tokoalarm
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -10,6 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.launch
+
+/**
+ * Todo: Batasin fecth history
+ *
+ */
+
 
 class ActivityHistory :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
 
