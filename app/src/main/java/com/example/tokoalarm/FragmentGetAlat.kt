@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 //todo: alat dapat di input dengan nilai yang sama , seharus di berikan relasi ke user
 class FragmentGetAlat :Fragment(R.layout.fragment_get_alat) {
     private lateinit var viewModel : SharedViewPilihPaket
-    private lateinit var session: Session
+    private lateinit var session: PrefManager
     private lateinit var numbIdAlat: EditText
     private lateinit var loading: DialogLoading
     private lateinit var alert : DialogAlert
@@ -28,7 +28,7 @@ class FragmentGetAlat :Fragment(R.layout.fragment_get_alat) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        session = Session(PrefManager(view.context))
+        session = PrefManager(view.context)
         viewModel = ViewModelProvider(requireActivity())[SharedViewPilihPaket::class.java]
         numbIdAlat = view.findViewById(R.id.inputAlat)
         loading = DialogLoading(requireActivity())
@@ -58,9 +58,9 @@ class FragmentGetAlat :Fragment(R.layout.fragment_get_alat) {
                     if (validation()) {
                         loading.startLoadingDialog()
                         viewModel.input(
-                            session.getPhone()!!,
+                            session.getPhone!!,
                             data[position],
-                            session.getIdUser()!!,
+                            session.getIdUser!!,
                             numbIdAlat.text.toString().trim()
                         ) { status ->
                             when(status) {

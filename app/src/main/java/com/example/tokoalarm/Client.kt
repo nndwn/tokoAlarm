@@ -2,16 +2,15 @@ package com.example.tokoalarm
 
 
 import com.google.gson.JsonObject
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.http.Field
-import retrofit2.http.POST
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.POST
 
 interface ApiService {
     @FormUrlEncoded
@@ -42,7 +41,7 @@ interface ApiService {
     ): Response<TopUpResponse>
 
     @GET("users/paket")
-    suspend fun getPaket () : Response<PaketResponse>
+    suspend fun getPaket(): Response<PaketResponse>
 
     @FormUrlEncoded
     @POST("sendMessage")
@@ -61,14 +60,14 @@ interface ApiService {
         @Field("biaya") biaya: String,
         @Field("id_users") idUsers: String,
         @Field("id_alat") idAlat: String
-    ) :Response<PaketResponse>
+    ): Response<PaketResponse>
 
     @FormUrlEncoded
     @POST("users/getalat")
     suspend fun getAlat(
         @Field("nohp") nohp: String,
-        @Field("status") status : String
-    ) :Response<ListAlatResponse>
+        @Field("status") status: String
+    ): Response<ListAlatResponse>
 
 
     @POST("alat/rename")
@@ -85,7 +84,7 @@ interface ApiService {
 }
 
 object RetrofitClient {
-    private  val retrofit by lazy {
+    private val retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -93,12 +92,12 @@ object RetrofitClient {
     }
     private val retrofitTelegram by lazy {
         Retrofit.Builder()
-            .baseUrl(TELEGRAM_URL+ TELEGRAMTOKEN)
+            .baseUrl(TELEGRAM_URL + TELEGRAMTOKEN)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
-    val apiService : ApiService by lazy {
+    val apiService: ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }
 }

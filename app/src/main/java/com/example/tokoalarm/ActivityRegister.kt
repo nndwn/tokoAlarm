@@ -158,10 +158,9 @@ class ActivityRegister :AppCompatActivity(){
                     val signUpResponse = response.body()
                     if (signUpResponse?.status == true) {
                         val pref = PrefManager(applicationContext)
-                        val sessionLogin = Session(pref)
-                        sessionLogin.setNameUser(name!!)
-                        sessionLogin.setPhone(phone!!)
-                        sessionLogin.setPwd(password!!)
+                        pref.setNameUser(name!!)
+                        pref.setPhone(phone!!)
+                        pref.setPwd(password!!)
                         val intent = Intent(this@ActivityRegister, ActivityMain::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         intent.putExtra("register", true)

@@ -122,39 +122,59 @@ class PrefManager(private val context: Context) {
         abortNotifFlow.first()
     }
 
-    fun setPermissionNotif(notification: Boolean) = runBlocking {
-        context.dataStore.edit { pref ->
-            pref[abortNotifKey] = notification
-        }
+    val getIdAlat : String? = runBlocking {
+        idAlatFlow.first()
     }
 
-    suspend fun setIdAlat(idAlat: String) {
+    fun setIdAlat(idAlat: String) = runBlocking {
         context.dataStore.edit { pref ->
             pref[idAlatKey] = idAlat
         }
     }
 
-    suspend fun setPwd(pwd: String) {
+    val getPwd : String? = runBlocking {
+        pwdFlow.first()
+    }
+
+    fun setPwd(pwd: String) = runBlocking {
         context.dataStore.edit { pref ->
             pref[pwdKey] = pwd
         }
     }
 
-    suspend fun setIdUser(idUser: String) {
+    val getIdUser : String? = runBlocking {
+        idUserFlow.first()
+    }
+
+    fun setIdUser(idUser: String) = runBlocking {
         context.dataStore.edit { pref ->
             pref[idUserKey] = idUser
         }
     }
 
-    suspend fun setNameUser(nameUser: String) {
+    val getNameUser : String? = runBlocking {
+        nameUserFlow.first()
+    }
+
+    fun setNameUser(nameUser: String) = runBlocking {
         context.dataStore.edit { pref ->
             pref[nameUserKey] = nameUser
         }
     }
 
-    suspend fun setPhone(phone: String) {
+    val getPhone : String? = runBlocking {
+        phoneFlow.first()
+    }
+
+    fun setPhone(phone: String) = runBlocking {
         context.dataStore.edit { pref ->
             pref[phoneKey] = phone
+        }
+    }
+
+    fun setPermissionNotif(notification: Boolean) = runBlocking {
+        context.dataStore.edit { pref ->
+            pref[abortNotifKey] = notification
         }
     }
 

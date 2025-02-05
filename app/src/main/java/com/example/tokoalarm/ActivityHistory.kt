@@ -20,16 +20,15 @@ class ActivityHistory :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListene
 
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var session : Session
     private lateinit var historyView : RecyclerView
-
+    private lateinit var session : PrefManager
 
     private var listHistory :List<ListTopUpData> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
-        session = Session(PrefManager(this))
+        session = PrefManager(this)
 
         historyView = findViewById(R.id.adapterList)
         findViewById<TextView>(R.id.textMenu).text = getString(R.string.history)
@@ -57,7 +56,7 @@ class ActivityHistory :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListene
     private fun getData() {
         lifecycleScope.launch {
             val response = RetrofitClient.apiService.getHistorySaldo(
-                session.getIdUser()!!
+                session.getIdUser!!
             )
             if (!response.isSuccessful) {
                 troubleConnection()

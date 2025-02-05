@@ -16,7 +16,7 @@ class FragmentPilihPaket : Fragment(R.layout.layout_info_adapter) {
     private lateinit var alert: DialogAlert
     private lateinit var success: DialogSuccess
     private lateinit var loading: DialogLoading
-    private lateinit var session: Session
+    private lateinit var session: PrefManager
     private var idAlat: String? = null
     private var saldo: Int? = null
 
@@ -27,7 +27,7 @@ class FragmentPilihPaket : Fragment(R.layout.layout_info_adapter) {
         alert = DialogAlert(requireActivity())
         success = DialogSuccess(requireActivity())
         loading = DialogLoading(requireActivity())
-        session = Session(PrefManager(view.context))
+        session = PrefManager(view.context)
 
         view.findViewById<TextView>(R.id.infoTitleId)
             .text = getString(R.string.informasi)
@@ -81,9 +81,9 @@ class FragmentPilihPaket : Fragment(R.layout.layout_info_adapter) {
                 } else {
                     loading.startLoadingDialog()
                     viewModel.input(
-                        session.getPhone()!!,
+                        session.getPhone!!,
                         data[position],
-                        session.getIdUser()!!,
+                        session.getIdUser!!,
                         idAlat!!
                     ) { status ->
                         when (status) {

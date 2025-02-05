@@ -42,7 +42,6 @@ fun convertDayName(numbStr: String): String {
 
 class Utils (private var context: Context){
     private var pref : PrefManager = PrefManager(context)
-    private var session: Session = Session(pref)
 
     /**
      * Todo: untuk nomor cs di buat secara hardcode api
@@ -70,7 +69,7 @@ class Utils (private var context: Context){
 
     suspend fun getBanner() {
         val response = RetrofitClient.apiService.getDataPelanggan(
-            session.getIdUser()!!
+            pref.getIdUser!!
         )
         if (!response.isSuccessful) throw Exception("Response not successful")
         val responseData = response.body()

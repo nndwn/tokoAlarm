@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import kotlin.random.Random
 
@@ -20,7 +19,7 @@ class FragmentTopUpConfirm :Fragment(R.layout.fragment_top_up_confirm){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity())[SharedViewTopUp::class.java]
-        val session = Session(PrefManager(view.context))
+        val session = PrefManager(view.context)
         val utils = Utils(requireContext())
 
         view.findViewById<TextView>(R.id.infoTitleId)
@@ -45,10 +44,9 @@ class FragmentTopUpConfirm :Fragment(R.layout.fragment_top_up_confirm){
 
         }
 
-
         view.findViewById<Button>(R.id.konfirmasi_btn_topup)
             .setOnClickListener {
-                val message = "Top Up: \n username: ${session.getNameUser()} \n metode : ${selectedPayment}\nPembayaran:${price}"
+                val message = "Top Up: \n username: ${session.getNameUser} \n metode : ${selectedPayment}\nPembayaran:${price}"
                 utils.whatsapp(message)
 
             }

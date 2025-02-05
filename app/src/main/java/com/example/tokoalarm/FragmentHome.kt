@@ -19,7 +19,6 @@ import kotlinx.coroutines.launch
 class FragmentHome :Fragment(R.layout.fragment_home) {
 
 
-    private lateinit var session : Session
     private lateinit var viewPager: ViewPager2
     private lateinit var adapterPromoList : AdapterListPromo
     private lateinit var prefManager: PrefManager
@@ -44,8 +43,6 @@ class FragmentHome :Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedIntanceState)
         prefManager = PrefManager(requireContext())
 
-
-        session = Session(prefManager)
         alert = DialogAlert(requireActivity())
 
         viewModel = ViewModelProvider(requireActivity())[SharedViewMainActivity::class.java]

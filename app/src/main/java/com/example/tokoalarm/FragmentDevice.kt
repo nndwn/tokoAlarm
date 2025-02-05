@@ -23,14 +23,14 @@ class FragmentDevice : Fragment(R.layout.layout_main_list), OnItemClickAdapterLi
     private lateinit var dialogInput: DialogInput
     private lateinit var listAlat: List<ListAlat>
     private lateinit var adapter: AdapterListDetail
-    private lateinit var session: Session
+    private lateinit var session: PrefManager
     private lateinit var alert: DialogAlert
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity())[SharedViewMainActivity::class.java]
-        session = Session(PrefManager(requireContext()))
+        session = PrefManager(requireContext())
         alert = DialogAlert(requireActivity())
 
 
@@ -108,7 +108,7 @@ class FragmentDevice : Fragment(R.layout.layout_main_list), OnItemClickAdapterLi
         lifecycleScope.launch {
             val jsonBody = JsonObject().apply {
                 addProperty("id_alat", idAlat)
-                addProperty("no_hp", session.getPhone())
+                addProperty("no_hp", session.getPhone)
                 addProperty("new_name", newName)
             }
 

@@ -2,7 +2,6 @@ package com.example.tokoalarm
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -10,9 +9,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.launch
 
-class ActivityBeliPaket :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
+class ActivityBeliPaket : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
 
-    private lateinit var viewModel :SharedViewPilihPaket
+    private lateinit var viewModel: SharedViewPilihPaket
     private lateinit var dialogAlert: DialogAlert
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
@@ -24,7 +23,7 @@ class ActivityBeliPaket :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListe
         dialogAlert = DialogAlert(this)
 
         swipeRefreshLayout = findViewById(R.id.containerSwipe)
-        swipeRefreshLayout.setOnRefreshListener (this)
+        swipeRefreshLayout.setOnRefreshListener(this)
         swipeRefreshLayout.post {
             swipeRefreshLayout.isRefreshing = true
             getData()
@@ -39,7 +38,7 @@ class ActivityBeliPaket :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListe
             .text = getString(R.string.buy_paket)
         findViewById<View>(R.id.toolbar)
             .setOnClickListener {
-                if (supportFragmentManager.backStackEntryCount > 0 ) {
+                if (supportFragmentManager.backStackEntryCount > 0) {
                     supportFragmentManager.popBackStack()
                 } else {
                     onBackPressedDispatcher.onBackPressed()

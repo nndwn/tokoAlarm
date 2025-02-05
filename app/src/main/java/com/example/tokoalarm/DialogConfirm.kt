@@ -1,18 +1,18 @@
 package com.example.tokoalarm
+
 import android.app.Activity
 import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.animation.AnimationUtils
 import android.widget.TextView
-import androidx.fragment.app.DialogFragment
 import com.airbnb.lottie.LottieAnimationView
 
-class DialogConfirm (
-    private  val activity : Activity)
-{
+class DialogConfirm(
+    private val activity: Activity
+) {
     private lateinit var dialog: AlertDialog
-    private  var isShowing = false
+    private var isShowing = false
 
     fun show(
         message: String,
@@ -49,11 +49,11 @@ class DialogConfirm (
             isShowing = false
         }
 
-       view.findViewById<TextView>(R.id.btnOkConfirm)
-           .setOnClickListener {
-               onOk()
-               dismiss()
-           }
+        view.findViewById<TextView>(R.id.btnOkConfirm)
+            .setOnClickListener {
+                onOk()
+                dismiss()
+            }
 
         view.findViewById<TextView>(R.id.btnCancelConfirm)
             .setOnClickListener {

@@ -17,9 +17,8 @@ class ActivitySplash : AppCompatActivity() {
         val utils = Utils(this)
         lifecycleScope.launch {
             val pref = PrefManager(applicationContext)
-            val session = Session(pref)
             delay(3000)
-            if (session.getPhone().isNullOrEmpty()) {
+            if (pref.getPhone.isNullOrEmpty()) {
                 val intent = Intent(this@ActivitySplash, ActivityLogin::class.java)
                 startActivity(intent)
                 finish()

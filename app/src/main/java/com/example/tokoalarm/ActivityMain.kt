@@ -25,7 +25,6 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
     private var currentFragment: String? = null
     private var slide: Boolean = false
 
-    private lateinit var session: Session
     private lateinit var prefManager: PrefManager
 
     private lateinit var btnHome: LinearLayout
@@ -55,7 +54,6 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
         setContentView(R.layout.activity_main)
 
         prefManager = PrefManager(this@ActivityMain)
-        session = Session(prefManager)
         utils = Utils(this@ActivityMain)
         loading = DialogLoading(this)
 
@@ -78,7 +76,7 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
         }
 
         checkNotificationPermission()
-        FirebaseMessaging.getInstance().subscribeToTopic(session.getPhone()!!)
+        FirebaseMessaging.getInstance().subscribeToTopic(prefManager.getPhone!!)
         transitionFragment()
 
         val toFragment = intent.getStringExtra("toFragment")
@@ -236,15 +234,15 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
     private fun fetchSaldo() {
         val fromRegister = intent.getBooleanExtra("register", false)
         val fromLogin = intent.getBooleanExtra("login", false)
-        viewModel.getJadwal(session.getPhone()!!) {
+        viewModel.getJadwal(prefManager.getPhone!!) {
             println(it)
         }
 
         lifecycleScope.launch {
-            if (fromRegister && session.getIdUser().isNullOrEmpty()) {
+            if (fromRegister && prefManager.getIdUser.isNullOrEmpty()) {
                 val response = RetrofitClient.apiService.login(
-                    session.getPhone()!!,
-                    session.getPwd()!!
+                    prefManager.getPhone!!,
+                    prefManager.getPwd!!
                 )
                 if (!response.isSuccessful)  {
                     connectionTrouble()
@@ -255,13 +253,13 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
                     connectionTrouble()
                     return@launch
                 }
-                session.setIdUser(loginResponse.data.id)
+                prefManager.setIdUser(loginResponse.data.id)
                 swipeRefreshLayout.isRefreshing = false
             } else if (fromLogin) {
                 utils.getBanner()
             }
             val response = RetrofitClient.apiService.getDataPelanggan(
-                session.getIdUser()!!
+                prefManager.getIdUser!!
             )
             if (!response.isSuccessful)  {
                 connectionTrouble()
@@ -276,7 +274,7 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
             viewModel.linkPemesanan.value = responseData.config.linkPesanAlarm
 
             val responseDetailAlat = RetrofitClient.apiService.getAlat(
-                session.getPhone()!!,
+                prefManager.getPhone!!,
                 "Aktif"
             )
             if (!responseDetailAlat.isSuccessful)  {
