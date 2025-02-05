@@ -6,7 +6,7 @@
     android:backgroundTint="@color/primary_color_dark"
     android:elevation="@dimen/_2sdp"
     android:padding="@dimen/_9sdp"
-    android:layout_marginBottom="@dimen/_15sdp"
+    android:layout_marginVertical="@dimen/_5sdp"
     android:id="@+id/container_btn"
     android:layout_marginStart="@dimen/_10sdp"
     android:layout_marginEnd="@dimen/_10sdp"

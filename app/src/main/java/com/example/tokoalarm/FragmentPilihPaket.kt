@@ -6,12 +6,10 @@ import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.launch
 
-class FragmentPilihPaket : Fragment(R.layout.fragment_top_up) {
+class FragmentPilihPaket : Fragment(R.layout.layout_info_adapter) {
 
     private lateinit var viewModel: SharedViewPilihPaket
     private lateinit var listPaketView: RecyclerView

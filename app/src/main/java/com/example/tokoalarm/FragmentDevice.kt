@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 //todo: pada nilai masa aktif terdapat bug nilai mines selalu bertambah kemungkinan jika user kembali pembayaran hanya mengurangsin nilai mines tersebut
 //todo: pada api getalat terdapat Inp ut yang tidak diperlukan seperti "Status"
 
-class FragmentDevice : Fragment(R.layout.fragment_device), OnItemClickAdapterListDetail {
+class FragmentDevice : Fragment(R.layout.layout_main_list), OnItemClickAdapterListDetail {
 
     private lateinit var viewModel: SharedViewMainActivity
     private lateinit var dialogInput: DialogInput

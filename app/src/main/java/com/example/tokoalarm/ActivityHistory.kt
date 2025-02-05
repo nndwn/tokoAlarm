@@ -19,7 +19,6 @@ import kotlinx.coroutines.launch
 class ActivityHistory :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
 
 
-    private lateinit var texMenuToolbar : TextView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var session : Session
     private lateinit var historyView : RecyclerView
@@ -32,9 +31,8 @@ class ActivityHistory :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListene
         setContentView(R.layout.activity_history)
         session = Session(PrefManager(this))
 
-        historyView = findViewById(R.id.fragment_container_history)
-        texMenuToolbar = findViewById(R.id.textMenu)
-        texMenuToolbar.text = getString(R.string.history)
+        historyView = findViewById(R.id.adapterList)
+        findViewById<TextView>(R.id.textMenu).text = getString(R.string.history)
         findViewById<View>(R.id.toolbar).setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }

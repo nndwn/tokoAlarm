@@ -3,7 +3,6 @@ package com.example.tokoalarm
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +15,7 @@ class ActivitySettings :AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        setContentView(R.layout.layout_toolbar_adapter)
 
         prefManager = PrefManager(this)
 
@@ -26,7 +25,7 @@ class ActivitySettings :AppCompatActivity() {
             .text = getString(R.string.setting)
 
         val dialogConfirm = DialogConfirm(this)
-        val containerView = findViewById<RecyclerView>(R.id.container)
+        val containerView = findViewById<RecyclerView>(R.id.adapterList)
         val nada = DataManual().nada
         containerView.layoutManager = LinearLayoutManager(this)
         containerView.adapter = AdapterListNada(nada) {

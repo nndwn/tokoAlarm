@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/containerSwipe"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-        <include layout="@layout/layout_toolbar"/>
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:name="com.example.tokoalarm.FragmentPilihPaket"
-            tools:layout="@layout/fragment_top_up"
-            />
-
-    </LinearLayout>
+    <include layout="@layout/layout_toolbar_fragment"/>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

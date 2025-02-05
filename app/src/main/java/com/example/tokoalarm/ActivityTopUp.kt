@@ -2,7 +2,6 @@ package com.example.tokoalarm
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -11,7 +10,7 @@ class ActivityTopUp :AppCompatActivity(){
     private lateinit var viewModel: SharedViewTopUp
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_top_up)
+        setContentView(R.layout.layout_toolbar_fragment)
 
         viewModel = ViewModelProvider(this)[SharedViewTopUp::class.java]
 
@@ -28,7 +27,7 @@ class ActivityTopUp :AppCompatActivity(){
         if (savedInstanceState == null) {
             val fragment = FragmentTopUp()
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_topUp, fragment)
+                .replace(R.id.fragment, fragment)
                 .commit()
         }
     }

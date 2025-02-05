@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class FragmentTopUpBank :Fragment(R.layout.fragment_top_up){
+class FragmentTopUpBank :Fragment(R.layout.layout_info_adapter){
 
     private lateinit var viewModel : SharedViewTopUp
 
@@ -35,7 +35,7 @@ class FragmentTopUpBank :Fragment(R.layout.fragment_top_up){
                     R.anim.slide_in_left,
                     R.anim.slide_out_right)
                 .addToBackStack(null)
-                .replace(R.id.fragment_topUp, FragmentTopUpConfirm())
+                .replace(R.id.fragment, FragmentTopUpConfirm())
                 .commit()
         }
     }
