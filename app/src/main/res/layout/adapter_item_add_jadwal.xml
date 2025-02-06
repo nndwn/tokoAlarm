@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/Widget.Material3.CardView.Outlined"
+    android:background="@drawable/rectangle_round_10"
+    android:layout_marginVertical="@dimen/_5sdp"
+    android:paddingBottom="@dimen/_10sdp">
+    <TextView
+        android:id="@+id/namaPerangkat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SASAS"
+        android:textSize="@dimen/_16ssp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/robotomedium"
+        android:textAlignment="textStart"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:paddingVertical="@dimen/_10sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/seperator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/namaPerangkat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        app:layout_constraintTop_toTopOf="@+id/seperator"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:id="@+id/tanggalMulai"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Tanggal Mulai"
+        android:textSize="@dimen/_12sdp" />
+    <TextView
+        app:layout_constraintTop_toTopOf="@+id/seperator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tanggalMulai"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:id="@+id/tanggalMulaiResult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Waktu Mulai"
+        android:textSize="@dimen/_12sdp" />
+
+
+    <TextView
+        app:layout_constraintTop_toBottomOf="@+id/tanggalMulai"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:id="@+id/tanggalAkhir"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Waktu Akhir"
+        android:textSize="@dimen/_12sdp" />
+    <TextView
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tanggalAkhir"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:id="@+id/waktuAkhirResult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Tanggal Akhir"
+        android:textSize="@dimen/_12sdp" />
+
+    <TextView
+        app:layout_constraintTop_toBottomOf="@+id/tanggalAkhir"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:id="@+id/sisaHari"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Sisa Hari"
+        android:textSize="@dimen/_12sdp" />
+    <TextView
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/sisaHari"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:id="@+id/sisaHariResult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Tanggal Akhir"
+        android:textSize="@dimen/_12sdp" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/sisaHari"
+        android:background="@drawable/rectangle_round_10_blue"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="tambahkan"
+        android:textColor="@color/white"
+        android:paddingVertical="@dimen/_10sdp"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

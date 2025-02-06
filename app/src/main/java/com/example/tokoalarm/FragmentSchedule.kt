@@ -1,5 +1,6 @@
 package com.example.tokoalarm
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -37,8 +38,9 @@ class FragmentSchedule : Fragment(R.layout.layout_main_list), OnItemClickAdapter
         TODO("Not yet implemented")
     }
 
-    override fun onItemAdd(position: Int) {
-        TODO("Not yet implemented")
+    override fun onItemAdd() {
+        val intent = Intent(requireContext(), ActivityAddJadwal::class.java)
+        startActivity(intent)
     }
 
 

@@ -182,6 +182,25 @@ data class ListJadwal(
     val idAlat : String
 )
 
+data class ListNotJadwalResponse (
+    val status : Int,
+    val data : List<ListAddJadwal>
+)
+
+data class ListAddJadwal(
+    val id : String,
+    @SerializedName("id_alat")
+    val idAlat : String,
+    @SerializedName("nama_alat")
+    val namaAlat : String,
+    @SerializedName("tanggal_mulai")
+    val tanggalMulai : String,
+    @SerializedName("tanggal_selesai")
+    val tanggalSelesai: String,
+    @SerializedName("sisa_hari")
+    val sisaHari: String
+)
+
 class SharedViewMainActivity : ViewModel() {
     val saldo : MutableLiveData<String> = MutableLiveData()
     val linkPemesanan : MutableLiveData<String> = MutableLiveData()
@@ -213,6 +232,26 @@ class SharedViewMainActivity : ViewModel() {
 class SharedViewTopUp : ViewModel() {
     val price : MutableLiveData<Int> = MutableLiveData()
     val methodPayment : MutableLiveData<BankAccount> = MutableLiveData()
+}
+
+class SharedViewAddJadwal : ViewModel() {
+    val listAddJadwal : MutableLiveData<List<ListAddJadwal>> = MutableLiveData()
+    fun show(phone: String) {
+        viewModelScope.launch {
+            val jsonBody = JsonObject().apply {
+                addProperty("no_hp", phone)
+            }
+            val response = RetrofitClient.apiService.getListAddJadwal(API_KEY, jsonBody)
+            if (!response.isSuccessful) {
+                return@launch
+            }
+            val body = response.body()
+            if (body?.status != 200) {
+                return@launch
+            }
+            listAddJadwal.value = body.data
+        }
+    }
 }
 
 class SharedViewPilihPaket : ViewModel() {

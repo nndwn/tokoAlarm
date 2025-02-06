@@ -12,7 +12,7 @@ interface OnItemClickAdapterListJadwal {
     fun onItemEdit(position: Int)
     fun onItemDelete(position: Int)
     fun onItemSwitch(position: Int)
-    fun onItemAdd(position: Int)
+    fun onItemAdd()
 }
 
 
@@ -71,7 +71,7 @@ class AdapterListJadwal(
         private val addBtn: Button = itemView.findViewById(R.id.btn_add)
         fun bind(click: OnItemClickAdapterListJadwal) {
             addBtn.setOnClickListener {
-                click.onItemAdd(bindingAdapterPosition)
+                click.onItemAdd()
             }
             addBtn.text = itemView.context.getString(R.string.tambah_jadwal)
         }
@@ -108,7 +108,5 @@ class AdapterListJadwal(
         }
     }
 
-    override fun getItemCount() :Int {
-        return listJadwal.size + 1
-    }
+    override fun getItemCount() = listJadwal.size + 1
 }

@@ -13,7 +13,7 @@ interface OnItemClickAdapterListDetail {
     fun onItemRename(position: Int)
     fun onItemMonitoring(position: Int)
     fun onItemPerpanjang(position: Int)
-    fun onItemAdd(position: Int)
+    fun onItemAdd()
 }
 
 class AdapterListDetail(
@@ -99,7 +99,7 @@ class AdapterListDetail(
         private val addBtn: Button = itemView.findViewById(R.id.btn_add)
         fun bind (click: OnItemClickAdapterListDetail) {
             addBtn.setOnClickListener {
-                click.onItemAdd(bindingAdapterPosition)
+                click.onItemAdd()
             }
             addBtn.text = itemView.context.getString(R.string.tambah_perangkat)
         }
@@ -136,7 +136,5 @@ class AdapterListDetail(
         }
     }
 
-    override fun getItemCount() :Int {
-        return listDetail.size + 1
-    }
+    override fun getItemCount() = listDetail.size + 1
 }

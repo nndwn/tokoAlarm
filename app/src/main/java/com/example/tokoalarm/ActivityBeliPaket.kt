@@ -18,7 +18,7 @@ class ActivityBeliPaket : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_beli_paket)
+        setContentView(R.layout.layout_swipe_toolbar_fragment)
 
         dialogAlert = DialogAlert(this)
 

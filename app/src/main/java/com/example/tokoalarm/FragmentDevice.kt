@@ -96,7 +96,9 @@ class FragmentDevice : Fragment(R.layout.layout_main_list), OnItemClickAdapterLi
         startActivity(intent)
     }
 
-    override fun onItemAdd(position: Int) {
+
+
+    override fun onItemAdd() {
         val intent = Intent(requireContext(), ActivityBeliPaket::class.java)
         viewModel.saldo.observe(viewLifecycleOwner){
             intent.putExtra("saldo", it)
