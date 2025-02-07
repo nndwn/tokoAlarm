@@ -38,6 +38,8 @@ class AdapterListDetail(
         private val monitoring: Button = itemView.findViewById(R.id.btnMonitoring)
         private val button2: Button = itemView.findViewById(R.id.btnPerpanjang)
 
+        private val utils = Utils(itemView.context)
+
         fun bind(detail: ListAlat, click: OnItemClickAdapterListDetail) {
             statusResult.text = detail.status
             exp.text = buildString {
@@ -50,36 +52,18 @@ class AdapterListDetail(
             mulai.text = detail.tanggalMulai
             akhir.text = detail.tanggalSelesai
 
-            if (detail.namePaket == "-" || detail.namePaket.isEmpty()) {
-                nameAlat.text = buildString {
-                    append(itemView.context.getString(R.string.alat))
-                    append(" ")
-                    append(detail.idAlat)
-                }
-            } else {
-                nameAlat.text = detail.namePaket
-            }
+            nameAlat.text = utils.checkNameAlat(detail.namePaket, detail.idAlat)
 
-            when (detail.status) {
-                "Aktif" -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        statusResult.setTextColor(itemView.context.getColor(R.color.text_success))
-                    }
-                }
-
-                "Non Aktif" -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                when (detail.status) {
+                    "Aktif" ->  statusResult.setTextColor(itemView.context.getColor(R.color.text_success))
+                    "Non Aktif" -> {
                         statusResult.setTextColor(itemView.context.getColor(R.color.text_failed))
                         exp.visibility = View.GONE
                         val expText = itemView.findViewById<TextView>(R.id.exp)
                         expText.visibility = View.GONE
                     }
-                }
-
-                "Pending" -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        statusResult.setTextColor(itemView.context.getColor(R.color.text_pending))
-                    }
+                    "Pending" -> statusResult.setTextColor(itemView.context.getColor(R.color.text_pending))
                 }
             }
 
@@ -97,7 +81,7 @@ class AdapterListDetail(
 
     class ViewHolderHeader(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val addBtn: Button = itemView.findViewById(R.id.btn_add)
-        fun bind (click: OnItemClickAdapterListDetail) {
+        fun bind(click: OnItemClickAdapterListDetail) {
             addBtn.setOnClickListener {
                 click.onItemAdd()
             }
@@ -112,6 +96,7 @@ class AdapterListDetail(
                     .inflate(R.layout.layout_button_add, parent, false)
                 ViewHolderHeader(view)
             }
+
             else -> {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.adapter_item_detail, parent, false)
@@ -126,10 +111,11 @@ class AdapterListDetail(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(holder) {
+        when (holder) {
             is ViewHolderHeader -> {
                 holder.bind(listener)
             }
+
             is ViewHolderDetail -> {
                 holder.bind(listDetail[position - 1], listener)
             }

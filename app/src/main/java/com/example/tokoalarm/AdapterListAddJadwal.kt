@@ -15,14 +15,12 @@ class AdapterListAddJadwal (
         private val mulaiResult :TextView = itemView.findViewById(R.id.tanggalMulaiResult)
         private val akhirResult :TextView = itemView.findViewById(R.id.waktuAkhirResult)
         private val sisaHariResult :TextView = itemView.findViewById(R.id.sisaHariResult)
+
+        private val utils = Utils(itemView.context)
+
         fun bind(list: ListAddJadwal) {
-            if (list.namaAlat == "-" || list.namaAlat.isEmpty()) {
-                namaPerangkat.text = buildString {
-                    append(itemView.context.getString(R.string.alat))
-                    append(" ")
-                    append(list.idAlat)
-                }
-            } else namaPerangkat.text = list.namaAlat
+            namaPerangkat.text = utils.checkNameAlat(list.namaAlat, list.idAlat)
+
             mulaiResult.text = list.tanggalMulai
             akhirResult.text = list.tanggalSelesai
             sisaHariResult.text = list.sisaHari

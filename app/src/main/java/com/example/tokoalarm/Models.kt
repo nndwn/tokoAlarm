@@ -1,13 +1,8 @@
 package com.example.tokoalarm
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.gson.JsonObject
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.coroutines.launch
 
 
 data class LoginResponse(
@@ -22,7 +17,7 @@ data class RegisterResponse(
     val data: UserData?
 )
 
-data class UserData (
+data class UserData(
     val id: String,
     val nama: String,
     val nohp: String,
@@ -30,29 +25,30 @@ data class UserData (
 )
 
 data class DataPelangganResponse(
-    val status :Boolean,
-    val saldo :String,
-    val data :List<ListPromo>,
+    val status: Boolean,
+    val saldo: String,
+    val data: List<ListPromo>,
     val config: Config
 )
 
 //Todo: Link Tutorial tidak sesuai pada API diberikan
 data class Config(
     @SerializedName("link_tutorial")
-    val linkTutorial : String,
+    val linkTutorial: String,
     @SerializedName("link_pesan_alarm")
-    val linkPesanAlarm :String
+    val linkPesanAlarm: String
 )
+
 //Todo: Pada list Promo tidak terdapat link di API
 data class ListPromo(
     @SerializedName("updated_at")
-    val updatedAt :String,
-    val banner :String,
+    val updatedAt: String,
+    val banner: String,
     @SerializedName("created_at")
-    val createdAt :String,
-    val id :String,
-    val deskripsi :String,
-    val title :String
+    val createdAt: String,
+    val id: String,
+    val deskripsi: String,
+    val title: String
 )
 
 data class TopUpResponse(
@@ -61,227 +57,241 @@ data class TopUpResponse(
 )
 
 data class ListTopUpData(
-    val keterangan :String,
-    val noreff :String,
-    val jumlah :String,
+    val keterangan: String,
+    val noreff: String,
+    val jumlah: String,
     @SerializedName("updated_at")
-    val updatedAt :String,
+    val updatedAt: String,
     @SerializedName("id_users")
-    val idUsers :String,
+    val idUsers: String,
     @SerializedName("created_at")
-    val cratedAt :String,
-    val id :String,
+    val cratedAt: String,
+    val id: String,
     @SerializedName("saldo_awal")
-    val saldoAwal :String,
-    val tipe :String,
+    val saldoAwal: String,
+    val tipe: String,
     @SerializedName("saldo_akhir")
-    val saldoAkhir :String,
-    val status :String
+    val saldoAkhir: String,
+    val status: String
 )
 
 
 data class BankAccount(
-    val id : Int,
-    val name : String,
-    val numberRek : String ,
-    val owner :String
+    val id: Int,
+    val name: String,
+    val numberRek: String,
+    val owner: String
 )
 
 data class Price(
-    val id : Int,
+    val id: Int,
     val price: Int
 )
 
 data class Tone(
-    val name : String,
-    val value : Int
+    val name: String,
+    val value: Int
 )
 
 data class PaketResponse(
     val status: Boolean,
-    val data : List<ListPaket>
+    val data: List<ListPaket>
 )
 
 data class ListPaket(
-    val biaya : String,
+    val biaya: String,
     @SerializedName("updated_at")
-    val updateAt : String,
+    val updateAt: String,
     @SerializedName("created_at")
     val createdAt: String,
     @SerializedName("biaya_rupiah")
-    val biayaRupiah : String,
-    val id :String,
+    val biayaRupiah: String,
+    val id: String,
     @SerializedName("cutoff_day")
-    val cutoffDay : String,
-    val periode : String,
+    val cutoffDay: String,
+    val periode: String,
     @SerializedName("day_convertion")
-    val dayConvertion : String
+    val dayConvertion: String
 )
 
 data class ListAlatResponse(
-    val status : Boolean,
-    val data : List<ListAlat>
+    val status: Boolean,
+    val data: List<ListAlat>
 )
 
 data class ListAlat(
     @SerializedName("nama_paket")
-    var namePaket : String,
+    var namePaket: String,
     @SerializedName("nomor_paket")
     val nomorPaket: String,
     @SerializedName("created_at")
-    val createdAt : String,
+    val createdAt: String,
     @SerializedName("biaya_rupiah")
-    val biayaRupiah : String,
+    val biayaRupiah: String,
     @SerializedName("cutoff_day")
     val cutoffDay: String,
-    val periode : String,
+    val periode: String,
     @SerializedName("tanggal_selesai")
-    val tanggalSelesai : String,
+    val tanggalSelesai: String,
     @SerializedName("updated_at")
     val updatedAt: String,
-    val biaya : String,
+    val biaya: String,
     @SerializedName("tanggal_mulai")
-    val tanggalMulai : String,
+    val tanggalMulai: String,
     @SerializedName("id_alat")
-    var idAlat : String,
-    val nohp : String,
-    val id : String,
+    var idAlat: String,
+    val nohp: String,
+    val id: String,
     @SerializedName("sisa_hari")
-    val sisaHari : String,
-    val status : String,
+    val sisaHari: String,
+    val status: String,
     @SerializedName("day_convertion")
-    val dayConvertion : String
-)
+    val dayConvertion: String
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: ""
+    )
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(namePaket)
+        parcel.writeString(nomorPaket)
+        parcel.writeString(createdAt)
+        parcel.writeString(biayaRupiah)
+        parcel.writeString(cutoffDay)
+        parcel.writeString(periode)
+        parcel.writeString(tanggalSelesai)
+        parcel.writeString(updatedAt)
+        parcel.writeString(biaya)
+        parcel.writeString(tanggalMulai)
+        parcel.writeString(idAlat)
+        parcel.writeString(nohp)
+        parcel.writeString(id)
+        parcel.writeString(sisaHari)
+        parcel.writeString(status)
+        parcel.writeString(dayConvertion)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<ListAlat> {
+        override fun createFromParcel(parcel: Parcel): ListAlat {
+            return ListAlat(parcel)
+        }
+
+        override fun newArray(size: Int): Array<ListAlat?> {
+            return arrayOfNulls(size)
+        }
+    }
+}
 
 data class ListJadwalResponse(
-    val status : Int,
-    val data : List<ListJadwal>
+    val status: Int,
+    val data: List<ListJadwal>
 )
 
 data class ListJadwal(
-    val id : String,
+    val id: String,
     @SerializedName("id_book")
-    val idBook :String,
-    val name :String,
+    val idBook: String,
+    val name: String,
     @SerializedName("start_time")
-    val startTime : String,
+    val startTime: String,
     @SerializedName("end_time")
-    val endTime : String,
-    val days : String,
+    val endTime: String,
+    val days: String,
     @SerializedName("is_active")
-    val isActive : String,
+    val isActive: String,
     @SerializedName("sensor_switch")
-    val sensorSwitch : String,
+    val sensorSwitch: String,
     @SerializedName("sensor_ohm")
-    val sensorOhm : String,
-    @SerializedName( "sensor_rf")
-    val sensorRf : String,
+    val sensorOhm: String,
+    @SerializedName("sensor_rf")
+    val sensorRf: String,
     @SerializedName("nama_paket")
-    val namePaket : String,
+    val namePaket: String,
     @SerializedName("id_alat")
-    val idAlat : String
-)
+    val idAlat: String
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: ""
+    )
 
-data class ListNotJadwalResponse (
-    val status : Int,
-    val data : List<ListAddJadwal>
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
+        parcel.writeString(idBook)
+        parcel.writeString(name)
+        parcel.writeString(startTime)
+        parcel.writeString(endTime)
+        parcel.writeString(days)
+        parcel.writeString(isActive)
+        parcel.writeString(sensorSwitch)
+        parcel.writeString(sensorOhm)
+        parcel.writeString(sensorRf)
+        parcel.writeString(namePaket)
+        parcel.writeString(idAlat)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<ListJadwal> {
+        override fun createFromParcel(parcel: Parcel): ListJadwal {
+            return ListJadwal(parcel)
+        }
+
+        override fun newArray(size: Int): Array<ListJadwal?> {
+            return arrayOfNulls(size)
+        }
+    }
+}
+
+data class ListNotJadwalResponse(
+    val status: Int,
+    val data: List<ListAddJadwal>
 )
 
 data class ListAddJadwal(
-    val id : String,
+    val id: String,
     @SerializedName("id_alat")
-    val idAlat : String,
+    val idAlat: String,
     @SerializedName("nama_alat")
-    val namaAlat : String,
+    val namaAlat: String,
     @SerializedName("tanggal_mulai")
-    val tanggalMulai : String,
+    val tanggalMulai: String,
     @SerializedName("tanggal_selesai")
     val tanggalSelesai: String,
     @SerializedName("sisa_hari")
     val sisaHari: String
 )
 
-class SharedViewMainActivity : ViewModel() {
-    val saldo : MutableLiveData<String> = MutableLiveData()
-    val linkPemesanan : MutableLiveData<String> = MutableLiveData()
-    val listAlat : MutableLiveData<List<ListAlat>> = MutableLiveData()
-    val listJadwal :MutableLiveData<List<ListJadwal>> = MutableLiveData()
 
-    fun getJadwal (phone : String , callback: (str: String) -> Unit = {}) {
-        viewModelScope.launch {
-            val jsonBody = JsonObject().apply {
-                addProperty("no_hp", phone)
-            }
-            val response = RetrofitClient.apiService.getListJadwal(API_KEY, jsonBody)
-            if (!response.isSuccessful) {
-                callback("connection")
-                return@launch
-            }
-            val body = response.body()
-            if (body?.status != 200) {
-                callback("failed")
-                return@launch
-            }
-            listJadwal.value = body.data
-            callback( "success")
-        }
-    }
-
-}
-
-class SharedViewTopUp : ViewModel() {
-    val price : MutableLiveData<Int> = MutableLiveData()
-    val methodPayment : MutableLiveData<BankAccount> = MutableLiveData()
-}
-
-class SharedViewAddJadwal : ViewModel() {
-    val listAddJadwal : MutableLiveData<List<ListAddJadwal>> = MutableLiveData()
-    fun show(phone: String) {
-        viewModelScope.launch {
-            val jsonBody = JsonObject().apply {
-                addProperty("no_hp", phone)
-            }
-            val response = RetrofitClient.apiService.getListAddJadwal(API_KEY, jsonBody)
-            if (!response.isSuccessful) {
-                return@launch
-            }
-            val body = response.body()
-            if (body?.status != 200) {
-                return@launch
-            }
-            listAddJadwal.value = body.data
-        }
-    }
-}
-
-class SharedViewPilihPaket : ViewModel() {
-    val paket : MutableLiveData<List<ListPaket>> = MutableLiveData()
-    val position : MutableLiveData<Int> = MutableLiveData()
-    val idAlat : MutableLiveData<String?> = MutableLiveData()
-    val saldo : MutableLiveData<Int?> = MutableLiveData()
-    fun input(phone :String , listPaket: ListPaket , idUsers: String , nomorAlat : String ,callback :( str :String) -> Unit ={}) {
-        viewModelScope.launch {
-            val response = RetrofitClient.apiService.beliPaket(
-                phone,
-                listPaket.periode,
-                listPaket.dayConvertion,
-                listPaket.cutoffDay,
-                listPaket.biaya,
-                idUsers,
-                nomorAlat
-            )
-            if (!response.isSuccessful) {
-                callback("connection")
-                return@launch
-            }
-            val body = response.body()
-            if (body?.status != true) {
-                callback("failed")
-                return@launch
-            }
-            callback( "success")
-
-        }
-    }
-}
 

@@ -31,6 +31,7 @@
         <activity android:name=".ActivitySettings"/>
         <activity android:name=".ActivityBeliPaket"/>
         <activity android:name=".ActivityAddJadwal"/>
+        <activity android:name=".ActivityMonitoring"/>
         <service android:name=".ServiceFCM"
             android:exported="false">
             <intent-filter>

@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.Packaging
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -37,6 +39,12 @@ android {
     buildFeatures {
         viewBinding = true
     }
+   packaging {
+       resources {
+           merges += "META-INF/INDEX.LIST"
+           excludes += "META-INF/io.netty.versions.properties"
+       }
+   }
 }
 
 dependencies {
@@ -58,6 +66,7 @@ dependencies {
     implementation(libs.androidx.viewpager2)
     implementation (libs.glide)
     implementation(libs.firebase.messaging)
+    implementation(libs.hivemq.mqtt.client)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

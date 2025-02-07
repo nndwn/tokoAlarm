@@ -31,6 +31,8 @@ fun parseSaldo(saldo : String) :Int? {
 }
 
 
+
+
 fun convertDayName(numbStr: String): String {
     if (numbStr.isEmpty()) return ""
     val dayNames = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu")
@@ -98,6 +100,18 @@ class Utils (private var context: Context){
             }
         }
         return file.absolutePath
+    }
+
+    fun checkNameAlat(nameAlat: String , idAlat :String): String {
+        return if (nameAlat == "-" || nameAlat.isEmpty()) {
+            buildString {
+                append(context.getString(R.string.alat))
+                append(" ")
+                append(idAlat)
+            }
+        } else {
+            nameAlat
+        }
     }
 
 }

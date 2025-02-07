@@ -35,14 +35,10 @@ class AdapterListJadwal(
         private val deleteBtn: Button = itemView.findViewById(R.id.hapus)
         private val switchBtn: SwitchCompat = itemView.findViewById(R.id.switcher)
 
+        private val utils = Utils(itemView.context)
+
         fun bind(jadwal: ListJadwal, click: OnItemClickAdapterListJadwal) {
-            if (jadwal.namePaket == "-" || jadwal.namePaket.isEmpty()) {
-                namaPerangkat.text = buildString {
-                    append(itemView.context.getString(R.string.alat))
-                    append(" ")
-                    append(jadwal.idAlat)
-                }
-            } else namaPerangkat.text =  jadwal.namePaket
+            namaPerangkat.text = utils.checkNameAlat(jadwal.namePaket, jadwal.idAlat)
             hari.text =  convertDayName(jadwal.days)
             waktuMulai.text = buildString {
                 append(jadwal.startTime)

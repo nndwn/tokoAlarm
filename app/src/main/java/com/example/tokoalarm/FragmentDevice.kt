@@ -7,15 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.replace
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
+import java.util.ArrayList
 
 //todo: pada nilai masa aktif terdapat bug nilai mines selalu bertambah kemungkinan jika user kembali pembayaran hanya mengurangsin nilai mines tersebut
-//todo: pada api getalat terdapat Inp ut yang tidak diperlukan seperti "Status"
+//todo: pada api getalat terdapat Input yang tidak diperlukan seperti "Status"
 
 class FragmentDevice : Fragment(R.layout.layout_main_list), OnItemClickAdapterListDetail {
 
@@ -25,6 +27,7 @@ class FragmentDevice : Fragment(R.layout.layout_main_list), OnItemClickAdapterLi
     private lateinit var adapter: AdapterListDetail
     private lateinit var session: PrefManager
     private lateinit var alert: DialogAlert
+    private lateinit var utils: Utils
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,7 +35,7 @@ class FragmentDevice : Fragment(R.layout.layout_main_list), OnItemClickAdapterLi
         viewModel = ViewModelProvider(requireActivity())[SharedViewMainActivity::class.java]
         session = PrefManager(requireContext())
         alert = DialogAlert(requireActivity())
-
+        utils = Utils(requireContext())
 
         view.findViewById<TextView>(R.id.title_fragment).text = getString(R.string.daftar_detail_paket)
 
@@ -58,13 +61,8 @@ class FragmentDevice : Fragment(R.layout.layout_main_list), OnItemClickAdapterLi
         val nameAlat = listAlat[position].namePaket
         dialogInput.apply {
             title = getString(R.string.ubah_name)
-            text = if (nameAlat == "-" || nameAlat.isEmpty()) {
-                buildString {
-                    append(getString(R.string.alat))
-                    append(" ")
-                    append(listAlat[position].idAlat)
-                }
-            } else nameAlat
+            text = utils.checkNameAlat(nameAlat, listAlat[position].idAlat)
+
         }.show {
             if (dialogInput.text.length > 40 ){
                 alert.show(
@@ -84,7 +82,13 @@ class FragmentDevice : Fragment(R.layout.layout_main_list), OnItemClickAdapterLi
     }
 
     override fun onItemMonitoring(position: Int) {
-        println("test")
+        val intent = Intent(requireContext(), ActivityMonitoring::class.java)
+        intent.putExtra("MonitorData", listAlat[position])
+        viewModel.listJadwal.observe(viewLifecycleOwner) {
+            intent.putParcelableArrayListExtra("JadwalData", ArrayList(it))
+        }
+        intent.putExtra("position", position)
+        startActivity(intent)
     }
 
     override fun onItemPerpanjang(position: Int) {
@@ -95,8 +99,6 @@ class FragmentDevice : Fragment(R.layout.layout_main_list), OnItemClickAdapterLi
         }
         startActivity(intent)
     }
-
-
 
     override fun onItemAdd() {
         val intent = Intent(requireContext(), ActivityBeliPaket::class.java)

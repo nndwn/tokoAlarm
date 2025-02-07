@@ -7,8 +7,11 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 class ServiceFCM : FirebaseMessagingService() {
-    //todo :pada server fcm bersifat broadcast mengirim notifikasi ke seluruh penguna lalu app mengfilter pesan tersebut , metode tersebut tidak efektif jika memiliki banyak penguna akan menciptakan data antrian , FCM sendiri setiap client memiliki token masing-masing yang dapat di manfaatkan pengiriman di targetkan nantinya
-    //todo : terdapat bug delay akibat melakukan broadcast solusi harus kirim nilai token ke server agar bisa langsung ke target
+    /**todo :pada server fcm bersifat broadcast mengirim notifikasi ke seluruh penguna lalu app
+     *   mengfilter pesan tersebut , metode tersebut tidak efektif jika memiliki banyak penguna akan menciptakan data antrian , FCM sendiri setiap client memiliki token masing-masing yang dapat di
+     *   manfaatkan pengiriman di targetkan nantinya
+     *   terdapat bug delay akibat melakukan broadcast solusi harus kirim nilai token ke server agar bisa langsung ke target user
+     */
 
     private var countMsg : Int = 0
 

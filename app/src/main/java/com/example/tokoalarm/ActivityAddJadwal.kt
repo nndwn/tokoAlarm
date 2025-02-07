@@ -32,6 +32,6 @@ class ActivityAddJadwal : AppCompatActivity() , SwipeRefreshLayout.OnRefreshList
         }
     }
     override fun onRefresh() {
-        TODO("Not yet implemented")
+
     }
 }

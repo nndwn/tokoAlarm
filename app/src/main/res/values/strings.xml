@@ -120,4 +120,8 @@
     <string name="tambah_perangkat">Tambah Perangkat</string>
     <string name="edit">Edit</string>
     <string name="hapus">hapus</string>
+    <string name="terhubung_server">Terhubung Server</string>
+    <string name="tidak_terhubung_server">Tidak Terhubung Server</string>
+    <string name="check_server">Check Server</string>
+    <string name="status_paket">Status Paket</string>
 </resources>

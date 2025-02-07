@@ -9,6 +9,7 @@ import android.provider.Settings
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -78,6 +79,17 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
         checkNotificationPermission()
         FirebaseMessaging.getInstance().subscribeToTopic(prefManager.getPhone!!)
         transitionFragment()
+
+        onBackPressedDispatcher.addCallback(this, object :OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if (supportFragmentManager.backStackEntryCount > 0 ) {
+                    supportFragmentManager.popBackStack()
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        })
 
         val toFragment = intent.getStringExtra("toFragment")
         val perangkat = getString(R.string.device)
@@ -181,9 +193,6 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
         }
     }
 
-
-
-
     private fun updateSelectedMenu(selectedBtn: LinearLayout) {
         btnHome.alpha = if (selectedBtn == btnHome) 1f else 0.5f
         btnDevice.alpha = if (selectedBtn == btnDevice) 1f else 0.5f
@@ -218,12 +227,13 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
         }
 
         transaction.replace(R.id.fragment_container, fragment)
+        transaction.addToBackStack(null)
         transaction.commit()
         currentFragment = tag
     }
 
-    private fun connectionTrouble () {
 
+    private fun connectionTrouble () {
         dialogAlert.show(
             getString(R.string.info),
             getString(R.string.trouble_connection),
