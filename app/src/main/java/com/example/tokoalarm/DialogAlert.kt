@@ -19,7 +19,7 @@ class DialogAlert (
     var message :String = ""
     var animation : Int = 0
     var loop : Int = LottieDrawable.INFINITE
-
+    var textBtn : String? = null
     fun show(
         click: () -> Unit = {}
     ) {
@@ -37,6 +37,10 @@ class DialogAlert (
         val icon  = view.findViewById<LottieAnimationView>(R.id.animation_view)
         icon.setAnimation(animation)
         icon.setRepeatCount(loop);
+
+        if(textBtn != null) {
+            view.findViewById<Button>(R.id.btnTutup).text = textBtn
+        }
 
         dialog = builder.create()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

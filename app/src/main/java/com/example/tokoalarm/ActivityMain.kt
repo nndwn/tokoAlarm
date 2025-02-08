@@ -81,18 +81,7 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
 
 
         transitionFragment()
-
-        onBackPressedDispatcher.addCallback(this, object :OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                if (supportFragmentManager.backStackEntryCount > 0 ) {
-                    supportFragmentManager.popBackStack()
-                } else {
-                    isEnabled = false
-                    onBackPressedDispatcher.onBackPressed()
-                }
-            }
-        })
-
+        
         val toFragment = intent.getStringExtra("toFragment")
         val perangkat = getString(R.string.device)
         if (toFragment == perangkat) {
@@ -230,7 +219,6 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
         }
 
         transaction.replace(R.id.fragment_container, fragment)
-        transaction.addToBackStack(null)
         transaction.commit()
         currentFragment = tag
     }

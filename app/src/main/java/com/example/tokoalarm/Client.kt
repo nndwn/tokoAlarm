@@ -87,6 +87,14 @@ interface ApiService {
         @Header("x-api-key") apiKey: String,
         @Body jsonBody: JsonObject
     ): Response<ListNotJadwalResponse>
+
+    @FormUrlEncoded
+    @POST("users/bookalatdetail")
+    suspend fun getDetailSettingAlat(
+        @Field("nohp") nohp: String,
+        @Field("id_alat") idAlat: String,
+        @Field("nomor_paket") nomorPaket: String
+    ): Response<ResponseSettingList>
 }
 
 object RetrofitClient {

@@ -293,5 +293,22 @@ data class ListAddJadwal(
     val sisaHari: String
 )
 
+data class ResponseSettingList (
+    val status :Boolean,
+    @SerializedName("last_alat")
+    val lastAlat : LastAlat
+)
+
+data class LastAlat(
+    val status : Boolean,
+    val data : ListSetting
+)
+
+data class ListSetting(
+    val id: String,
+    @SerializedName("id_alat")
+    val idAlat: String,
+    val mode : String,
+)
 
 

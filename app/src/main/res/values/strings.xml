@@ -132,4 +132,10 @@
     <string name="mode_manual">Mode Manual</string>
     <string name="bunyikan">Bunyikan</string>
     <string name="default_notification_channel_id">default_notification_channel_id</string>
+    <string name="hubungin_admin_text">Tekan tombol dibawah ini untuk hubungin admin</string>
+    <string name="hubungin_admin">Hubungin Admin</string>
+    <string name="fitur_spy_text">
+        Anda dapat menghilangkan suara pada alat dan anda tetap menerima pemberitahuan
+        selain itu anda dapat membunyikannya secara manual
+    </string>
 </resources>

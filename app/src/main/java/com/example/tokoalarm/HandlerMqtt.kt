@@ -68,13 +68,15 @@ class HandlerMqtt {
     }
 
     fun disconnect() {
-        mqttClient.disconnect()
-            .whenComplete {_ , throwable ->
-                if (throwable != null) {
-                    println("Disconnection failed: ${throwable.message}")
-                } else {
-                    println("Disconnected from MQTT broker")
+        if (this::mqttClient.isInitialized) {
+            mqttClient.disconnect()
+                .whenComplete { _, throwable ->
+                    if (throwable != null) {
+                        println("Disconnection failed: ${throwable.message}")
+                    } else {
+                        println("Disconnected from MQTT broker")
+                    }
                 }
-            }
+        }
     }
 }

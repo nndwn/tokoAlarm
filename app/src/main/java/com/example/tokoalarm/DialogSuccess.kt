@@ -13,6 +13,8 @@ class DialogSuccess( private  val activity : Activity ) {
   private var isShowing = false
     var title :String = ""
     var animation :Int = 0
+    var delay : Long = 4000
+    var cancelable :Boolean = true
     fun show (callback : () -> Unit = {}) {
         val builder = AlertDialog.Builder(activity)
         val inflater = activity.layoutInflater
@@ -23,7 +25,7 @@ class DialogSuccess( private  val activity : Activity ) {
         view.findViewById<TextView>(R.id.tvTitle).text = title
 
         builder.setView(view)
-        builder.setCancelable(true)
+        builder.setCancelable(cancelable)
 
         builder.setOnDismissListener {
             callback()
@@ -39,7 +41,7 @@ class DialogSuccess( private  val activity : Activity ) {
 
         view.postDelayed({
             dialog.dismiss()
-        }, 4000)
+        }, delay)
 
 
     }

@@ -89,3 +89,9 @@ class SharedViewPilihPaket : ViewModel() {
         }
     }
 }
+
+class SharedViewMonitoring :ViewModel() {
+    val jadwal :MutableLiveData<ListJadwal?> = MutableLiveData()
+    val alat : MutableLiveData<ListAlat> = MutableLiveData()
+    val mode :MutableLiveData<String> = MutableLiveData()
+}
