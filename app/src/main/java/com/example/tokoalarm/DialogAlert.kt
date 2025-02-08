@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 
 class DialogAlert (
     private val activity : Activity
@@ -19,6 +20,7 @@ class DialogAlert (
         title: String,
         message: String,
         animation: Int,
+        loop :Int = LottieDrawable.INFINITE,
         click: () -> Unit = {}
     ) {
         val builder = AlertDialog.Builder(activity)
@@ -32,7 +34,9 @@ class DialogAlert (
 
         view.findViewById<TextView>(R.id.tvTitle).text = title
         view.findViewById<TextView>(R.id.tvMessage).text = message
-        view.findViewById<LottieAnimationView>(R.id.animation_view).setAnimation(animation)
+        val icon  = view.findViewById<LottieAnimationView>(R.id.animation_view)
+        icon.setAnimation(animation)
+        icon.setRepeatCount(loop);
 
         dialog = builder.create()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

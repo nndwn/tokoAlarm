@@ -103,9 +103,7 @@ class ActivityRegister :AppCompatActivity(){
                     }
                 }, length - getString(R.string.here).length, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    setSpan(ForegroundColorSpan(getColor(R.color.primary_color)), length - getString(R.string.here).length, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                }
+                setSpan(ForegroundColorSpan(getColor(R.color.primary_color)), length - getString(R.string.here).length, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
 
         aggrementText.text = readMoreText

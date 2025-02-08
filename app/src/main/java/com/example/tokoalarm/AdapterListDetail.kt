@@ -54,27 +54,27 @@ class AdapterListDetail(
 
             nameAlat.text = utils.checkNameAlat(detail.namePaket, detail.idAlat)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                when (detail.status) {
-                    "Aktif" ->  statusResult.setTextColor(itemView.context.getColor(R.color.text_success))
-                    "Non Aktif" -> {
-                        statusResult.setTextColor(itemView.context.getColor(R.color.text_failed))
-                        exp.visibility = View.GONE
-                        val expText = itemView.findViewById<TextView>(R.id.exp)
-                        expText.visibility = View.GONE
-                    }
-                    "Pending" -> statusResult.setTextColor(itemView.context.getColor(R.color.text_pending))
+            when (detail.status) {
+                "Aktif" ->  statusResult.setTextColor(itemView.context.getColor(R.color.text_success))
+                "Non Aktif" -> {
+                    statusResult.setTextColor(itemView.context.getColor(R.color.text_failed))
+                    exp.visibility = View.GONE
+                    val expText = itemView.findViewById<TextView>(R.id.exp)
+                    expText.visibility = View.GONE
                 }
+                "Pending" -> statusResult.setTextColor(itemView.context.getColor(R.color.text_pending))
             }
 
+            val position = bindingAdapterPosition -1
+
             rename.setOnClickListener {
-                click.onItemRename(bindingAdapterPosition)
+                click.onItemRename(position)
             }
             monitoring.setOnClickListener {
-                click.onItemMonitoring(bindingAdapterPosition)
+                click.onItemMonitoring(position)
             }
             button2.setOnClickListener {
-                click.onItemPerpanjang(bindingAdapterPosition)
+                click.onItemPerpanjang(position)
             }
         }
     }

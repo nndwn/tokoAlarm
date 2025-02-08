@@ -30,10 +30,7 @@ fun parseSaldo(saldo : String) :Int? {
     return cleanString.toIntOrNull()
 }
 
-
-
-
-fun convertDayName(numbStr: String): String {
+fun dayName(numbStr: String): String {
     if (numbStr.isEmpty()) return ""
     val dayNames = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu")
     val numbArray = numbStr.split(",")
@@ -49,7 +46,7 @@ class Utils (private var context: Context){
      * Todo: untuk nomor cs di buat secara hardcode api
      *  perlu diperbaikin kembali untuk menanganin configurasi app
      */
-    fun whatsapp(message: String) {
+    fun whatsapp(message: String , numberr : String = "6281394777794") {
         val packageManager = context.packageManager
         val isWhatsAppInstalled = try {
             packageManager.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
@@ -60,7 +57,7 @@ class Utils (private var context: Context){
         }
 
         if (isWhatsAppInstalled) {
-            val uri = Uri.parse("whatsapp://send?phone=6281394777794&text=${URLEncoder.encode(message, "UTF-8")}")
+            val uri = Uri.parse("whatsapp://send?phone=${numberr}&text=${URLEncoder.encode(message, "UTF-8")}")
             val intent = Intent(Intent.ACTION_VIEW, uri)
             context.startActivity(intent)
         } else {

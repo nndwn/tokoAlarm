@@ -13,6 +13,10 @@ class ServiceFCM : FirebaseMessagingService() {
      *   terdapat bug delay akibat melakukan broadcast solusi harus kirim nilai token ke server agar bisa langsung ke target user
      */
 
+    /** pengaturian channel id tidak dapat di lakukan pada client harus FCM sendiri yang mengatur channel
+     *  dapat di lakukan pada server untuk mengirim notifikasi channel di melalui FCM
+     */
+
     private var countMsg : Int = 0
 
     override fun onCreate() {
@@ -33,12 +37,12 @@ class ServiceFCM : FirebaseMessagingService() {
         super.onMessageReceived(message)
         val notification = Notification(this)
         val data = message.notification
-        notification.apply {
-            if (data != null) {
-                text = data.body.toString()
-                title = data.title.toString()
-                idMsg = countMsg++
-            }
-        }.create()
+//        notification.apply {
+//            if (data != null) {
+//                text = data.body.toString()
+//                title = data.title.toString()
+//                idMsg = countMsg++
+//            }
+//        }.create()
     }
 }

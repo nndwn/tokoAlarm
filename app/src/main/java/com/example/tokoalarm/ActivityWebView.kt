@@ -35,9 +35,7 @@ class ActivityWebView :AppCompatActivity(){
         loading = DialogLoading(this@ActivityWebView)
 
         val webSettings = webView.settings
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            webView.setBackgroundColor(getColor(R.color.primary_color))
-        }
+        webView.setBackgroundColor(getColor(R.color.primary_color))
         loading.startLoadingDialog()
         webSettings.javaScriptEnabled = true
         webView.webViewClient = object : WebViewClient() {

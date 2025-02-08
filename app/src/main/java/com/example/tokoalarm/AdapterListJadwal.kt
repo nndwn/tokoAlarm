@@ -39,7 +39,7 @@ class AdapterListJadwal(
 
         fun bind(jadwal: ListJadwal, click: OnItemClickAdapterListJadwal) {
             namaPerangkat.text = utils.checkNameAlat(jadwal.namePaket, jadwal.idAlat)
-            hari.text =  convertDayName(jadwal.days)
+            hari.text =  dayName(jadwal.days)
             waktuMulai.text = buildString {
                 append(jadwal.startTime)
                 append(" ")
@@ -51,14 +51,15 @@ class AdapterListJadwal(
                 append("WIB")
             }
 
+            val position = bindingAdapterPosition -1
             editBtn.setOnClickListener {
-                click.onItemEdit(bindingAdapterPosition)
+                click.onItemEdit(position)
             }
             deleteBtn.setOnClickListener {
-                click.onItemDelete(bindingAdapterPosition)
+                click.onItemDelete(position)
             }
             switchBtn.setOnClickListener {
-                click.onItemSwitch(bindingAdapterPosition)
+                click.onItemSwitch(position)
             }
         }
     }

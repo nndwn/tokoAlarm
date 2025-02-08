@@ -31,14 +31,14 @@ class AdapterListHistory(private val listHistory: List<ListTopUpData>) :
             tvStatus.text = history.status
 
             if (history.tipe == "Kredit") {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) tvJumlah.setTextColor(
+                tvJumlah.setTextColor(
                     itemView.context.getColor(
                         R.color.text_success
                     )
                 )
                 tvJumlah.text = "+ ${history.jumlah}"
             } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) tvJumlah.setTextColor(
+                tvJumlah.setTextColor(
                     itemView.context.getColor(
                         R.color.text_failed
                     )
@@ -48,27 +48,21 @@ class AdapterListHistory(private val listHistory: List<ListTopUpData>) :
 
             when (history.status) {
                 "Success" -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        tvStatus.setTextColor(itemView.context.getColor(R.color.text_success))
-                        tvStatus.backgroundTintList =
-                            itemView.context.getColorStateList(R.color.bg_success)
-                    }
+                    tvStatus.setTextColor(itemView.context.getColor(R.color.text_success))
+                    tvStatus.backgroundTintList =
+                        itemView.context.getColorStateList(R.color.bg_success)
                 }
 
                 "Failed" -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        tvStatus.setTextColor(itemView.context.getColor(R.color.text_failed))
-                        tvStatus.backgroundTintList =
-                            itemView.context.getColorStateList(R.color.bg_failed)
-                    }
+                    tvStatus.setTextColor(itemView.context.getColor(R.color.text_failed))
+                    tvStatus.backgroundTintList =
+                        itemView.context.getColorStateList(R.color.bg_failed)
                 }
 
                 "Pending" -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        tvStatus.setTextColor(itemView.context.getColor(R.color.text_pending))
-                        tvStatus.backgroundTintList =
-                            itemView.context.getColorStateList(R.color.bg_pending)
-                    }
+                    tvStatus.setTextColor(itemView.context.getColor(R.color.text_pending))
+                    tvStatus.backgroundTintList =
+                        itemView.context.getColorStateList(R.color.bg_pending)
                 }
             }
 

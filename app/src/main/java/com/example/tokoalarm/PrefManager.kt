@@ -25,8 +25,9 @@ class PrefManager(private val context: Context) {
     private val imagePathsKey = stringSetPreferencesKey("image_paths")
     private val abortNotifKey = booleanPreferencesKey("notification")
     private val toneKey = stringPreferencesKey("tone")
+    private val tokenFCM = stringPreferencesKey("token_fcm")
 
-    val idAlatFlow: Flow<String?> = context.dataStore.data
+    private val idAlatFlow: Flow<String?> = context.dataStore.data
         .catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
@@ -36,7 +37,7 @@ class PrefManager(private val context: Context) {
         }.map { pref ->
             pref[idAlatKey]
         }
-    val pwdFlow: Flow<String?> = context.dataStore.data
+    private val pwdFlow: Flow<String?> = context.dataStore.data
         .catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
@@ -46,7 +47,7 @@ class PrefManager(private val context: Context) {
         }.map { pref ->
             pref[pwdKey]
         }
-    val idUserFlow: Flow<String?> = context.dataStore.data
+    private val idUserFlow: Flow<String?> = context.dataStore.data
         .catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
@@ -56,7 +57,7 @@ class PrefManager(private val context: Context) {
         }.map { pref ->
             pref[idUserKey]
         }
-    val nameUserFlow: Flow<String?> = context.dataStore.data
+    private val nameUserFlow: Flow<String?> = context.dataStore.data
         .catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
@@ -66,7 +67,7 @@ class PrefManager(private val context: Context) {
         }.map { pref ->
             pref[nameUserKey]
         }
-    val phoneFlow: Flow<String?> = context.dataStore.data
+    private val phoneFlow: Flow<String?> = context.dataStore.data
         .catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
@@ -75,6 +76,17 @@ class PrefManager(private val context: Context) {
             }
         }.map { pref ->
             pref[phoneKey]
+        }
+
+    private val tokenFcmFlow : Flow<String?> = context.dataStore.data
+        .catch {  exception ->
+            if(exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }.map { pref ->
+            pref[tokenFCM]
         }
 
     val imagePathsFlow: Flow<Set<String>> = context.dataStore.data
@@ -107,6 +119,17 @@ class PrefManager(private val context: Context) {
         }.map { pref ->
             pref[toneKey] ?: "tone1"
         }
+
+
+    fun setTokenFcm(tokenFcm: String) = runBlocking {
+        context.dataStore.edit { pref ->
+            pref[tokenFCM] = tokenFcm
+        }
+    }
+
+    val getTokenFcm : String? = runBlocking {
+        tokenFcmFlow.first()
+    }
 
     val getTone: String = runBlocking {
         toneFlow.first()

@@ -78,6 +78,8 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
 
         checkNotificationPermission()
         FirebaseMessaging.getInstance().subscribeToTopic(prefManager.getPhone!!)
+
+
         transitionFragment()
 
         onBackPressedDispatcher.addCallback(this, object :OnBackPressedCallback(true){

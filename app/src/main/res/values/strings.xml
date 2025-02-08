@@ -124,4 +124,12 @@
     <string name="tidak_terhubung_server">Tidak Terhubung Server</string>
     <string name="check_server">Check Server</string>
     <string name="status_paket">Status Paket</string>
+    <string name="status_alat">Status Alat</string>
+    <string name="aktif">Aktif</string>
+    <string name="no_active">Non Aktif</string>
+    <string name="pending">Pending</string>
+    <string name="mode_auto">Mode Auto</string>
+    <string name="mode_manual">Mode Manual</string>
+    <string name="bunyikan">Bunyikan</string>
+    <string name="default_notification_channel_id">default_notification_channel_id</string>
 </resources>
