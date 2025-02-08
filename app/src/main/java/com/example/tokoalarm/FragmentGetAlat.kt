@@ -15,15 +15,15 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
 //todo: alat dapat di input dengan nilai yang sama , seharus di berikan relasi ke user
-class FragmentGetAlat :Fragment(R.layout.fragment_get_alat) {
-    private lateinit var viewModel : SharedViewPilihPaket
+class FragmentGetAlat : Fragment(R.layout.fragment_get_alat) {
+    private lateinit var viewModel: SharedViewPilihPaket
     private lateinit var session: PrefManager
     private lateinit var numbIdAlat: EditText
     private lateinit var loading: DialogLoading
-    private lateinit var alert : DialogAlert
-    private lateinit var success : DialogSuccess
-    private var saldoInt :Int? = null
-    private var harga : Int = 0
+    private lateinit var alert: DialogAlert
+    private lateinit var success: DialogSuccess
+    private var saldoInt: Int? = null
+    private var harga: Int = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,13 +44,12 @@ class FragmentGetAlat :Fragment(R.layout.fragment_get_alat) {
         viewModel.paket.observe(viewLifecycleOwner) { data ->
             val position = viewModel.position.value!!
             view.findViewById<TextView>(R.id.namePaketResult).text = data[position].periode
-            view.findViewById<TextView>(R.id.durasi_result).text =  buildString {
+            view.findViewById<TextView>(R.id.durasi_result).text = buildString {
                 append(data[position].dayConvertion)
                 append(" ")
                 append(getString(R.string.hari))
             }
             harga = data[position].biaya.toInt()
-            println(harga)
             view.findViewById<TextView>(R.id.biaya_result).text = data[position].biayaRupiah
             view.findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.button)
                 .setOnClickListener {
@@ -63,23 +62,25 @@ class FragmentGetAlat :Fragment(R.layout.fragment_get_alat) {
                             session.getIdUser!!,
                             numbIdAlat.text.toString().trim()
                         ) { status ->
-                            when(status) {
+                            when (status) {
                                 "connection" -> {
-                                    alert.show(
-                                        getString(R.string.info),
-                                        getString(R.string.trouble_connection),
-                                        R.raw.crosserror
-                                    )
+                                    alert.apply {
+                                        title = getString(R.string.info)
+                                        message = getString(R.string.trouble_connection)
+                                        animation = R.raw.crosserror
+                                    }.show()
                                 }
 
                                 "failed" -> {
-                                    alert.show(
-                                        getString(R.string.info),
-                                        getString(R.string.id_salah),
-                                        R.raw.crosserror
-                                    )
+                                    alert.apply {
+                                        title = getString(R.string.info)
+                                        message = getString(R.string.id_salah)
+                                        animation = R.raw.crosserror
+                                    }.show()
+
                                 }
-                                "success" ->{
+
+                                "success" -> {
                                     success.apply {
                                         animation = R.raw.lotisuccess
                                         title = getString(R.string.berhasil)
@@ -101,40 +102,45 @@ class FragmentGetAlat :Fragment(R.layout.fragment_get_alat) {
     }
 
 
-    private fun validation() : Boolean {
+    private fun validation(): Boolean {
         return when {
             numbIdAlat.text.toString().isEmpty() -> {
                 numbIdAlat.error = getString(R.string.empty_id_alat)
                 numbIdAlat.requestFocus()
                 false
             }
+
             saldoInt == null -> {
-                alert.show(
-                    getString(R.string.info),
-                    getString(R.string.app_error),
-                    R.raw.crosserror
-                )
+                alert.apply {
+                    title = getString(R.string.info)
+                    message = getString(R.string.app_error)
+                    animation = R.raw.crosserror
+                }.show()
                 false
             }
+
             saldoInt!! < harga -> {
-                alert.show(
-                    getString(R.string.info),
-                    getString(R.string.saldo_tidak_mencukupin),
-                    R.raw.crosserror
-                ){
-                    val intent = Intent(view?.context, ActivityTopUp::class.java)
-                    startActivity(intent)
-                    requireActivity().finish()
+                alert.apply {
+                    title = getString(R.string.info)
+                    message = getString(R.string.saldo_tidak_mencukupin)
+                    animation = R.raw.crosserror
+
                 }
+                    .show {
+                        val intent = Intent(view?.context, ActivityTopUp::class.java)
+                        startActivity(intent)
+                        requireActivity().finish()
+                    }
                 false
             }
+
             else -> true
         }
     }
 
     private fun unFocus(context: Context) {
         val imm = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow( view?.windowToken, 0)
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
         numbIdAlat.clearFocus()
     }
 

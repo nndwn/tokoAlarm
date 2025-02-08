@@ -15,12 +15,12 @@ class DialogAlert (
 ) {
     private lateinit var dialog : AlertDialog
     private var isShowing = false
+    var title :String = ""
+    var message :String = ""
+    var animation : Int = 0
+    var loop : Int = LottieDrawable.INFINITE
 
     fun show(
-        title: String,
-        message: String,
-        animation: Int,
-        loop :Int = LottieDrawable.INFINITE,
         click: () -> Unit = {}
     ) {
         val builder = AlertDialog.Builder(activity)

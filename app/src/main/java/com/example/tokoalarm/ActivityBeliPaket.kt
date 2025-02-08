@@ -58,11 +58,11 @@ class ActivityBeliPaket : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListe
     }
 
     private fun errorConnection() {
-        dialogAlert.show(
-            getString(R.string.info),
-            getString(R.string.trouble_connection),
-            R.raw.crosserror
-        )
+        dialogAlert.apply {
+            title = getString(R.string.info)
+            message = getString(R.string.trouble_connection)
+            animation = R.raw.crosserror
+        }.show()
     }
 
     private fun getData() {

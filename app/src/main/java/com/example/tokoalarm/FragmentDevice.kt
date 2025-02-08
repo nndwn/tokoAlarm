@@ -65,11 +65,11 @@ class FragmentDevice : Fragment(R.layout.layout_main_list), OnItemClickAdapterLi
 
         }.show {
             if (dialogInput.text.length > 40 ){
-                alert.show(
-                    getString(R.string.perhatian),
-                    getString(R.string.max_char_error),
-                    R.raw.crosserror
-                )
+                alert.apply {
+                    title = getString(R.string.perhatian)
+                    message = getString(R.string.max_char_error)
+                    animation =  R.raw.crosserror
+                }.show()
                 return@show
             }
             if (nameAlat != dialogInput.text ) {

@@ -62,21 +62,22 @@ class FragmentPilihPaket : Fragment(R.layout.layout_info_adapter) {
                         .commit()
 
                 } else if (saldo == null) {
-                    alert.show(
-                        getString(R.string.perhatian),
-                        getString(R.string.app_error),
-                        R.raw.crosserror
-                    )
+                    alert.apply {
+                        title = getString(R.string.perhatian)
+                        message = getString(R.string.app_error)
+                        animation = R.raw.crosserror
+                    }.show()
                 } else if (saldo!! < data[position].biaya.toInt()) {
-                    alert.show(
-                        getString(R.string.perhatian),
-                        getString(R.string.saldo_tidak_mencukupin),
-                        R.raw.crosserror
-                    ) {
-                        val intent = Intent(view.context, ActivityTopUp::class.java)
-                        startActivity(intent)
-                        requireActivity().finish()
+                    alert.apply {
+                        title = getString(R.string.perhatian)
+                        message = getString(R.string.saldo_tidak_mencukupin)
+                        animation = R.raw.crosserror
                     }
+                        .show{
+                            val intent = Intent(view.context, ActivityTopUp::class.java)
+                            startActivity(intent)
+                            requireActivity().finish()
+                        }
 
                 } else {
                     loading.startLoadingDialog()
@@ -88,19 +89,20 @@ class FragmentPilihPaket : Fragment(R.layout.layout_info_adapter) {
                     ) { status ->
                         when (status) {
                             "connection" -> {
-                                alert.show(
-                                    getString(R.string.perhatian),
-                                    getString(R.string.trouble_connection),
-                                    R.raw.crosserror
-                                )
+                                alert.apply {
+                                    title = getString(R.string.perhatian)
+                                    message = getString(R.string.trouble_connection)
+                                    animation = R.raw.crosserror
+                                }.show()
+
                             }
 
                             "failed" -> {
-                                alert.show(
-                                    getString(R.string.perhatian),
-                                    getString(R.string.trouble_connection),
-                                    R.raw.crosserror
-                                )
+                                alert.apply {
+                                    title = getString(R.string.perhatian)
+                                    message = getString(R.string.trouble_connection)
+                                    animation = R.raw.crosserror
+                                }.show()
                             }
 
                             "success" -> {

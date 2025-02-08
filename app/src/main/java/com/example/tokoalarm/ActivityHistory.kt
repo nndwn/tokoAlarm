@@ -46,11 +46,11 @@ class ActivityHistory :AppCompatActivity() , SwipeRefreshLayout.OnRefreshListene
 
     private fun  troubleConnection() {
         val alert = DialogAlert(this)
-        alert.show(
-            getString(R.string.info),
-            getString(R.string.trouble_connection),
-            R.raw.crosserror
-        )
+        alert.apply {
+            title = getString(R.string.info)
+            message = getString(R.string.trouble_connection)
+            animation = R.raw.crosserror
+        }.show()
     }
 
     private fun getData() {

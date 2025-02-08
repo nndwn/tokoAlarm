@@ -75,24 +75,23 @@ class ActivityLogin : AppCompatActivity(){
                     startActivity(intent)
                     finish()
                 } else {
-                    errorFail.show(
-                        getString(R.string.fail_login),
-                        getString(R.string.fail_access),
-                        R.raw.crosserror)
+                    errorFail.apply {
+                        title = getString(R.string.fail_login)
+                        message =  getString(R.string.fail_access)
+                        animation = R.raw.crosserror
+                    }.show ()
                 }
             } else {
-                errorFail.show(
-                    getString(R.string.fail_login),
-                    getString(R.string.trouble_connection),
-                    R.raw.crosserror
-                )
+                errorFail.apply {
+                    title = getString(R.string.fail_login)
+                    message =  getString(R.string.trouble_connection)
+                    animation = R.raw.crosserror
+                }
             }
             loading.dismissDialog()
 
         }
     }
-
-
 
     private fun validateInput(): Boolean {
         val phone = phoneNumber.text.toString().trim()

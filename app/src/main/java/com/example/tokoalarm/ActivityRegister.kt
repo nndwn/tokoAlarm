@@ -131,10 +131,11 @@ class ActivityRegister :AppCompatActivity(){
                 false
             }
             aggrement.not() -> {
-                alert.show(
-                    getString(R.string.info),
-                    getString(R.string.error_aggrement),
-                    R.raw.crosserror )
+                alert.apply {
+                    title = getString(R.string.info)
+                    message = getString(R.string.error_aggrement)
+                    animation = R.raw.crosserror
+                }.show()
                 false
             }
             else -> true
@@ -146,47 +147,39 @@ class ActivityRegister :AppCompatActivity(){
         loading.startLoadingDialog()
         val failSignUp = getString(R.string.fail_register)
         lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.apiService.sigUp(
-                    name!!,
-                    phone!!,
-                    password!!
-                )
-                if (response.isSuccessful) {
-                    val signUpResponse = response.body()
-                    if (signUpResponse?.status == true) {
-                        val pref = PrefManager(applicationContext)
-                        pref.setNameUser(name!!)
-                        pref.setPhone(phone!!)
-                        pref.setPwd(password!!)
-                        val intent = Intent(this@ActivityRegister, ActivityMain::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        intent.putExtra("register", true)
-                        startActivity(intent) 
-                        finish()
-                    } else {
-                        alert.show(
-                            failSignUp,
-                            getString(R.string.fail_register),
-                            R.raw.crosserror
-                        )
-                    }
+            val response = RetrofitClient.apiService.sigUp(
+                name!!,
+                phone!!,
+                password!!
+            )
+            if (response.isSuccessful) {
+                val signUpResponse = response.body()
+                if (signUpResponse?.status == true) {
+                    val pref = PrefManager(applicationContext)
+                    pref.setNameUser(name!!)
+                    pref.setPhone(phone!!)
+                    pref.setPwd(password!!)
+                    val intent = Intent(this@ActivityRegister, ActivityMain::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    intent.putExtra("register", true)
+                    startActivity(intent)
+                    finish()
                 } else {
-                    alert.show(
-                        failSignUp,
-                        getString(R.string.fail_register),
-                        R.raw.crosserror)
-                }
+                    alert.apply {
+                        title = getString(R.string.fail_register)
+                        message = getString(R.string.fail_register)
+                        animation = R.raw.crosserror
 
-            } catch (e : Exception) {
-                e.printStackTrace()
-                alert.show(
-                    failSignUp,
-                    getString(R.string.trouble_connection),
-                    R.raw.crosserror)
-            } finally {
-                loading.dismissDialog()
+                    }
+                }
+            } else {
+                alert.apply {
+                    title = getString(R.string.fail_register)
+                    message = getString(R.string.trouble_connection)
+                    animation = R.raw.crosserror
+                }
             }
+            loading.dismissDialog()
         }
     }
 }

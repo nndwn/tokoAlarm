@@ -148,17 +148,18 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
     }
 
     private fun ifNotGranted() {
-        dialogAlert.show(
-            getString(R.string.info),
-            getString(R.string.notification_permission),
-            R.raw.lottie_notif
-        ) {
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                data = Uri.fromParts("package", packageName, null)
-            }
-            startActivity(intent)
-            finish()
+        dialogAlert.apply {
+            title = getString(R.string.info)
+            message =  getString(R.string.notification_permission)
+            animation = R.raw.lottie_notif
         }
+            .show {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = Uri.fromParts("package", packageName, null)
+                }
+                startActivity(intent)
+                finish()
+            }
     }
 
     private fun transitionFragment() {
@@ -236,11 +237,11 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
 
 
     private fun connectionTrouble () {
-        dialogAlert.show(
-            getString(R.string.info),
-            getString(R.string.trouble_connection),
-            R.raw.crosserror
-        )
+        dialogAlert.apply {
+           title = getString(R.string.info)
+           message = getString(R.string.trouble_connection)
+           animation = R.raw.crosserror
+        }.show()
     }
 
     private fun fetchSaldo() {
