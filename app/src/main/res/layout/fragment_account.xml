@@ -1,35 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     >
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
+    <include layout="@layout/layout_header_main"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        app:layout_constraintTop_toBottomOf="@+id/backgrountTop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/logout"
-        />
+        android:background="@drawable/rectangle_round_10"
+        android:padding="@dimen/_10sdp"
+        >
 
-    <Button
-        android:id="@+id/dev"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/logout"
-        />
-    <Button
-        android:id="@+id/testNotificationTwo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/logout"
-        />
-    <Button
-        android:id="@+id/testNotificationThree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/logout"
-        />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

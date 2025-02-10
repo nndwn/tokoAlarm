@@ -1,5 +1,6 @@
 package com.example.tokoalarm
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -90,8 +91,3 @@ class SharedViewPilihPaket : ViewModel() {
     }
 }
 
-class SharedViewMonitoring :ViewModel() {
-    val jadwal :MutableLiveData<ListJadwal?> = MutableLiveData()
-    val alat : MutableLiveData<ListAlat> = MutableLiveData()
-    val mode :MutableLiveData<String> = MutableLiveData()
-}

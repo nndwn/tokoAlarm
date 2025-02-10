@@ -1,35 +1,40 @@
 package com.example.tokoalarm
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.marginBottom
 import androidx.core.view.updateLayoutParams
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 
 class FragmentMonitoring : Fragment(R.layout.fragment_monitoring) {
 
-    private lateinit var viewMonitoring: SharedViewMonitoring
-    private lateinit var mqtt: HandlerMqtt
     private lateinit var utils: Utils
     private lateinit var alert: DialogAlert
     private lateinit var success: DialogSuccess
+    private lateinit var input: DialogInput
+    private var active = true
+
+    private lateinit var views: View
+    private val viewModelMonitor: ViewModelMonitor by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewMonitoring = ViewModelProvider(requireActivity())[SharedViewMonitoring::class.java]
-        mqtt = HandlerMqtt()
         utils = Utils(requireContext())
         success = DialogSuccess(requireActivity())
+        input = DialogInput(requireActivity())
+        views = view
 
-        viewMonitoring.alat.observe(viewLifecycleOwner) { alat ->
+        viewModelMonitor.alat.observe(viewLifecycleOwner) { alat ->
             view.findViewById<TextView>(R.id.namaAlatResult)
                 .text = utils.checkNameAlat(alat.namePaket, alat.idAlat)
             view.findViewById<TextView>(R.id.idAlatResult)
@@ -41,22 +46,15 @@ class FragmentMonitoring : Fragment(R.layout.fragment_monitoring) {
             when (alat.status) {
                 "Non Aktif" -> {
                     statusPaket.setTextColor(view.context.getColor(R.color.text_failed))
-                    checkServer(view, false)
+                    checkServer(false, alat.idAlat)
                 }
                 "Aktif" -> {
-
                     statusPaket.setTextColor(view.context.getColor(R.color.text_success))
                     containerStatusAlat.visibility = View.VISIBLE
-                    mqtt.disconnect()
-                    mqtt.connect { isConnected ->
-                        checkServer(view, isConnected)
-                    }
-                    mqtt.subscribe(alat.idAlat + "/active") {
-                        checkAlat(it, view)
+                    viewModelMonitor.connectionStatus.observe(viewLifecycleOwner) { isConnected ->
+                        checkServer(isConnected, alat.idAlat)
                     }
                 }
-
-                "Pending" -> statusPaket.setTextColor(view.context.getColor(R.color.text_pending))
             }
 
             view.findViewById<TextView>(R.id.mulaiResult)
@@ -64,34 +62,7 @@ class FragmentMonitoring : Fragment(R.layout.fragment_monitoring) {
             view.findViewById<TextView>(R.id.akhirResult)
                 .text = alat.tanggalSelesai
 
-            view.findViewById<Button>(R.id.checkBtn)
-                .setOnClickListener {
-                    mqtt.disconnect()
-                    mqtt.connect { isConnected ->
-                        checkServer(view, isConnected) {
-                            if (isConnected) {
-                                mqtt.subscribe(alat.idAlat + "/active") {
-                                    checkAlat(it, view)
-                                }
-                                success.apply {
-                                    title = getString(R.string.berhasil)
-                                    animation = R.raw.lotisuccess
-                                }.show()
-                            } else {
-                                alert.apply {
-                                    title = getString(R.string.tidak_terhubung_server)
-                                    message = getString(R.string.hubungin_admin_text)
-                                    animation = R.raw.crosserror
-                                    textBtn = getString(R.string.hubungin_admin)
-                                }.show {
-                                    utils.whatsapp("koneksi gagal" , "6281264628242")
-                                }
-                            }
-                        }
-                    }
-                }
-
-            viewMonitoring.jadwal.observe(viewLifecycleOwner) { jadwal ->
+            viewModelMonitor.jadwal.observe(viewLifecycleOwner) { jadwal ->
                 if(jadwal != null) {
                     view.findViewById<Button>(R.id.tambahJadwal)
                         .visibility = View.GONE
@@ -143,29 +114,45 @@ class FragmentMonitoring : Fragment(R.layout.fragment_monitoring) {
                 .text = getString(R.string.fitur_spy_text)
             val btnSpy = view.findViewById<Button>(R.id.btnSpy)
             val btnBunyikan = view.findViewById<Button>(R.id.bunyiBtn)
-            btnBunyikan.setOnClickListener {
-                mqtt.publish(alat.idAlat+ "/delay", "5")
-                mqtt.publish(alat.idAlat+ "/alarm", "1")
-                success.apply {
-                    title = ""
-                    animation = R.raw.lottie_count
-                    delay = 5000
-                    cancelable = false
-                }.show()
+            val btnLamaBunyi = view.findViewById<Button>(R.id.lamaBunyi)
+
+
+            btnLamaBunyi.setOnClickListener {
+                input.apply {
+                    title = buildString {
+                        append(getString(R.string.atur_lama_bunyi))
+                        append(" ")
+                        append(getString(R.string.satuan_detik))
+                    }
+                    text = if (viewModelMonitor.delay.value != 0L) "5" else viewModelMonitor.delay.value.toString()
+                }.show {
+                    viewModelMonitor.publish(alat.idAlat+ "/delay", input.text)
+                }
             }
-            viewMonitoring.mode.observe(viewLifecycleOwner) { mode ->
+            btnBunyikan.setOnClickListener {
+                viewModelMonitor.publish(alat.idAlat+ "/alarm", "1")
+                btnBunyikan.isEnabled = false
+                Handler(Looper.getMainLooper()).postDelayed({
+                    btnBunyikan.isEnabled = true
+                }, viewModelMonitor.delay.value?.times(1000) ?: 5000)
+            }
+            viewModelMonitor.mode.observe(viewLifecycleOwner) { mode ->
                 when (mode) {
                     "otomatis" -> {
                         btnSpy.text = getString(R.string.mode_auto)
                         btnSpy.setOnClickListener {
                             btnSpy.text = getString(R.string.mode_manual)
-                            viewMonitoring.mode.value = "manual"
-                            mqtt.publish(alat.idAlat+ "/mode", "manual")
+                            viewModelMonitor.mode.value = "manual"
+                            viewModelMonitor.publish(alat.idAlat+ "/mode", "manual")
                             btnBunyikan.visibility = View.VISIBLE
+                            btnLamaBunyi.visibility = View.VISIBLE
+
+                            val fadeIn =  AnimationUtils.loadAnimation(view.context, android.R.anim.fade_in)
+                            btnBunyikan.startAnimation(fadeIn)
+                            btnLamaBunyi.startAnimation(fadeIn)
                             btnSpy.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                                 bottomMargin = 0
                             }
-
                         }
                     }
                     "manual" -> {
@@ -176,56 +163,67 @@ class FragmentMonitoring : Fragment(R.layout.fragment_monitoring) {
                         }
                         btnSpy.setOnClickListener {
                             btnSpy.text = getString(R.string.mode_auto)
-                            viewMonitoring.mode.value = "otomatis"
-                            mqtt.publish(alat.idAlat+ "/mode", "otomatis")
+                            viewModelMonitor.mode.value = "otomatis"
+                            viewModelMonitor.publish(alat.idAlat+ "/mode", "otomatis")
                             btnBunyikan.visibility = View.GONE
+                            btnLamaBunyi.visibility = View.GONE
                             btnSpy.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                                 bottomMargin = 52
                             }
+                            val fadeOut =  AnimationUtils.loadAnimation(view.context, android.R.anim.fade_out)
+                            btnLamaBunyi.startAnimation(fadeOut)
+                            btnBunyikan.startAnimation(fadeOut)
                         }
                     }
                 }
             }
-
-        }
-
-    }
-
-    private fun checkServer(view: View, boolean: Boolean, callback : (ok : Boolean) -> Unit = {}) {
-        val koneksi = view.findViewById<TextView>(R.id.koneksi)
-        val indicator = view.findViewById<ImageView>(R.id.indicator)
-        view.post {
-            if (boolean) {
-                koneksi.text = getString(R.string.terhubung_server)
-                koneksi.setTextColor(view.context.getColor(R.color.text_success))
-                koneksi.contentDescription = getString(R.string.terhubung_server)
-                indicator.backgroundTintList = view.context.getColorStateList(R.color.text_success)
-                indicator.contentDescription = getString(R.string.terhubung_server)
-                callback(true)
-            } else {
-                koneksi.text = getString(R.string.tidak_terhubung_server)
-                koneksi.setTextColor(view.context.getColor(R.color.text_failed))
-                koneksi.contentDescription = getString(R.string.tidak_terhubung_server)
-                indicator.backgroundTintList = view.context.getColorStateList(R.color.text_failed)
-                indicator.contentDescription = getString(R.string.tidak_terhubung_server)
-                callback(false)
-            }
         }
     }
 
-    private fun checkAlat(result: String, view: View ) {
-        val check = view.findViewById<TextView>(R.id.statusAlatResult)
-        view.post {
-            if (result == "1") {
-                check.text = getString(R.string.aktif)
-                check.contentDescription = getString(R.string.aktif)
-                check.setTextColor(view.context.getColor(R.color.text_success))
 
-            } else {
-                check.text = getString(R.string.no_active)
-                check.contentDescription = getString(R.string.no_active)
-                check.setTextColor(view.context.getColor(R.color.text_failed))
+    override fun onResume() {
+        super.onResume()
+        viewModelMonitor.connect()
+    }
+
+
+    private fun checkServer( con :Boolean, idAlat: String) {
+        val koneksi = views.findViewById<TextView>(R.id.koneksi)
+        val indicator = views.findViewById<ImageView>(R.id.indicator)
+        if (con) {
+            koneksi.text = getString(R.string.terhubung_server)
+            koneksi.setTextColor(views.context.getColor(R.color.text_success))
+            koneksi.contentDescription = getString(R.string.terhubung_server)
+            indicator.backgroundTintList = views.context.getColorStateList(R.color.text_success)
+            indicator.contentDescription = getString(R.string.terhubung_server)
+            viewModelMonitor.subsAlat(buildString {
+                append(idAlat)
+                append("/active")
+            })
+            viewModelMonitor.alatConnectionStatus.observe(viewLifecycleOwner) {
+                checkAlat(it)
             }
+        } else {
+            koneksi.text = getString(R.string.tidak_terhubung_server)
+            koneksi.setTextColor(views.context.getColor(R.color.text_failed))
+            koneksi.contentDescription = getString(R.string.tidak_terhubung_server)
+            indicator.backgroundTintList = views.context.getColorStateList(R.color.text_failed)
+            indicator.contentDescription = getString(R.string.tidak_terhubung_server)
+
+        }
+    }
+
+    private fun checkAlat(result: Boolean ) {
+        val check = views.findViewById<TextView>(R.id.statusAlatResult)
+        if (result) {
+            check.text = getString(R.string.aktif)
+            check.contentDescription = getString(R.string.aktif)
+            check.setTextColor(views.context.getColor(R.color.text_success))
+
+        } else {
+            check.text = getString(R.string.no_active)
+            check.contentDescription = getString(R.string.no_active)
+            check.setTextColor(views.context.getColor(R.color.text_failed))
         }
     }
 }

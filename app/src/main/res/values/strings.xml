@@ -138,4 +138,7 @@
         Anda dapat menghilangkan suara pada alat dan anda tetap menerima pemberitahuan
         selain itu anda dapat membunyikannya secara manual
     </string>
+    <string name="indicator">indicator</string>
+    <string name="atur_lama_bunyi">Atur Lama Bunyi</string>
+    <string name="satuan_detik">dengan satuan detik</string>
 </resources>

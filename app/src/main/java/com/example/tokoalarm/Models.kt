@@ -3,6 +3,7 @@ package com.example.tokoalarm
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.coroutines.Delay
 
 
 data class LoginResponse(
@@ -296,7 +297,8 @@ data class ListAddJadwal(
 data class ResponseSettingList (
     val status :Boolean,
     @SerializedName("last_alat")
-    val lastAlat : LastAlat
+    val lastAlat : LastAlat,
+    val renamed : ListRenamedAlat
 )
 
 data class LastAlat(
@@ -304,11 +306,47 @@ data class LastAlat(
     val data : ListSetting
 )
 
+data class ListRenamedAlat (
+    @SerializedName("before_rename")
+    val beforeRenamed : String,
+    @SerializedName("after_rename")
+    val afterRenamed : String
+)
+
+data class ListSensor(
+    val name : String,
+    val inn : String,
+    val outt : String,
+    val stsin : String,
+    val statin : String,
+    val stsstatin : String
+)
+
 data class ListSetting(
     val id: String,
     @SerializedName("id_alat")
     val idAlat: String,
     val mode : String,
+    val in1: String,
+    val in2: String,
+    val in3: String,
+    val out1 : String,
+    val out2 : String,
+    val out3 : String,
+    val stsin1 : String,
+    val stsin2 : String,
+    val stsin3 : String,
+    val statin1 : String,
+    val statin2 : String,
+    val statin3 : String,
+    val stsstatin1 : String,
+    val stsstatin2 : String,
+    val stsstatin3 : String,
+    val delay: String,
+    @SerializedName("sts_alat")
+    val stsalat :String,
+    @SerializedName("is_aktif")
+    val isaktif : String
 )
 
 

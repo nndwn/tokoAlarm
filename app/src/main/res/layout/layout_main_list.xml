@@ -4,34 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:id="@+id/backgrountTop"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="@dimen/_4sdp"
-        android:paddingVertical="@dimen/_10sdp"
-        >
-        <TextView
-
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:textAlignment="textStart"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/title_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text ="@string/daftar_detail_paket"
-            android:fontFamily="@font/robotomedium"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp"
-
-            />
-    </LinearLayout>
+   <include layout="@layout/layout_header_main"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginHorizontal="@dimen/_15sdp"

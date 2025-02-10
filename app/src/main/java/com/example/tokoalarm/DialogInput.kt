@@ -22,19 +22,6 @@ class DialogInput(private val activity: Activity ) {
         val inflater = activity.layoutInflater
         val view = inflater.inflate(R.layout.dialog_input, parent, false)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            ViewCompat.setOnApplyWindowInsetsListener(sheetDialog.window?.decorView!!) { v, insets ->
-                val imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-                val navigationBarHeight =
-                    insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
-                v.setPadding(0, 0, 0, imeHeight - navigationBarHeight)
-                insets
-            }
-        } else {
-            @Suppress("DEPRECATION")
-            sheetDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        }
-
         sheetDialog.setContentView(view)
         sheetDialog.setCancelable(true)
         sheetDialog.show()

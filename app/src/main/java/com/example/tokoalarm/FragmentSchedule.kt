@@ -27,15 +27,15 @@ class FragmentSchedule : Fragment(R.layout.layout_main_list), OnItemClickAdapter
     }
 
     override fun onItemEdit(position: Int) {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 
     override fun onItemDelete(position: Int) {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 
     override fun onItemSwitch(position: Int) {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 
     override fun onItemAdd() {
