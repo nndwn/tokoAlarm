@@ -37,7 +37,6 @@ class ActivityMonitoring : AppCompatActivity() {
 
         viewMonitoring.alat.value = listAlat
 
-
         listJadwal = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableArrayListExtra("JadwalData", ListJadwal::class.java)!!
         } else {

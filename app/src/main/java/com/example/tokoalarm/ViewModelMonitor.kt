@@ -20,6 +20,20 @@ class ViewModelMonitor : ViewModel() {
 
     private val _alatConnectionStatus = MutableLiveData<Boolean>()
     val alatConnectionStatus: LiveData<Boolean> get() = _alatConnectionStatus
+    private var lastMessageTime: Long = 0
+    private val connectionTimeout = 10000L
+
+    private val _sensorSwicthStatus = MutableLiveData<Boolean>()
+    val sensorSwicthStatus: LiveData<Boolean> get() = _sensorSwicthStatus
+    private var lastSensorSwitch :Long = 0
+
+    private val _sensorTemperatureStatus = MutableLiveData<Boolean>()
+    private val sensorTemperatureStatus: LiveData<Boolean> get() = _sensorTemperatureStatus
+    private var lastSensorTemperature :Long = 0
+
+    private val _sensorGerakStatus = MutableLiveData<Boolean>()
+    val sensorGerakStatus: LiveData<Boolean> get() = _sensorGerakStatus
+    private var lastSensorGerak :Long = 0
 
 
     val jadwal :MutableLiveData<ListJadwal?> = MutableLiveData()
@@ -31,8 +45,7 @@ class ViewModelMonitor : ViewModel() {
 
     private lateinit var mqttClient: Mqtt3AsyncClient
     private var isConnected = false
-    private var lastMessageTime: Long = 0
-    private val connectionTimeout = 10000L
+
 
     private val scope = CoroutineScope(Dispatchers.Main)
 
@@ -48,45 +61,80 @@ class ViewModelMonitor : ViewModel() {
                 response.body()?.let {
                     mode.value = it.lastAlat.data.mode
                     delay.value = it.lastAlat.data.delay.toLong()
-                    sensor.value = toListSensor(it.lastAlat.data)
+                    sensor.value = toListSensor(it.lastAlat.data, it.renamed.data)
                 }
-
             }
         }
     }
 
-    private fun toListSensor(listSetting: ListSetting) :List<ListSensor> {
+    fun renameSensor(phone: String, idAlat: String, type : String, rename : String) {
+        viewModelScope.launch {
+            val response = RetrofitClient.apiService.gerRenameNameSensor(
+                phone,
+                idAlat,
+                type,
+                rename
+            )
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    println("success")
+                }
+            }
+        }
+    }
+
+
+    private fun convertListRenamedData(listName: List<ListRenamedAlat>, str: String): String {
+        val result = listName.find { it.beforeRenamed == str }
+        return result?.afterRenamed ?: ""
+    }
+
+    private fun toListSensor(listSetting: ListSetting , rename : List<ListRenamedAlat>) :List<ListSensor> {
         return listOf(
             ListSensor(
+                check = false,
                 name = "Sensor Switch",
-                inn = listSetting.in1,
-                outt = listSetting.out1,
-                stsin = listSetting.stsin1,
-                statin = listSetting.statin1,
-                stsstatin = listSetting.stsstatin1
+                inn = listSetting.in1.toString(),
+                outt = listSetting.out1.toString(),
+                stsin = listSetting.stsin1.toString(),
+                statin = listSetting.statin1.toString(),
+                stsstatin = listSetting.stsstatin1.toString(),
+                rename = convertListRenamedData(rename, "in1"),
+                type = "/in1",
+                typeStatin = "/statin1"
+
             ),
 
             ListSensor(
+                check = false,
                 name = "Sensor Temperature (Ohm)",
-                inn = listSetting.in2,
-                outt = listSetting.out2,
-                stsin = listSetting.stsin2,
-                statin = listSetting.statin2,
-                stsstatin = listSetting.stsstatin2
+                inn = listSetting.in2.toString(),
+                outt = listSetting.out2.toString(),
+                stsin = listSetting.stsin2.toString(),
+                statin = listSetting.statin2.toString(),
+                stsstatin = listSetting.stsstatin2.toString(),
+                rename = convertListRenamedData(rename, "in2"),
+                type = "/in2",
+                typeStatin = "/statin2"
+
             ),
 
             ListSensor(
+                check = false,
                 name = "Sensor Gerak (RF)",
-                inn = listSetting.in3,
-                outt = listSetting.out3,
-                stsin = listSetting.stsin3,
-                statin = listSetting.statin3,
-                stsstatin = listSetting.stsstatin3
+                inn = listSetting.in3 .toString(),
+                outt = listSetting.out3.toString(),
+                stsin = listSetting.stsin3.toString(),
+                statin = listSetting.statin3.toString(),
+                stsstatin = listSetting.stsstatin3.toString(),
+                rename = convertListRenamedData(rename, "in3"),
+                type = "/in3",
+                typeStatin = "/statin3"
             )
         )
     }
 
-    fun publish (topic :String, message :String) {
+    fun publish (topic :String, message :String, callback : () -> Unit = {}) {
         mqttClient.publishWith()
             .topic(topic)
             .payload(message.toByteArray())
@@ -94,32 +142,72 @@ class ViewModelMonitor : ViewModel() {
             .whenComplete { _, throwable ->
                 isConnected = throwable == null
                 _connectionStatus.postValue(isConnected)
+                if(isConnected) {
+                    callback()
+                }
             }
     }
 
 
-    fun subsAlat (topic :String,) {
+    fun unSubsAlat (topic: String) {
+        mqttClient.unsubscribeWith()
+            .topicFilter(topic)
+            .send()
+    }
+
+    fun subsAlat (topic :String, type : String ) {
         mqttClient.subscribeWith()
             .topicFilter(topic)
             .callback { publish ->
                 val message = String(publish.payloadAsBytes)
-                lastMessageTime = System.currentTimeMillis()
+                when (type) {
+                    "alat" -> lastMessageTime = System.currentTimeMillis()
+                    "/in1" -> lastSensorSwitch = System.currentTimeMillis()
+                    "/in2" -> lastSensorTemperature = System.currentTimeMillis()
+                    "/in3" -> lastSensorGerak = System.currentTimeMillis()
+                }
+
                 scope.launch {
                     if (message == "1") {
-                        _alatConnectionStatus.postValue(true)
+                        when (type) {
+                            "alat" ->  _alatConnectionStatus.postValue(true)
+                            "/in1" -> _sensorSwicthStatus.postValue(true)
+                            "/in2" -> _sensorTemperatureStatus.postValue(true)
+                            "/in3" -> _sensorGerakStatus.postValue(true)
+                        }
+
                     }
                 }
             }
             .send()
-        startConnectionMonitor()
+        startConnectionMonitor(type)
     }
 
-    private fun startConnectionMonitor() {
+    private fun startConnectionMonitor(type: String) {
         scope.launch {
             while (true) {
                 val currentTime = System.currentTimeMillis()
-                if (currentTime - lastMessageTime > connectionTimeout) {
-                    _alatConnectionStatus.postValue(false)
+                when (type) {
+                    "alat" -> {
+                        if (currentTime - lastMessageTime > connectionTimeout) {
+                            _alatConnectionStatus.postValue(false)
+                        }
+                    }
+                    "/in1" -> {
+                        if (currentTime - lastSensorSwitch > connectionTimeout) {
+                            _sensorSwicthStatus.postValue(false)
+                        }
+                    }
+                    "/in2" -> {
+                        if (currentTime - lastSensorTemperature > connectionTimeout) {
+                            _sensorTemperatureStatus.postValue(false)
+                        }
+                    }
+                    "/in3" -> {
+                        if (currentTime - lastSensorGerak > connectionTimeout) {
+                            _sensorGerakStatus.postValue(false)
+                        }
+                    }
                 }
                 delay(2000)
             }
@@ -172,9 +260,11 @@ class ViewModelMonitor : ViewModel() {
     }
 
 
-    fun disconnect() {
+    private fun disconnect() {
         scope.cancel()
-        mqttClient.disconnect()
+        if (this::mqttClient.isInitialized){
+            mqttClient.disconnect()
+        }
         isConnected = false
         _connectionStatus.postValue(false)
     }

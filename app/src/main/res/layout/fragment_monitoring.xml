@@ -250,9 +250,11 @@
             android:layout_marginHorizontal="@dimen/_15sdp"/>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="@dimen/_5sdp"
             android:id="@+id/listSensor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
             android:layout_marginHorizontal="@dimen/_15sdp"
             />
         <include layout="@layout/layout_info"

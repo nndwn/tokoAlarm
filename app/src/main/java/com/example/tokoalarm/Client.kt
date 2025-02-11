@@ -95,6 +95,15 @@ interface ApiService {
         @Field("id_alat") idAlat: String,
         @Field("nomor_paket") nomorPaket: String
     ): Response<ResponseSettingList>
+
+    @FormUrlEncoded
+    @POST("users/rename")
+    suspend fun gerRenameNameSensor(
+        @Field("nohp") nohp: String,
+        @Field("id_alat") idAlat: String,
+        @Field("before_rename") beforeRename: String,
+        @Field("after_rename") namaSensor: String
+    ) : Response<ResponseData>
 }
 
 object RetrofitClient {

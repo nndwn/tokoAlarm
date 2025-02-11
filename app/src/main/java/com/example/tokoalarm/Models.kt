@@ -3,7 +3,6 @@ package com.example.tokoalarm
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.coroutines.Delay
 
 
 data class LoginResponse(
@@ -298,7 +297,12 @@ data class ResponseSettingList (
     val status :Boolean,
     @SerializedName("last_alat")
     val lastAlat : LastAlat,
-    val renamed : ListRenamedAlat
+    val renamed : RenamedData
+)
+
+data class RenamedData (
+    val status: Boolean,
+    val data : List<ListRenamedAlat>
 )
 
 data class LastAlat(
@@ -313,13 +317,22 @@ data class ListRenamedAlat (
     val afterRenamed : String
 )
 
+data class ResponseData (
+    val status : Boolean,
+    val message : String
+)
+
 data class ListSensor(
+    var check : Boolean,
     val name : String,
     val inn : String,
     val outt : String,
     val stsin : String,
     val statin : String,
-    val stsstatin : String
+    val stsstatin : String,
+    var rename : String,
+    var type : String,
+    var typeStatin : String
 )
 
 data class ListSetting(
@@ -327,21 +340,21 @@ data class ListSetting(
     @SerializedName("id_alat")
     val idAlat: String,
     val mode : String,
-    val in1: String,
-    val in2: String,
-    val in3: String,
-    val out1 : String,
-    val out2 : String,
-    val out3 : String,
-    val stsin1 : String,
-    val stsin2 : String,
-    val stsin3 : String,
-    val statin1 : String,
-    val statin2 : String,
-    val statin3 : String,
-    val stsstatin1 : String,
-    val stsstatin2 : String,
-    val stsstatin3 : String,
+    val in1: String?,
+    val in2: String?,
+    val in3: String?,
+    val out1 : String?,
+    val out2 : String?,
+    val out3 : String?,
+    val stsin1 : String?,
+    val stsin2 : String?,
+    val stsin3 : String?,
+    val statin1 : String?,
+    val statin2 : String?,
+    val statin3 : String?,
+    val stsstatin1 : String?,
+    val stsstatin2 : String?,
+    val stsstatin3 : String?,
     val delay: String,
     @SerializedName("sts_alat")
     val stsalat :String,

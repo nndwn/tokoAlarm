@@ -141,4 +141,5 @@
     <string name="indicator">indicator</string>
     <string name="atur_lama_bunyi">Atur Lama Bunyi</string>
     <string name="satuan_detik">dengan satuan detik</string>
+    <string name="rename_sensor">Nama Ulang Sensor</string>
 </resources>
