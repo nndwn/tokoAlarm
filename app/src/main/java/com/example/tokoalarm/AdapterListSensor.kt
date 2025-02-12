@@ -27,7 +27,7 @@ class AdapterListSensor(
         private val switcher = view.findViewById<SwitchCompat>(R.id.switcher)
         private val background = view.findViewById<LinearLayout>(R.id.switcher_background)
 
-        var check = false
+        private var check = false
 
 
         private fun switherAktif () {

@@ -6,18 +6,20 @@ import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 
-
-class ActivityMonitoring : AppCompatActivity() {
+class ActivityMonitoring : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener {
     private lateinit var listAlat: ListAlat
     private var listJadwal = ArrayList<ListJadwal>()
     private val viewMonitoring: ViewModelMonitor by viewModels()
     private lateinit var prefManager: PrefManager
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.layout_toolbar_fragment)
+        setContentView(R.layout.layout_swipe_toolbar_fragment)
 
         prefManager = PrefManager(this)
 
@@ -27,6 +29,18 @@ class ActivityMonitoring : AppCompatActivity() {
                 supportFragmentManager.popBackStack()
             } else onBackPressedDispatcher.onBackPressed()
        }
+
+        swipeRefreshLayout = findViewById(R.id.containerSwipe)
+        swipeRefreshLayout.setOnRefreshListener(this@ActivityMonitoring)
+        swipeRefreshLayout.post {
+            swipeRefreshLayout.isRefreshing = true
+            viewMonitoring.connectMqtt()
+            viewMonitoring.getData(
+                prefManager.getPhone!!
+                , listAlat.idAlat
+                , listAlat.nomorPaket
+            )
+        }
 
         listAlat = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
            intent.getParcelableExtra("MonitorData", ListAlat::class.java)!!
@@ -60,11 +74,19 @@ class ActivityMonitoring : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        viewMonitoring.refresh.observe(this) {
+            swipeRefreshLayout.isRefreshing = it
+
+        }
+    }
+
+    override fun onRefresh() {
         viewMonitoring.getData(
             prefManager.getPhone!!
             , listAlat.idAlat
             , listAlat.nomorPaket
         )
+        viewMonitoring.connectMqtt()
     }
 
 }

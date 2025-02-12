@@ -4,20 +4,16 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.switchmaterial.SwitchMaterial
 
 class FragmentMonitoring : Fragment(R.layout.fragment_monitoring), OnListenerSensor {
 
@@ -30,6 +26,7 @@ class FragmentMonitoring : Fragment(R.layout.fragment_monitoring), OnListenerSen
 
     private val viewModelMonitor: ViewModelMonitor by activityViewModels()
     private lateinit var sensorContainer: RecyclerView
+    private lateinit var riwayatSensorContainer : RecyclerView
 
     private var activeAlat = false
 
@@ -40,6 +37,10 @@ class FragmentMonitoring : Fragment(R.layout.fragment_monitoring), OnListenerSen
         input = DialogInput(requireActivity())
         prefManager = PrefManager(requireContext())
 
+        val btnTambahJadwal = view.findViewById<Button>(R.id.tambahJadwal)
+        val btnBunyikan = view.findViewById<Button>(R.id.bunyiBtn)
+        val btnLamaBunyi = view.findViewById<Button>(R.id.lamaBunyi)
+        val btnCheckAlat = view.findViewById<Button>(R.id.checkAlat)
 
         viewModelMonitor.alat.observe(viewLifecycleOwner) { alat ->
             view.findViewById<TextView>(R.id.namaAlatResult)
@@ -53,21 +54,36 @@ class FragmentMonitoring : Fragment(R.layout.fragment_monitoring), OnListenerSen
             when (alat.status) {
                 "Non Aktif" -> {
                     statusPaket.setTextColor(view.context.getColor(R.color.text_failed))
-                    checkServer(false, alat.idAlat)
+                    checkServer(false)
+
+                    btnTambahJadwal.visibility = View.GONE
+                    btnBunyikan.visibility = View.GONE
+                    btnLamaBunyi.visibility = View.GONE
+                    btnCheckAlat.visibility = View.GONE
                 }
 
                 "Aktif" -> {
                     statusPaket.setTextColor(view.context.getColor(R.color.text_success))
                     containerStatusAlat.visibility = View.VISIBLE
+                    viewModelMonitor.connectMqtt()
                     viewModelMonitor.connectionStatus.observe(viewLifecycleOwner) { isConnected ->
-                        checkServer(isConnected, alat.idAlat)
+                        checkServer(isConnected)
+                    }
+                    viewModelMonitor.checkAlat.observe(viewLifecycleOwner) {
+                        checkAlat(it)
                     }
                     sensorContainer = view.findViewById(R.id.listSensor)
+                    riwayatSensorContainer = view.findViewById(R.id.riwayatSensor)
+                    riwayatSensorContainer.layoutManager = LinearLayoutManager(view.context)
                     sensorContainer.layoutManager = LinearLayoutManager(view.context)
                     viewModelMonitor.sensor.observe(viewLifecycleOwner) {
                         sensorContainer.adapter = AdapterListSensor(it, this)
-
+                        riwayatSensorContainer.adapter = AdapterListRiwayatSensor(it)
                     }
+
+                    btnBunyikan.visibility = View.VISIBLE
+                    btnLamaBunyi.visibility = View.VISIBLE
+                    btnCheckAlat.visibility = View.VISIBLE
                 }
             }
 
@@ -78,8 +94,7 @@ class FragmentMonitoring : Fragment(R.layout.fragment_monitoring), OnListenerSen
 
             viewModelMonitor.jadwal.observe(viewLifecycleOwner) { jadwal ->
                 if (jadwal != null) {
-                    view.findViewById<Button>(R.id.tambahJadwal)
-                        .visibility = View.GONE
+                    btnTambahJadwal.visibility = View.GONE
                     view.findViewById<ConstraintLayout>(R.id.layoutJadwal)
                         .visibility = View.VISIBLE
                     view.findViewById<TextView>(R.id.namaPerangkat)
@@ -112,7 +127,7 @@ class FragmentMonitoring : Fragment(R.layout.fragment_monitoring), OnListenerSen
                             //todo: jadwal edit belum diisi fungsi
                         }
                 } else {
-                    val btnTambahJadwal = view.findViewById<Button>(R.id.tambahJadwal)
+
                     btnTambahJadwal.visibility = View.VISIBLE
                     btnTambahJadwal.setOnClickListener {
                         //todo: jadwal tambah belum diisi fungsi
@@ -121,14 +136,6 @@ class FragmentMonitoring : Fragment(R.layout.fragment_monitoring), OnListenerSen
                         .visibility = View.GONE
                 }
             }
-
-            view.findViewById<TextView>(R.id.infoTitleId)
-                .text = getString(R.string.info)
-            view.findViewById<TextView>(R.id.infoText)
-                .text = getString(R.string.fitur_spy_text)
-            val btnSpy = view.findViewById<Button>(R.id.btnSpy)
-            val btnBunyikan = view.findViewById<Button>(R.id.bunyiBtn)
-            val btnLamaBunyi = view.findViewById<Button>(R.id.lamaBunyi)
 
 
             btnLamaBunyi.setOnClickListener {
@@ -139,73 +146,32 @@ class FragmentMonitoring : Fragment(R.layout.fragment_monitoring), OnListenerSen
                         append(getString(R.string.satuan_detik))
                     }
                     text =
-                        if (viewModelMonitor.delay.value != 0L) "5" else viewModelMonitor.delay.value.toString()
+                        if (viewModelMonitor.lamaBunyi.value != 0L) "5" else viewModelMonitor.lamaBunyi.value.toString()
                 }.show {
-                    viewModelMonitor.publish(alat.idAlat + "/delay", input.text)
+                    viewModelMonitor.publishSettingsAlat(alat.idAlat + "/delay", input.text)
                 }
             }
             btnBunyikan.setOnClickListener {
-                viewModelMonitor.publish(alat.idAlat + "/alarm", "1")
+                viewModelMonitor.publishSettingsAlat(alat.idAlat + "/alarm", "1")
                 btnBunyikan.isEnabled = false
                 Handler(Looper.getMainLooper()).postDelayed({
                     btnBunyikan.isEnabled = true
-                }, viewModelMonitor.delay.value?.times(1000) ?: 5000)
+                }, viewModelMonitor.lamaBunyi.value?.times(1000) ?: 5000)
             }
-            viewModelMonitor.mode.observe(viewLifecycleOwner) { mode ->
-                when (mode) {
-                    "otomatis" -> {
-                        btnSpy.text = getString(R.string.mode_auto)
-                        btnSpy.setOnClickListener {
-                            btnSpy.text = getString(R.string.mode_manual)
-                            viewModelMonitor.mode.value = "manual"
-                            viewModelMonitor.publish(alat.idAlat + "/mode", "manual")
-                            btnBunyikan.visibility = View.VISIBLE
-                            btnLamaBunyi.visibility = View.VISIBLE
-
-                            val fadeIn =
-                                AnimationUtils.loadAnimation(view.context, android.R.anim.fade_in)
-                            btnBunyikan.startAnimation(fadeIn)
-                            btnLamaBunyi.startAnimation(fadeIn)
-                            btnSpy.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                                bottomMargin = 0
-                            }
-                        }
-                    }
-
-                    "manual" -> {
-                        btnSpy.text = getString(R.string.mode_manual)
-                        btnBunyikan.visibility = View.VISIBLE
-                        btnSpy.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                            bottomMargin = 0
-                        }
-                        btnSpy.setOnClickListener {
-                            btnSpy.text = getString(R.string.mode_auto)
-                            viewModelMonitor.mode.value = "otomatis"
-                            viewModelMonitor.publish(alat.idAlat + "/mode", "otomatis")
-                            btnBunyikan.visibility = View.GONE
-                            btnLamaBunyi.visibility = View.GONE
-                            btnSpy.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                                bottomMargin = 52
-                            }
-                            val fadeOut =
-                                AnimationUtils.loadAnimation(view.context, android.R.anim.fade_out)
-                            btnLamaBunyi.startAnimation(fadeOut)
-                            btnBunyikan.startAnimation(fadeOut)
-                        }
-                    }
+            btnCheckAlat.setOnClickListener {
+                viewModelMonitor.btnActive.observe(viewLifecycleOwner){
+                    btnCheckAlat.isEnabled = it
+                }
+                viewModelMonitor.connectMqtt()
+                viewModelMonitor.checkAlat.observe(viewLifecycleOwner) {
+                    checkAlat(it)
                 }
             }
+
         }
     }
 
-
-    override fun onResume() {
-        super.onResume()
-        viewModelMonitor.connect()
-    }
-
-
-    private fun checkServer(con: Boolean, idAlat: String) {
+    private fun checkServer(con: Boolean) {
         val views = requireView()
         val koneksi = views.findViewById<TextView>(R.id.koneksi)
         val indicator = views.findViewById<ImageView>(R.id.indicator)
@@ -215,13 +181,7 @@ class FragmentMonitoring : Fragment(R.layout.fragment_monitoring), OnListenerSen
             koneksi.contentDescription = getString(R.string.terhubung_server)
             indicator.backgroundTintList = views.context.getColorStateList(R.color.text_success)
             indicator.contentDescription = getString(R.string.terhubung_server)
-            viewModelMonitor.subsAlat(buildString {
-                append(idAlat)
-                append("/active")
-            }, "alat")
-            viewModelMonitor.alatConnectionStatus.observe(viewLifecycleOwner) {
-                checkAlat(it)
-            }
+
         } else {
             koneksi.text = getString(R.string.tidak_terhubung_server)
             koneksi.setTextColor(views.context.getColor(R.color.text_failed))
@@ -273,23 +233,14 @@ class FragmentMonitoring : Fragment(R.layout.fragment_monitoring), OnListenerSen
     override fun switcher(position: Int, isChecked: Boolean) {
        if (activeAlat){
            if (isChecked) {
-               viewModelMonitor.publish( buildString {
+               viewModelMonitor.publishSettingsAlat(buildString {
                    append(viewModelMonitor.alat.value!!.idAlat)
-                   append(viewModelMonitor.sensor.value!![position].typeStatin)
-               }, "1") {
-                   viewModelMonitor.subsAlat(buildString {
-                       append(viewModelMonitor.alat.value!!.idAlat)
-                       append(viewModelMonitor.sensor.value!![position].typeStatin)
-                   },viewModelMonitor.sensor.value!![position].type)
-               }
+                   append(viewModelMonitor.sensor.value!![position].type)
+               }, "1")
            } else {
-               viewModelMonitor.unSubsAlat(buildString {
+               viewModelMonitor.publishSettingsAlat(buildString {
                    append(viewModelMonitor.alat.value!!.idAlat)
-                   append(viewModelMonitor.sensor.value!![position].typeStatin)
-               })
-               viewModelMonitor.publish( buildString {
-                   append(viewModelMonitor.alat.value!!.idAlat)
-                   append(viewModelMonitor.sensor.value!![position].typeStatin)
+                   append(viewModelMonitor.sensor.value!![position].type)
                }, "0")
            }
        }
@@ -297,7 +248,7 @@ class FragmentMonitoring : Fragment(R.layout.fragment_monitoring), OnListenerSen
     }
 
     override fun check(check: Boolean) {
-        println(check)
+
     }
 
 

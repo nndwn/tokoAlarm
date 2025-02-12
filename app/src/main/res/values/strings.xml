@@ -142,4 +142,8 @@
     <string name="atur_lama_bunyi">Atur Lama Bunyi</string>
     <string name="satuan_detik">dengan satuan detik</string>
     <string name="rename_sensor">Nama Ulang Sensor</string>
+    <string name="periksa_alat">Periksa Alat</string>
+    <string name="riwayat">Riwayat</string>
+    <string name="tanggal_terakhir_deteksi">Tanggal Terakhir Deteksi</string>
+    <string name="waktu_terakhir_deteksi">Waktu Terakhir Deteksi</string>
 </resources>

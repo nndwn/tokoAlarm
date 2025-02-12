@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/rectangle_round_10"
+    android:elevation="@dimen/_4sdp"
+    android:layout_marginBottom="@dimen/_10sdp"
+    android:orientation="vertical">
+    <TextView
+        android:id = "@+id/riwayatSensorName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/riwayat"
+        android:textSize="@dimen/_14ssp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/robotobold"
+        android:padding="@dimen/_10sdp"
+        />
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp"
+        >
+        <TextView
+            android:id="@+id/TanggalAkhirTedeteksi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tanggal_terakhir_deteksi"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:paddingBottom="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            />
+        <TextView
+            android:id="@+id/TanggalAkhirTedeteksiResult"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="12 dasdjajd"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@+id/TanggalAkhirTedeteksi"
+            />
+        <TextView
+            android:id="@+id/WaktuAkhirTedeteksi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/waktu_terakhir_deteksi"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TanggalAkhirTedeteksi"
+            />
+        <TextView
+            android:id="@+id/WaktuAkhirTedeteksiResult"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="12 dasdjajd"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@+id/WaktuAkhirTedeteksi"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

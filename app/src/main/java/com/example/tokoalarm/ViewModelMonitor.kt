@@ -4,54 +4,86 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hivemq.client.mqtt.mqtt3.Mqtt3AsyncClient
-import com.hivemq.client.mqtt.mqtt3.Mqtt3Client
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.UUID
+
 //todo:pada server perrlu di upgrade versi mqtt
 
 class ViewModelMonitor : ViewModel() {
-    private val _connectionStatus = MutableLiveData<Boolean>()
-    val connectionStatus: LiveData<Boolean> get() = _connectionStatus
-
-    private val _alatConnectionStatus = MutableLiveData<Boolean>()
-    val alatConnectionStatus: LiveData<Boolean> get() = _alatConnectionStatus
-    private var lastMessageTime: Long = 0
-    private val connectionTimeout = 10000L
-
-    private val _sensorSwicthStatus = MutableLiveData<Boolean>()
-    val sensorSwicthStatus: LiveData<Boolean> get() = _sensorSwicthStatus
-    private var lastSensorSwitch :Long = 0
-
-    private val _sensorTemperatureStatus = MutableLiveData<Boolean>()
-    private val sensorTemperatureStatus: LiveData<Boolean> get() = _sensorTemperatureStatus
-    private var lastSensorTemperature :Long = 0
-
-    private val _sensorGerakStatus = MutableLiveData<Boolean>()
-    val sensorGerakStatus: LiveData<Boolean> get() = _sensorGerakStatus
-    private var lastSensorGerak :Long = 0
 
 
     val jadwal :MutableLiveData<ListJadwal?> = MutableLiveData()
     val alat : MutableLiveData<ListAlat> = MutableLiveData()
-    val mode :MutableLiveData<String> = MutableLiveData()
-    val delay : MutableLiveData<Long> = MutableLiveData()
-    val sensor : MutableLiveData<List<ListSensor>> = MutableLiveData()
 
+    val lamaBunyi : MutableLiveData<Long> = MutableLiveData()
 
-    private lateinit var mqttClient: Mqtt3AsyncClient
-    private var isConnected = false
+    private val _sensor = MutableLiveData<List<ListSensor>>()
+    val sensor : LiveData<List<ListSensor>> get() = _sensor
 
+    private val mqtt = Mqtt()
+    private val _connectionStatus = MutableLiveData<Boolean>()
+    val connectionStatus: LiveData<Boolean> get() = _connectionStatus
 
-    private val scope = CoroutineScope(Dispatchers.Main)
+    private val _refresh = MutableLiveData<Boolean>()
+    val refresh : LiveData<Boolean> get() = _refresh
+    private val _checkAlat  = MutableLiveData<Boolean>()
+    val checkAlat : LiveData<Boolean> get() = _checkAlat
+    val btnActive :MutableLiveData<Boolean> = MutableLiveData(false)
+    private val mode :MutableLiveData<String> = MutableLiveData()
+
+    fun connectMqtt(){
+        _refresh.postValue(true)
+        mqtt.connect {
+            viewModelScope.launch {
+                _connectionStatus.postValue(it)
+                if (it) {
+                    _refresh.postValue(false)
+                    changeManualtoAuto()
+                    connectAlat()
+                }
+            }
+        }
+    }
+
+    fun publishSettingsAlat (str :String, post: String) {
+        mqtt.connect {
+            if (it) {
+                mqtt.publish(str, post) {
+                    mqtt.disconnect()
+                }
+            }
+        }
+    }
+
+    private suspend fun connectAlat () {
+        mqtt.publish(alat.value!!.idAlat + "/active", "0") {
+            mqtt.subscribe(alat.value!!.idAlat + "/active") { msg ->
+                if (msg == "1") {
+                    _checkAlat.postValue(true)
+                } else if (msg == "0") {
+                    _checkAlat.postValue(false)
+                }
+            }
+        }
+        delay(10000)
+        mqtt.unSubscribe(alat.value!!.idAlat + "/active") {
+            mqtt.disconnect()
+        }
+        btnActive.value = true
+    }
+
+    private fun changeManualtoAuto () {
+        if (mode.value == "manual") {
+            viewModelScope.launch {
+                mqtt.publish(alat.value!!.idAlat + "/mode", "otomatis")
+            }
+        }
+    }
 
 
     fun getData (phone : String , idAlat : String, idPaket : String) {
         viewModelScope.launch {
+            _refresh.postValue(true)
             val response = RetrofitClient.apiService.getDetailSettingAlat(
                 phone,
                 idAlat,
@@ -60,8 +92,9 @@ class ViewModelMonitor : ViewModel() {
             if (response.isSuccessful) {
                 response.body()?.let {
                     mode.value = it.lastAlat.data.mode
-                    delay.value = it.lastAlat.data.delay.toLong()
-                    sensor.value = toListSensor(it.lastAlat.data, it.renamed.data)
+                    lamaBunyi.value = it.lastAlat.data.delay.toLong()
+                    _sensor.postValue(toListSensor(it.lastAlat.data, it.renamed.data))
+                    _refresh.postValue(false)
                 }
             }
         }
@@ -134,143 +167,4 @@ class ViewModelMonitor : ViewModel() {
         )
     }
 
-    fun publish (topic :String, message :String, callback : () -> Unit = {}) {
-        mqttClient.publishWith()
-            .topic(topic)
-            .payload(message.toByteArray())
-            .send()
-            .whenComplete { _, throwable ->
-                isConnected = throwable == null
-                _connectionStatus.postValue(isConnected)
-                if(isConnected) {
-                    callback()
-                }
-            }
-    }
-
-
-    fun unSubsAlat (topic: String) {
-        mqttClient.unsubscribeWith()
-            .topicFilter(topic)
-            .send()
-    }
-
-    fun subsAlat (topic :String, type : String ) {
-        mqttClient.subscribeWith()
-            .topicFilter(topic)
-            .callback { publish ->
-                val message = String(publish.payloadAsBytes)
-                when (type) {
-                    "alat" -> lastMessageTime = System.currentTimeMillis()
-                    "/in1" -> lastSensorSwitch = System.currentTimeMillis()
-                    "/in2" -> lastSensorTemperature = System.currentTimeMillis()
-                    "/in3" -> lastSensorGerak = System.currentTimeMillis()
-                }
-
-                scope.launch {
-                    if (message == "1") {
-                        when (type) {
-                            "alat" ->  _alatConnectionStatus.postValue(true)
-                            "/in1" -> _sensorSwicthStatus.postValue(true)
-                            "/in2" -> _sensorTemperatureStatus.postValue(true)
-                            "/in3" -> _sensorGerakStatus.postValue(true)
-                        }
-
-                    }
-                }
-            }
-            .send()
-        startConnectionMonitor(type)
-    }
-
-    private fun startConnectionMonitor(type: String) {
-        scope.launch {
-            while (true) {
-                val currentTime = System.currentTimeMillis()
-                when (type) {
-                    "alat" -> {
-                        if (currentTime - lastMessageTime > connectionTimeout) {
-                            _alatConnectionStatus.postValue(false)
-                        }
-                    }
-                    "/in1" -> {
-                        if (currentTime - lastSensorSwitch > connectionTimeout) {
-                            _sensorSwicthStatus.postValue(false)
-                        }
-                    }
-                    "/in2" -> {
-                        if (currentTime - lastSensorTemperature > connectionTimeout) {
-                            _sensorTemperatureStatus.postValue(false)
-                        }
-                    }
-                    "/in3" -> {
-                        if (currentTime - lastSensorGerak > connectionTimeout) {
-                            _sensorGerakStatus.postValue(false)
-                        }
-                    }
-                }
-                delay(2000)
-            }
-        }
-    }
-
-    fun connect() {
-        mqttClient = Mqtt3Client.builder()
-            .identifier(UUID.randomUUID().toString())
-            .serverHost(MQTT_SERVER_HOST)
-            .serverPort(MQTT_SERVER_PORT)
-            .buildAsync()
-
-        mqttClient.connectWith()
-            .simpleAuth()
-            .username(MQTT_USER)
-            .password(MQTT_PASSWORD.toByteArray())
-            .applySimpleAuth()
-            .send()
-            .whenComplete { _, throwable ->
-                isConnected = throwable == null
-                _connectionStatus.postValue(isConnected)
-                if (isConnected) {
-                    startConnectionCheckLoop()
-                } else {
-                    startReconnectLoop()
-                }
-            }
-    }
-
-    private fun startReconnectLoop() {
-        scope.launch {
-            while (!isConnected) {
-                delay(2000)
-                connect()
-            }
-        }
-    }
-
-    private fun startConnectionCheckLoop() {
-        scope.launch {
-            while (isConnected) {
-                delay(2000)
-                publish("check", "0")
-                if ( !isConnected) {
-                    startReconnectLoop()
-                }
-            }
-        }
-    }
-
-
-    private fun disconnect() {
-        scope.cancel()
-        if (this::mqttClient.isInitialized){
-            mqttClient.disconnect()
-        }
-        isConnected = false
-        _connectionStatus.postValue(false)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        disconnect()
-    }
 }
