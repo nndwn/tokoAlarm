@@ -41,6 +41,7 @@ class FragmentMonitoring : Fragment(R.layout.fragment_monitoring), OnListenerSen
         val btnBunyikan = view.findViewById<Button>(R.id.bunyiBtn)
         val btnLamaBunyi = view.findViewById<Button>(R.id.lamaBunyi)
         val btnCheckAlat = view.findViewById<Button>(R.id.checkAlat)
+        val btnMode = view.findViewById<Button>(R.id.mode)
 
         viewModelMonitor.alat.observe(viewLifecycleOwner) { alat ->
             view.findViewById<TextView>(R.id.namaAlatResult)
@@ -154,10 +155,40 @@ class FragmentMonitoring : Fragment(R.layout.fragment_monitoring), OnListenerSen
             btnBunyikan.setOnClickListener {
                 viewModelMonitor.publishSettingsAlat(alat.idAlat + "/alarm", "1")
                 btnBunyikan.isEnabled = false
+                btnBunyikan.text = getString(R.string.sedang_berbunyi)
+                btnBunyikan.backgroundTintList = view.context.getColorStateList(R.color.text_failed)
                 Handler(Looper.getMainLooper()).postDelayed({
                     btnBunyikan.isEnabled = true
+                    btnBunyikan.text = getString(R.string.bunyikan)
+                    btnBunyikan.backgroundTintList = view.context.getColorStateList(R.color.primary_color)
                 }, viewModelMonitor.lamaBunyi.value?.times(1000) ?: 5000)
             }
+            viewModelMonitor.mode.observe(viewLifecycleOwner) {
+                when (it) {
+                    "otomatis" -> {
+                        btnMode.text = getString(R.string.mode_auto)
+                        btnMode.setOnClickListener {
+                            btnMode.text = getString(R.string.mode_manual)
+                            viewModelMonitor.mode.value = "manual"
+                            viewModelMonitor.publishSettingsAlat(alat.idAlat + "/mode", "manual")
+                        }
+                    }
+
+                    "manual" -> {
+                        btnMode.text = getString(R.string.mode_manual)
+                        btnMode.setOnClickListener {
+                            btnMode.text = getString(R.string.mode_auto)
+                            viewModelMonitor.mode.value = "otomatis"
+                            viewModelMonitor.publishSettingsAlat(alat.idAlat + "/mode", "otomatis")
+                        }
+                    }
+                }
+            }
+
+            btnMode.setOnClickListener {
+
+            }
+
             btnCheckAlat.setOnClickListener {
                 viewModelMonitor.btnActive.observe(viewLifecycleOwner){
                     btnCheckAlat.isEnabled = it

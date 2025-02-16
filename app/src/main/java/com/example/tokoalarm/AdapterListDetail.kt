@@ -122,5 +122,10 @@ class AdapterListDetail(
         }
     }
 
-    override fun getItemCount() = listDetail.size + 1
+    override fun getItemCount(): Int {
+        if (listDetail.isEmpty()){
+            return 1
+        }
+        return listDetail.size + 1
+    }
 }

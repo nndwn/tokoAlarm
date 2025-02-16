@@ -288,6 +288,22 @@
                 android:fontFamily="@font/robotomedium"
                 android:paddingVertical="@dimen/_10sdp"
                 />
+            <androidx.appcompat.widget.AppCompatButton
+                app:layout_constraintTop_toBottomOf="@+id/bunyiBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id ="@+id/mode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangle_round_10_blue"
+                android:text="@string/mode_manual"
+                android:textColor="@color/white"
+                android:layout_marginVertical="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:textSize="@dimen/_12sdp"
+                android:fontFamily="@font/robotomedium"
+                android:paddingVertical="@dimen/_10sdp"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include layout="@layout/adapter_item_jadwal"

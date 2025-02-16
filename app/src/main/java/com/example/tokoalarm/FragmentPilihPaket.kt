@@ -36,7 +36,6 @@ class FragmentPilihPaket : Fragment(R.layout.layout_info_adapter) {
 
         viewModel.idAlat.observe(viewLifecycleOwner) {
             idAlat = it
-            println(idAlat)
         }
         viewModel.saldo.observe(viewLifecycleOwner) {
             saldo = it

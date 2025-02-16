@@ -29,7 +29,7 @@ class ViewModelMonitor : ViewModel() {
     private val _checkAlat  = MutableLiveData<Boolean>()
     val checkAlat : LiveData<Boolean> get() = _checkAlat
     val btnActive :MutableLiveData<Boolean> = MutableLiveData(false)
-    private val mode :MutableLiveData<String> = MutableLiveData()
+    val mode :MutableLiveData<String> = MutableLiveData()
 
     fun connectMqtt(){
         _refresh.postValue(true)
@@ -38,7 +38,7 @@ class ViewModelMonitor : ViewModel() {
                 _connectionStatus.postValue(it)
                 if (it) {
                     _refresh.postValue(false)
-                    changeManualtoAuto()
+                    //changeManualtoAuto()
                     connectAlat()
                 }
             }

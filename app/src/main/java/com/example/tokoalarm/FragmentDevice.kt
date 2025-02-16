@@ -23,11 +23,13 @@ class FragmentDevice : Fragment(R.layout.layout_main_list), OnItemClickAdapterLi
 
     private lateinit var viewModel: SharedViewMainActivity
     private lateinit var dialogInput: DialogInput
-    private lateinit var listAlat: List<ListAlat>
+    private var listAlat: List<ListAlat> = emptyList()
     private lateinit var adapter: AdapterListDetail
     private lateinit var session: PrefManager
     private lateinit var alert: DialogAlert
     private lateinit var utils: Utils
+    private lateinit var recyclerView :RecyclerView
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,13 +45,18 @@ class FragmentDevice : Fragment(R.layout.layout_main_list), OnItemClickAdapterLi
             parent = view as ViewGroup
         }
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.adapterList)
+        recyclerView = view.findViewById(R.id.adapterList)
+
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         viewModel.listAlat.observe(viewLifecycleOwner) {
-            listAlat = sortListAlat(it)
+            if (it.isNotEmpty()) {
+                listAlat = sortListAlat(it)
+            }
             adapter = AdapterListDetail(listAlat, this)
             recyclerView.adapter = adapter
         }
+
+
     }
 
     private fun sortListAlat(listAlat : List<ListAlat>) : List<ListAlat> {

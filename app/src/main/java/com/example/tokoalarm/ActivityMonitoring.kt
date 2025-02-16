@@ -52,16 +52,18 @@ class ActivityMonitoring : AppCompatActivity() , SwipeRefreshLayout.OnRefreshLis
         viewMonitoring.alat.value = listAlat
 
         listJadwal = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableArrayListExtra("JadwalData", ListJadwal::class.java)!!
+            intent.getParcelableArrayListExtra("JadwalData", ListJadwal::class.java) ?: ArrayList()
         } else {
            @Suppress("DEPRECATION")
-            intent.getParcelableArrayListExtra("JadwalData")!!
+           intent.getParcelableArrayListExtra("JadwalData") ?: ArrayList()
        }
 
-        listJadwal.filter {
-            it.idAlat == listAlat.idAlat
-        }.forEach {
-            viewMonitoring.jadwal.value = it
+        if (listJadwal.isNotEmpty()){
+            listJadwal.filter {
+                it.idAlat == listAlat.idAlat
+            }.forEach {
+                viewMonitoring.jadwal.value = it
+            }
         }
 
         if (savedInstanceState == null) {

@@ -24,7 +24,7 @@ class DialogConfirm(
         val inflater = activity.layoutInflater
         val view = inflater.inflate(R.layout.dialog_confirm, null)
         builder.setView(view)
-        builder.setCancelable(true)
+        builder.setCancelable(false)
 
         val fadeInScale = AnimationUtils.loadAnimation(activity, R.anim.fade_in_scale)
         view.startAnimation(fadeInScale)

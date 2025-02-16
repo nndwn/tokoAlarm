@@ -16,7 +16,7 @@ class ActivitySettings :AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_toolbar_adapter)
-
+        val mqtt = Mqtt()
         prefManager = PrefManager(this)
 
         findViewById<View>(R.id.toolbar)
@@ -38,7 +38,15 @@ class ActivitySettings :AppCompatActivity() {
                     prefManager.setTone(nada[position].name)
                     mediaPlayer?.stop()
                     mediaPlayer?.release()
-
+                    mqtt.connect { ok ->
+                        if (ok) {
+                            mqtt.publish(prefManager.getIdUser!! + "/tone", (position + 1).toString()) { done ->
+                                if (done) {
+                                    mqtt.disconnect()
+                                }
+                            }
+                        }
+                    }
                     }, {
                      mediaPlayer?.stop()
                     mediaPlayer?.release()

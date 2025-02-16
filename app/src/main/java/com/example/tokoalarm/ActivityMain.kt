@@ -283,11 +283,9 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
                 return@launch
             }
             val responseDataDetailAlat = responseDetailAlat.body()
-            if (responseDataDetailAlat?.status != true) {
-                connectionTrouble()
-                return@launch
+            if (responseDataDetailAlat?.status == true) {
+                viewModel.listAlat.value = responseDataDetailAlat.data
             }
-            viewModel.listAlat.value = responseDataDetailAlat.data
             swipeRefreshLayout.isRefreshing = false
         }
     }

@@ -16,7 +16,6 @@ class AdapterListRiwayatSensor (
 
         fun bind (list: ListSensor) {
             if (list.inn != "null" ) {
-                println(list.inn)
                 namaSensor.text = buildString {
                     append(itemView.context.getString(R.string.riwayat))
                     append(" ")
