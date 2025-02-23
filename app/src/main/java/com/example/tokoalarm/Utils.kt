@@ -8,6 +8,7 @@ import android.net.Uri
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
@@ -68,7 +69,7 @@ class Utils (private var context: Context){
 
     suspend fun getBanner() {
         val response = RetrofitClient.apiService.getDataPelanggan(
-            pref.getIdUser!!
+            pref.idUserFlow.first ()!!
         )
         if (!response.isSuccessful) throw Exception("Response not successful")
         val responseData = response.body()

@@ -52,11 +52,9 @@ class FragmentDevice : Fragment(R.layout.layout_main_list), OnItemClickAdapterLi
             if (it.isNotEmpty()) {
                 listAlat = sortListAlat(it)
             }
-            adapter = AdapterListDetail(listAlat, this)
-            recyclerView.adapter = adapter
         }
-
-
+        adapter = AdapterListDetail(listAlat, this)
+        recyclerView.adapter = adapter
     }
 
     private fun sortListAlat(listAlat : List<ListAlat>) : List<ListAlat> {

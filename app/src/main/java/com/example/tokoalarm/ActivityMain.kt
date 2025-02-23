@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 
@@ -240,7 +241,7 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
         }
 
         lifecycleScope.launch {
-            if (fromRegister && prefManager.getIdUser.isNullOrEmpty()) {
+            if (fromRegister ) {
                 val response = RetrofitClient.apiService.login(
                     prefManager.getPhone!!,
                     prefManager.getPwd!!
@@ -255,12 +256,13 @@ class ActivityMain : AppCompatActivity() , SwipeRefreshLayout.OnRefreshListener{
                     return@launch
                 }
                 prefManager.setIdUser(loginResponse.data.id)
-                swipeRefreshLayout.isRefreshing = false
+                utils.getBanner()
             } else if (fromLogin) {
                 utils.getBanner()
             }
+
             val response = RetrofitClient.apiService.getDataPelanggan(
-                prefManager.getIdUser!!
+                prefManager.idUserFlow.first()!!
             )
             if (!response.isSuccessful)  {
                 connectionTrouble()

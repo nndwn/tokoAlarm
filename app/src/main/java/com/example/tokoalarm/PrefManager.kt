@@ -47,7 +47,7 @@ class PrefManager(private val context: Context) {
         }.map { pref ->
             pref[pwdKey]
         }
-    private val idUserFlow: Flow<String?> = context.dataStore.data
+    val idUserFlow: Flow<String?> = context.dataStore.data
         .catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
