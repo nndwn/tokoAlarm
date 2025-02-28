@@ -9,7 +9,7 @@ class DataManual {
     val listPrice : List<Price> = listOf(
         Price(
             id = 1,
-            price = 50000
+            price = 10000
         ),
         Price(
             id = 2,

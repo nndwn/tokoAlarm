@@ -113,13 +113,6 @@ object RetrofitClient {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-    private val retrofitTelegram by lazy {
-        Retrofit.Builder()
-            .baseUrl(TELEGRAM_URL + TELEGRAMTOKEN)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
-
     val apiService: ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }
