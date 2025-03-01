@@ -17,8 +17,11 @@
         />
     <ImageView
         android:id ="@+id/logo"
-        android:layout_width="@dimen/_200sdp"
-        android:layout_height="@dimen/_88sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
+        android:scaleY="1.1"
+        android:scaleX="1.1"
         android:background="@drawable/logoputih"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/background"
@@ -34,7 +37,7 @@
         android:gravity="center"
         android:fontFamily="@font/robotomedium"
         android:textColor="@color/white"
-        android:textSize="@dimen/_11ssp"
+        android:textSize="15sp"
         android:text="@string/desc"
         android:drawablePadding="@dimen/_8sdp"
         android:contentDescription="@string/app_name"

@@ -3,4 +3,8 @@
     <string name="desc">Application System Security</string>
     <string name="app_copyright">Copyright &#169; 2023</string>
     <string name="app_version">Versi 1.8.2</string>
+    <string name="tutup">Tutup</string>
+    <string name="error">Masalah</string>
+    <string name="unsuccess">Mohon Periksa Jaringan Anda</string>
+    <string name="serverissue">Tidak Terhubung Dengan Server</string>
 </resources>

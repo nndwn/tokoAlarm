@@ -1,4 +1,4 @@
 package com.acm.newtokoalarm
 
-class A_activitySplash {
+class C_activityMain {
 }

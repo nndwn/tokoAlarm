@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -38,9 +39,17 @@ android {
 dependencies {
 
     //ui
-    implementation("androidx.core:core-splashscreen:1.0.0")
-    implementation("com.intuit.sdp:sdp-android:1.1.1")
-    implementation("com.intuit.ssp:ssp-android:1.1.1")
+    implementation(libs.core.splashscreen)
+    implementation(libs.intuit.sdp.android)
+    implementation(libs.intuit.ssp.android)
+    implementation(libs.android.lottie)
+
+    //core
+    implementation(libs.retrofit2.retrofit)
+    implementation (libs.retrofit2.converter.gson)
+    implementation(libs.github.glide)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.jwtdecode)
 
     //common
     implementation(libs.androidx.core.ktx)
