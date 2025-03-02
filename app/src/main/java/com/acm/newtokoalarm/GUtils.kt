@@ -4,10 +4,11 @@ import android.content.Context
 
 enum class Error {
     UNSUCCESS,
-    SERVERISSUE
+    SERVERISSUE,
+    NULLEXCEPTION
 }
 
-class Z_Utils( private val context: Context) {
+class GUtils(private val context: Context) {
     private var _messageError = ""
     private var _nameError = ""
     val nameError : String
@@ -27,6 +28,10 @@ class Z_Utils( private val context: Context) {
                 val ctx = context.getString(R.string.unsuccess)
                 _messageError = ctx
                 throw Exception(ctx)
+            }
+            Error.NULLEXCEPTION -> {
+                _messageError =  context.getString(R.string.appIssue)
+                throw Exception("Null Object")
             }
         }
     }

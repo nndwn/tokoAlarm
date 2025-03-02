@@ -11,7 +11,7 @@ import android.widget.TextView
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 
-class Z_DialogAlert (private val activity : Activity){
+class GDialogAlert (private val activity : Activity){
     private lateinit var dialog: Dialog
 
     var title :String = ""

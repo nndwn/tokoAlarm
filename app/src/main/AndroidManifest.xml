@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NewTokoAlarm"
         tools:targetApi="35" >
-        <activity android:name=".A_ActivitySplash"
+        <activity android:name=".AActivitySplash"
             android:theme="@style/splash"
             android:exported="true">
             <intent-filter>
@@ -21,6 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".CActivityMain"/>
+        <activity android:name=".BActivityLogin"/>
     </application>
 
 

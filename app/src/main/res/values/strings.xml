@@ -7,4 +7,10 @@
     <string name="error">Masalah</string>
     <string name="unsuccess">Mohon Periksa Jaringan Anda</string>
     <string name="serverissue">Tidak Terhubung Dengan Server</string>
+    <string name="appIssue">Applikasi Bermasalah Hubungin Admin</string>
+    <string name="guide_login">Silahkan Login di bawah ini</string>
+    <string name="phone">Nomor Handphone</string>
+    <string name="password">Kata Kunci</string>
+    <string name="login">Masuk</string>
+    <string name="signup">Daftar</string>
 </resources>
