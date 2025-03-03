@@ -5,18 +5,36 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.FragmentActivity
 
+/**
+ * fragment login have 2 button
+ * - if button login check validate
+ * - check phone must format indonesia phone number
+ * - check dont input empty value
+ * - unfocus and clear focus if already type
+ * - if valid to go loading dialog and get all data user
+ * - if done sent intent data user to activity main
+ * - button sign up to create fragment sign up and go
+ */
 class BFragmentLogin :Fragment(R.layout.fragment_login) {
     private lateinit var phoneNumber: EditText
     private lateinit var pwd : EditText
-    private val sharedView: BSharredView by activityViewModels()
+
+    private  lateinit var utils : GUtils
+    private lateinit var alert : GDialogAlert
+
+    private lateinit var activity: FragmentActivity
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity =  requireActivity()
         phoneNumber = view.findViewById(R.id.phoneNumber)
         pwd = view.findViewById(R.id.password)
+
+        utils = GUtils(activity)
+        alert = GDialogAlert(activity)
 
         view.findViewById<Button>(R.id.btnLogin)
             .setOnClickListener {
@@ -38,17 +56,23 @@ class BFragmentLogin :Fragment(R.layout.fragment_login) {
                     .commit()
             }
     }
+
     private fun validate() :Boolean {
         val phone = phoneNumber.text
         val password = pwd.text
-        val regex = Regex("^(\\+62|0)8[1-9][0-9]{10,11}$")
+
+        utils.unfocus()
+
+        phoneNumber.clearFocus()
+        pwd.clearFocus()
+
         if (phone.isEmpty()) {
             phoneNumber.error = getString(R.string.inputEmpty)
             phoneNumber.requestFocus()
             return false
         }
-        if(!regex.matches(phone)) {
-            phoneNumber.error = getString(R.string.noCorrectPhone)
+        if(!phonePattern(phone)) {
+            phoneNumber.error = getString(R.string.invalidInput)
             phoneNumber.requestFocus()
             return false
         }

@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
+import java.util.ArrayList
 
 /**
  * - start flash ui
@@ -22,6 +23,7 @@ import java.io.FileOutputStream
  * - download image banner promo and save in persitance location path
  * - check have authenfication in reference dataStore
  * - if dont have go login activity else to main activity
+ * - in login sent intent data url from data app
  * - dont go back
  */
 
@@ -54,8 +56,11 @@ class AActivitySplash : AppCompatActivity() {
                 jwt = JWT(dataApp)
 
                 bannerPromo()
+                //todo: check authenfication
 
                 val intent = Intent(this@AActivitySplash, BActivityLogin::class.java)
+                val dataUrl = jwt.getClaim("appUrl").asList(AppUrl::class.java)
+                intent.putParcelableArrayListExtra("dataUrl", ArrayList(dataUrl))
                 startActivity(intent)
                 finish()
             } catch (e: Exception) {

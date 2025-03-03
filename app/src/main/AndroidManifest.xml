@@ -24,6 +24,7 @@
         </activity>
         <activity android:name=".CActivityMain"/>
         <activity android:name=".BActivityLogin"/>
+        <activity android:name=".XActivityWeb"/>
     </application>
 
 
