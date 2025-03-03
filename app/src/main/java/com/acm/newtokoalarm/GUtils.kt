@@ -1,6 +1,7 @@
 package com.acm.newtokoalarm
 
 import android.content.Context
+import androidx.lifecycle.ViewModel
 
 enum class Error {
     UNSUCCESS,
@@ -9,7 +10,7 @@ enum class Error {
 }
 
 class GUtils(private val context: Context) {
-    private var _messageError = ""
+    private var _messageError = context.getString(R.string.appIssue)
     private var _nameError = ""
     val nameError : String
         get() = _nameError

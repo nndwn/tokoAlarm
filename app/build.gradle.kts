@@ -50,6 +50,9 @@ dependencies {
     implementation(libs.github.glide)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.jwtdecode)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.activity.ktx)
+    implementation (libs.androidx.fragment.ktx)
 
     //common
     implementation(libs.androidx.core.ktx)

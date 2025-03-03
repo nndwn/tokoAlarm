@@ -8,7 +8,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.auth0.android.jwt.JWT
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 
@@ -76,14 +78,18 @@ class AActivitySplash : AppCompatActivity() {
         promoClaim.forEach {
             val banner = Glide.with(this)
                 .asBitmap()
-                .load(it.image)
+                .load( "${this.getString(R.string.static_url)}${it.image}")
                 .submit()
-            val file = File(this.filesDir, it.image)
-            FileOutputStream(file).use { out ->
-                banner.get().compress(Bitmap.CompressFormat.JPEG, 100, out)
-                out.flush()
+            val content = this.filesDir
+            withContext(Dispatchers.IO){
+                val file = File(content, it.image)
+                FileOutputStream(file).use { out ->
+                    banner.get().compress(Bitmap.CompressFormat.JPEG, 100, out)
+                    out.flush()
+                }
+                pref.setPromoBanner(setOf(file.absolutePath))
             }
-            pref.setPromoBanner(setOf(file.absolutePath))
+
         }
     }
 }

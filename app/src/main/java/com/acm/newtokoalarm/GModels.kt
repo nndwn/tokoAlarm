@@ -54,3 +54,12 @@ data class MethodPay (
     val owner :String
 ):Parcelable
 
+data class Login (
+    val phoneNumber : String,
+    val password : String
+)
+data class SignUp(
+    val dataLogin : Login,
+    val name : String,
+    val agreement : Boolean
+)

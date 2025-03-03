@@ -13,4 +13,11 @@
     <string name="password">Kata Kunci</string>
     <string name="login">Masuk</string>
     <string name="signup">Daftar</string>
+    <string name="guide_signup">Mohon isi data yang benar</string>
+    <string name="name">Nama Lenkap</string>
+    <string name="agreement_text"><![CDATA[Syarat & Ketentuan]]></string>
+    <string name="aggrement_more">Silakan membaca seluruh ketentuan pada Syarat dan Ketentuan Selengkapnya</string>
+    <string name="here">disini</string>
+    <string name="inputEmpty">form wajib diisi</string>
+    <string name="noCorrectPhone" >nomor tidak benar</string>
 </resources>

@@ -37,13 +37,13 @@
         android:gravity="center"
         android:fontFamily="@font/robotomedium"
         android:textColor="@color/white"
-        android:textSize="15sp"
+        android:textSize="13sp"
         android:text="@string/desc"
         android:drawablePadding="@dimen/_8sdp"
         android:contentDescription="@string/app_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logo"
+        app:layout_constraintBottom_toBottomOf="@id/logo"
 
         />
 
