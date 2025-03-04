@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 
 /**
  * fragment login have 2 button
@@ -21,20 +22,15 @@ class BFragmentLogin :Fragment(R.layout.fragment_login) {
     private lateinit var phoneNumber: EditText
     private lateinit var pwd : EditText
 
-    private  lateinit var utils : GUtils
-    private lateinit var alert : GDialogAlert
-
-    private lateinit var activity: FragmentActivity
+    private lateinit var viewModel: BViewShared
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity =  requireActivity()
+        viewModel = ViewModelProvider(requireActivity())[BViewShared::class.java]
+
         phoneNumber = view.findViewById(R.id.phoneNumber)
         pwd = view.findViewById(R.id.password)
-
-        utils = GUtils(activity)
-        alert = GDialogAlert(activity)
 
         view.findViewById<Button>(R.id.btnLogin)
             .setOnClickListener {
@@ -55,13 +51,14 @@ class BFragmentLogin :Fragment(R.layout.fragment_login) {
                     .replace(R.id.fragment, BFragmentSignUp())
                     .commit()
             }
+
     }
 
     private fun validate() :Boolean {
         val phone = phoneNumber.text
         val password = pwd.text
 
-        utils.unfocus()
+        viewModel.utils.unfocus()
 
         phoneNumber.clearFocus()
         pwd.clearFocus()

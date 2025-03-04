@@ -5,7 +5,7 @@
     <string name="app_version">Versi 1.8.2</string>
     <string name="tutup">Tutup</string>
     <string name="error">Masalah</string>
-    <string name="unsuccess">Mohon Periksa Jaringan Anda</string>
+    <string name="connectionIssue">Mohon Periksa Jaringan Anda</string>
     <string name="serverissue">Tidak Terhubung Dengan Server</string>
     <string name="appIssue">Applikasi Bermasalah Hubungin Admin</string>
     <string name="guide_login">Silahkan Login di bawah ini</string>
@@ -22,4 +22,6 @@
     <string name="inputEmpty">form wajib diisi</string>
     <string name="invalidInput" >tulisan dimasukan tidak benar</string>
     <string name="password_minimal">password minimal 8 huruf</string>
+    <string name="loading">loading</string>
+    <string name="kembali">kembali</string>
 </resources>

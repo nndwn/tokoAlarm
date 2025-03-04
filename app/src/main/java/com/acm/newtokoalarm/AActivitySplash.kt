@@ -28,7 +28,7 @@ import java.util.ArrayList
  */
 
 class AActivitySplash : AppCompatActivity() {
-    private lateinit var alert: GDialogAlert
+    private lateinit var dialog: GDialog
     private lateinit var utils: GUtils
     private lateinit var pref: GDataStore
     private lateinit var jwt: JWT
@@ -39,7 +39,7 @@ class AActivitySplash : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         utils = GUtils(this)
-        alert = GDialogAlert(this)
+        dialog = GDialog(this)
         pref = GDataStore(this)
 
         lifecycleScope.launch {
@@ -65,14 +65,14 @@ class AActivitySplash : AppCompatActivity() {
                 finish()
             } catch (e: Exception) {
                 e.printStackTrace()
-                alert.apply {
-                    title = getString(R.string.error)
-                    message = utils.messageError
-                    animation = R.raw.error
+                val alert = DialogData(
+                    title = getString(R.string.error),
+                    message = utils.messageError,
+                    animation = R.raw.error,
                     btnText = getString(R.string.tutup)
-                    show {
-                        finish()
-                    }
+                )
+                dialog.alert(alert) {
+                    finish()
                 }
             }
         }

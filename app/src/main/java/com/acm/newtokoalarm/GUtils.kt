@@ -10,12 +10,12 @@ import androidx.appcompat.app.AppCompatActivity.INPUT_METHOD_SERVICE
 enum class Error {
     UNSUCCESS,
     SERVERISSUE,
-    NULLEXCEPTION
+    NULLEXCEPTION,
+    CONNECTIONISSUE
 }
 
 fun phonePattern(phone : CharSequence) : Boolean {
     val regex = Regex("^(\\+62|62|0)8[1-9][0-9]{7,10}$")
-    println(regex.matches(phone))
     return regex.matches(phone)
 }
 
@@ -55,13 +55,18 @@ class GUtils(private val context: Activity) {
                 throw  Exception(ctx)
             }
             Error.UNSUCCESS -> {
-                val ctx = context.getString(R.string.unsuccess)
+                val ctx = context.getString(R.string.connectionIssue)
                 _messageError = ctx
                 throw Exception(ctx)
             }
             Error.NULLEXCEPTION -> {
                 _messageError =  context.getString(R.string.appIssue)
                 throw Exception("Null Object")
+            }
+            Error.CONNECTIONISSUE -> {
+                val ctx = context.getString(R.string.connectionIssue)
+                _messageError = ctx
+                throw Exception(ctx)
             }
         }
     }

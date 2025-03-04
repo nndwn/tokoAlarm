@@ -14,8 +14,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 
 /**
  * fragment sign up from fragment login with activity login
@@ -37,19 +36,12 @@ class BFragmentSignUp :Fragment(R.layout.fragment_signup) {
     private lateinit var aggrement : CheckBox
     private lateinit var aggrementText: TextView
 
-    private lateinit var utils: GUtils
-    private lateinit var alert: GDialogAlert
-
-    private lateinit var activity : FragmentActivity
-
-    private val viewModel : BViewShared by activityViewModels()
+    private lateinit var viewModel : BViewShared
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity = requireActivity()
-        utils = GUtils(activity)
-        alert = GDialogAlert(activity)
+        viewModel = ViewModelProvider(requireActivity())[BViewShared::class.java]
 
         phoneNumber = view.findViewById(R.id.phoneNumber)
         pwd = view.findViewById(R.id.password)
@@ -58,7 +50,7 @@ class BFragmentSignUp :Fragment(R.layout.fragment_signup) {
         aggrementText = view.findViewById(R.id.aggrement_text)
 
         aggrement.setOnClickListener{
-            utils.unfocus()
+            viewModel.utils.unfocus()
         }
         aggrementMore()
 
@@ -86,7 +78,7 @@ class BFragmentSignUp :Fragment(R.layout.fragment_signup) {
                             setSpan(object : ClickableSpan() {
                                 override fun onClick(widget: View) {
                                     val intent = Intent(activity, XActivityWeb::class.java)
-                                    intent.putExtra("url", it.url)
+                                    intent.putExtra("URL", it.url)
                                     startActivity(intent)
                                 }
                             }, start, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -105,7 +97,7 @@ class BFragmentSignUp :Fragment(R.layout.fragment_signup) {
         val phone = phoneNumber.text.toString().trim()
         val password = pwd.text.toString()
 
-        utils.unfocus()
+        viewModel.utils.unfocus()
         name.clearFocus()
         pwd.clearFocus()
         phoneNumber.clearFocus()
@@ -141,12 +133,13 @@ class BFragmentSignUp :Fragment(R.layout.fragment_signup) {
             return false
         }
         if (aggrement.isChecked.not()){
-            alert.apply {
-                title = getString(R.string.error)
-                message = getString(R.string.aggrement_check)
-                animation = R.raw.error
+            val alert = DialogData(
+                title = getString(R.string.error),
+                message = getString(R.string.aggrement_check),
+                animation = R.raw.error,
                 btnText = getString(R.string.tutup)
-            }.show()
+            )
+            viewModel.dialog.alert(alert)
             return false
         }
 
