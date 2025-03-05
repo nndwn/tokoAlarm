@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         />
     <LinearLayout
+        android:id="@+id/contain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -47,7 +48,7 @@
             android:fontFamily="@font/robotobold"
             android:gravity="center"
             android:textColor="@color/red"
-            android:layout_marginHorizontal="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_12sdp"
             android:textAllCaps="true"
             android:textSize="@dimen/_18ssp"/>
         <TextView
@@ -55,24 +56,54 @@
             android:layout_marginVertical="@dimen/_5sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
             android:text="ssdd ddsd dsdds dsdsdsdd dsdsd dsdsdsdd dsdasd dasdsdasd"
             android:fontFamily="@font/robotomedium"
             android:gravity="center"
             android:textColor="#000000"
             android:textSize="@dimen/_14ssp"/>
-        <Button
-            style="?android:attr/borderlessButtonStyle"
-            android:id="@+id/btnTutup"
-            android:layout_gravity="center"
-            android:layout_width="@dimen/_125sdp"
-            android:background="@drawable/bg_box"
-            android:backgroundTint="@color/blue"
-            android:layout_height="@dimen/_40sdp"
-            android:text="@string/tutup"
-            android:textSize="@dimen/_13ssp"
-            android:layout_marginVertical="@dimen/_5sdp"
-            android:fontFamily="@font/robotomedium"
-            android:textColor="@color/white"
-            android:textAllCaps="false"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            <androidx.appcompat.widget.AppCompatButton
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/btnOne"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/_125sdp"
+                android:background="@drawable/bg_box"
+                android:backgroundTint="@color/blue"
+                android:layout_height="@dimen/_40sdp"
+                android:text="@string/tutup"
+                android:layout_weight="0"
+                android:textSize="@dimen/_13ssp"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:fontFamily="@font/robotomedium"
+                android:textColor="@color/white"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:textAllCaps="false"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:id="@+id/btnTwo"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_width="@dimen/_125sdp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_box"
+                android:backgroundTint="@color/blue"
+                android:layout_height="@dimen/_40sdp"
+                android:text="@string/tutup"
+                android:textSize="@dimen/_13ssp"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:fontFamily="@font/robotomedium"
+                android:textColor="@color/white"
+                android:textAllCaps="false"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

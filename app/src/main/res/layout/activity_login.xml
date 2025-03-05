@@ -7,25 +7,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
-    <View
-        android:id="@+id/background"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_splash"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/space"
-        />
-    <View
-        android:id = "@+id/space"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_200sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <include layout="@layout/layout_background"/>
 
-        />
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment"
         android:layout_width="match_parent"

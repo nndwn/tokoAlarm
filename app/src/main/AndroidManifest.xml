@@ -22,8 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".CActivityMain"/>
         <activity android:name=".BActivityLogin"/>
+        <activity android:name=".CActivityOtp"/>
+        <activity android:name=".DActivityMain"/>
         <activity android:name=".XActivityWeb"/>
     </application>
 

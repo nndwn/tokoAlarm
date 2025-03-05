@@ -24,4 +24,12 @@
     <string name="password_minimal">password minimal 8 huruf</string>
     <string name="loading">loading</string>
     <string name="kembali">kembali</string>
+    <string name="otp_hint">Nomor OTP</string>
+    <string name="send">Kirim</string>
+    <string name="guide_otp">Mohon tunggu kami sedang mengirim otp ke nomor WA anda</string>
+    <string name="cancel">Batalkan</string>
+    <string name="guide_cancel_reg">Yakin Membatalkan Registrasi ?</string>
+    <string name="yes">Iya</string>
+    <string name="no"> Tidak </string>
+    <string name="otp_not_match">nomor otp diberikan tidak sesuai</string>
 </resources>

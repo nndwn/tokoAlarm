@@ -13,9 +13,10 @@ import java.io.IOException
 
 private val Context.dataStore by preferencesDataStore(name = "preferences")
 
-class GDataStore(private val context: Context) {
+class ZDataStore(private val context: Context) {
     private val  appDataKey = stringPreferencesKey("appdata")
     private val  promoBannerKey = stringSetPreferencesKey("promoBanner")
+    private val  authenKey = stringPreferencesKey("aunthenfication")
 
     val appDataFlow : Flow<String?> = context.dataStore.data
         .catch { ex ->
@@ -39,6 +40,22 @@ class GDataStore(private val context: Context) {
             it[promoBannerKey] ?: emptySet()
         }
 
+    val authenFlow : Flow<String?> = context.dataStore.data
+        .catch {
+            if (it is IOException){
+                emit(emptyPreferences())
+            } else {
+                throw it
+            }
+        }.map {
+            it[authenKey]
+        }
+
+    suspend fun setAuthen(data: String) {
+        context.dataStore.edit {
+            it[authenKey] = data
+        }
+    }
     suspend fun setAppData(data : String) {
         context.dataStore.edit {
             it[appDataKey] = data

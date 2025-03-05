@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Parcelable
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity.INPUT_METHOD_SERVICE
+import kotlin.jvm.Throws
 
 enum class Error {
     UNSUCCESS,
@@ -24,6 +25,14 @@ fun namePattern(name : CharSequence) :Boolean {
     return regex.matches(name)
 }
 
+fun cleanPhoneNumber(phone : String) : String {
+    return  when {
+        phone.startsWith("+62") -> phone.removePrefix("+62")
+        phone.startsWith("0") -> phone.removePrefix("0")
+        else -> phone
+    }
+}
+
 fun <T : Parcelable> getParcelableList(intent: Intent, key: String, clazz: Class<T>): java.util.ArrayList<T> {
    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
        return intent.getParcelableArrayListExtra(key, clazz) ?: ArrayList()
@@ -33,7 +42,9 @@ fun <T : Parcelable> getParcelableList(intent: Intent, key: String, clazz: Class
     }
 }
 
-class GUtils(private val context: Activity) {
+
+
+class ZUtils(private val context: Activity) {
     private var _messageError = context.getString(R.string.appIssue)
     private var _nameError = ""
     val nameError : String
@@ -46,27 +57,27 @@ class GUtils(private val context: Activity) {
         imm.hideSoftInputFromWindow(context.currentFocus?.windowToken, 0)
     }
 
-    fun error(err: Error) {
+    fun error(err: Error) :Exception{
         _nameError = err.name
         when (err) {
             Error.SERVERISSUE -> {
                 val ctx = context.getString(R.string.serverissue)
                 _messageError = ctx
-                throw  Exception(ctx)
+                return Exception(ctx)
             }
             Error.UNSUCCESS -> {
                 val ctx = context.getString(R.string.connectionIssue)
                 _messageError = ctx
-                throw Exception(ctx)
+                return Exception(ctx)
             }
             Error.NULLEXCEPTION -> {
                 _messageError =  context.getString(R.string.appIssue)
-                throw Exception("Null Object")
+                return Exception("Null Object")
             }
             Error.CONNECTIONISSUE -> {
                 val ctx = context.getString(R.string.connectionIssue)
                 _messageError = ctx
-                throw Exception(ctx)
+                return Exception(ctx)
             }
         }
     }

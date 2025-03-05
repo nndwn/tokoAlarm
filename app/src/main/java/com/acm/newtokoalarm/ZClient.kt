@@ -6,11 +6,17 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface ApiService {
     @POST("get")
     suspend fun getDataApp(): retrofit2.Response<ResponseData>
+    @POST("reg/try")
+    suspend fun getRegTry(
+        @Body signUp: SignUp
+    ): retrofit2.Response<ResponseData>
+
 }
 
 class ApiKeyInterceptor(private val apiKey: String) : Interceptor {

@@ -39,9 +39,10 @@ class BActivityLogin :AppCompatActivity(){
 }
 
 class BViewShared(activity: Activity) :ViewModel() {
-    val utils = GUtils(activity)
-    val dialog = GDialog(activity)
+    val utils = ZUtils(activity)
+    val dialog = ZDialog(activity)
     val dataUrl = MutableLiveData<List<AppUrl>>()
+
 }
 class BSharedViewModelFactory(private val activity: Activity) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

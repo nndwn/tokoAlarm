@@ -28,9 +28,9 @@ import java.util.ArrayList
  */
 
 class AActivitySplash : AppCompatActivity() {
-    private lateinit var dialog: GDialog
-    private lateinit var utils: GUtils
-    private lateinit var pref: GDataStore
+    private lateinit var dialog: ZDialog
+    private lateinit var utils: ZUtils
+    private lateinit var pref: ZDataStore
     private lateinit var jwt: JWT
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,19 +38,19 @@ class AActivitySplash : AppCompatActivity() {
         installSplashScreen()
         setContentView(R.layout.activity_splash)
 
-        utils = GUtils(this)
-        dialog = GDialog(this)
-        pref = GDataStore(this)
+        utils = ZUtils(this)
+        dialog = ZDialog(this)
+        pref = ZDataStore(this)
 
         lifecycleScope.launch {
             try {
                 val response = RetrofitClient
                     .create(this@AActivitySplash)
                     .getDataApp()
-                if (!response.isSuccessful) utils.error(Error.UNSUCCESS)
+                if (!response.isSuccessful) throw utils.error(Error.UNSUCCESS)
                 val body = response.body()
-                if (body?.code != 200) utils.error(Error.SERVERISSUE)
-                val dataApp = body?.result!!
+                if (body?.code != 200) throw utils.error(Error.SERVERISSUE)
+                val dataApp = body.result
 
                 pref.setAppData(dataApp)
                 jwt = JWT(dataApp)
@@ -69,7 +69,7 @@ class AActivitySplash : AppCompatActivity() {
                     title = getString(R.string.error),
                     message = utils.messageError,
                     animation = R.raw.error,
-                    btnText = getString(R.string.tutup)
+                    btnOne = getString(R.string.tutup)
                 )
                 dialog.alert(alert) {
                     finish()

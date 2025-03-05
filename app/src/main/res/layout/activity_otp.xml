@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id = "@+id/root"
+    >
+    <include layout="@layout/layout_background"/>
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="244dp"
+        android:layout_height="108dp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/logoputih"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintBottom_toTopOf="@id/contain"
+        app:layout_constraintStart_toStartOf="@+id/contain" />
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:fontFamily="@font/robotolight"
+        android:textColor="@color/white"
+        android:text="@string/desc"
+        android:contentDescription="@string/desc"
+        android:paddingStart="10dp"
+        android:paddingEnd="0dp"
+        app:layout_constraintStart_toStartOf="@id/logo"
+        app:layout_constraintBottom_toBottomOf="@id/logo"
+
+        />
+    <LinearLayout
+        android:id="@+id/contain"
+        android:layout_width="@dimen/_268sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_box"
+        android:orientation="vertical"
+        android:elevation="@dimen/_4sdp"
+        android:padding="@dimen/_15sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/robotolight"
+            android:gravity="center"
+            android:text="@string/guide_otp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:background="@drawable/bg_input"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="5dp">
+
+            <ImageView
+                android:layout_width="37dp"
+                android:layout_height="34dp"
+                android:contentDescription="@string/password"
+                android:src="@drawable/ic_lock" />
+
+            <EditText
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:id="@+id/otp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:autofillHints="otp"
+                android:background="@null"
+                android:fontFamily="@font/robotolight"
+                android:hint="@string/otp_hint"
+                android:inputType="number"
+                android:singleLine="true"
+                android:textColorHint="@color/black_heavy"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSend"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/bg_box"
+            android:backgroundTint="@color/blue"
+            android:fontFamily="@font/robotomedium"
+            android:textSize="@dimen/_10ssp"
+            android:text="@string/send"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBack"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@null"
+            android:fontFamily="@font/robotomedium"
+            android:text="@string/cancel"
+            android:textSize="@dimen/_10ssp"
+            android:textAllCaps="false"
+            android:textColor="@color/black_heavy" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

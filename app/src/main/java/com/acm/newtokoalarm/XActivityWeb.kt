@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 class XActivityWeb : AppCompatActivity() {
 
     private lateinit var webView: WebView
-    private lateinit var dialog : GDialog
+    private lateinit var dialog : ZDialog
     private lateinit var alert : DialogData
     private val handler = Handler(Looper.getMainLooper())
     private val timeOutRunnable = Runnable {
@@ -36,10 +36,10 @@ class XActivityWeb : AppCompatActivity() {
             title = getString(R.string.error),
             message = getString(R.string.connectionIssue),
             animation = R.raw.error,
-            btnText = getString(R.string.kembali)
+            btnOne = getString(R.string.kembali)
         )
 
-        dialog = GDialog(this)
+        dialog = ZDialog(this)
         dialog.loading(
             background = true
         )

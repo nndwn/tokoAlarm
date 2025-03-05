@@ -15,6 +15,8 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 /**
  * fragment sign up from fragment login with activity login
@@ -27,6 +29,7 @@ import androidx.lifecycle.ViewModelProvider
  * - check pattern phone must format indonesia phone
  * - check password character minimal 8 char
  * - check aggrement must checked
+ * - if done go otp activity put data otp and dont go back
  */
 class BFragmentSignUp :Fragment(R.layout.fragment_signup) {
 
@@ -57,6 +60,39 @@ class BFragmentSignUp :Fragment(R.layout.fragment_signup) {
         view.findViewById<Button>(R.id.btnDaftar)
             .setOnClickListener {
                 if(validate()) {
+                    lifecycleScope.launch {
+                        try {
+                            viewModel.dialog.loading()
+                            val input = SignUp(
+                                phone = cleanPhoneNumber(phoneNumber.text.toString()) ,
+                                password = pwd.text.toString(),
+                                name = name.text.toString()
+                            )
+
+                            val response = RetrofitClient.create(view.context).getRegTry(input)
+                            if (!response.isSuccessful) throw  viewModel.utils.error(Error.UNSUCCESS)
+                            val body = response.body()
+                            if (body?.code != 200) throw viewModel.utils.error(Error.SERVERISSUE)
+                            val dataReg = body.result
+
+                            val intent = Intent(view.context, CActivityOtp::class.java)
+                            intent.putExtra("OTP", dataReg)
+                            startActivity(intent)
+                            activity?.finish()
+
+                        }catch (err :Exception) {
+                            err.printStackTrace()
+                            val alert = DialogData(
+                                title = getString(R.string.error),
+                                message = viewModel.utils.messageError,
+                                animation = R.raw.error,
+                                btnOne = getString(R.string.tutup)
+                            )
+                            viewModel.dialog.alert(alert)
+                        } finally {
+                            viewModel.dialog.dismissLoading()
+                        }
+                    }
 
                 }
             }
@@ -137,7 +173,7 @@ class BFragmentSignUp :Fragment(R.layout.fragment_signup) {
                 title = getString(R.string.error),
                 message = getString(R.string.aggrement_check),
                 animation = R.raw.error,
-                btnText = getString(R.string.tutup)
+                btnOne = getString(R.string.tutup)
             )
             viewModel.dialog.alert(alert)
             return false
